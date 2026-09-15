@@ -21,9 +21,9 @@
                   {
                     "value": "What the data will not support",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#FB923C",
-                      "fontWeight": "bold"
+                      "color": "#fb923c"
                     }
                   }
                 ]
@@ -33,16 +33,16 @@
                   {
                     "value": "A partial ledger. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Payroll posts in only 68% of department-months and 19,468 budget lines have no posting at all, so actuals sit at about 70% of plan in every month. Reported as measured; never rescaled or filled in.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -52,16 +52,16 @@
                   {
                     "value": "Sub-ledgers stand alone. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Receivables invoicing is 2.9x ledger revenue, so DSO and DPO use each sub-ledger's own flows, never GL revenue.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -71,16 +71,16 @@
                   {
                     "value": "No cash bridge. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Daily cash moves about 51,000 a day at random and never ties to the ledger, receipts or payments, so no cash-flow statement is drawn.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -90,16 +90,16 @@
                   {
                     "value": "No inventory. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "The chart has an inventory account with no postings: days inventory outstanding is not reported.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]

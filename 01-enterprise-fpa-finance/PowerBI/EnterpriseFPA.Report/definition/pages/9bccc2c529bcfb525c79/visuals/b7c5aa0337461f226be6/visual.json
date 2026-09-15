@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "b7c5aa0337461f226be6",
   "position": {
-    "x": 184,
-    "y": 206,
+    "x": 176.97180043383952,
+    "y": 151.33622559652949,
     "z": 0,
     "height": 300,
     "width": 504,
@@ -13,6 +13,25 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Plan Version"
+                    }
+                  },
+                  "Property": "Version"
+                }
+              },
+              "queryRef": "Plan Version.Version",
+              "nativeQueryRef": "Version",
+              "active": true
+            }
+          ]
+        },
         "Rows": {
           "projections": [
             {
@@ -30,25 +49,6 @@
               "nativeQueryRef": "LineName",
               "active": true,
               "displayName": "Statement line"
-            }
-          ]
-        },
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Plan Version"
-                    }
-                  },
-                  "Property": "Version"
-                }
-              },
-              "queryRef": "Plan Version.Version",
-              "nativeQueryRef": "Version",
-              "active": true
             }
           ]
         },

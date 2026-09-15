@@ -2,37 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "7896d8726b5bb729d592",
   "position": {
-    "x": 184,
-    "y": 206,
+    "x": 179.04294478527606,
+    "y": 143.70552147239263,
     "z": 0,
-    "height": 244,
-    "width": 463,
+    "height": 294.47852760736197,
+    "width": 463.31288343558282,
     "tabOrder": 19
   },
   "visual": {
     "visualType": "treemap",
     "query": {
       "queryState": {
-        "Group": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DimDepartment"
-                    }
-                  },
-                  "Property": "DepartmentName"
-                }
-              },
-              "queryRef": "DimDepartment.DepartmentName",
-              "nativeQueryRef": "DepartmentName",
-              "active": true,
-              "displayName": "Department"
-            }
-          ]
-        },
         "Details": {
           "projections": [
             {
@@ -50,6 +30,26 @@
               "nativeQueryRef": "AccountName",
               "active": true,
               "displayName": "Account"
+            }
+          ]
+        },
+        "Group": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDepartment"
+                    }
+                  },
+                  "Property": "DepartmentName"
+                }
+              },
+              "queryRef": "DimDepartment.DepartmentName",
+              "nativeQueryRef": "DepartmentName",
+              "active": true,
+              "displayName": "Department"
             }
           ]
         },

@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "014ba436a07e370418f5",
   "position": {
-    "x": 639,
-    "y": 206,
+    "x": 638.21908893709315,
+    "y": 145.08893709327563,
     "z": 0,
     "height": 244,
     "width": 625,
@@ -13,26 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DimDepartment"
-                    }
-                  },
-                  "Property": "DepartmentName"
-                }
-              },
-              "queryRef": "DimDepartment.DepartmentName",
-              "nativeQueryRef": "DepartmentName",
-              "active": true,
-              "displayName": "Department"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
@@ -50,6 +30,26 @@
               "nativeQueryRef": "MonthShort",
               "active": true,
               "displayName": "Month"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDepartment"
+                    }
+                  },
+                  "Property": "DepartmentName"
+                }
+              },
+              "queryRef": "DimDepartment.DepartmentName",
+              "nativeQueryRef": "DepartmentName",
+              "active": true,
+              "displayName": "Department"
             }
           ]
         },

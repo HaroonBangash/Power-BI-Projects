@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "e6ca664c79db3338db0f",
   "position": {
-    "x": 760,
-    "y": 206,
+    "x": 759.21472392638009,
+    "y": 144.74846625766881,
     "z": 0,
     "height": 244,
     "width": 504,
@@ -33,25 +33,6 @@
             }
           ]
         },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Cash Balance"
-                }
-              },
-              "queryRef": "_Measures.Cash Balance",
-              "nativeQueryRef": "Cash Balance",
-              "displayName": "Cash"
-            }
-          ]
-        },
         "Rows": {
           "projections": [
             {
@@ -69,6 +50,25 @@
               "nativeQueryRef": "EntityShort",
               "active": true,
               "displayName": "Entity"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cash Balance"
+                }
+              },
+              "queryRef": "_Measures.Cash Balance",
+              "nativeQueryRef": "Cash Balance",
+              "displayName": "Cash"
             }
           ]
         }

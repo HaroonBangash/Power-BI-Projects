@@ -20,24 +20,26 @@
                   {
                     "value": "NORTHSTAR",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   }
-                ]
+                ],
+                "horizontalTextAlignment": "center"
               },
               {
                 "textRuns": [
                   {
                     "value": "GROUP FP&A",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#22D3EE",
-                      "fontWeight": "bold"
+                      "color": "#22d3ee"
                     }
                   }
-                ]
+                ],
+                "horizontalTextAlignment": "center"
               }
             ]
           }

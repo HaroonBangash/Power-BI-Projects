@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "893244de374c9c2e983d",
   "position": {
-    "x": 184,
-    "y": 668,
+    "x": 178.25766871165644,
+    "y": 659.63190184049074,
     "z": 0,
-    "height": 44,
-    "width": 1080,
+    "height": 43.975460122699388,
+    "width": 1080.5398773006134,
     "tabOrder": 22
   },
   "visual": {
@@ -21,16 +21,16 @@
                   {
                     "value": "Reading the cost base.  ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#9AA4B6",
-                      "fontWeight": "bold"
+                      "color": "#9aa4b6"
                     }
                   },
                   {
                     "value": "Operating expense runs above revenue in every entity (116-138% of it), which is why the group makes an operating loss in the plan as well as the ledger. About a quarter of ledger lines are still marked accrued in every year, including 2022: accruals are never reversed in this source, so both statuses count as actuals here.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#9AA4B6"
+                      "color": "#9aa4b6"
                     }
                   }
                 ]

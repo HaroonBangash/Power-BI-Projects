@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "77ff85ac50ea4dff0642",
   "position": {
-    "x": 634,
-    "y": 462,
+    "x": 633.21908893709315,
+    "y": 401.08893709327555,
     "z": 0,
     "height": 196,
     "width": 339,
@@ -33,6 +33,25 @@
             }
           ]
         },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "GL Lines"
+                }
+              },
+              "queryRef": "_Measures.GL Lines",
+              "nativeQueryRef": "GL Lines",
+              "displayName": "Ledger lines"
+            }
+          ]
+        },
         "X": {
           "projections": [
             {
@@ -48,8 +67,8 @@
               },
               "queryRef": "_Measures.Operating Expense Budget",
               "nativeQueryRef": "Operating Expense Budget",
-              "displayName": "Budget",
-              "active": true
+              "active": true,
+              "displayName": "Budget"
             }
           ]
         },
@@ -69,25 +88,6 @@
               "queryRef": "_Measures.Operating Expense Actual",
               "nativeQueryRef": "Operating Expense Actual",
               "displayName": "Actual"
-            }
-          ]
-        },
-        "Size": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "GL Lines"
-                }
-              },
-              "queryRef": "_Measures.GL Lines",
-              "nativeQueryRef": "GL Lines",
-              "displayName": "Ledger lines"
             }
           ]
         }

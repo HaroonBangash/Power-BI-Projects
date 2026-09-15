@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "41f46fc3b11d6d398c41",
   "position": {
-    "x": 985,
-    "y": 462,
+    "x": 984.21908893709315,
+    "y": 401.08893709327555,
     "z": 0,
     "height": 196,
     "width": 279,
@@ -13,25 +13,6 @@
     "visualType": "gauge",
     "query": {
       "queryState": {
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Revenue Actual"
-                }
-              },
-              "queryRef": "_Measures.Revenue Actual",
-              "nativeQueryRef": "Revenue Actual",
-              "displayName": "Actual"
-            }
-          ]
-        },
         "TargetValue": {
           "projections": [
             {
@@ -48,6 +29,25 @@
               "queryRef": "_Measures.Revenue Budget",
               "nativeQueryRef": "Revenue Budget",
               "displayName": "Budget"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Revenue Actual"
+                }
+              },
+              "queryRef": "_Measures.Revenue Actual",
+              "nativeQueryRef": "Revenue Actual",
+              "displayName": "Actual"
             }
           ]
         }

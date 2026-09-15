@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "3f494efdf87896b5d810",
   "position": {
-    "x": 184,
-    "y": 8,
+    "x": 184.295010845987,
+    "y": 0,
     "z": 0,
-    "height": 40,
-    "width": 520,
+    "height": 37.483731019522779,
+    "width": 1080,
     "tabOrder": 10
   },
   "visual": {
@@ -21,12 +21,13 @@
                   {
                     "value": "Executive Summary",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "16pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   }
-                ]
+                ],
+                "horizontalTextAlignment": "center"
               }
             ]
           }

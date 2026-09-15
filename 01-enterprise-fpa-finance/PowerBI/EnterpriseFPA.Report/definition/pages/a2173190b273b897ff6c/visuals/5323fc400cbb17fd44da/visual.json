@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
   "name": "5323fc400cbb17fd44da",
   "position": {
-    "x": 720,
-    "y": 190,
+    "x": 720.09815950920245,
+    "y": 150.77300613496934,
     "z": 0,
-    "height": 250,
-    "width": 544,
+    "height": 288.98159509202452,
+    "width": 544.19631901840489,
     "tabOrder": 18
   },
   "visual": {
@@ -21,9 +21,9 @@
                   {
                     "value": "The rules every figure obeys",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#22D3EE",
-                      "fontWeight": "bold"
+                      "color": "#22d3ee"
                     }
                   }
                 ]
@@ -33,16 +33,16 @@
                   {
                     "value": "As of 31 Aug 2026. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "The last ledger day. A balance is stated ON a date: an invoice is open if it was issued by then and unpaid then. 769 receipts and 395 payments are dated later - those documents were open.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -52,16 +52,16 @@
                   {
                     "value": "One currency. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Each entity books in its own; the ledger is translated at each month's average rate, AUD fixed at 1. Spot translation would move the total by 0.005%.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -71,16 +71,16 @@
                   {
                     "value": "Plan scope. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "The budget covers revenue, COGS and operating expense. Interest, FX and tax have actuals and no variance - never a 100% miss.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -90,16 +90,16 @@
                   {
                     "value": "Favourable is positive. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "For a cost that means an underspend; margins vary in percentage points.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]

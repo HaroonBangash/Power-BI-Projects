@@ -21,9 +21,9 @@
                   {
                     "value": "Scenarios and security",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#F472B6",
-                      "fontWeight": "bold"
+                      "color": "#f472b6"
                     }
                   }
                 ]
@@ -33,16 +33,16 @@
                   {
                     "value": "The forecast is one version. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Its Scenario column is a random label per line - filtering to 'Base' would drop 40% of the plan - so scenarios are modelled from stated drivers instead.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -52,16 +52,16 @@
                   {
                     "value": "The outlook is a projection. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Remaining months at the trailing-twelve-month run rate, flexed by the driver set; illustrative assumptions, not source data.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -71,16 +71,16 @@
                   {
                     "value": "Security. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "Row-level security by entity and department from the signed-in user. A department-scoped user sees that cost centre across entities and no receivables, payables or cash.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
@@ -90,16 +90,16 @@
                   {
                     "value": "Synthetic data. ",
                     "textStyle": {
+                      "fontWeight": "bold",
                       "fontSize": "9pt",
-                      "color": "#E7EAF0",
-                      "fontWeight": "bold"
+                      "color": "#e7eaf0"
                     }
                   },
                   {
                     "value": "A portfolio dataset for the fictional Northstar group - never client data.",
                     "textStyle": {
                       "fontSize": "9pt",
-                      "color": "#E7EAF0"
+                      "color": "#e7eaf0"
                     }
                   }
                 ]
