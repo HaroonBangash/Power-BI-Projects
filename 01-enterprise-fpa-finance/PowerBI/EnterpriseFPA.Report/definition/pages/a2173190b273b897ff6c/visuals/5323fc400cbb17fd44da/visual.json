@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "5323fc400cbb17fd44da",
+  "position": {
+    "x": 720,
+    "y": 190,
+    "z": 0,
+    "height": 250,
+    "width": 544,
+    "tabOrder": 18
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "The rules every figure obeys",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#22D3EE",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "As of 31 Aug 2026. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The last ledger day. A balance is stated ON a date: an invoice is open if it was issued by then and unpaid then. 769 receipts and 395 payments are dated later - those documents were open.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "One currency. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Each entity books in its own; the ledger is translated at each month's average rate, AUD fixed at 1. Spot translation would move the total by 0.005%.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Plan scope. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The budget covers revenue, COGS and operating expense. Interest, FX and tax have actuals and no variance - never a 100% miss.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Favourable is positive. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "For a cost that means an underspend; margins vary in percentage points.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,55 @@
+/// Data-quality figures computed live in SQL from dbo, so the Data & Method page can never drift from the data.
+table DataQualityMetric
+	lineageTag: 0de5dbe0-bffc-5360-801a-ca3b66e608a8
+
+	column SortOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fb8b2b18-e703-5726-b06d-524233fcecfa
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Metric
+		dataType: string
+		lineageTag: d73b008f-386e-59f5-af76-a0f77c1e9e3a
+		summarizeBy: none
+		sourceColumn: Metric
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricValue
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 887a7c97-85a7-5dd7-bfc2-66782c092158
+		summarizeBy: sum
+		sourceColumn: MetricValue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// How to read the value: days, lines, share, AUD.
+	column Unit
+		dataType: string
+		lineageTag: 7c6b5c7b-f755-5228-8ca3-3ae081eeb7c6
+		summarizeBy: none
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DataQualityMetric = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DataQualityMetric = Source{[Schema="analytics",Item="vw_DataQualityMetric"]}[Data]
+				in
+				    analytics_vw_DataQualityMetric
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,59 @@
+/// Customers, with a 'Not specified' member for ledger lines that name none.
+table DimCustomer
+	lineageTag: 9a60d357-c968-5806-bbc2-32ff48df16fd
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: cacb9be9-58c3-5c86-b699-7cbe623ddb48
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 1b90330f-daed-5dd1-91df-408a5e9eaa49
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry
+		dataType: string
+		lineageTag: 6299bb88-574f-5845-8509-ec4a73494e7e
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 0b497bc2-eec4-5359-ac0b-a12725c829f3
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 03d9d3f2-e6ae-51df-9249-ac57ac2a2cc6
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimCustomer = Source{[Schema="analytics",Item="vw_DimCustomer"]}[Data]
+				in
+				    analytics_vw_DimCustomer
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

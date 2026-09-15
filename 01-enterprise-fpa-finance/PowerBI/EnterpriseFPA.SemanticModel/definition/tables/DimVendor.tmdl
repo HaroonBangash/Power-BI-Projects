@@ -1,0 +1,51 @@
+/// Suppliers, with a 'Not specified' member for ledger lines that name none.
+table DimVendor
+	lineageTag: abc852b0-4460-5c9f-9308-35ed7e0d4fb7
+
+	column VendorID
+		dataType: string
+		isHidden
+		lineageTag: ab4437cb-de3e-533e-81b3-b1f428c9b55b
+		summarizeBy: none
+		sourceColumn: VendorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorName
+		dataType: string
+		lineageTag: 58806da0-033f-5cd7-b91b-bcfef4e0c08e
+		summarizeBy: none
+		sourceColumn: VendorName
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorCategory
+		dataType: string
+		lineageTag: c9049aea-a366-5ef1-8cde-39c1f5166c3c
+		summarizeBy: none
+		sourceColumn: VendorCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: b2a407ce-c106-5075-be3b-d5e903bad0bc
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimVendor = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimVendor = Source{[Schema="analytics",Item="vw_DimVendor"]}[Data]
+				in
+				    analytics_vw_DimVendor
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,8 @@
+# Raw source files are stored byte-for-byte. SQL/03_load_staging.sql loads them
+# with ROWTERMINATOR = 0x0d0a (CRLF); letting core.autocrlf normalise them to LF
+# would break the load on any clone that checks out without conversion.
+Data/raw/*.csv -text
+
+# PowerShell and SQL scripts keep Windows line endings on checkout.
+*.ps1 text eol=crlf
+*.sql text eol=crlf

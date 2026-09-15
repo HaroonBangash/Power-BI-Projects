@@ -1,0 +1,66 @@
+/// Ageing buckets for receivables and payables. Disconnected: the measures age each document AS OF the balance date, so the ageing is correct for any period selected, not only the as-of date.
+table DimAgeingBucket
+	lineageTag: 270be903-fe3e-5ddc-be33-37e0fb905d3a
+
+	column BucketOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ae00dec9-e427-5d74-af06-14b9b1615f46
+		summarizeBy: none
+		sourceColumn: BucketOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column BucketName
+		dataType: string
+		lineageTag: 7924d6b9-b1ea-556e-b831-a92ad375db58
+		summarizeBy: none
+		sourceColumn: BucketName
+		sortByColumn: BucketOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinDaysPastDue
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d402672f-1bb8-5f71-bb28-c9834346da9b
+		summarizeBy: none
+		sourceColumn: MinDaysPastDue
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxDaysPastDue
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: db6b9f06-5ee1-5211-a0af-bf4f624749a8
+		summarizeBy: none
+		sourceColumn: MaxDaysPastDue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// False only for the Current bucket (not yet due).
+	column IsPastDue
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bd50717f-6790-5d9b-8782-b2b34afe8cda
+		summarizeBy: none
+		sourceColumn: IsPastDue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimAgeingBucket = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimAgeingBucket = Source{[Schema="analytics",Item="vw_DimAgeingBucket"]}[Data]
+				in
+				    analytics_vw_DimAgeingBucket
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

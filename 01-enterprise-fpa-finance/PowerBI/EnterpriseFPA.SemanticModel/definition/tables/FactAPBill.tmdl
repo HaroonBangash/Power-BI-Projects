@@ -1,0 +1,167 @@
+/// One supplier bill, on the same pattern as receivables: bill date active, due and payment dates inactive, open computed from dates.
+table FactAPBill
+	lineageTag: ae8fbbf5-2080-5b2d-893f-56058bf8f1d6
+
+	column BillID
+		dataType: string
+		isHidden
+		lineageTag: 7afdb827-1b0d-5185-b9ed-602fbfba2598
+		summarizeBy: none
+		sourceColumn: BillID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: ca82d581-7785-5603-b663-16049b28fb33
+		summarizeBy: none
+		sourceColumn: BillDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DueDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 93d032d3-951f-5cb4-880f-27b52a87f392
+		summarizeBy: none
+		sourceColumn: DueDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PaidDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 207780ed-48ec-5040-9f22-81dd65c66e63
+		summarizeBy: none
+		sourceColumn: PaidDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column VendorID
+		dataType: string
+		isHidden
+		lineageTag: b9082bf4-40c7-5c36-b4df-37118e53edaa
+		summarizeBy: none
+		sourceColumn: VendorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntityID
+		dataType: string
+		isHidden
+		lineageTag: 7afd989d-55c2-5084-b14a-bc4af52ad0e7
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BillAmountAUD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 9efbce7e-7ae3-5808-9445-9b1b79b9e908
+		summarizeBy: sum
+		sourceColumn: BillAmountAUD
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Status in the extract. Balances never use it - see IsOpenAsOf.
+	column SourceStatus
+		dataType: string
+		lineageTag: 5b1b0080-bc7d-5e5e-bd05-e10e025a36d1
+		summarizeBy: none
+		sourceColumn: SourceStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Payment terms: 14, 30 or 45 days.
+	column TermsDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f4835fa-2a29-524a-bebb-63ae2d0f3006
+		summarizeBy: none
+		sourceColumn: TermsDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToPay
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ca02e400-6214-5d8c-826b-c3c3b07979fa
+		summarizeBy: none
+		sourceColumn: DaysToPay
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysLate
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1f957298-7dea-5f78-8821-285d31635595
+		summarizeBy: none
+		sourceColumn: DaysLate
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPaidAfterAsOf
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c602ebe0-f550-56e3-bb3d-d827db41f114
+		summarizeBy: none
+		sourceColumn: IsPaidAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOpenAsOf
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 64fc397f-67ea-59cb-8f53-3894d1d51e1a
+		summarizeBy: none
+		sourceColumn: IsOpenAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysPastDueAsOf
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7f1d8776-1c92-511e-a5e5-961793f736de
+		summarizeBy: none
+		sourceColumn: DaysPastDueAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeingBucketAsOf
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c33ab351-6b95-50c6-9a29-e770466f7efd
+		summarizeBy: none
+		sourceColumn: AgeingBucketAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAPBill = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactAPBill = Source{[Schema="analytics",Item="vw_FactAPBill"]}[Data]
+				in
+				    analytics_vw_FactAPBill
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

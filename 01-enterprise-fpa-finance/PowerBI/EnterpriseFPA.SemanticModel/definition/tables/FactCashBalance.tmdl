@@ -1,0 +1,58 @@
+/// One entity's closing cash on one day. A stock, not a flow: measures read the balance ON the balance date and never sum it over time.
+table FactCashBalance
+	lineageTag: d4423880-c0e6-5201-8354-0c5a345da06f
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 68b43ebd-bac0-5980-a255-6ecda961d653
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EntityID
+		dataType: string
+		isHidden
+		lineageTag: bf57c923-9031-5908-993f-44a82dfe828e
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClosingCashAUD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: f1548a58-ea54-5269-b790-1e762d9200db
+		summarizeBy: sum
+		sourceColumn: ClosingCashAUD
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Exactly 50,000.00 - a floor in the generated source, not a treasury decision.
+	column IsFloorValue
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a9c2acda-d9d1-5066-bb9f-4b762f27e85c
+		summarizeBy: none
+		sourceColumn: IsFloorValue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactCashBalance = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactCashBalance = Source{[Schema="analytics",Item="vw_FactCashBalance"]}[Data]
+				in
+				    analytics_vw_FactCashBalance
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

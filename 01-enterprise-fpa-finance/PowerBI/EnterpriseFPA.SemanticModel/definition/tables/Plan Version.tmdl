@@ -1,0 +1,153 @@
+/// Actual, Budget and Forecast, and the variance between them, as one selection applied to every income-statement measure. Variance is favourable-positive: for a cost, an underspend is positive. Where the plan has no line - interest, FX, tax - the variance is blank, never 100%.
+table 'Plan Version'
+	lineageTag: 0fd520e7-1e7e-54ed-ae92-3a466952f033
+
+	calculationGroup
+		precedence: 20
+
+		/// General ledger, translated to AUD at monthly average rates.
+		calculationItem Actual =
+				IF (
+				    ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				    CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "ACT" )
+				)
+
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ) || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" ), "0.0%", SELECTEDMEASUREFORMATSTRING () )
+
+		/// The annual budget. Covers revenue, COGS and operating expense only.
+		calculationItem Budget =
+				IF (
+				    ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				    CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "BUD" )
+				)
+
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ) || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" ), "0.0%", SELECTEDMEASUREFORMATSTRING () )
+
+		/// The forecast, as one version of all its lines.
+		calculationItem Forecast =
+				IF (
+				    ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				    CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "FC" )
+				)
+
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ) || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" ), "0.0%", SELECTEDMEASUREFORMATSTRING () )
+
+		/// Actual less budget, signed so that positive is favourable. Margin lines are shown in percentage points.
+		calculationItem 'Var vs Budget' =
+				VAR ActualValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "ACT" )
+				VAR PlanValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "BUD" )
+				VAR IsRatioLine =
+				    ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] )
+				        || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" )
+				VAR FavourableSign =
+				    SWITCH (
+				        TRUE (),
+				        ISSELECTEDMEASURE ( [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense] ), -1,
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ), 1,
+				        ISSELECTEDMEASURE ( [P&L Line Value] ), SELECTEDVALUE ( DimPLLine[FavourableSign] ),
+				        ISSELECTEDMEASURE ( [Account Amount] ),
+				            IF ( HASONEVALUE ( DimAccount[IsIncome] ), IF ( SELECTEDVALUE ( DimAccount[IsIncome] ), 1, -1 ) ),
+				        1
+				    )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ) && NOT ISBLANK ( ActualValue ) && NOT ISBLANK ( PlanValue ),
+				        IF ( IsRatioLine, ( ActualValue - PlanValue ) * 100, ( ActualValue - PlanValue ) * FavourableSign )
+				    )
+
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ) || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" ), "+0.0 pp;-0.0 pp;0.0 pp", "+\$#,0;-\$#,0;\$0" )
+
+		/// Favourable variance as a share of the budget. Blank on margin lines, where a percentage of a percentage would mislead.
+		calculationItem 'Var % vs Budget' =
+				VAR ActualValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "ACT" )
+				VAR PlanValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "BUD" )
+				VAR IsRatioLine =
+				    ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] )
+				        || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" )
+				VAR FavourableSign =
+				    SWITCH (
+				        TRUE (),
+				        ISSELECTEDMEASURE ( [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense] ), -1,
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ), 1,
+				        ISSELECTEDMEASURE ( [P&L Line Value] ), SELECTEDVALUE ( DimPLLine[FavourableSign] ),
+				        ISSELECTEDMEASURE ( [Account Amount] ),
+				            IF ( HASONEVALUE ( DimAccount[IsIncome] ), IF ( SELECTEDVALUE ( DimAccount[IsIncome] ), 1, -1 ) ),
+				        1
+				    )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ) && NOT ISBLANK ( ActualValue ) && NOT ISBLANK ( PlanValue ),
+				        IF ( IsRatioLine, BLANK (), DIVIDE ( ( ActualValue - PlanValue ) * FavourableSign, ABS ( PlanValue ) ) )
+				    )
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		/// Actual less forecast, signed so that positive is favourable.
+		calculationItem 'Var vs Forecast' =
+				VAR ActualValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "ACT" )
+				VAR PlanValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "FC" )
+				VAR IsRatioLine =
+				    ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] )
+				        || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" )
+				VAR FavourableSign =
+				    SWITCH (
+				        TRUE (),
+				        ISSELECTEDMEASURE ( [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense] ), -1,
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ), 1,
+				        ISSELECTEDMEASURE ( [P&L Line Value] ), SELECTEDVALUE ( DimPLLine[FavourableSign] ),
+				        ISSELECTEDMEASURE ( [Account Amount] ),
+				            IF ( HASONEVALUE ( DimAccount[IsIncome] ), IF ( SELECTEDVALUE ( DimAccount[IsIncome] ), 1, -1 ) ),
+				        1
+				    )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ) && NOT ISBLANK ( ActualValue ) && NOT ISBLANK ( PlanValue ),
+				        IF ( IsRatioLine, ( ActualValue - PlanValue ) * 100, ( ActualValue - PlanValue ) * FavourableSign )
+				    )
+
+			formatStringDefinition = IF ( ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ) || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" ), "+0.0 pp;-0.0 pp;0.0 pp", "+\$#,0;-\$#,0;\$0" )
+
+		/// Favourable variance as a share of the forecast.
+		calculationItem 'Var % vs Forecast' =
+				VAR ActualValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "ACT" )
+				VAR PlanValue = CALCULATE ( SELECTEDMEASURE (), FactFinancials[VersionID] = "FC" )
+				VAR IsRatioLine =
+				    ISSELECTEDMEASURE ( [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] )
+				        || ( ISSELECTEDMEASURE ( [P&L Line Value] ) && SELECTEDVALUE ( DimPLLine[LineType] ) = "Ratio" )
+				VAR FavourableSign =
+				    SWITCH (
+				        TRUE (),
+				        ISSELECTEDMEASURE ( [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense] ), -1,
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue] ), 1,
+				        ISSELECTEDMEASURE ( [P&L Line Value] ), SELECTEDVALUE ( DimPLLine[FavourableSign] ),
+				        ISSELECTEDMEASURE ( [Account Amount] ),
+				            IF ( HASONEVALUE ( DimAccount[IsIncome] ), IF ( SELECTEDVALUE ( DimAccount[IsIncome] ), 1, -1 ) ),
+				        1
+				    )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ) && NOT ISBLANK ( ActualValue ) && NOT ISBLANK ( PlanValue ),
+				        IF ( IsRatioLine, BLANK (), DIVIDE ( ( ActualValue - PlanValue ) * FavourableSign, ABS ( PlanValue ) ) )
+				    )
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+	column Version
+		dataType: string
+		lineageTag: 0e24b4d2-eebc-58d0-9842-692fa4138a55
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e0f65b59-002b-528c-a132-8f393e5902da
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

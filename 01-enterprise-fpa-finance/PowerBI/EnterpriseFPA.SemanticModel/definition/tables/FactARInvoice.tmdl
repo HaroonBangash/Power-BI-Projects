@@ -1,0 +1,169 @@
+/// One customer invoice. InvoiceDate is the active date; due date and receipt date are inactive role-playing relationships. Whether an invoice is open is computed from dates against the balance date, not read from SourceStatus, which reflects an extract taken after the as-of date.
+table FactARInvoice
+	lineageTag: 136eeff4-56e7-5c32-bdc2-0c3484446869
+
+	column InvoiceID
+		dataType: string
+		isHidden
+		lineageTag: afe73d54-7dda-5304-bfd3-431f05cac8c5
+		summarizeBy: none
+		sourceColumn: InvoiceID
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: edec4ef9-c890-56a8-af12-e0f154599ed2
+		summarizeBy: none
+		sourceColumn: InvoiceDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DueDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 4bee25e3-38c4-5d69-af83-3e518b0627d5
+		summarizeBy: none
+		sourceColumn: DueDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PaidDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: fc643b0c-cbbc-5b2e-9328-1d5227c30273
+		summarizeBy: none
+		sourceColumn: PaidDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: 7b0dd017-72c3-5144-94b1-f495d264b576
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntityID
+		dataType: string
+		isHidden
+		lineageTag: 51008ed9-1cb5-5587-ba12-0f4f72f8f509
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceAmountAUD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 98f01de3-c6d9-5795-8122-1acfc2079b97
+		summarizeBy: sum
+		sourceColumn: InvoiceAmountAUD
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Status in the extract. Balances never use it - see IsOpenAsOf.
+	column SourceStatus
+		dataType: string
+		lineageTag: d9edcefc-0824-52b5-98d1-15115b59364d
+		summarizeBy: none
+		sourceColumn: SourceStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Payment terms: 14, 30, 45 or 60 days.
+	column TermsDays
+		dataType: int64
+		formatString: 0
+		lineageTag: ded6d2dc-214a-5487-882e-c5e90a9e77c3
+		summarizeBy: none
+		sourceColumn: TermsDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToPay
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 362cb46f-d2c4-5a8b-8670-77e21c1eca64
+		summarizeBy: none
+		sourceColumn: DaysToPay
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysLate
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d4da6f1c-311f-5dc3-9d0a-65a12b3a0f3b
+		summarizeBy: none
+		sourceColumn: DaysLate
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Receipt dated after the as-of date: the invoice was open on it.
+	column IsPaidAfterAsOf
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 745a7ff1-cf24-51ca-a32f-d2901c0f2702
+		summarizeBy: none
+		sourceColumn: IsPaidAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Open on the as-of date. The measures recompute this for any balance date.
+	column IsOpenAsOf
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1e4c0629-976b-5600-aa69-503fb5720afb
+		summarizeBy: none
+		sourceColumn: IsOpenAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysPastDueAsOf
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f669a462-8b23-5080-b116-77eaeca34719
+		summarizeBy: none
+		sourceColumn: DaysPastDueAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeingBucketAsOf
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e7473f7a-d6ee-53ee-a724-39250bf1af9e
+		summarizeBy: none
+		sourceColumn: AgeingBucketAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactARInvoice = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactARInvoice = Source{[Schema="analytics",Item="vw_FactARInvoice"]}[Data]
+				in
+				    analytics_vw_FactARInvoice
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

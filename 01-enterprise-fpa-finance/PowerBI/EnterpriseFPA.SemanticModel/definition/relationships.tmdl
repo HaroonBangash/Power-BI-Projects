@@ -1,0 +1,96 @@
+relationship 571ba044-0c96-53ae-aad0-84ba8be09c19
+	fromColumn: FactGL.Date
+	toColumn: DimDate.Date
+
+relationship 67e6783f-c472-5ba4-8a73-6e9a3c89df5d
+	fromColumn: FactGL.EntityID
+	toColumn: DimEntity.EntityID
+
+relationship 40b9fbfa-4dde-589d-8c84-921462cec67a
+	fromColumn: FactGL.DepartmentID
+	toColumn: DimDepartment.DepartmentID
+
+relationship 8b9b706d-a2ea-5af4-99d1-fab9dc9db6f5
+	fromColumn: FactGL.AccountCode
+	toColumn: DimAccount.AccountCode
+
+relationship 8c3583b5-38e9-5c98-8a5a-3470f01ddac8
+	fromColumn: FactGL.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship ca58e4e8-1ac1-58f1-8bed-1e22e413a43d
+	fromColumn: FactGL.VendorID
+	toColumn: DimVendor.VendorID
+
+relationship 9f4520c7-ef1b-5e0d-91bb-d2708cbc7dbd
+	fromColumn: FactFinancials.MonthStart
+	toColumn: DimDate.Date
+
+relationship 17a6bae5-6913-5219-98c2-cd75273991e6
+	fromColumn: FactFinancials.EntityID
+	toColumn: DimEntity.EntityID
+
+relationship c015a209-eb29-5dac-8d09-26643a75b6a5
+	fromColumn: FactFinancials.DepartmentID
+	toColumn: DimDepartment.DepartmentID
+
+relationship 4883e975-7217-5e47-874a-e09fb99a0b21
+	fromColumn: FactFinancials.AccountCode
+	toColumn: DimAccount.AccountCode
+
+relationship e574c7e4-b2f1-5a4f-aa01-82285a62dd12
+	fromColumn: FactARInvoice.InvoiceDate
+	toColumn: DimDate.Date
+
+relationship 57d0a6da-c10a-5386-95bc-8e05ca265cfa
+	isActive: false
+	fromColumn: FactARInvoice.DueDate
+	toColumn: DimDate.Date
+
+relationship e0a3424a-80ab-5e39-a5ad-9ce929cdcd50
+	isActive: false
+	fromColumn: FactARInvoice.PaidDate
+	toColumn: DimDate.Date
+
+relationship baa9656b-782f-59cf-b08f-1276d7cfa3fb
+	fromColumn: FactARInvoice.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship 100a019b-fd74-5914-aa54-e9cfda2f2822
+	fromColumn: FactARInvoice.EntityID
+	toColumn: DimEntity.EntityID
+
+relationship 223783cb-a87f-53d8-81ae-579fd9ed36b8
+	fromColumn: FactAPBill.BillDate
+	toColumn: DimDate.Date
+
+relationship a8e8a85c-e1fa-584f-9a12-b7dbb5ac7879
+	isActive: false
+	fromColumn: FactAPBill.DueDate
+	toColumn: DimDate.Date
+
+relationship 2dcda1ea-d9ac-5d87-851e-e710b2243fa2
+	isActive: false
+	fromColumn: FactAPBill.PaidDate
+	toColumn: DimDate.Date
+
+relationship 9bd98b6e-ca20-5357-acf6-83812286c0e6
+	fromColumn: FactAPBill.VendorID
+	toColumn: DimVendor.VendorID
+
+relationship 2dac1896-06d6-51a3-af76-c7149c62af11
+	fromColumn: FactAPBill.EntityID
+	toColumn: DimEntity.EntityID
+
+relationship ad1da479-24fc-5f9d-a811-ff5aebe2fc25
+	fromColumn: FactCashBalance.Date
+	toColumn: DimDate.Date
+
+relationship 01880fe4-4388-5554-8e5d-15c1407eba89
+	fromColumn: FactCashBalance.EntityID
+	toColumn: DimEntity.EntityID
+
+relationship e304777d-54f4-561c-b171-3b1a10ffc532
+	fromColumn: FxRateMonthly.MonthStart
+	toColumn: DimDate.Date
+

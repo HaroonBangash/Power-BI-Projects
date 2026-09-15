@@ -1,0 +1,1160 @@
+[
+  {
+    "name": "e95eaff3bc9443769909",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a1e84492e6b79b017710",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "c7ac996a17e1c56908d3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "fc26a9957f873555356f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "f56a02acb16518fdd33d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "03412b43cbc1f36d357c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "88e763cb9e31fc824d00",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "cf125de54a6d1ce8e71b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "928564c60d7b274569a9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "4663d72bb238e776e56e",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3f494efdf87896b5d810",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b3e17c73bd7d09b8ae1b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "37eb74fd218d398bb757",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "9a12cf38f73b6e1c6ca7",
+    "visualType": "card",
+    "title": "Revenue, 12 months to Aug 2026",
+    "demonstrates": "Headline figure: Revenue TTM"
+  },
+  {
+    "name": "11278b582c278b375cf4",
+    "visualType": "card",
+    "title": "Operating profit, 12 months",
+    "demonstrates": "Headline figure: Operating Profit TTM"
+  },
+  {
+    "name": "fed8873d858aada45d23",
+    "visualType": "card",
+    "title": "Revenue, FY27 to date",
+    "demonstrates": "Headline figure: Revenue Current FY to Date"
+  },
+  {
+    "name": "ef46a9c1afb6b1315d1f",
+    "visualType": "card",
+    "title": "Cash at 31 Aug 2026",
+    "demonstrates": "Headline figure: Cash Balance"
+  },
+  {
+    "name": "4e706757e21c36e4768d",
+    "visualType": "card",
+    "title": "Receivables outstanding",
+    "demonstrates": "Headline figure: AR Balance"
+  },
+  {
+    "name": "dfebca12c997e4871567",
+    "visualType": "card",
+    "title": "FY27 outlook, base case",
+    "demonstrates": "Headline figure: Outlook Operating Profit"
+  },
+  {
+    "name": "a666ed50bee92c429243",
+    "visualType": "waterfallChart",
+    "title": "How FY26 revenue became a loss",
+    "demonstrates": "waterfall: revenue less each cost group, netting to net profit"
+  },
+  {
+    "name": "29514c1d9c431bc0e11e",
+    "visualType": "lineChart",
+    "title": "Revenue by month against budget, since 2022",
+    "demonstrates": "the gap to plan is a level, not a trend: it never closes and never widens"
+  },
+  {
+    "name": "d89011de1fa9247519ca",
+    "visualType": "clusteredColumnChart",
+    "title": "Operating profit against budget by year",
+    "demonstrates": "the result is a loss in the plan as well as the ledger"
+  },
+  {
+    "name": "cb920a3e257ba95dff53",
+    "visualType": "clusteredColumnChart",
+    "title": "Gross margin by entity, FY26",
+    "demonstrates": "currency-neutral: translation moves revenue and COGS by the same rate; columns because six entities do not fit a short bar chart"
+  },
+  {
+    "name": "d227ae7b5f892f04aa75",
+    "visualType": "columnChart",
+    "title": "Revenue by stream",
+    "demonstrates": "stacked column: the three revenue streams hold the same shares year after year"
+  },
+  {
+    "name": "906b2fa2cd92650b2060",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2e85d91890433aaaff44",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b1532e84ad612f64f1c5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "10465b7d0d3f51587120",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "b2e220b2200bd855afee",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "0ccacb7a981f93ea5cd3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "063466636eea9a9baeb0",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "eaee8a18f4184a23c0e8",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "48106a899970d3532366",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "a5d58c5a03a12c5ce92e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "971001079fe07d75929f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "021f5971458b907c8ca4",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "22e907f4d32ef3446c3b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "17d26e5c52cd77852afb",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "e61d6f7392e9806f45b6",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Department"
+  },
+  {
+    "name": "f133675cb30c049b173e",
+    "visualType": "card",
+    "title": "Revenue",
+    "demonstrates": "Headline figure: Revenue"
+  },
+  {
+    "name": "575776f3b3749b7925cb",
+    "visualType": "card",
+    "title": "Gross profit",
+    "demonstrates": "Headline figure: Gross Profit"
+  },
+  {
+    "name": "bafdc9598e21ef36f2a7",
+    "visualType": "card",
+    "title": "Operating profit",
+    "demonstrates": "Headline figure: Operating Profit"
+  },
+  {
+    "name": "ce6fd83085d02ed91fc3",
+    "visualType": "card",
+    "title": "Net profit",
+    "demonstrates": "Headline figure: Net Profit"
+  },
+  {
+    "name": "b7c5aa0337461f226be6",
+    "visualType": "pivotTable",
+    "title": "The statement: actual, budget and variance",
+    "demonstrates": "one measure under the Plan Version calculation group; margins vary in percentage points, and the unbudgeted lines carry no variance at all"
+  },
+  {
+    "name": "5b2901d392c25d756207",
+    "visualType": "pivotTable",
+    "title": "Account detail, in natural signs",
+    "demonstrates": "every account against its plan; revenue and costs both read positive"
+  },
+  {
+    "name": "74f68206fadf618fc81a",
+    "visualType": "lineClusteredColumnComboChart",
+    "title": "By month, July to June, with gross margin on the right",
+    "demonstrates": "the financial year reads July first; margin sits on its own axis"
+  },
+  {
+    "name": "60f80370e78ef904ca62",
+    "visualType": "hundredPercentStackedColumnChart",
+    "title": "Cost mix by entity",
+    "demonstrates": "composition of cost only - revenue is excluded, or the mix would be meaningless"
+  },
+  {
+    "name": "ff0298d2fbfee740efaf",
+    "visualType": "multiRowCard",
+    "title": "",
+    "demonstrates": "multiRowCard: the three margins in one panel, at a height that fits them"
+  },
+  {
+    "name": "233bd4b248481e032e8d",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "f8f18a07bcb09217152f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "335bdf359d189cc437bb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "a1282e6927da306fff61",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "59bf0b64512c5b3e4e98",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "e90043709750d464266a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "7bd0b1c0b5e7125f746d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "d8c517ac618364b8c449",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "d3ffee2f38f663fce0da",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "1c9f4407cbdd86c070db",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "1c171f8238b5781216db",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "37d957cf1f29e5a08925",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "57f1a5c0964bcf1bb9f1",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "65c4a0749bd9e2023f6e",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "0524e3874e9a57f8b72f",
+    "visualType": "card",
+    "title": "Revenue vs budget",
+    "demonstrates": "Headline figure: Revenue vs Budget"
+  },
+  {
+    "name": "f19a60b85f5b4e4def85",
+    "visualType": "card",
+    "title": "Operating expense underspend",
+    "demonstrates": "Headline figure: Operating Expense vs Budget"
+  },
+  {
+    "name": "7fc7846c1da052e4a1a7",
+    "visualType": "card",
+    "title": "Operating profit vs budget",
+    "demonstrates": "Headline figure: Operating Profit vs Budget"
+  },
+  {
+    "name": "dd46e0337ecfc2649680",
+    "visualType": "card",
+    "title": "Revenue as % of budget",
+    "demonstrates": "Headline figure: Revenue Achievement %"
+  },
+  {
+    "name": "ebc4233aadbd9c3f656a",
+    "visualType": "card",
+    "title": "Underspend as % of budget",
+    "demonstrates": "Headline figure: Operating Expense vs Budget %"
+  },
+  {
+    "name": "2f0db7a5f92627675c97",
+    "visualType": "clusteredColumnChart",
+    "title": "Underspend as a share of each department's budget",
+    "demonstrates": "the gap is the same size everywhere: 25-38% in every cost centre. Columns, because ten bars do not fit even the taller row - a matrix does, a bar chart does not"
+  },
+  {
+    "name": "014ba436a07e370418f5",
+    "visualType": "pivotTable",
+    "title": "Unusual months: variance against each department's own range (z)",
+    "demonstrates": "dead-zone colour: only |z| >= 2 is shaded. The page is one financial year, so the short month name is unique and twelve columns fit"
+  },
+  {
+    "name": "3b3d1265b58d0920734c",
+    "visualType": "waterfallChart",
+    "title": "Which cost centres are under budget",
+    "demonstrates": "waterfall: every department contributes to the underspend, none offsets it"
+  },
+  {
+    "name": "77ff85ac50ea4dff0642",
+    "visualType": "scatterChart",
+    "title": "Budget against actual, by department",
+    "demonstrates": "every department sits well below the line: a plan-wide gap, not a department's overspend"
+  },
+  {
+    "name": "41f46fc3b11d6d398c41",
+    "visualType": "gauge",
+    "title": "Revenue against budget",
+    "demonstrates": "achievement against a real target; 196 px gives the arc room"
+  },
+  {
+    "name": "419d4b96ecf847bd473b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "c2ee11b64f2c36945363",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b7e7e8ad04c4eed7c8ea",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "76e4378e259bef69f33a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "845564456456f1ff53a5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "e96cda2f4deb442014da",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "1133cda419ab62d5aff2",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "9a778e58b7adc0145691",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "1ecce3437f50066f1a7f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "694de61cc516d2da0c63",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "88843d41a71799076e81",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "953b27b4a3da96906047",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "0f3e0da2929de17881d3",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "4a181a1bfe3952ed4626",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "38e11e2ff9ef70de0cbc",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Department"
+  },
+  {
+    "name": "d69e4c25162276abd814",
+    "visualType": "card",
+    "title": "Operating expense",
+    "demonstrates": "Headline figure: Operating Expense"
+  },
+  {
+    "name": "63571c7635b34453a0e8",
+    "visualType": "card",
+    "title": "Operating expense to revenue",
+    "demonstrates": "Headline figure: Opex % of Revenue"
+  },
+  {
+    "name": "854a6cda58864098e683",
+    "visualType": "card",
+    "title": "COGS to revenue",
+    "demonstrates": "Headline figure: COGS % of Revenue"
+  },
+  {
+    "name": "a970a95749280004b88d",
+    "visualType": "card",
+    "title": "Ledger lines still accrued",
+    "demonstrates": "Headline figure: Accrued Share of Lines"
+  },
+  {
+    "name": "d97bbc3ffb2f8724cc29",
+    "visualType": "card",
+    "title": "Vendors used",
+    "demonstrates": "Headline figure: Active Vendors"
+  },
+  {
+    "name": "7896d8726b5bb729d592",
+    "visualType": "treemap",
+    "title": "Operating expense by cost centre and account",
+    "demonstrates": "treemap: ten departments and eleven accounts in one view"
+  },
+  {
+    "name": "b8d1ed70d3625febbf2e",
+    "visualType": "decompositionTreeVisual",
+    "title": "Where the operating expense sits - choose the path",
+    "demonstrates": "decomposition tree: entity, department, account or vendor category, in any order"
+  },
+  {
+    "name": "01388030f3aa2db10841",
+    "visualType": "tableEx",
+    "title": "Cost-centre scorecard",
+    "demonstrates": "the numbers behind the treemap, with the plan beside them; full width fits ten departments"
+  },
+  {
+    "name": "893244de374c9c2e983d",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "da69f185ebc35532c958",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "7d615bad211e32e00b6e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "c1b8fa299d5a43ba7da6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "73c3889e7deab74a3a18",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "505924f0ca52f67981ac",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "e05dd9ce9b024c59f1c2",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "67c0ad08ed6d6f2c50cf",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "568998a98b8d0e9d119e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "51a176614b63d0911374",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "97a1e947d9120def40f3",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "0c88daa4d14a35d8bec7",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2415ecd4d07c841a1144",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "d236c6c9b65813fad8af",
+    "visualType": "advancedSlicerVisual",
+    "title": "",
+    "demonstrates": "the scenario selector: three stated driver sets"
+  },
+  {
+    "name": "c5543f30e33b18486870",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "0fbb981c570002f5fb1d",
+    "visualType": "card",
+    "title": "FY27 outlook revenue",
+    "demonstrates": "Headline figure: Outlook Revenue"
+  },
+  {
+    "name": "1cf3b16a4d585ca0a4af",
+    "visualType": "card",
+    "title": "FY27 outlook operating expense",
+    "demonstrates": "Headline figure: Outlook Operating Expense"
+  },
+  {
+    "name": "b464a8bbeb6039b05864",
+    "visualType": "card",
+    "title": "FY27 outlook operating profit",
+    "demonstrates": "Headline figure: Outlook Operating Profit"
+  },
+  {
+    "name": "7e817e5e240be8ddd69f",
+    "visualType": "card",
+    "title": "Against FY26",
+    "demonstrates": "Headline figure: Outlook vs Last FY Operating Profit"
+  },
+  {
+    "name": "7d551c5473276eda4088",
+    "visualType": "card",
+    "title": "Run-rate revenue a month",
+    "demonstrates": "Headline figure: Run-Rate Revenue (Monthly)"
+  },
+  {
+    "name": "91adb26957fa8c99c8d9",
+    "visualType": "card",
+    "title": "Months projected",
+    "demonstrates": "Headline figure: Months Remaining in FY"
+  },
+  {
+    "name": "a97bc31f4362fc319923",
+    "visualType": "clusteredBarChart",
+    "title": "Outlook against FY26, by scenario",
+    "demonstrates": "the difference is the story: the absolute outlooks differ by only a few per cent - and each bar takes its colour from its own sign, so downside reads red and upside green"
+  },
+  {
+    "name": "f3b273479c189df5cf08",
+    "visualType": "lineChart",
+    "title": "Profit sensitivity to revenue",
+    "demonstrates": "how far the outlook moves when revenue moves, on top of the selected scenario"
+  },
+  {
+    "name": "c955972be7f4a58d2a65",
+    "visualType": "tableEx",
+    "title": "The assumptions, stated",
+    "demonstrates": "drivers are data, not hidden arithmetic - and they are illustrative, not supplied"
+  },
+  {
+    "name": "88c5830fc0cfbae1dd94",
+    "visualType": "lineChart",
+    "title": "The run rate the outlook is built on",
+    "demonstrates": "the projection is the trailing twelve months, which this shows in full"
+  },
+  {
+    "name": "c2b01ad1988fda73a53a",
+    "visualType": "clusteredColumnChart",
+    "title": "Outlook by entity",
+    "demonstrates": "the exchange-rate driver applies only to the foreign-currency entities"
+  },
+  {
+    "name": "6067569e8e69093ddd8b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "cb15464a90553d30dcdc",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "ba8861e6c6681195db41",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "05bd104576224eefbcde",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "eac53fbc59c63241948a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "f90efa88e788f3742adf",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "582ca42cd405af9ef130",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "6470d92ef943f816000e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "c1ac32558bc85a0a8952",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "82144f2121324ba5abbf",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "af87ebb8edeb7b945ef9",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "bd15bb8b502e93009ea0",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "7f9aebfb8689b43924d5",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "1f72b13c5abf7c15cdd8",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "a30853bcc30073bab682",
+    "visualType": "card",
+    "title": "Receivables at 31 Aug 2026",
+    "demonstrates": "Headline figure: AR Balance"
+  },
+  {
+    "name": "85cb2fb22b9785243f44",
+    "visualType": "card",
+    "title": "Days sales outstanding",
+    "demonstrates": "Headline figure: DSO (Days)"
+  },
+  {
+    "name": "bc8f6b0bb4c9cca0674a",
+    "visualType": "card",
+    "title": "Days to collect a paid invoice",
+    "demonstrates": "Headline figure: Days to Collect"
+  },
+  {
+    "name": "40889c9d3fe6a33fba6c",
+    "visualType": "card",
+    "title": "More than a year past due",
+    "demonstrates": "Headline figure: AR Over 365 Days"
+  },
+  {
+    "name": "52938489c6b307cd077f",
+    "visualType": "card",
+    "title": "Payables",
+    "demonstrates": "Headline figure: AP Balance"
+  },
+  {
+    "name": "e3cd7a56ec7c70266fe9",
+    "visualType": "card",
+    "title": "Days payable outstanding",
+    "demonstrates": "Headline figure: DPO (Days)"
+  },
+  {
+    "name": "1bfa275f88ce0b5ddfd0",
+    "visualType": "columnChart",
+    "title": "Receivables by age",
+    "demonstrates": "ageing computed as of the balance date, not read from a stored bucket"
+  },
+  {
+    "name": "1daccdb43436cee95f71",
+    "visualType": "columnChart",
+    "title": "Payables by age",
+    "demonstrates": "the same rule on the other side of the balance sheet"
+  },
+  {
+    "name": "88c7e2a7d977f580a3a6",
+    "visualType": "lineChart",
+    "title": "Balances at each month end",
+    "demonstrates": "a balance stated on every month end: the uncollected stock only grows"
+  },
+  {
+    "name": "f5be5aa016898cc7d987",
+    "visualType": "tableEx",
+    "title": "Largest outstanding customer balances",
+    "demonstrates": "who the receivable actually sits with"
+  },
+  {
+    "name": "bba21fc8a5a4c75608c2",
+    "visualType": "clusteredColumnChart",
+    "title": "Collection and payment days by entity",
+    "demonstrates": "the funding gap between collecting and paying, entity by entity"
+  },
+  {
+    "name": "e864b554d99d00488ae5",
+    "visualType": "donutChart",
+    "title": "Receivables by entity",
+    "demonstrates": "donut: which entity carries the outstanding balance"
+  },
+  {
+    "name": "b03af216c7e6456231d1",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2763d94725bf5fef7f15",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "5fb635ffcab8af4d26a5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "7b40b753f78c3cf31f11",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "d3c4bb9d924eabcd4b83",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "21e3cf2d26f6d280271f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "320222cb23900b571016",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "3b4fe391e80427924d1d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "3bfe6be40e080c362102",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "0f7f42949b337f5e9c79",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "e1e9339586c3c4da636a",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "84163b228df76a33128c",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "777a27673562e806a778",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "3903a4b4a186bc0e6cc0",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "2aab02b166cb78cf135c",
+    "visualType": "card",
+    "title": "Cash at 31 Aug 2026",
+    "demonstrates": "Headline figure: Cash Balance"
+  },
+  {
+    "name": "e03e36625035f1f07deb",
+    "visualType": "card",
+    "title": "Lowest daily balance on record",
+    "demonstrates": "Headline figure: Minimum Daily Cash"
+  },
+  {
+    "name": "0c11b183446672a50d39",
+    "visualType": "card",
+    "title": "Revenue booked outside AUD",
+    "demonstrates": "Headline figure: Foreign-Currency Revenue Share"
+  },
+  {
+    "name": "64d8b7bef063cc92bdc5",
+    "visualType": "card",
+    "title": "Average daily move in the rates",
+    "demonstrates": "Headline figure: FX Mean Daily Move %"
+  },
+  {
+    "name": "8d3055b2e3fc578019af",
+    "visualType": "card",
+    "title": "Spot vs average translation",
+    "demonstrates": "Headline figure: Spot vs Average Translation Difference"
+  },
+  {
+    "name": "b29248681d2156b83ab4",
+    "visualType": "areaChart",
+    "title": "Group closing cash at each month end",
+    "demonstrates": "a stock, never summed over time; the axis starts at zero"
+  },
+  {
+    "name": "e6ca664c79db3338db0f",
+    "visualType": "lineChart",
+    "title": "Cash by entity",
+    "demonstrates": "small multiples: six entities without six overlapping lines"
+  },
+  {
+    "name": "a1b63dde996e4fe6dd66",
+    "visualType": "lineChart",
+    "title": "Monthly average rates, AUD per unit",
+    "demonstrates": "the rates the ledger was translated at"
+  },
+  {
+    "name": "513f2862779f74ad2ce5",
+    "visualType": "clusteredColumnChart",
+    "title": "Revenue growth: reported and at last year's rates",
+    "demonstrates": "the two bars are all but identical - the exchange rate is not the story here"
+  },
+  {
+    "name": "a7d30ab9f9dccc2c2338",
+    "visualType": "pieChart",
+    "title": "Revenue by currency",
+    "demonstrates": "pie: the model's only genuine two-part split"
+  },
+  {
+    "name": "73bb2549e15378007b46",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2763839bcea01846b9cc",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "70515f2ee9251b742593",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "b30c2ad6f40ef90cfe81",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Income Statement"
+  },
+  {
+    "name": "36aadd59d2e039c53c62",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Budget Variance"
+  },
+  {
+    "name": "f3d18579790dc42b367d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cost Centres"
+  },
+  {
+    "name": "87d018eb4ec6a8a2667f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Scenario"
+  },
+  {
+    "name": "17dee4d2e2cd881ce12c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Working Capital"
+  },
+  {
+    "name": "e7105d89d33c49110009",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Cash & FX"
+  },
+  {
+    "name": "dbbe80eb643ce4608077",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "4aafb1c90799b0b6999b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3b270005ed08a7f72c16",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "88699dbe3938e67a2a9e",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "3697757744f076565f28",
+    "visualType": "card",
+    "title": "Budget lines with no posting",
+    "demonstrates": "Headline figure: Budget Lines Without Posting"
+  },
+  {
+    "name": "ee9e50189b13c9a0c56f",
+    "visualType": "card",
+    "title": "Receipts dated after the as-of date",
+    "demonstrates": "Headline figure: Receipts After As-Of"
+  },
+  {
+    "name": "45719f521bd7180e8671",
+    "visualType": "card",
+    "title": "Payments dated after the as-of date",
+    "demonstrates": "Headline figure: Payments After As-Of"
+  },
+  {
+    "name": "32e2ae2f60dd17889731",
+    "visualType": "card",
+    "title": "Days at the 50,000 cash floor",
+    "demonstrates": "Headline figure: Cash Floor Days"
+  },
+  {
+    "name": "508ad342822096e62af9",
+    "visualType": "card",
+    "title": "Ledger lines",
+    "demonstrates": "Headline figure: GL Lines"
+  },
+  {
+    "name": "2f206e89c349d8061ed5",
+    "visualType": "pivotTable",
+    "title": "Data quality, computed live in SQL",
+    "demonstrates": "fifteen properties measured from dbo on every refresh, so the page cannot drift. A matrix, not a table: in a table the text column rendered blank"
+  },
+  {
+    "name": "5323fc400cbb17fd44da",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "5b1556b927b48f3934a4",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2dcd4231eb111d4c2364",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  }
+]

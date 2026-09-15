@@ -1,0 +1,42 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["SqlServer","SqlDatabase","DimDate","DimEntity","DimDepartment","DimAccount","DimCustomer","DimVendor","DimPLLine","DimAgeingBucket","DimScenario","DimSensitivityStep","FxRateMonthly","FactGL","FactFinancials","FactARInvoice","FactAPBill","FactCashBalance","DataQualityMetric","ModelConfig","SecurityUserAccess","_Measures","Plan Version","Period View"]
+
+ref table DimDate
+ref table DimEntity
+ref table DimDepartment
+ref table DimAccount
+ref table DimCustomer
+ref table DimVendor
+ref table DimPLLine
+ref table DimAgeingBucket
+ref table DimScenario
+ref table DimSensitivityStep
+ref table FxRateMonthly
+ref table FactGL
+ref table FactFinancials
+ref table FactARInvoice
+ref table FactAPBill
+ref table FactCashBalance
+ref table DataQualityMetric
+ref table ModelConfig
+ref table SecurityUserAccess
+ref table _Measures
+ref table 'Plan Version'
+ref table 'Period View'
+
+ref role 'Entity and Department Access'
+
+ref cultureInfo en-US
+

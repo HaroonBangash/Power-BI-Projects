@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "6067569e8e69093ddd8b",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 25
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "A projection, not a forecast.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Months after 31 Aug 2026 are carried at the trailing-twelve-month average, then flexed by the drivers shown; the currency driver touches only the five non-AUD entities. The drivers are illustrative assumptions held in the model - the source's own forecast carries a random label per line.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

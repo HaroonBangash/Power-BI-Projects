@@ -1,0 +1,118 @@
+/// Actual, budget and forecast at one grain - version x month x entity x department x account - so every plan comparison is one measure under a different version. Actual rows are the ledger summed to the month and equal FactGL to the cent.
+table FactFinancials
+	lineageTag: efcb6204-1295-56a1-b848-109d8ddba27e
+
+	/// ACT, BUD or FC. Filtered by the Plan Version calculation group; never summed.
+	column VersionID
+		dataType: string
+		isHidden
+		lineageTag: 1a83eca1-a1bf-5ca7-9b0b-8a18b492f5c5
+		summarizeBy: none
+		sourceColumn: VersionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthStart
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 7c0f4be4-5e18-53ec-b6cf-18b266ca0f6b
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EntityID
+		dataType: string
+		isHidden
+		lineageTag: 1d099431-1053-51e0-bc56-1d37c1419052
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentID
+		dataType: string
+		isHidden
+		lineageTag: 954943d9-840c-576c-b00b-8cc41a257643
+		summarizeBy: none
+		sourceColumn: DepartmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountCode
+		dataType: string
+		isHidden
+		lineageTag: 079ab642-ea18-5dc7-aa99-e26ecd04de0b
+		summarizeBy: none
+		sourceColumn: AccountCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column AmountAUD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 949c88e7-5927-5ee9-a225-86a56da8aa10
+		summarizeBy: sum
+		sourceColumn: AmountAUD
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Actual rows only.
+	column AmountLocal
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: cb47ef65-2db7-5f54-a8c8-3e98eff23a58
+		summarizeBy: sum
+		sourceColumn: AmountLocal
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Actual rows retranslated at last year's monthly average rate: the constant-currency basis.
+	column AmountAUDAtPYRate
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 66de39e4-a57a-59e4-a823-d7560ffdc69a
+		summarizeBy: sum
+		sourceColumn: AmountAUDAtPYRate
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Ledger lines behind an actual row; blank on plan rows, which is how unposted budget lines are counted.
+	column PostingLines
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: d01a8702-a7fe-54fd-8494-1ba0c3e375bc
+		summarizeBy: sum
+		sourceColumn: PostingLines
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The forecast file's label. Kept as an attribute and reported as a data-quality finding: it is one random label per line, not a scenario.
+	column ScenarioLabel
+		dataType: string
+		lineageTag: de86e247-ce39-5142-acad-cb219e009c67
+		summarizeBy: none
+		sourceColumn: ScenarioLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactFinancials = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactFinancials = Source{[Schema="analytics",Item="vw_FactFinancials"]}[Data]
+				in
+				    analytics_vw_FactFinancials
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

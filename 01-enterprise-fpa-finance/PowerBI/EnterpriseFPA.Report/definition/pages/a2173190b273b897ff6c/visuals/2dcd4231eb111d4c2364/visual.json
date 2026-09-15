@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "2dcd4231eb111d4c2364",
+  "position": {
+    "x": 720,
+    "y": 452,
+    "z": 0,
+    "height": 206,
+    "width": 544,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Scenarios and security",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#F472B6",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The forecast is one version. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Its Scenario column is a random label per line - filtering to 'Base' would drop 40% of the plan - so scenarios are modelled from stated drivers instead.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The outlook is a projection. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Remaining months at the trailing-twelve-month run rate, flexed by the driver set; illustrative assumptions, not source data.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Security. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Row-level security by entity and department from the signed-in user. A department-scoped user sees that cost centre across entities and no receivables, payables or cash.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Synthetic data. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A portfolio dataset for the fictional Northstar group - never client data.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

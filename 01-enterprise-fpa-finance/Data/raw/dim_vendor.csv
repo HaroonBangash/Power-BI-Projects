@@ -1,0 +1,501 @@
+VendorID,VendorName,VendorCategory,Country
+V0001,Vendor 0001,Facilities,Canada
+V0002,Vendor 0002,Logistics,Australia
+V0003,Vendor 0003,Marketing,United States
+V0004,Vendor 0004,Marketing,Germany
+V0005,Vendor 0005,Marketing,United Kingdom
+V0006,Vendor 0006,Marketing,Canada
+V0007,Vendor 0007,Professional Services,Germany
+V0008,Vendor 0008,Marketing,United States
+V0009,Vendor 0009,Logistics,Australia
+V0010,Vendor 0010,Logistics,Canada
+V0011,Vendor 0011,Marketing,United Kingdom
+V0012,Vendor 0012,Facilities,United Kingdom
+V0013,Vendor 0013,Technology,United States
+V0014,Vendor 0014,Technology,United States
+V0015,Vendor 0015,Office Supplies,Singapore
+V0016,Vendor 0016,Professional Services,United Kingdom
+V0017,Vendor 0017,Marketing,Canada
+V0018,Vendor 0018,Marketing,United Kingdom
+V0019,Vendor 0019,Facilities,Singapore
+V0020,Vendor 0020,Technology,United States
+V0021,Vendor 0021,Office Supplies,Canada
+V0022,Vendor 0022,Office Supplies,United Kingdom
+V0023,Vendor 0023,Technology,United States
+V0024,Vendor 0024,Office Supplies,Australia
+V0025,Vendor 0025,Office Supplies,United Kingdom
+V0026,Vendor 0026,Professional Services,Germany
+V0027,Vendor 0027,Office Supplies,United Kingdom
+V0028,Vendor 0028,Marketing,United States
+V0029,Vendor 0029,Marketing,Australia
+V0030,Vendor 0030,Facilities,Australia
+V0031,Vendor 0031,Technology,United States
+V0032,Vendor 0032,Facilities,Australia
+V0033,Vendor 0033,Facilities,Australia
+V0034,Vendor 0034,Marketing,Australia
+V0035,Vendor 0035,Professional Services,United States
+V0036,Vendor 0036,Logistics,United States
+V0037,Vendor 0037,Professional Services,United States
+V0038,Vendor 0038,Marketing,Germany
+V0039,Vendor 0039,Professional Services,United States
+V0040,Vendor 0040,Technology,Singapore
+V0041,Vendor 0041,Logistics,Canada
+V0042,Vendor 0042,Logistics,Canada
+V0043,Vendor 0043,Logistics,Australia
+V0044,Vendor 0044,Technology,United Kingdom
+V0045,Vendor 0045,Marketing,Australia
+V0046,Vendor 0046,Marketing,United Kingdom
+V0047,Vendor 0047,Marketing,Canada
+V0048,Vendor 0048,Office Supplies,United Kingdom
+V0049,Vendor 0049,Logistics,Australia
+V0050,Vendor 0050,Professional Services,Germany
+V0051,Vendor 0051,Professional Services,Singapore
+V0052,Vendor 0052,Professional Services,Germany
+V0053,Vendor 0053,Logistics,Canada
+V0054,Vendor 0054,Technology,Singapore
+V0055,Vendor 0055,Facilities,Canada
+V0056,Vendor 0056,Professional Services,United Kingdom
+V0057,Vendor 0057,Facilities,United Kingdom
+V0058,Vendor 0058,Technology,Canada
+V0059,Vendor 0059,Logistics,Singapore
+V0060,Vendor 0060,Logistics,United Kingdom
+V0061,Vendor 0061,Technology,Canada
+V0062,Vendor 0062,Logistics,Canada
+V0063,Vendor 0063,Facilities,Canada
+V0064,Vendor 0064,Facilities,Canada
+V0065,Vendor 0065,Facilities,United Kingdom
+V0066,Vendor 0066,Professional Services,United Kingdom
+V0067,Vendor 0067,Marketing,United Kingdom
+V0068,Vendor 0068,Technology,United States
+V0069,Vendor 0069,Logistics,Singapore
+V0070,Vendor 0070,Professional Services,Germany
+V0071,Vendor 0071,Logistics,Germany
+V0072,Vendor 0072,Office Supplies,United Kingdom
+V0073,Vendor 0073,Logistics,Australia
+V0074,Vendor 0074,Technology,Canada
+V0075,Vendor 0075,Marketing,Australia
+V0076,Vendor 0076,Facilities,Singapore
+V0077,Vendor 0077,Logistics,United States
+V0078,Vendor 0078,Office Supplies,United States
+V0079,Vendor 0079,Marketing,United Kingdom
+V0080,Vendor 0080,Marketing,Singapore
+V0081,Vendor 0081,Logistics,United Kingdom
+V0082,Vendor 0082,Professional Services,Singapore
+V0083,Vendor 0083,Professional Services,United Kingdom
+V0084,Vendor 0084,Facilities,Singapore
+V0085,Vendor 0085,Marketing,Germany
+V0086,Vendor 0086,Professional Services,United States
+V0087,Vendor 0087,Logistics,United States
+V0088,Vendor 0088,Professional Services,United States
+V0089,Vendor 0089,Technology,Singapore
+V0090,Vendor 0090,Professional Services,Germany
+V0091,Vendor 0091,Office Supplies,Singapore
+V0092,Vendor 0092,Office Supplies,United States
+V0093,Vendor 0093,Marketing,United Kingdom
+V0094,Vendor 0094,Facilities,Germany
+V0095,Vendor 0095,Professional Services,United Kingdom
+V0096,Vendor 0096,Logistics,Singapore
+V0097,Vendor 0097,Logistics,Canada
+V0098,Vendor 0098,Professional Services,Canada
+V0099,Vendor 0099,Professional Services,United Kingdom
+V0100,Vendor 0100,Professional Services,Germany
+V0101,Vendor 0101,Technology,United Kingdom
+V0102,Vendor 0102,Marketing,Australia
+V0103,Vendor 0103,Office Supplies,United Kingdom
+V0104,Vendor 0104,Professional Services,Canada
+V0105,Vendor 0105,Facilities,Germany
+V0106,Vendor 0106,Office Supplies,Singapore
+V0107,Vendor 0107,Logistics,Germany
+V0108,Vendor 0108,Marketing,Singapore
+V0109,Vendor 0109,Office Supplies,United States
+V0110,Vendor 0110,Facilities,Germany
+V0111,Vendor 0111,Professional Services,Germany
+V0112,Vendor 0112,Logistics,Germany
+V0113,Vendor 0113,Technology,Germany
+V0114,Vendor 0114,Office Supplies,Germany
+V0115,Vendor 0115,Professional Services,Australia
+V0116,Vendor 0116,Technology,Canada
+V0117,Vendor 0117,Professional Services,Singapore
+V0118,Vendor 0118,Facilities,Australia
+V0119,Vendor 0119,Technology,Singapore
+V0120,Vendor 0120,Facilities,United States
+V0121,Vendor 0121,Logistics,Australia
+V0122,Vendor 0122,Marketing,United Kingdom
+V0123,Vendor 0123,Facilities,Canada
+V0124,Vendor 0124,Technology,Germany
+V0125,Vendor 0125,Logistics,United States
+V0126,Vendor 0126,Office Supplies,Australia
+V0127,Vendor 0127,Professional Services,Australia
+V0128,Vendor 0128,Facilities,United States
+V0129,Vendor 0129,Technology,Canada
+V0130,Vendor 0130,Logistics,United Kingdom
+V0131,Vendor 0131,Office Supplies,United Kingdom
+V0132,Vendor 0132,Logistics,United States
+V0133,Vendor 0133,Facilities,United Kingdom
+V0134,Vendor 0134,Marketing,Germany
+V0135,Vendor 0135,Facilities,Australia
+V0136,Vendor 0136,Professional Services,Germany
+V0137,Vendor 0137,Technology,Singapore
+V0138,Vendor 0138,Office Supplies,Australia
+V0139,Vendor 0139,Logistics,Australia
+V0140,Vendor 0140,Professional Services,Singapore
+V0141,Vendor 0141,Office Supplies,Canada
+V0142,Vendor 0142,Marketing,Germany
+V0143,Vendor 0143,Facilities,Singapore
+V0144,Vendor 0144,Marketing,United Kingdom
+V0145,Vendor 0145,Office Supplies,Germany
+V0146,Vendor 0146,Technology,Canada
+V0147,Vendor 0147,Office Supplies,United States
+V0148,Vendor 0148,Marketing,Singapore
+V0149,Vendor 0149,Office Supplies,Germany
+V0150,Vendor 0150,Logistics,United Kingdom
+V0151,Vendor 0151,Logistics,Singapore
+V0152,Vendor 0152,Facilities,Canada
+V0153,Vendor 0153,Technology,Australia
+V0154,Vendor 0154,Office Supplies,United Kingdom
+V0155,Vendor 0155,Facilities,Australia
+V0156,Vendor 0156,Marketing,United Kingdom
+V0157,Vendor 0157,Marketing,Germany
+V0158,Vendor 0158,Logistics,Canada
+V0159,Vendor 0159,Logistics,United Kingdom
+V0160,Vendor 0160,Office Supplies,Australia
+V0161,Vendor 0161,Facilities,Canada
+V0162,Vendor 0162,Marketing,Singapore
+V0163,Vendor 0163,Facilities,Germany
+V0164,Vendor 0164,Office Supplies,Singapore
+V0165,Vendor 0165,Professional Services,Australia
+V0166,Vendor 0166,Marketing,Singapore
+V0167,Vendor 0167,Office Supplies,Australia
+V0168,Vendor 0168,Facilities,Germany
+V0169,Vendor 0169,Facilities,United States
+V0170,Vendor 0170,Professional Services,Singapore
+V0171,Vendor 0171,Facilities,Canada
+V0172,Vendor 0172,Facilities,Germany
+V0173,Vendor 0173,Facilities,United States
+V0174,Vendor 0174,Marketing,Australia
+V0175,Vendor 0175,Facilities,Australia
+V0176,Vendor 0176,Office Supplies,Australia
+V0177,Vendor 0177,Marketing,Canada
+V0178,Vendor 0178,Marketing,Australia
+V0179,Vendor 0179,Logistics,United Kingdom
+V0180,Vendor 0180,Office Supplies,Canada
+V0181,Vendor 0181,Facilities,Singapore
+V0182,Vendor 0182,Marketing,Germany
+V0183,Vendor 0183,Office Supplies,Canada
+V0184,Vendor 0184,Marketing,United States
+V0185,Vendor 0185,Office Supplies,Canada
+V0186,Vendor 0186,Office Supplies,Australia
+V0187,Vendor 0187,Logistics,Australia
+V0188,Vendor 0188,Technology,United Kingdom
+V0189,Vendor 0189,Logistics,United States
+V0190,Vendor 0190,Technology,Canada
+V0191,Vendor 0191,Logistics,Germany
+V0192,Vendor 0192,Technology,United Kingdom
+V0193,Vendor 0193,Marketing,Canada
+V0194,Vendor 0194,Marketing,United Kingdom
+V0195,Vendor 0195,Professional Services,Singapore
+V0196,Vendor 0196,Office Supplies,Australia
+V0197,Vendor 0197,Marketing,United States
+V0198,Vendor 0198,Logistics,United States
+V0199,Vendor 0199,Professional Services,United States
+V0200,Vendor 0200,Technology,Germany
+V0201,Vendor 0201,Logistics,United Kingdom
+V0202,Vendor 0202,Facilities,Germany
+V0203,Vendor 0203,Office Supplies,Australia
+V0204,Vendor 0204,Marketing,Australia
+V0205,Vendor 0205,Facilities,Australia
+V0206,Vendor 0206,Professional Services,United States
+V0207,Vendor 0207,Professional Services,Canada
+V0208,Vendor 0208,Facilities,Australia
+V0209,Vendor 0209,Technology,United States
+V0210,Vendor 0210,Professional Services,Canada
+V0211,Vendor 0211,Professional Services,Germany
+V0212,Vendor 0212,Office Supplies,Canada
+V0213,Vendor 0213,Technology,Canada
+V0214,Vendor 0214,Marketing,United States
+V0215,Vendor 0215,Technology,Canada
+V0216,Vendor 0216,Technology,Germany
+V0217,Vendor 0217,Office Supplies,Germany
+V0218,Vendor 0218,Logistics,Australia
+V0219,Vendor 0219,Facilities,United Kingdom
+V0220,Vendor 0220,Marketing,United States
+V0221,Vendor 0221,Professional Services,Canada
+V0222,Vendor 0222,Logistics,Germany
+V0223,Vendor 0223,Technology,United States
+V0224,Vendor 0224,Logistics,United States
+V0225,Vendor 0225,Marketing,United Kingdom
+V0226,Vendor 0226,Office Supplies,Australia
+V0227,Vendor 0227,Technology,Singapore
+V0228,Vendor 0228,Professional Services,Germany
+V0229,Vendor 0229,Logistics,Singapore
+V0230,Vendor 0230,Marketing,Germany
+V0231,Vendor 0231,Marketing,Canada
+V0232,Vendor 0232,Logistics,United Kingdom
+V0233,Vendor 0233,Logistics,Australia
+V0234,Vendor 0234,Office Supplies,United Kingdom
+V0235,Vendor 0235,Office Supplies,United Kingdom
+V0236,Vendor 0236,Professional Services,United States
+V0237,Vendor 0237,Technology,United Kingdom
+V0238,Vendor 0238,Facilities,Canada
+V0239,Vendor 0239,Marketing,Australia
+V0240,Vendor 0240,Professional Services,United States
+V0241,Vendor 0241,Marketing,United States
+V0242,Vendor 0242,Marketing,Germany
+V0243,Vendor 0243,Professional Services,Singapore
+V0244,Vendor 0244,Marketing,United States
+V0245,Vendor 0245,Facilities,United Kingdom
+V0246,Vendor 0246,Technology,United States
+V0247,Vendor 0247,Facilities,Germany
+V0248,Vendor 0248,Facilities,United States
+V0249,Vendor 0249,Technology,Singapore
+V0250,Vendor 0250,Facilities,Singapore
+V0251,Vendor 0251,Logistics,United States
+V0252,Vendor 0252,Logistics,United States
+V0253,Vendor 0253,Technology,United States
+V0254,Vendor 0254,Professional Services,Germany
+V0255,Vendor 0255,Technology,Singapore
+V0256,Vendor 0256,Professional Services,Canada
+V0257,Vendor 0257,Logistics,United Kingdom
+V0258,Vendor 0258,Marketing,Australia
+V0259,Vendor 0259,Office Supplies,United States
+V0260,Vendor 0260,Technology,Germany
+V0261,Vendor 0261,Marketing,Canada
+V0262,Vendor 0262,Logistics,Canada
+V0263,Vendor 0263,Office Supplies,Canada
+V0264,Vendor 0264,Professional Services,Singapore
+V0265,Vendor 0265,Professional Services,Canada
+V0266,Vendor 0266,Professional Services,Germany
+V0267,Vendor 0267,Professional Services,Germany
+V0268,Vendor 0268,Marketing,United Kingdom
+V0269,Vendor 0269,Technology,United States
+V0270,Vendor 0270,Office Supplies,United States
+V0271,Vendor 0271,Office Supplies,Canada
+V0272,Vendor 0272,Technology,Germany
+V0273,Vendor 0273,Office Supplies,Germany
+V0274,Vendor 0274,Facilities,Germany
+V0275,Vendor 0275,Professional Services,Australia
+V0276,Vendor 0276,Office Supplies,United Kingdom
+V0277,Vendor 0277,Marketing,United States
+V0278,Vendor 0278,Marketing,Australia
+V0279,Vendor 0279,Technology,United Kingdom
+V0280,Vendor 0280,Logistics,Singapore
+V0281,Vendor 0281,Technology,Germany
+V0282,Vendor 0282,Facilities,United States
+V0283,Vendor 0283,Marketing,United Kingdom
+V0284,Vendor 0284,Facilities,Australia
+V0285,Vendor 0285,Office Supplies,United Kingdom
+V0286,Vendor 0286,Office Supplies,Germany
+V0287,Vendor 0287,Logistics,Germany
+V0288,Vendor 0288,Facilities,Germany
+V0289,Vendor 0289,Technology,Canada
+V0290,Vendor 0290,Facilities,Canada
+V0291,Vendor 0291,Professional Services,Canada
+V0292,Vendor 0292,Technology,Australia
+V0293,Vendor 0293,Facilities,Singapore
+V0294,Vendor 0294,Technology,Canada
+V0295,Vendor 0295,Facilities,Canada
+V0296,Vendor 0296,Marketing,Singapore
+V0297,Vendor 0297,Facilities,United Kingdom
+V0298,Vendor 0298,Logistics,Singapore
+V0299,Vendor 0299,Logistics,Singapore
+V0300,Vendor 0300,Professional Services,Germany
+V0301,Vendor 0301,Professional Services,United States
+V0302,Vendor 0302,Office Supplies,United States
+V0303,Vendor 0303,Technology,Singapore
+V0304,Vendor 0304,Professional Services,Canada
+V0305,Vendor 0305,Office Supplies,Australia
+V0306,Vendor 0306,Logistics,Australia
+V0307,Vendor 0307,Professional Services,Germany
+V0308,Vendor 0308,Office Supplies,United States
+V0309,Vendor 0309,Office Supplies,Singapore
+V0310,Vendor 0310,Logistics,Singapore
+V0311,Vendor 0311,Logistics,Canada
+V0312,Vendor 0312,Marketing,Canada
+V0313,Vendor 0313,Professional Services,United States
+V0314,Vendor 0314,Professional Services,Canada
+V0315,Vendor 0315,Logistics,United States
+V0316,Vendor 0316,Technology,United States
+V0317,Vendor 0317,Marketing,United Kingdom
+V0318,Vendor 0318,Facilities,United Kingdom
+V0319,Vendor 0319,Marketing,United Kingdom
+V0320,Vendor 0320,Facilities,United Kingdom
+V0321,Vendor 0321,Professional Services,Australia
+V0322,Vendor 0322,Technology,Australia
+V0323,Vendor 0323,Technology,United Kingdom
+V0324,Vendor 0324,Marketing,Singapore
+V0325,Vendor 0325,Facilities,Singapore
+V0326,Vendor 0326,Technology,United States
+V0327,Vendor 0327,Marketing,Australia
+V0328,Vendor 0328,Logistics,United States
+V0329,Vendor 0329,Logistics,Germany
+V0330,Vendor 0330,Office Supplies,Singapore
+V0331,Vendor 0331,Facilities,United States
+V0332,Vendor 0332,Marketing,Germany
+V0333,Vendor 0333,Professional Services,United Kingdom
+V0334,Vendor 0334,Professional Services,United Kingdom
+V0335,Vendor 0335,Marketing,Australia
+V0336,Vendor 0336,Technology,United States
+V0337,Vendor 0337,Marketing,United Kingdom
+V0338,Vendor 0338,Technology,United States
+V0339,Vendor 0339,Facilities,United States
+V0340,Vendor 0340,Logistics,United Kingdom
+V0341,Vendor 0341,Technology,Singapore
+V0342,Vendor 0342,Marketing,Singapore
+V0343,Vendor 0343,Logistics,United Kingdom
+V0344,Vendor 0344,Logistics,Canada
+V0345,Vendor 0345,Professional Services,Australia
+V0346,Vendor 0346,Logistics,Germany
+V0347,Vendor 0347,Marketing,Australia
+V0348,Vendor 0348,Marketing,Australia
+V0349,Vendor 0349,Logistics,United States
+V0350,Vendor 0350,Office Supplies,Australia
+V0351,Vendor 0351,Marketing,Germany
+V0352,Vendor 0352,Facilities,Singapore
+V0353,Vendor 0353,Technology,Singapore
+V0354,Vendor 0354,Office Supplies,United States
+V0355,Vendor 0355,Marketing,Germany
+V0356,Vendor 0356,Technology,Germany
+V0357,Vendor 0357,Professional Services,Singapore
+V0358,Vendor 0358,Technology,Canada
+V0359,Vendor 0359,Office Supplies,Canada
+V0360,Vendor 0360,Facilities,Singapore
+V0361,Vendor 0361,Facilities,Germany
+V0362,Vendor 0362,Technology,Singapore
+V0363,Vendor 0363,Office Supplies,Germany
+V0364,Vendor 0364,Marketing,Germany
+V0365,Vendor 0365,Marketing,Australia
+V0366,Vendor 0366,Technology,Canada
+V0367,Vendor 0367,Marketing,Germany
+V0368,Vendor 0368,Facilities,Germany
+V0369,Vendor 0369,Technology,United Kingdom
+V0370,Vendor 0370,Marketing,Canada
+V0371,Vendor 0371,Office Supplies,Australia
+V0372,Vendor 0372,Office Supplies,United Kingdom
+V0373,Vendor 0373,Marketing,United States
+V0374,Vendor 0374,Logistics,Singapore
+V0375,Vendor 0375,Technology,Canada
+V0376,Vendor 0376,Facilities,Germany
+V0377,Vendor 0377,Logistics,United Kingdom
+V0378,Vendor 0378,Logistics,United Kingdom
+V0379,Vendor 0379,Office Supplies,Australia
+V0380,Vendor 0380,Facilities,United States
+V0381,Vendor 0381,Technology,Australia
+V0382,Vendor 0382,Facilities,Singapore
+V0383,Vendor 0383,Technology,Germany
+V0384,Vendor 0384,Marketing,Germany
+V0385,Vendor 0385,Facilities,Canada
+V0386,Vendor 0386,Facilities,Singapore
+V0387,Vendor 0387,Office Supplies,Singapore
+V0388,Vendor 0388,Marketing,Australia
+V0389,Vendor 0389,Logistics,Canada
+V0390,Vendor 0390,Office Supplies,Australia
+V0391,Vendor 0391,Facilities,Germany
+V0392,Vendor 0392,Facilities,United States
+V0393,Vendor 0393,Logistics,United Kingdom
+V0394,Vendor 0394,Technology,Germany
+V0395,Vendor 0395,Logistics,United Kingdom
+V0396,Vendor 0396,Facilities,United Kingdom
+V0397,Vendor 0397,Marketing,Germany
+V0398,Vendor 0398,Logistics,United Kingdom
+V0399,Vendor 0399,Marketing,United Kingdom
+V0400,Vendor 0400,Facilities,United Kingdom
+V0401,Vendor 0401,Technology,United States
+V0402,Vendor 0402,Office Supplies,Germany
+V0403,Vendor 0403,Facilities,Australia
+V0404,Vendor 0404,Technology,Canada
+V0405,Vendor 0405,Technology,United States
+V0406,Vendor 0406,Office Supplies,Germany
+V0407,Vendor 0407,Professional Services,Australia
+V0408,Vendor 0408,Professional Services,Singapore
+V0409,Vendor 0409,Professional Services,Australia
+V0410,Vendor 0410,Office Supplies,United States
+V0411,Vendor 0411,Office Supplies,Canada
+V0412,Vendor 0412,Technology,Singapore
+V0413,Vendor 0413,Logistics,United Kingdom
+V0414,Vendor 0414,Marketing,Canada
+V0415,Vendor 0415,Technology,Germany
+V0416,Vendor 0416,Office Supplies,United States
+V0417,Vendor 0417,Facilities,Australia
+V0418,Vendor 0418,Marketing,Singapore
+V0419,Vendor 0419,Technology,Canada
+V0420,Vendor 0420,Facilities,United States
+V0421,Vendor 0421,Logistics,Canada
+V0422,Vendor 0422,Technology,Canada
+V0423,Vendor 0423,Marketing,United Kingdom
+V0424,Vendor 0424,Facilities,Australia
+V0425,Vendor 0425,Technology,Germany
+V0426,Vendor 0426,Technology,Singapore
+V0427,Vendor 0427,Marketing,Canada
+V0428,Vendor 0428,Office Supplies,United Kingdom
+V0429,Vendor 0429,Office Supplies,United States
+V0430,Vendor 0430,Technology,Germany
+V0431,Vendor 0431,Marketing,Germany
+V0432,Vendor 0432,Facilities,Canada
+V0433,Vendor 0433,Facilities,Germany
+V0434,Vendor 0434,Technology,Australia
+V0435,Vendor 0435,Facilities,Singapore
+V0436,Vendor 0436,Facilities,Singapore
+V0437,Vendor 0437,Office Supplies,United States
+V0438,Vendor 0438,Office Supplies,Australia
+V0439,Vendor 0439,Logistics,Australia
+V0440,Vendor 0440,Facilities,Canada
+V0441,Vendor 0441,Technology,Canada
+V0442,Vendor 0442,Technology,United States
+V0443,Vendor 0443,Facilities,Canada
+V0444,Vendor 0444,Office Supplies,United States
+V0445,Vendor 0445,Office Supplies,United Kingdom
+V0446,Vendor 0446,Facilities,Germany
+V0447,Vendor 0447,Professional Services,United Kingdom
+V0448,Vendor 0448,Professional Services,Canada
+V0449,Vendor 0449,Marketing,United States
+V0450,Vendor 0450,Professional Services,Germany
+V0451,Vendor 0451,Technology,Australia
+V0452,Vendor 0452,Marketing,Germany
+V0453,Vendor 0453,Professional Services,Singapore
+V0454,Vendor 0454,Facilities,United States
+V0455,Vendor 0455,Facilities,Canada
+V0456,Vendor 0456,Logistics,United Kingdom
+V0457,Vendor 0457,Office Supplies,Germany
+V0458,Vendor 0458,Logistics,Australia
+V0459,Vendor 0459,Professional Services,United States
+V0460,Vendor 0460,Facilities,Canada
+V0461,Vendor 0461,Marketing,Australia
+V0462,Vendor 0462,Facilities,United States
+V0463,Vendor 0463,Marketing,Singapore
+V0464,Vendor 0464,Facilities,Canada
+V0465,Vendor 0465,Facilities,United States
+V0466,Vendor 0466,Professional Services,United Kingdom
+V0467,Vendor 0467,Logistics,Germany
+V0468,Vendor 0468,Facilities,Germany
+V0469,Vendor 0469,Logistics,United Kingdom
+V0470,Vendor 0470,Professional Services,Singapore
+V0471,Vendor 0471,Professional Services,United Kingdom
+V0472,Vendor 0472,Technology,Germany
+V0473,Vendor 0473,Professional Services,Germany
+V0474,Vendor 0474,Office Supplies,Germany
+V0475,Vendor 0475,Marketing,Germany
+V0476,Vendor 0476,Technology,United States
+V0477,Vendor 0477,Professional Services,Singapore
+V0478,Vendor 0478,Facilities,United States
+V0479,Vendor 0479,Marketing,Australia
+V0480,Vendor 0480,Technology,Australia
+V0481,Vendor 0481,Marketing,Australia
+V0482,Vendor 0482,Marketing,United States
+V0483,Vendor 0483,Professional Services,Canada
+V0484,Vendor 0484,Facilities,United Kingdom
+V0485,Vendor 0485,Logistics,Australia
+V0486,Vendor 0486,Logistics,Germany
+V0487,Vendor 0487,Logistics,Australia
+V0488,Vendor 0488,Office Supplies,Singapore
+V0489,Vendor 0489,Professional Services,United States
+V0490,Vendor 0490,Logistics,United Kingdom
+V0491,Vendor 0491,Logistics,Singapore
+V0492,Vendor 0492,Facilities,Singapore
+V0493,Vendor 0493,Office Supplies,Canada
+V0494,Vendor 0494,Technology,Canada
+V0495,Vendor 0495,Logistics,United Kingdom
+V0496,Vendor 0496,Facilities,Australia
+V0497,Vendor 0497,Technology,United States
+V0498,Vendor 0498,Professional Services,United Kingdom
+V0499,Vendor 0499,Professional Services,Singapore
+V0500,Vendor 0500,Professional Services,Australia

@@ -1,0 +1,53 @@
+/// Dynamic security by entity AND department, from the user's email. ALL means no restriction. A department-scoped user sees that department's income statement across entities and no receivables, payables or cash - those facts have no department. An unmapped user sees nothing.
+role 'Entity and Department Access'
+	modelPermission: read
+
+	tablePermission DimEntity =
+			VAR UserScope =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[EntityID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserScope || DimEntity[EntityID] IN UserScope
+
+	tablePermission DimDepartment =
+			VAR UserScope =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[DepartmentID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserScope || DimDepartment[DepartmentID] IN UserScope
+
+	tablePermission FactARInvoice =
+			VAR UserScope =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[DepartmentID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserScope
+
+	tablePermission FactAPBill =
+			VAR UserScope =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[DepartmentID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserScope
+
+	tablePermission FactCashBalance =
+			VAR UserScope =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[DepartmentID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserScope
+
+	tablePermission SecurityUserAccess = SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+
+	annotation PBI_Id = b86e86980d0057cdbaa4b986a3e59634
+

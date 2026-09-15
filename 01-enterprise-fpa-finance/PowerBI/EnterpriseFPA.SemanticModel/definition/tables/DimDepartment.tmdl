@@ -1,0 +1,34 @@
+/// The ten cost centres. Row-level security filters this table for department-scoped users.
+table DimDepartment
+	lineageTag: ffa89ecf-30f0-59af-9327-e245a88cd7f2
+
+	column DepartmentID
+		dataType: string
+		isHidden
+		lineageTag: 88b66291-e476-51ce-af85-3225eb26441b
+		summarizeBy: none
+		sourceColumn: DepartmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentName
+		dataType: string
+		lineageTag: 1691cb58-5cf1-5027-8817-ff3eae5afe1e
+		summarizeBy: none
+		sourceColumn: DepartmentName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDepartment = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimDepartment = Source{[Schema="analytics",Item="vw_DimDepartment"]}[Data]
+				in
+				    analytics_vw_DimDepartment
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

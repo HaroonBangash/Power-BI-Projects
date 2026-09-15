@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "b03af216c7e6456231d1",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 25
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Why DSO is so high.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "88% of the receivable is already past due and $23.0M of the $40.2M is more than a year old: in this source 18% of invoiced value is never collected and nothing is ever written off. So days sales outstanding (314) measures the uncollected stock, while a paid invoice still takes 74 days to collect - read the two together, and never one as the other.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

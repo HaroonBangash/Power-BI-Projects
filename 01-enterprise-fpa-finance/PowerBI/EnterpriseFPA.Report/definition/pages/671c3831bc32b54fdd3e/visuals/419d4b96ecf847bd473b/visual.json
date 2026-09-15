@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "419d4b96ecf847bd473b",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 23
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What counts as unusual.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every department is under budget by 25-38%, in every month: that is the plan's calibration, not performance. So a month is called out only when it leaves that department's own usual range - 11 of the 120 department-months in FY26 reach |z| >= 2, against about 6 expected by chance. Positive is favourable throughout.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

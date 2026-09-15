@@ -1,0 +1,27 @@
+AccountCode,AccountName,AccountGroup
+4000,Product Revenue,Revenue
+4010,Services Revenue,Revenue
+4020,Subscription Revenue,Revenue
+5000,COGS - Product,COGS
+5010,COGS - Services,COGS
+5100,Freight & Logistics,COGS
+6000,Salaries,Operating Expense
+6010,Commissions,Operating Expense
+6020,Marketing Spend,Operating Expense
+6030,Software & Cloud,Operating Expense
+6040,Rent,Operating Expense
+6050,Travel,Operating Expense
+6060,Professional Services,Operating Expense
+6070,Insurance,Operating Expense
+6080,Utilities,Operating Expense
+6090,Training,Operating Expense
+6100,Depreciation,Operating Expense
+6110,Bad Debt,Operating Expense
+7000,Interest Expense,Other Expense
+7100,FX Gain/Loss,Other Expense
+7200,Tax Expense,Tax
+1000,Cash,Asset
+1100,Accounts Receivable,Asset
+1200,Inventory,Asset
+2000,Accounts Payable,Liability
+2100,Accrued Expenses,Liability

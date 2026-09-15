@@ -1,0 +1,90 @@
+/// The six reporting entities, each booking in its own currency. Row-level security filters this table, so an entity scope reaches every fact through it.
+table DimEntity
+	lineageTag: d7e2e6e5-5d66-5b88-960d-74333e394b13
+
+	column EntityID
+		dataType: string
+		isHidden
+		lineageTag: 78e20e2d-a7a8-50d3-b04e-31adbb48416f
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntityName
+		dataType: string
+		lineageTag: 56df220b-3a5c-5e43-b3a7-247b7636d3ad
+		summarizeBy: none
+		sourceColumn: EntityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 856cf07a-2e1c-54f6-a002-1d38bf62cc08
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Currency the entity's ledger is kept in; the group reports in AUD.
+	column LocalCurrency
+		dataType: string
+		lineageTag: b7795922-4f6f-576c-9fa9-ad96946a1f2e
+		summarizeBy: none
+		sourceColumn: LocalCurrency
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Entity with its currency, for axes: Northstar UK (GBP).
+	column EntityLabel
+		dataType: string
+		lineageTag: 961c101c-5d00-51ce-bf67-1a4fb39d5faa
+		summarizeBy: none
+		sourceColumn: EntityLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Reporting currency (AUD) or foreign currency - the group's translation exposure.
+	column CurrencyRole
+		dataType: string
+		lineageTag: f75917b9-ba86-54df-8c9c-5051cd396969
+		summarizeBy: none
+		sourceColumn: CurrencyRole
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Entity without the group prefix, for chart axes: UK, US, SG, DE, CA, Holdings.
+	column EntityShort
+		dataType: string
+		lineageTag: 51323db3-d2c3-5f1f-9098-7bd5b25c6b7b
+		summarizeBy: none
+		sourceColumn: EntityShort
+		sortByColumn: EntityName
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Region Entity'
+		lineageTag: 6b557703-2ab4-5cb3-968a-cf6c6ce45b7c
+
+		level Region
+			lineageTag: 47a4329c-d3a7-57dc-8195-cfaf2a23bf9b
+			column: Region
+
+		level EntityName
+			lineageTag: 201b0a2c-b34b-5e41-8505-3d468656d210
+			column: EntityName
+
+	partition DimEntity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimEntity = Source{[Schema="analytics",Item="vw_DimEntity"]}[Data]
+				in
+				    analytics_vw_DimEntity
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

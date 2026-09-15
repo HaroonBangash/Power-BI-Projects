@@ -1,0 +1,7 @@
+EntityID,EntityName,Region,LocalCurrency
+E01,Northstar Holdings,ANZ,AUD
+E02,Northstar UK,EMEA,GBP
+E03,Northstar US,Americas,USD
+E04,Northstar SG,APAC,SGD
+E05,Northstar DE,EMEA,EUR
+E06,Northstar CA,Americas,CAD

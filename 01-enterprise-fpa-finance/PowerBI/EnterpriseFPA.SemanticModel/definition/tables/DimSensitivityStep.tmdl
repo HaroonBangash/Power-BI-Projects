@@ -1,0 +1,36 @@
+/// Revenue steps from -20% to +20% for the profit sensitivity curve. Disconnected.
+table DimSensitivityStep
+	lineageTag: 8f73c636-0270-50d0-b13f-37a3d5b63ae5
+
+	column StepPct
+		dataType: double
+		isHidden
+		formatString: +0%;-0%;0%
+		lineageTag: 7542d32d-75a5-5be3-8f48-bb25d0541678
+		summarizeBy: none
+		sourceColumn: StepPct
+
+		annotation SummarizationSetBy = Automatic
+
+	column StepLabel
+		dataType: string
+		lineageTag: f5d7768b-6988-53cf-b0d1-ed055327c97c
+		summarizeBy: none
+		sourceColumn: StepLabel
+		sortByColumn: StepPct
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSensitivityStep = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimSensitivityStep = Source{[Schema="analytics",Item="vw_DimSensitivityStep"]}[Data]
+				in
+				    analytics_vw_DimSensitivityStep
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

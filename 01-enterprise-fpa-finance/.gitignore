@@ -1,0 +1,30 @@
+# --- Scaled performance-test data (regenerate from the dataset pack's scale_dataset.py) ---
+Data/Scaled/
+*_1m.csv
+*_5m.csv
+
+# --- Credentials: never commit ---
+.env
+*.env
+config.local.*
+**/credentials.json
+
+# --- Power BI working files ---
+# Per-machine / per-refresh PBIP state, not project definition. cache.abf holds
+# the compressed model data and would churn on every refresh.
+*.pbix.bak
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/unappliedChanges.json
+
+# --- Python ---
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# --- OS / editor ---
+Thumbs.db
+desktop.ini
+.vscode/settings.json

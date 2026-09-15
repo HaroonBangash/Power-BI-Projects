@@ -1,0 +1,143 @@
+/// One general-ledger line, in its local currency and translated to AUD at its month's average rate. Ledger sign: revenue negative, costs positive. Used for detail and drill-through; the income statement reads FactFinancials.
+table FactGL
+	lineageTag: 491b4def-04cb-5eb0-9722-e60f6f70b2f5
+
+	column GLTxnID
+		dataType: string
+		isHidden
+		lineageTag: 7bd6e9d4-9dad-58d1-a9f3-c8d047c6d2a1
+		summarizeBy: none
+		sourceColumn: GLTxnID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 5f298c38-e788-517e-b385-23f0847d0d99
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EntityID
+		dataType: string
+		isHidden
+		lineageTag: d37277c3-ffff-596a-a828-97e61f30ffa3
+		summarizeBy: none
+		sourceColumn: EntityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentID
+		dataType: string
+		isHidden
+		lineageTag: fd3f62b9-335f-5e75-a313-29428de2c1c1
+		summarizeBy: none
+		sourceColumn: DepartmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountCode
+		dataType: string
+		isHidden
+		lineageTag: 0a55023a-4a9a-5716-9749-c6a28dfd630a
+		summarizeBy: none
+		sourceColumn: AccountCode
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Currency the line was booked in.
+	column CurrencyCode
+		dataType: string
+		lineageTag: df660cb2-5498-5793-811a-d796db82b6bf
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Amount in the booking currency. Not additive across currencies - use AmountAUD.
+	column AmountLocal
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: bc8d2ee8-6589-5910-b12b-63802672fad9
+		summarizeBy: sum
+		sourceColumn: AmountLocal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: 505dee3c-fbed-588f-bd57-881df14e20cb
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorID
+		dataType: string
+		isHidden
+		lineageTag: 76e097a5-46c6-5cfd-82c5-a67ea9aeb649
+		summarizeBy: none
+		sourceColumn: VendorID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Posted or Accrued. Both are actuals; accruals are never reversed in this source.
+	column PostingStatus
+		dataType: string
+		lineageTag: 178fa962-651c-5171-8b37-42644a068a63
+		summarizeBy: none
+		sourceColumn: PostingStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column FxRateAvg
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: 150d983c-f824-50a5-80b3-c52aa9b65305
+		summarizeBy: none
+		sourceColumn: FxRateAvg
+
+		annotation SummarizationSetBy = Automatic
+
+	column AmountAUD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 6b36f55c-7dc8-51fa-adab-0080054189fb
+		summarizeBy: sum
+		sourceColumn: AmountAUD
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The same line translated at its own day's rate, kept to show the choice of rate is immaterial.
+	column AmountAUDSpot
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: a9396242-fa58-5689-9a23-b241dcce056f
+		summarizeBy: sum
+		sourceColumn: AmountAUDSpot
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactGL = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactGL = Source{[Schema="analytics",Item="vw_FactGL"]}[Data]
+				in
+				    analytics_vw_FactGL
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

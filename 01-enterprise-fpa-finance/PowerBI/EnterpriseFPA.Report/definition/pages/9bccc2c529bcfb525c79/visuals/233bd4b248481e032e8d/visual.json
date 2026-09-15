@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "233bd4b248481e032e8d",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 23
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Scope.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Actual, budget and forecast are the same measure under the Plan Version calculation group. The plan covers revenue, COGS and operating expense only, so interest, FX and tax show an actual and no variance, and the budget has no net profit at all. Margin lines vary in percentage points; a percentage of a percentage is left blank.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

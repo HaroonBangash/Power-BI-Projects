@@ -1,0 +1,100 @@
+/// How much of time a figure covers: the period in view, the financial year to date, the trailing twelve months, or the same window a year earlier. Every window ends at the balance date - the last day in context capped at the as-of date - so a part year is never compared with a full one.
+table 'Period View'
+	lineageTag: c2abd053-163a-5550-ae20-bdbee2f74c1a
+
+	calculationGroup
+		precedence: 10
+
+		/// The period the page's filters select.
+		calculationItem 'Selected period' =
+				VAR AsOfText =
+				    CALCULATE ( SELECTEDVALUE ( ModelConfig[ConfigValue] ), REMOVEFILTERS ( ModelConfig ), ModelConfig[ConfigKey] = "AsOfDate" )
+				VAR AsOf =
+				    DATE ( VALUE ( LEFT ( AsOfText, 4 ) ), VALUE ( MID ( AsOfText, 6, 2 ) ), VALUE ( RIGHT ( AsOfText, 2 ) ) )
+				VAR EndDate =
+				    MIN ( MAX ( DimDate[Date] ), AsOf )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				        SELECTEDMEASURE ()
+				    )
+
+		/// From 1 July to the end of the period in view, never past the as-of date.
+		calculationItem 'Year to date' =
+				VAR AsOfText =
+				    CALCULATE ( SELECTEDVALUE ( ModelConfig[ConfigValue] ), REMOVEFILTERS ( ModelConfig ), ModelConfig[ConfigKey] = "AsOfDate" )
+				VAR AsOf =
+				    DATE ( VALUE ( LEFT ( AsOfText, 4 ) ), VALUE ( MID ( AsOfText, 6, 2 ) ), VALUE ( RIGHT ( AsOfText, 2 ) ) )
+				VAR EndDate =
+				    MIN ( MAX ( DimDate[Date] ), AsOf )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				        CALCULATE (
+				            SELECTEDMEASURE (),
+				            DATESYTD ( DimDate[Date], "6/30" ),
+				            DimDate[IsAfterAsOf] = FALSE ()
+				        )
+				    )
+
+		/// The same window one year earlier. The window is capped at the as-of date BEFORE it is shifted, so a part year is compared with the same part year; blank where the ledger does not cover that earlier window.
+		calculationItem 'Prior year' =
+				VAR AsOfText =
+				    CALCULATE ( SELECTEDVALUE ( ModelConfig[ConfigValue] ), REMOVEFILTERS ( ModelConfig ), ModelConfig[ConfigKey] = "AsOfDate" )
+				VAR AsOf =
+				    DATE ( VALUE ( LEFT ( AsOfText, 4 ) ), VALUE ( MID ( AsOfText, 6, 2 ) ), VALUE ( RIGHT ( AsOfText, 2 ) ) )
+				VAR EndDate =
+				    MIN ( MAX ( DimDate[Date] ), AsOf )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				        IF (
+				            EDATE ( MIN ( DimDate[Date] ), -12 )
+				                >= CALCULATE ( MIN ( FactFinancials[MonthStart] ), REMOVEFILTERS (), FactFinancials[VersionID] = "ACT" ),
+				            CALCULATE (
+				                SELECTEDMEASURE (),
+				                SAMEPERIODLASTYEAR ( CALCULATETABLE ( VALUES ( DimDate[Date] ), DimDate[IsAfterAsOf] = FALSE () ) )
+				            )
+				        )
+				    )
+
+		/// 1 July to the same point of last year - the like-for-like comparison.
+		calculationItem 'Prior year to date' =
+				VAR AsOfText =
+				    CALCULATE ( SELECTEDVALUE ( ModelConfig[ConfigValue] ), REMOVEFILTERS ( ModelConfig ), ModelConfig[ConfigKey] = "AsOfDate" )
+				VAR AsOf =
+				    DATE ( VALUE ( LEFT ( AsOfText, 4 ) ), VALUE ( MID ( AsOfText, 6, 2 ) ), VALUE ( RIGHT ( AsOfText, 2 ) ) )
+				VAR EndDate =
+				    MIN ( MAX ( DimDate[Date] ), AsOf )
+				RETURN
+				    IF (
+				        ISSELECTEDMEASURE ( [Revenue], [Gross Profit], [Operating Profit], [Net Profit], [COGS], [Operating Expense], [Other Expense (Net)], [Tax Expense], [Gross Margin %], [Operating Margin %], [Net Margin %], [COGS % of Revenue], [Opex % of Revenue], [P&L Line Value], [Account Amount] ),
+				        IF (
+				            EDATE ( MIN ( DimDate[Date] ), -12 )
+				                >= CALCULATE ( MIN ( FactFinancials[MonthStart] ), REMOVEFILTERS (), FactFinancials[VersionID] = "ACT" ),
+				            CALCULATE (
+				                SELECTEDMEASURE (),
+				                SAMEPERIODLASTYEAR ( CALCULATETABLE ( DATESYTD ( DimDate[Date], "6/30" ), DimDate[IsAfterAsOf] = FALSE () ) )
+				            )
+				        )
+				    )
+
+	column Period
+		dataType: string
+		lineageTag: 7d06c3b8-7658-50b8-a493-1ab395e483f7
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5936a712-016b-5521-9b30-03263b2ef22e
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

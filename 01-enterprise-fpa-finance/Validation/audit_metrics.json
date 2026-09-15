@@ -1,0 +1,407 @@
+{
+  "rows": {
+    "dim_account": 26,
+    "dim_customer": 1500,
+    "dim_date": 1704,
+    "dim_department": 10,
+    "dim_entity": 6,
+    "dim_vendor": 500,
+    "fact_ap": 12000,
+    "fact_ar": 18000,
+    "fact_budget": 60480,
+    "fact_cash_balance": 10224,
+    "fact_forecast": 60480,
+    "fact_fx_rates": 10224,
+    "fact_gl": 80000,
+    "security_user_access": 18
+  },
+  "pk_duplicates": 0,
+  "null_cells_required": 0,
+  "orphans": {
+    "gl.EntityID": 0,
+    "gl.DepartmentID": 0,
+    "gl.AccountCode": 0,
+    "gl.CustomerID": 0,
+    "gl.VendorID": 0,
+    "budget.AccountCode": 0,
+    "forecast.AccountCode": 0,
+    "ar.CustomerID": 0,
+    "ap.VendorID": 0,
+    "cash.EntityID": 0,
+    "fx.Currency": 0
+  },
+  "calendar_bad_days": 0,
+  "calendar_start": "2022-01-01",
+  "calendar_end": "2026-08-31",
+  "as_of_date": "2026-08-31",
+  "last_dates": {
+    "gl": "2026-08-31",
+    "budget": "2026-08-01",
+    "forecast": "2026-08-01",
+    "cash": "2026-08-31",
+    "fx": "2026-08-31",
+    "ar_invoice": "2026-08-31",
+    "ap_bill": "2026-08-31"
+  },
+  "dates_beyond_calendar": {
+    "ar_due": "2026-10-30",
+    "ar_paid": "2027-01-10",
+    "ap_due": "2026-10-15",
+    "ap_paid": "2026-11-22"
+  },
+  "sub_ledger_dates_beyond_calendar": 1902,
+  "ar_paid_after_asof": {
+    "n": 769,
+    "amount": 7382038.79
+  },
+  "ap_paid_after_asof": {
+    "n": 395,
+    "amount": 2328737.98
+  },
+  "fx_aud_rows_not_1": 1697,
+  "fx_aud_range": [
+    0.9504,
+    1.0475
+  ],
+  "fx_mean_abs_daily_move_pct": {
+    "CAD": 1.72,
+    "EUR": 1.71,
+    "GBP": 1.7,
+    "SGD": 1.66,
+    "USD": 1.67
+  },
+  "fx_annual_mean_spread_pct": {
+    "CAD": 0.154,
+    "EUR": 0.115,
+    "GBP": 0.212,
+    "SGD": 0.298,
+    "USD": 0.194
+  },
+  "fx_monthly_rates": 336,
+  "fx_monthly_rate_checksum": 465.869694,
+  "gl_currency_matches_entity": 80000,
+  "gl_aud_by_group": {
+    "Revenue": -80234572.05,
+    "COGS": 44794574.58,
+    "Operating Expense": 103819545.61,
+    "Other Expense": 9991807.89,
+    "Tax": 8476036.73
+  },
+  "gl_aud_total": 86847392.76,
+  "gl_local_total": 62448433.44,
+  "gl_spot_vs_average_pct": 0.005,
+  "gl_lines_by_status": {
+    "Posted": 60212,
+    "Accrued": 19788
+  },
+  "financials_actual_rows": 47822,
+  "budget_lines_without_posting": 19468,
+  "payroll_dept_months_posted": 2292,
+  "payroll_dept_months_total": 3360,
+  "budget_by_group": {
+    "Revenue": -116051346.77,
+    "COGS": 38440869.64,
+    "Operating Expense": 154702663.74
+  },
+  "forecast_by_group": {
+    "Revenue": -116012034.06,
+    "COGS": 38436600.58,
+    "Operating Expense": 154769898.61
+  },
+  "budget_total": 77092186.61,
+  "forecast_total": 77194465.13,
+  "actual_to_budget_monthly": {
+    "Revenue": {
+      "mean": 0.692,
+      "min": 0.512,
+      "max": 0.838
+    },
+    "COGS": {
+      "mean": 1.167,
+      "min": 0.886,
+      "max": 1.415
+    },
+    "Operating Expense": {
+      "mean": 0.671,
+      "min": 0.607,
+      "max": 0.737
+    }
+  },
+  "forecast_to_budget_monthly_total": {
+    "mean": 1.0013,
+    "min": 0.9679,
+    "max": 1.0271
+  },
+  "revenue_line_median_local": {
+    "AUD": -3720.83,
+    "CAD": -3616.43,
+    "EUR": -3593.35,
+    "GBP": -3615.86,
+    "SGD": -3725.39,
+    "USD": -3645.95
+  },
+  "entity_revenue_actual_to_budget": {
+    "E01": 0.54,
+    "E02": 0.964,
+    "E03": 0.746,
+    "E04": 0.552,
+    "E05": 0.815,
+    "E06": 0.536
+  },
+  "pl": {
+    "actual_FY25": {
+      "revenue": 17571510.52,
+      "cogs": 9842652.19,
+      "gross_profit": 7728858.33,
+      "opex": 21942435.76,
+      "operating_profit": -14213577.43,
+      "other_expense": 2029477.84,
+      "tax": 1722409.81,
+      "net_profit": -17965465.08
+    },
+    "actual_FY26": {
+      "revenue": 17323588.14,
+      "cogs": 9845919.29,
+      "gross_profit": 7477668.85,
+      "opex": 22398339.88,
+      "operating_profit": -14920671.03,
+      "other_expense": 2089523.77,
+      "tax": 1831762.38,
+      "net_profit": -18841957.18
+    },
+    "actual_FY27": {
+      "revenue": 2654938.14,
+      "cogs": 1511377.16,
+      "gross_profit": 1143560.98,
+      "opex": 3738841.51,
+      "operating_profit": -2595280.53,
+      "other_expense": 427568.43,
+      "tax": 290437.21,
+      "net_profit": -3313286.17
+    },
+    "budget_FY25": {
+      "revenue": 24994974.52,
+      "cogs": 8287125.37,
+      "gross_profit": 16707849.15,
+      "opex": 32942758.85,
+      "operating_profit": -16234909.7,
+      "other_expense": 0.0,
+      "tax": 0.0,
+      "net_profit": -16234909.7
+    },
+    "budget_FY26": {
+      "revenue": 24762895.94,
+      "cogs": 8282274.8,
+      "gross_profit": 16480621.14,
+      "opex": 33000382.37,
+      "operating_profit": -16519761.23,
+      "other_expense": 0.0,
+      "tax": 0.0,
+      "net_profit": -16519761.23
+    },
+    "budget_FY27": {
+      "revenue": 4015120.58,
+      "cogs": 1336546.28,
+      "gross_profit": 2678574.3,
+      "opex": 5477250.98,
+      "operating_profit": -2798676.68,
+      "other_expense": 0.0,
+      "tax": 0.0,
+      "net_profit": -2798676.68
+    },
+    "forecast_FY25": {
+      "revenue": 25039066.38,
+      "cogs": 8302212.32,
+      "gross_profit": 16736854.06,
+      "opex": 32919435.78,
+      "operating_profit": -16182581.72,
+      "other_expense": 0.0,
+      "tax": 0.0,
+      "net_profit": -16182581.72
+    },
+    "forecast_FY26": {
+      "revenue": 24704237.34,
+      "cogs": 8300222.33,
+      "gross_profit": 16404015.01,
+      "opex": 33029067.23,
+      "operating_profit": -16625052.22,
+      "other_expense": 0.0,
+      "tax": 0.0,
+      "net_profit": -16625052.22
+    },
+    "forecast_FY27": {
+      "revenue": 4017374.48,
+      "cogs": 1336511.89,
+      "gross_profit": 2680862.59,
+      "opex": 5485503.39,
+      "operating_profit": -2804640.8,
+      "other_expense": 0.0,
+      "tax": 0.0,
+      "net_profit": -2804640.8
+    }
+  },
+  "forecast_scenario_rows": {
+    "Base": 36315,
+    "Worst": 12159,
+    "Best": 12006
+  },
+  "forecast_keys_with_one_scenario": 60480,
+  "forecast_ratio_by_scenario_revenue": {
+    "Best": 0.9998,
+    "Base": 1.0006,
+    "Worst": 1.0012
+  },
+  "budget_line_cv_median": 0.57,
+  "budget_accounts": [
+    "4000",
+    "4010",
+    "4020",
+    "5000",
+    "5010",
+    "5100",
+    "6000",
+    "6010",
+    "6020",
+    "6030",
+    "6040",
+    "6050",
+    "6060",
+    "6070",
+    "6080",
+    "6090",
+    "6100",
+    "6110"
+  ],
+  "unbudgeted_accounts": [
+    "7000",
+    "7100",
+    "7200"
+  ],
+  "balance_sheet_accounts_without_postings": [
+    "1000",
+    "1100",
+    "1200",
+    "2000",
+    "2100"
+  ],
+  "gl_lines_with_customer": 10605,
+  "gl_lines_with_vendor": 37856,
+  "accrued_share_by_year": {
+    "2022": 0.246,
+    "2023": 0.241,
+    "2024": 0.252,
+    "2025": 0.246,
+    "2026": 0.253
+  },
+  "ar": {
+    "documents": 18000,
+    "amount": 179269015.43,
+    "status_open_n": 3174,
+    "status_open_amount": 32815841.53,
+    "status_consistent": 18000,
+    "partial_payments": 0,
+    "open_asof_n": 3943,
+    "open_asof_amount": 40197880.32,
+    "ageing_asof": {
+      "Current": 4765705.74,
+      "1-30": 2959683.3,
+      "31-60": 1691316.93,
+      "61-90": 933098.79,
+      "91-180": 2376607.35,
+      "181-365": 4472559.46,
+      "Over 365": 22998908.75
+    },
+    "ageing_asof_n": {
+      "Current": 476,
+      "1-30": 301,
+      "31-60": 201,
+      "61-90": 105,
+      "91-180": 210,
+      "181-365": 428,
+      "Over 365": 2222
+    },
+    "paid_by_asof_n": 14057,
+    "days_to_pay_weighted": 73.77,
+    "days_late_weighted": 36.52,
+    "terms_days": [
+      14,
+      30,
+      45,
+      60
+    ],
+    "issued_last_90d": 11512515.12,
+    "days_outstanding_90d": 314.25,
+    "never_paid_share_by_value": 0.1831,
+    "open_status_by_issue_year": {
+      "2023": 880,
+      "2024": 861,
+      "2025": 852,
+      "2026": 581
+    }
+  },
+  "ap": {
+    "documents": 12000,
+    "amount": 66703873.05,
+    "status_open_n": 1447,
+    "status_open_amount": 8161115.66,
+    "status_consistent": 12000,
+    "partial_payments": 0,
+    "open_asof_n": 1842,
+    "open_asof_amount": 10489853.64,
+    "ageing_asof": {
+      "Current": 1614971.13,
+      "1-30": 985584.97,
+      "31-60": 196760.78,
+      "61-90": 162424.09,
+      "91-180": 574653.06,
+      "181-365": 1256630.21,
+      "Over 365": 5698829.4
+    },
+    "ageing_asof_n": {
+      "Current": 273,
+      "1-30": 170,
+      "31-60": 41,
+      "61-90": 36,
+      "91-180": 100,
+      "181-365": 206,
+      "Over 365": 1016
+    },
+    "paid_by_asof_n": 10158,
+    "days_to_pay_weighted": 47.43,
+    "days_late_weighted": 17.84,
+    "terms_days": [
+      14,
+      30,
+      45
+    ],
+    "issued_last_90d": 4618310.96,
+    "days_outstanding_90d": 204.42,
+    "never_paid_share_by_value": 0.1223,
+    "open_status_by_issue_year": {
+      "2023": 366,
+      "2024": 398,
+      "2025": 422,
+      "2026": 261
+    }
+  },
+  "ar_invoicing_to_gl_revenue_2025": 2.87,
+  "cash_asof_by_entity": {
+    "E01": 4243804.64,
+    "E02": 3099705.32,
+    "E03": 6223981.48,
+    "E04": 6024563.49,
+    "E05": 2768494.21,
+    "E06": 3134179.57
+  },
+  "cash_asof_total": 25494728.71,
+  "cash_floor_days": 33,
+  "cash_negative_days": 0,
+  "cash_mean_abs_daily_move": 51444.0,
+  "security_users": 18,
+  "security_roles": {
+    "Department Manager": 10,
+    "Entity Manager": 6,
+    "Finance Director": 1,
+    "CFO": 1
+  }
+}

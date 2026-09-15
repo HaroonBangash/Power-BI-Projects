@@ -1,0 +1,1357 @@
+/// Holds every business measure. The single hidden column exists only because a table needs one.
+table _Measures
+	lineageTag: 283afbfa-5b8b-50c4-b17f-f412e7899754
+
+	/// Last day of the general ledger, read from ModelConfig. Every figure, balance and ageing is stated as of this date. Never TODAY().
+	measure 'As Of Date' =
+			VAR AsOfText =
+			    CALCULATE (
+			        SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			        REMOVEFILTERS ( ModelConfig ),
+			        ModelConfig[ConfigKey] = "AsOfDate"
+			    )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( AsOfText ),
+			        DATE ( VALUE ( LEFT ( AsOfText, 4 ) ), VALUE ( MID ( AsOfText, 6, 2 ) ), VALUE ( RIGHT ( AsOfText, 2 ) ) )
+			    )
+		formatString: yyyy-mm-dd
+		displayFolder: 01 Model Controls
+		lineageTag: 14fbeae8-fc38-580c-a94e-219ca2f266d8
+
+	/// Group reporting currency (AUD). The ledger is translated at monthly average rates; everything else is supplied in it.
+	measure 'Reporting Currency' =
+			CALCULATE (
+			    SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			    REMOVEFILTERS ( ModelConfig ),
+			    ModelConfig[ConfigKey] = "ReportingCurrency"
+			)
+		displayFolder: 01 Model Controls
+		lineageTag: a7a32153-d8d2-51d2-8331-43e72f19d860
+
+	/// The date every balance is stated on: the last day in the current filter context, capped at the as-of date. With FY26 selected it is 30 Jun 2026; with no date filter, the as-of date. BLANK for a period that starts after the as-of date, so a balance never runs flat into months that have no data.
+	measure 'Balance Date' =
+			VAR LastInContext = MAX ( DimDate[Date] )
+			VAR FirstInContext = MIN ( DimDate[Date] )
+			VAR AsOf = [As Of Date]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( LastInContext ), AsOf,
+			        FirstInContext > AsOf, BLANK (),
+			        MIN ( LastInContext, AsOf )
+			    )
+		formatString: yyyy-mm-dd
+		displayFolder: 01 Model Controls
+		lineageTag: f13c73b8-4d15-5996-8ee2-c4eadb2f667c
+
+	/// Whole months between the as-of date and the end of the financial year it falls in: the months the outlook has to project.
+	measure 'Months Remaining in FY' =
+			VAR AsOf = [As Of Date]
+			VAR FinancialYearEnd = DATE ( YEAR ( AsOf ) + IF ( MONTH ( AsOf ) >= 7, 1, 0 ), 6, 30 )
+			RETURN
+			    DATEDIFF ( AsOf, FinancialYearEnd, MONTH )
+		formatString: #,0
+		displayFolder: 01 Model Controls
+		lineageTag: ec55c016-5f41-521a-9872-73cd05606dcc
+
+	/// The one-line context every page carries: as-of date, period in view, currency and basis.
+	measure 'Report Context' =
+			VAR AsOf = [As Of Date]
+			VAR PeriodLabel =
+			    IF (
+			        ISFILTERED ( DimDate[FinancialYear] ),
+			        CONCATENATEX ( VALUES ( DimDate[FinancialYear] ), DimDate[FinancialYear], ", ", DimDate[FinancialYear] ),
+			        "FY22 to FY27"
+			    )
+			RETURN
+			    "As of " & FORMAT ( AsOf, "d mmm yyyy" ) & "   |   " & PeriodLabel & "   |   " & [Reporting Currency]
+			        & " at monthly average rates   |   Synthetic data"
+		displayFolder: 01 Model Controls
+		lineageTag: 4179aa11-f776-5eb1-b55c-1abe72dca96c
+
+	/// Financial year or years in the current filter context, for page titles.
+	measure 'Selected Financial Year' =
+			IF (
+			    ISFILTERED ( DimDate[FinancialYear] ),
+			    CONCATENATEX ( VALUES ( DimDate[FinancialYear] ), DimDate[FinancialYear], ", ", DimDate[FinancialYear] ),
+			    "All financial years"
+			)
+		displayFolder: 01 Model Controls
+		lineageTag: 1c04afda-e984-5b5c-ac80-e77a76c1fda5
+
+	/// Ledger-sign amount (debit +, credit -) for the version in context. With no version filter it is the ACTUAL: versions are never summed. Every income-statement measure builds on this one.
+	measure 'PL Ledger Amount' =
+			IF (
+			    ISFILTERED ( FactFinancials[VersionID] ),
+			    SUM ( FactFinancials[AmountAUD] ),
+			    CALCULATE ( SUM ( FactFinancials[AmountAUD] ), FactFinancials[VersionID] = "ACT" )
+			)
+		formatString: \$#,0.00
+		isHidden
+		displayFolder: 02 Income Statement
+		lineageTag: 0e530fd6-70d3-5f41-9548-2bcfe0eae21e
+
+	/// TRUE when the context is the actuals - no version filter, or exactly ACT. Below-the-line measures use it to stay blank under Budget and Forecast, which do not carry those accounts.
+	measure 'Is Actual Version' =
+			VAR VersionsInFilter = FILTERS ( FactFinancials[VersionID] )
+			RETURN
+			    NOT ISFILTERED ( FactFinancials[VersionID] )
+			        || ( COUNTROWS ( VersionsInFilter ) = 1 && "ACT" IN VersionsInFilter )
+		isHidden
+		displayFolder: 02 Income Statement
+		lineageTag: 167869df-3346-5386-a0a6-8d6f71bade36
+
+	/// Revenue accounts (4000-4020), presented positive. Credits in the ledger, so the ledger sum is negated.
+	measure Revenue = - CALCULATE ( [PL Ledger Amount], KEEPFILTERS ( DimAccount[AccountGroup] = "Revenue" ) )
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 164b842f-629b-5274-8f16-9d613c9a0102
+
+	/// Cost of goods sold (5000-5100), presented positive.
+	measure COGS = CALCULATE ( [PL Ledger Amount], KEEPFILTERS ( DimAccount[AccountGroup] = "COGS" ) )
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: f8d1605b-eb3c-5c05-9e79-81b6d369cdd8
+
+	/// Revenue less cost of goods sold.
+	measure 'Gross Profit' = [Revenue] - [COGS]
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: f4213641-b15c-5c22-bc5d-13f6e89a4e6d
+
+	/// Gross profit as a share of revenue. Currency-neutral: translation moves revenue and COGS by the same rate, so entities can be compared on it (PROJECT_STATE D12).
+	measure 'Gross Margin %' = DIVIDE ( [Gross Profit], [Revenue] )
+		formatString: 0.0%
+		displayFolder: 02 Income Statement
+		lineageTag: ec958224-cb6f-5d59-adca-0ac9c3ac27ea
+
+	/// Operating expense accounts (6000-6110), presented positive.
+	measure 'Operating Expense' = CALCULATE ( [PL Ledger Amount], KEEPFILTERS ( DimAccount[AccountGroup] = "Operating Expense" ) )
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 069a0914-fce3-5934-9b18-249df23895cc
+
+	/// Gross profit less operating expense: the last line the budget covers, and so the last line with a variance.
+	measure 'Operating Profit' = [Gross Profit] - [Operating Expense]
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 8f3d4d77-38e8-5bd0-b435-72a8eea0f941
+
+	/// Operating profit as a share of revenue.
+	measure 'Operating Margin %' = DIVIDE ( [Operating Profit], [Revenue] )
+		formatString: 0.0%
+		displayFolder: 02 Income Statement
+		lineageTag: 52771a0e-11ee-5743-babb-c0210c70df68
+
+	/// Interest and FX gain or loss, net (7000, 7100). Actuals only - unbudgeted, so never shown as a variance.
+	measure 'Other Expense (Net)' =
+			IF (
+			    [Is Actual Version],
+			    CALCULATE ( [PL Ledger Amount], KEEPFILTERS ( DimAccount[AccountGroup] = "Other Expense" ) )
+			)
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: b77bd608-ffbe-544f-a685-8937c148f38b
+
+	/// Tax expense (7200). Actuals only - unbudgeted.
+	measure 'Tax Expense' =
+			IF (
+			    [Is Actual Version],
+			    CALCULATE ( [PL Ledger Amount], KEEPFILTERS ( DimAccount[AccountGroup] = "Tax" ) )
+			)
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 62b9bfa6-b8b1-5776-872d-1fa4bf4d073b
+
+	/// Operating profit less other expense and tax. Actuals only: a budget net profit would silently equal the budget operating profit, because the plan has no below-the-line lines.
+	measure 'Net Profit' = IF ( [Is Actual Version], [Operating Profit] - [Other Expense (Net)] - [Tax Expense] )
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 7a0a6a6a-52ea-5156-a7c4-9aad6c82d107
+
+	/// Net profit as a share of revenue.
+	measure 'Net Margin %' = DIVIDE ( [Net Profit], [Revenue] )
+		formatString: 0.0%
+		displayFolder: 02 Income Statement
+		lineageTag: 4a51fe69-8afa-5519-a049-ed47473b769e
+
+	/// Cost of goods sold as a share of revenue; currency-neutral.
+	measure 'COGS % of Revenue' = DIVIDE ( [COGS], [Revenue] )
+		formatString: 0.0%
+		displayFolder: 02 Income Statement
+		lineageTag: 4f32edcc-bdfe-5992-93a4-434b2384ea05
+
+	/// Operating expense as a share of revenue; currency-neutral, so it compares entities without the exchange-rate level distorting them.
+	measure 'Opex % of Revenue' = DIVIDE ( [Operating Expense], [Revenue] )
+		formatString: 0.0%
+		displayFolder: 02 Income Statement
+		lineageTag: 64252150-a222-5c17-a9bc-ac3358745ad7
+
+	/// The value of the income-statement line in context (DimPLLine): groups, subtotals and margins in one measure, so the statement reads as a statement. Ratio lines are formatted as percentages by the calculation group.
+	measure 'P&L Line Value' =
+			SWITCH (
+			    SELECTEDVALUE ( DimPLLine[LineKey] ),
+			    1, [Revenue],
+			    2, [COGS],
+			    3, [Gross Profit],
+			    4, [Gross Margin %],
+			    5, [Operating Expense],
+			    6, [Operating Profit],
+			    7, [Operating Margin %],
+			    8, [Other Expense (Net)],
+			    9, [Tax Expense],
+			    10, [Net Profit],
+			    11, [Net Margin %]
+			)
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 1d246ed9-6c80-5c55-bb5e-602fe5b3c8ac
+
+	/// The statement line as a CONTRIBUTION to profit: revenue positive, every cost negative, so a waterfall of the group lines nets exactly to net profit. Use it only with DimPLLine filtered to the group lines.
+	measure 'P&L Bridge Amount' =
+			VAR ContributionSign = SELECTEDVALUE ( DimPLLine[FavourableSign] )
+			RETURN
+			    IF ( NOT ISBLANK ( ContributionSign ), [P&L Line Value] * ContributionSign )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 02 Income Statement
+		lineageTag: 60efc8c5-fef3-5e09-8f35-1733ab1af65d
+
+	/// Account-level amount in its natural sign: revenue positive because it is income, costs positive because they are costs. Use it for account detail; a grand total that mixes both is meaningless by construction.
+	measure 'Account Amount' =
+			SUMX (
+			    VALUES ( DimAccount[NaturalSign] ),
+			    CALCULATE ( [PL Ledger Amount] ) * DimAccount[NaturalSign]
+			)
+		formatString: \$#,0
+		displayFolder: 02 Income Statement
+		lineageTag: 44c6ba4c-d54a-5332-8861-3b770d25456d
+
+	/// Revenue, actuals explicitly - for charts that show versions side by side.
+	measure 'Revenue Actual' = CALCULATE ( [Revenue], FactFinancials[VersionID] = "ACT" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 49b696f0-663d-50cd-b8d3-f23a43abd3a4
+
+	/// Revenue, budget version.
+	measure 'Revenue Budget' = CALCULATE ( [Revenue], FactFinancials[VersionID] = "BUD" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 94f11eaf-86fe-5a52-8e08-ee6fa843bcbe
+
+	/// Revenue, forecast version (one version: the source Scenario label is not a scenario).
+	measure 'Revenue Forecast' = CALCULATE ( [Revenue], FactFinancials[VersionID] = "FC" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 7bb5b1af-b50f-56aa-be39-d3c7fde699ea
+
+	/// Actual less budget revenue. Positive is favourable. Blank where there is no budget line.
+	measure 'Revenue vs Budget' =
+			VAR Plan = [Revenue Budget]
+			RETURN
+			    IF ( NOT ISBLANK ( Plan ), [Revenue Actual] - Plan )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: b496bb35-8219-5e90-bb01-7792ad14aa26
+
+	/// Revenue variance as a share of budget.
+	measure 'Revenue vs Budget %' = DIVIDE ( [Revenue vs Budget], [Revenue Budget] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 61b1dfb3-7388-58b8-aeac-5d043c09a028
+
+	/// Actual revenue as a share of budget. Structurally about 69% in every month of the data - a plan-calibration finding, not monthly news (PROJECT_STATE D11).
+	measure 'Revenue Achievement %' = DIVIDE ( [Revenue Actual], [Revenue Budget] )
+		formatString: 0.0%
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 3cbd769e-72b6-56df-8f7e-e647dbfb702f
+
+	/// Cost of goods sold, budget version.
+	measure 'COGS Budget' = CALCULATE ( [COGS], FactFinancials[VersionID] = "BUD" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 52986942-ad00-539b-a7c4-dc8c7ea5d660
+
+	/// Gross profit, budget version.
+	measure 'Gross Profit Budget' = CALCULATE ( [Gross Profit], FactFinancials[VersionID] = "BUD" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: f0c845e7-456b-5d35-b919-5cb497228ff6
+
+	/// Gross margin, budget version.
+	measure 'Gross Margin % Budget' = CALCULATE ( [Gross Margin %], FactFinancials[VersionID] = "BUD" )
+		formatString: 0.0%
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 49009160-70c9-5d5b-9072-1ca13f962f9a
+
+	/// Operating expense, actuals explicitly.
+	measure 'Operating Expense Actual' = CALCULATE ( [Operating Expense], FactFinancials[VersionID] = "ACT" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 378e0188-af20-55f9-8346-7bb0c2a896f5
+
+	/// Operating expense, budget version.
+	measure 'Operating Expense Budget' = CALCULATE ( [Operating Expense], FactFinancials[VersionID] = "BUD" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 3b671e21-d15e-5d9d-a6c6-7b1c7cda7812
+
+	/// Operating expense, forecast version.
+	measure 'Operating Expense Forecast' = CALCULATE ( [Operating Expense], FactFinancials[VersionID] = "FC" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: c11bb19d-f401-53af-9800-5ac76b59735b
+
+	/// Budget less actual operating expense: an UNDERSPEND is positive, because for a cost that is the favourable direction.
+	measure 'Operating Expense vs Budget' =
+			VAR Plan = [Operating Expense Budget]
+			RETURN
+			    IF ( NOT ISBLANK ( Plan ), Plan - [Operating Expense Actual] )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 730ff0c4-e99c-5247-8d07-6a733298139f
+
+	/// Operating-expense underspend as a share of budget. Positive is favourable.
+	measure 'Operating Expense vs Budget %' = DIVIDE ( [Operating Expense vs Budget], [Operating Expense Budget] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 2b07047e-b465-50e2-b081-b75bd55a7a7b
+
+	/// Operating profit, actuals explicitly.
+	measure 'Operating Profit Actual' = CALCULATE ( [Operating Profit], FactFinancials[VersionID] = "ACT" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: f9f24c8c-1d4e-5081-a422-acfd27a86d73
+
+	/// Operating profit, budget version.
+	measure 'Operating Profit Budget' = CALCULATE ( [Operating Profit], FactFinancials[VersionID] = "BUD" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 45117c6c-7a8a-513b-840c-068623dc579e
+
+	/// Operating profit, forecast version.
+	measure 'Operating Profit Forecast' = CALCULATE ( [Operating Profit], FactFinancials[VersionID] = "FC" )
+		formatString: \$#,0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: ac14093a-afe8-5143-9093-23720d53dad7
+
+	/// Actual less budget operating profit. Positive is favourable - a smaller loss counts as favourable.
+	measure 'Operating Profit vs Budget' =
+			VAR Plan = [Operating Profit Budget]
+			RETURN
+			    IF ( NOT ISBLANK ( Plan ), [Operating Profit Actual] - Plan )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 03 Plan vs Actual
+		lineageTag: cbbb434a-1f6e-5843-a474-501b03398d9b
+
+	/// How far the forecast departs from the budget. It barely does: the forecast tracks the plan, not the actuals (audit finding 8).
+	measure 'Forecast vs Budget % (Revenue)' = DIVIDE ( [Revenue Forecast] - [Revenue Budget], [Revenue Budget] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 1bad644d-a59b-57df-b0a4-abcb96f9fa6d
+
+	/// Actual less forecast revenue, as a share of forecast: how wrong the forecast was.
+	measure 'Revenue Forecast Error %' = DIVIDE ( [Revenue Actual] - [Revenue Forecast], [Revenue Forecast] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 07f6be5a-2d12-53d7-93ce-efaa47db0190
+
+	/// This month's revenue variance against the previous twelve months of the same variance, in standard deviations. The gap to plan is structural, so only a SHIFT in it is news; needs at least six comparable months.
+	measure 'Revenue vs Budget Z-Score' =
+			VAR CurrentMonth = MAX ( DimDate[MonthStart] )
+			VAR MonthsInContext = DISTINCTCOUNT ( DimDate[MonthStart] )
+			VAR CurrentValue = [Revenue vs Budget %]
+			VAR History =
+			    ADDCOLUMNS (
+			        CALCULATETABLE (
+			            VALUES ( DimDate[MonthStart] ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[MonthStart] < CurrentMonth,
+			            DimDate[MonthStart] >= EDATE ( CurrentMonth, -12 )
+			        ),
+			        "@Variance",
+			            VAR PriorMonth = DimDate[MonthStart]
+			            RETURN CALCULATE ( [Revenue vs Budget %], REMOVEFILTERS ( DimDate ), DimDate[MonthStart] = PriorMonth )
+			    )
+			VAR Usable = FILTER ( History, NOT ISBLANK ( [@Variance] ) )
+			VAR Centre = AVERAGEX ( Usable, [@Variance] )
+			VAR Spread = STDEVX.S ( Usable, [@Variance] )
+			RETURN
+			    IF (
+			        MonthsInContext = 1 && COUNTROWS ( Usable ) >= 6 && NOT ISBLANK ( CurrentValue ) && Spread > 0,
+			        DIVIDE ( CurrentValue - Centre, Spread )
+			    )
+		formatString: #,0.00
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 2c805e80-c564-54c7-a3e1-8150f8071b45
+
+	/// This month's operating-expense variance against its own previous twelve months, in standard deviations. Positive means a larger underspend than usual.
+	measure 'Opex vs Budget Z-Score' =
+			VAR CurrentMonth = MAX ( DimDate[MonthStart] )
+			VAR MonthsInContext = DISTINCTCOUNT ( DimDate[MonthStart] )
+			VAR CurrentValue = [Operating Expense vs Budget %]
+			VAR History =
+			    ADDCOLUMNS (
+			        CALCULATETABLE (
+			            VALUES ( DimDate[MonthStart] ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[MonthStart] < CurrentMonth,
+			            DimDate[MonthStart] >= EDATE ( CurrentMonth, -12 )
+			        ),
+			        "@Variance",
+			            VAR PriorMonth = DimDate[MonthStart]
+			            RETURN CALCULATE ( [Operating Expense vs Budget %], REMOVEFILTERS ( DimDate ), DimDate[MonthStart] = PriorMonth )
+			    )
+			VAR Usable = FILTER ( History, NOT ISBLANK ( [@Variance] ) )
+			VAR Centre = AVERAGEX ( Usable, [@Variance] )
+			VAR Spread = STDEVX.S ( Usable, [@Variance] )
+			RETURN
+			    IF (
+			        MonthsInContext = 1 && COUNTROWS ( Usable ) >= 6 && NOT ISBLANK ( CurrentValue ) && Spread > 0,
+			        DIVIDE ( CurrentValue - Centre, Spread )
+			    )
+		formatString: #,0.00
+		displayFolder: 03 Plan vs Actual
+		lineageTag: 15fce086-a480-5da1-bc48-aa2e8f6115ec
+
+	/// Revenue in the same window one year earlier, like for like: the window ends at the balance date, so a part-year is never compared with a full one.
+	measure 'Revenue Prior Year' =
+			VAR FirstActualMonth =
+			    CALCULATE ( MIN ( FactFinancials[MonthStart] ), REMOVEFILTERS (), FactFinancials[VersionID] = "ACT" )
+			VAR StartDate = MIN ( DimDate[Date] )
+			VAR EndDate = [Balance Date]
+			RETURN
+			    IF (
+			        EDATE ( StartDate, -12 ) >= FirstActualMonth,
+			        CALCULATE ( [Revenue], DATESBETWEEN ( DimDate[Date], EDATE ( StartDate, -12 ), EDATE ( EndDate, -12 ) ) )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: 207689a9-3c8e-5aca-8c6c-5c1561817140
+
+	/// Revenue growth against the same window last year.
+	measure 'Revenue YoY %' = DIVIDE ( [Revenue] - [Revenue Prior Year], [Revenue Prior Year] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Time Comparison
+		lineageTag: 75209dc8-635a-51f1-b750-9f050398e90a
+
+	/// Operating expense in the same window one year earlier.
+	measure 'Operating Expense Prior Year' =
+			VAR FirstActualMonth =
+			    CALCULATE ( MIN ( FactFinancials[MonthStart] ), REMOVEFILTERS (), FactFinancials[VersionID] = "ACT" )
+			VAR StartDate = MIN ( DimDate[Date] )
+			VAR EndDate = [Balance Date]
+			RETURN
+			    IF (
+			        EDATE ( StartDate, -12 ) >= FirstActualMonth,
+			        CALCULATE ( [Operating Expense], DATESBETWEEN ( DimDate[Date], EDATE ( StartDate, -12 ), EDATE ( EndDate, -12 ) ) )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: 369bb888-c196-5c12-adc5-6c29db932a8b
+
+	/// Operating-expense change against the same window last year.
+	measure 'Operating Expense YoY %' = DIVIDE ( [Operating Expense] - [Operating Expense Prior Year], [Operating Expense Prior Year] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Time Comparison
+		lineageTag: 2bcfae1f-a64a-5012-91d5-23b4d2fa7636
+
+	/// Operating profit in the same window one year earlier.
+	measure 'Operating Profit Prior Year' =
+			VAR FirstActualMonth =
+			    CALCULATE ( MIN ( FactFinancials[MonthStart] ), REMOVEFILTERS (), FactFinancials[VersionID] = "ACT" )
+			VAR StartDate = MIN ( DimDate[Date] )
+			VAR EndDate = [Balance Date]
+			RETURN
+			    IF (
+			        EDATE ( StartDate, -12 ) >= FirstActualMonth,
+			        CALCULATE ( [Operating Profit], DATESBETWEEN ( DimDate[Date], EDATE ( StartDate, -12 ), EDATE ( EndDate, -12 ) ) )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: 7dc86488-a5c5-5198-bf75-6c2e3830fd92
+
+	/// Revenue from 1 July to the balance date, through the Period View calculation group.
+	measure 'Revenue FYTD' = CALCULATE ( [Revenue], 'Period View'[Period] = "Year to date" )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: 3c911a48-0e56-56a0-aa23-f83bf28e2c93
+
+	/// The same financial-year-to-date window, one year earlier.
+	measure 'Revenue Prior FYTD' = CALCULATE ( [Revenue], 'Period View'[Period] = "Prior year to date" )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: b04fcda9-5ecf-555f-be38-d068754c220e
+
+	/// Year-to-date revenue growth, like for like.
+	measure 'Revenue FYTD YoY %' = DIVIDE ( [Revenue FYTD] - [Revenue Prior FYTD], [Revenue Prior FYTD] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Time Comparison
+		lineageTag: 28e92da8-2bd4-52e3-81ad-eb67e76b5151
+
+	/// Revenue over the twelve complete months ending on the as-of date. A FIXED window, so it reads the same whatever period is selected: use it on a card, never on a date axis.
+	measure 'Revenue TTM' = CALCULATE ( [Revenue], REMOVEFILTERS ( DimDate ), DimDate[MonthOffset] >= -11, DimDate[MonthOffset] <= 0 )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: d7e03c85-0418-52fb-8f5c-cd37253f6ea7
+
+	/// Operating expense over the twelve complete months ending on the as-of date. Card-only, like Revenue TTM.
+	measure 'Operating Expense TTM' = CALCULATE ( [Operating Expense], REMOVEFILTERS ( DimDate ), DimDate[MonthOffset] >= -11, DimDate[MonthOffset] <= 0 )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: 2212d660-69fe-5aa1-bdd3-fe9aecec62fb
+
+	/// Operating profit over the twelve complete months ending on the as-of date. Card-only, like Revenue TTM.
+	measure 'Operating Profit TTM' = CALCULATE ( [Operating Profit], REMOVEFILTERS ( DimDate ), DimDate[MonthOffset] >= -11, DimDate[MonthOffset] <= 0 )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: e40f6548-82aa-520c-a27b-4b65ec04cfa3
+
+	/// Operating profit from 1 July to the balance date.
+	measure 'Operating Profit FYTD' = CALCULATE ( [Operating Profit], 'Period View'[Period] = "Year to date" )
+		formatString: \$#,0
+		displayFolder: 04 Time Comparison
+		lineageTag: 2907cb31-156b-5fc1-94f7-b0957c4064a7
+
+	/// Actual revenue retranslated at last year's monthly average rates. The difference from Revenue is exchange rate, not trading. BLANK unless every actual row in context has a prior-year rate: FY22 has none and FY23 only half, so a constant-currency growth rate there would be arithmetic on a partial year.
+	measure 'Revenue at Prior-Year Rates' =
+			VAR MissingPriorYearRate =
+			    CALCULATE (
+			        COUNTROWS ( FactFinancials ),
+			        FactFinancials[VersionID] = "ACT",
+			        KEEPFILTERS ( DimAccount[AccountGroup] = "Revenue" ),
+			        ISBLANK ( FactFinancials[AmountAUDAtPYRate] )
+			    )
+			RETURN
+			    IF (
+			        ISBLANK ( MissingPriorYearRate ),
+			        - CALCULATE (
+			            SUM ( FactFinancials[AmountAUDAtPYRate] ),
+			            FactFinancials[VersionID] = "ACT",
+			            KEEPFILTERS ( DimAccount[AccountGroup] = "Revenue" )
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 4cde3c20-6136-582a-a887-2138cd0c392c
+
+	/// Revenue growth with the exchange rate held at last year's: the organic part of the move.
+	measure 'Revenue YoY % (Constant Currency)' =
+			VAR ConstantCurrency = [Revenue at Prior-Year Rates]
+			VAR PriorYear = [Revenue Prior Year]
+			RETURN
+			    IF ( NOT ISBLANK ( ConstantCurrency ) && NOT ISBLANK ( PriorYear ), DIVIDE ( ConstantCurrency - PriorYear, PriorYear ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 65807354-3136-57c7-9df8-d5baa5123326
+
+	/// Revenue less revenue at prior-year rates: how much of the reported figure is the exchange rate.
+	measure 'FX Translation Effect (Revenue)' =
+			VAR ConstantCurrency = [Revenue at Prior-Year Rates]
+			RETURN
+			    IF ( NOT ISBLANK ( ConstantCurrency ), [Revenue] - ConstantCurrency )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 43bb3ea3-7e5a-5fb3-a39e-8222c97043dd
+
+	/// Percentage points of revenue growth explained by the exchange rate: reported growth less constant-currency growth.
+	measure 'FX Effect on Revenue Growth (pp)' =
+			VAR Reported = [Revenue YoY %]
+			VAR ConstantCurrency = [Revenue YoY % (Constant Currency)]
+			RETURN
+			    IF ( NOT ISBLANK ( Reported ) && NOT ISBLANK ( ConstantCurrency ), ( Reported - ConstantCurrency ) * 100 )
+		formatString: +0.0 pp;-0.0 pp;0.0 pp
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 805a30c7-d66e-53ba-97f7-27d0f6e3f6d4
+
+	/// Actual operating profit retranslated at last year's monthly average rates.
+	measure 'Operating Profit at Prior-Year Rates' =
+			VAR MissingPriorYearRate =
+			    CALCULATE (
+			        COUNTROWS ( FactFinancials ),
+			        FactFinancials[VersionID] = "ACT",
+			        KEEPFILTERS ( DimAccount[IsOperating] = TRUE () ),
+			        ISBLANK ( FactFinancials[AmountAUDAtPYRate] )
+			    )
+			RETURN
+			    IF (
+			        ISBLANK ( MissingPriorYearRate ),
+			        - CALCULATE (
+			            SUM ( FactFinancials[AmountAUDAtPYRate] ),
+			            FactFinancials[VersionID] = "ACT",
+			            KEEPFILTERS ( DimAccount[IsOperating] = TRUE () )
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 2118c0d0-0d97-567f-8805-140fe248a70d
+
+	/// Operating profit less operating profit at prior-year rates.
+	measure 'FX Translation Effect (Operating Profit)' =
+			VAR ConstantCurrency = [Operating Profit at Prior-Year Rates]
+			RETURN
+			    IF ( NOT ISBLANK ( ConstantCurrency ), [Operating Profit] - ConstantCurrency )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 0eb0646d-e062-550b-b2ae-6b817fd2772b
+
+	/// AUD per unit of the currency in context, averaged over the months in view - the rate the ledger was translated at.
+	measure 'Average FX Rate' = AVERAGE ( FxRateMonthly[AvgAUDPerUnit] )
+		formatString: 0.0000
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 76b4f0f0-687e-59a5-b5f4-5abeef889041
+
+	/// Change in the average rate against twelve months earlier.
+	measure 'FX Rate YoY %' =
+			VAR PriorRate = CALCULATE ( [Average FX Rate], DATEADD ( DimDate[Date], -12, MONTH ) )
+			RETURN
+			    DIVIDE ( [Average FX Rate] - PriorRate, PriorRate )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 98f78a54-7c66-5d53-a8a5-88b417b21943
+
+	/// Average absolute day-on-day move in the supplied rates: about 1.7%, several times a real G10 currency, which is why the ledger is translated at monthly averages (audit finding 6).
+	measure 'FX Mean Daily Move %' = DIVIDE ( AVERAGE ( FxRateMonthly[MeanAbsDailyMovePct] ), 100 )
+		formatString: 0.00%
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 9cc9d67a-3fc4-5975-b298-d31f088cca64
+
+	/// Share of revenue booked by entities that do not report in AUD - the group's translation exposure.
+	measure 'Foreign-Currency Revenue Share' =
+			DIVIDE (
+			    CALCULATE ( [Revenue], KEEPFILTERS ( DimEntity[CurrencyRole] = "Foreign currency" ) ),
+			    [Revenue]
+			)
+		formatString: 0.0%
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: 4177547b-7b80-51ec-888a-9d2f867967e4
+
+	/// What the ledger would total if every line were translated at its own day's rate instead of the month average. The gap is under 0.01% of the total - the reason the choice is safe as well as standard.
+	measure 'Spot vs Average Translation Difference' = SUM ( FactGL[AmountAUDSpot] ) - SUM ( FactGL[AmountAUD] )
+		formatString: \$#,0
+		displayFolder: 05 FX & Constant Currency
+		lineageTag: a1cc6ac6-26ec-5237-8acb-f0d827adfb17
+
+	/// Ledger-sign sum of the translated general-ledger lines: revenue negative, costs positive.
+	measure 'GL Amount (AUD)' = SUM ( FactGL[AmountAUD] )
+		formatString: \$#,0.00
+		displayFolder: 06 Ledger Detail
+		lineageTag: 70f1d645-324c-5e1f-ae65-cd6b0affb37b
+
+	/// Number of general-ledger lines.
+	measure 'GL Lines' = COUNTROWS ( FactGL )
+		formatString: #,0
+		displayFolder: 06 Ledger Detail
+		lineageTag: baccc8a0-56f9-507f-ac4d-769d888c2b1b
+
+	/// Share of ledger lines still marked Accrued. About a quarter in every year, including 2022: accruals are never reversed in this source (audit finding 12).
+	measure 'Accrued Share of Lines' = DIVIDE ( CALCULATE ( COUNTROWS ( FactGL ), FactGL[PostingStatus] = "Accrued" ), COUNTROWS ( FactGL ) )
+		formatString: 0.0%
+		displayFolder: 06 Ledger Detail
+		lineageTag: 53202b4d-7873-5716-8d64-096f0b9e4858
+
+	/// Cost lines that name a vendor, presented positive.
+	measure 'Vendor Spend (AUD)' = CALCULATE ( SUM ( FactGL[AmountAUD] ), FactGL[VendorID] <> "V-NONE" )
+		formatString: \$#,0
+		displayFolder: 06 Ledger Detail
+		lineageTag: 14a7ba86-7eae-59c4-812b-150dd8412b3f
+
+	/// Revenue lines that name a customer, presented positive.
+	measure 'Customer Revenue (AUD)' = - CALCULATE ( SUM ( FactGL[AmountAUD] ), KEEPFILTERS ( DimAccount[IsIncome] = TRUE () ) )
+		formatString: \$#,0
+		displayFolder: 06 Ledger Detail
+		lineageTag: e7ab9fb8-e940-59f2-9c73-271894326adb
+
+	/// Vendors with at least one ledger line in context.
+	measure 'Active Vendors' = CALCULATE ( DISTINCTCOUNT ( FactGL[VendorID] ), FactGL[VendorID] <> "V-NONE" )
+		formatString: #,0
+		displayFolder: 06 Ledger Detail
+		lineageTag: 33baacac-6ec1-56c5-98ae-673f69444703
+
+	/// Customers with at least one ledger line in context.
+	measure 'Active Customers' = CALCULATE ( DISTINCTCOUNT ( FactGL[CustomerID] ), FactGL[CustomerID] <> "C-NONE" )
+		formatString: #,0
+		displayFolder: 06 Ledger Detail
+		lineageTag: eec1e41b-b525-5534-96d2-fa1779ccb8f8
+
+	/// Receivables outstanding on the balance date: invoices issued by it and not paid by it. Computed from dates, so a receipt banked afterwards does not retrospectively close the balance.
+	measure 'AR Balance' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactARInvoice[InvoiceAmountAUD] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactARInvoice[InvoiceDate] <= EndDate,
+			        FILTER ( ALL ( FactARInvoice[PaidDate] ), ISBLANK ( FactARInvoice[PaidDate] ) || FactARInvoice[PaidDate] > EndDate )
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 2ee3fb87-888f-50a0-841b-3d76c1b917d4
+
+	/// Number of invoices outstanding on the balance date.
+	measure 'AR Open Invoices' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( FactARInvoice ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactARInvoice[InvoiceDate] <= EndDate,
+			        FILTER ( ALL ( FactARInvoice[PaidDate] ), ISBLANK ( FactARInvoice[PaidDate] ) || FactARInvoice[PaidDate] > EndDate )
+			    )
+		formatString: #,0
+		displayFolder: 07 Working Capital
+		lineageTag: 6f6f97f7-a8b8-5cbe-bda5-81a4074ed26d
+
+	/// Outstanding receivables whose due date has passed on the balance date.
+	measure 'AR Past Due' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE ( [AR Balance], FILTER ( ALL ( FactARInvoice[DueDate] ), FactARInvoice[DueDate] < EndDate ) )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 8947294f-9e14-55f6-864b-12593036ba74
+
+	/// Share of the receivables balance that is past due.
+	measure 'AR Past Due %' = DIVIDE ( [AR Past Due], [AR Balance] )
+		formatString: 0.0%
+		displayFolder: 07 Working Capital
+		lineageTag: 82b45184-0bf5-5b86-a65a-e0efb03a6e68
+
+	/// Share of the receivables balance more than 90 days past due.
+	measure 'AR Over 90 Days %' =
+			VAR EndDate = [Balance Date]
+			VAR Aged =
+			    CALCULATE ( [AR Balance], FILTER ( ALL ( FactARInvoice[DueDate] ), FactARInvoice[DueDate] < EndDate - 90 ) )
+			RETURN
+			    DIVIDE ( Aged, [AR Balance] )
+		formatString: 0.0%
+		displayFolder: 07 Working Capital
+		lineageTag: b158d182-2a43-51b5-bca8-551b3fa9a866
+
+	/// Receivables more than a year past due. Nothing is ever written off in this source, so this stock only grows (audit finding 13).
+	measure 'AR Over 365 Days' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE ( [AR Balance], FILTER ( ALL ( FactARInvoice[DueDate] ), FactARInvoice[DueDate] < EndDate - 365 ) )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: b6778531-5334-575c-a709-957670a41c50
+
+	/// Receivables balance in the ageing bucket in context, aged AS OF the balance date - not a stored bucket, so the ageing is correct for any period the user picks.
+	measure 'AR Ageing Amount' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    SUMX (
+			        VALUES ( DimAgeingBucket[BucketOrder] ),
+			        VAR LowerDays = CALCULATE ( MIN ( DimAgeingBucket[MinDaysPastDue] ) )
+			        VAR UpperDays = CALCULATE ( MAX ( DimAgeingBucket[MaxDaysPastDue] ) )
+			        RETURN
+			            CALCULATE (
+			                [AR Balance],
+			                FILTER (
+			                    ALL ( FactARInvoice[DueDate] ),
+			                    FactARInvoice[DueDate] >= EndDate - UpperDays && FactARInvoice[DueDate] <= EndDate - LowerDays
+			                )
+			            )
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 5f7f621d-1a66-50e8-9c00-263e9c8cc57b
+
+	/// Value invoiced to customers in the period (by invoice date).
+	measure 'AR Invoiced' = SUM ( FactARInvoice[InvoiceAmountAUD] )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 96f50b49-0cfa-569a-a87c-00d62e122d19
+
+	/// Value invoiced in the 90 days ending on the balance date: the DSO denominator.
+	measure 'AR Invoiced (Last 90 Days)' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactARInvoice[InvoiceAmountAUD] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactARInvoice[InvoiceDate] > EndDate - 90,
+			        FactARInvoice[InvoiceDate] <= EndDate
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 5fad8b79-8988-59a7-842e-c17c6b1967c1
+
+	/// Days sales outstanding: balance divided by the last 90 days of invoicing, times 90. It sits far above the time a PAID invoice takes to collect, because the balance carries invoices that are never collected - read the two together.
+	measure 'DSO (Days)' = DIVIDE ( [AR Balance], [AR Invoiced (Last 90 Days)] ) * 90
+		formatString: #,0
+		displayFolder: 07 Working Capital
+		lineageTag: 17ec90e3-44cd-51f2-bde7-1993660b87e8
+
+	/// Cash collected in the period, by receipt date, capped at the as-of date.
+	measure 'AR Collections' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactARInvoice[InvoiceAmountAUD] ),
+			        USERELATIONSHIP ( FactARInvoice[PaidDate], DimDate[Date] ),
+			        FILTER (
+			            ALL ( FactARInvoice[PaidDate] ),
+			            NOT ISBLANK ( FactARInvoice[PaidDate] ) && FactARInvoice[PaidDate] <= AsOf
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: dd0f8daf-fece-5948-a88a-4f234944803d
+
+	/// Value-weighted days from invoice to receipt, over invoices collected in the period. The behavioural collection speed, as opposed to DSO, which also carries the uncollected stock.
+	measure 'Days to Collect' =
+			VAR AsOf = [As Of Date]
+			VAR Weighted =
+			    CALCULATE (
+			        SUMX ( FactARInvoice, FactARInvoice[DaysToPay] * FactARInvoice[InvoiceAmountAUD] ),
+			        USERELATIONSHIP ( FactARInvoice[PaidDate], DimDate[Date] ),
+			        FILTER (
+			            ALL ( FactARInvoice[PaidDate] ),
+			            NOT ISBLANK ( FactARInvoice[PaidDate] ) && FactARInvoice[PaidDate] <= AsOf
+			        )
+			    )
+			RETURN
+			    DIVIDE ( Weighted, [AR Collections] )
+		formatString: #,0.0
+		displayFolder: 07 Working Capital
+		lineageTag: f7df31d8-e58e-5347-a3f5-386a32f9a55f
+
+	/// Value-weighted days between due date and receipt, over invoices collected in the period.
+	measure 'Days Paid Late (AR)' =
+			VAR AsOf = [As Of Date]
+			VAR Weighted =
+			    CALCULATE (
+			        SUMX ( FactARInvoice, FactARInvoice[DaysLate] * FactARInvoice[InvoiceAmountAUD] ),
+			        USERELATIONSHIP ( FactARInvoice[PaidDate], DimDate[Date] ),
+			        FILTER (
+			            ALL ( FactARInvoice[PaidDate] ),
+			            NOT ISBLANK ( FactARInvoice[PaidDate] ) && FactARInvoice[PaidDate] <= AsOf
+			        )
+			    )
+			RETURN
+			    DIVIDE ( Weighted, [AR Collections] )
+		formatString: #,0.0
+		displayFolder: 07 Working Capital
+		lineageTag: 67df787f-5f28-5798-ab47-9ea91242ce91
+
+	/// Of the value invoiced in the period, the share collected by the balance date.
+	measure 'Invoiced Value Collected %' =
+			VAR EndDate = [Balance Date]
+			VAR Collected =
+			    CALCULATE (
+			        SUM ( FactARInvoice[InvoiceAmountAUD] ),
+			        FILTER (
+			            ALL ( FactARInvoice[PaidDate] ),
+			            NOT ISBLANK ( FactARInvoice[PaidDate] ) && FactARInvoice[PaidDate] <= EndDate
+			        )
+			    )
+			RETURN
+			    DIVIDE ( Collected, [AR Invoiced] )
+		formatString: 0.0%
+		displayFolder: 07 Working Capital
+		lineageTag: d8b511d1-823f-5483-95a1-88f4827c6b03
+
+	/// Payables outstanding on the balance date: bills received by it and not paid by it.
+	measure 'AP Balance' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactAPBill[BillAmountAUD] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactAPBill[BillDate] <= EndDate,
+			        FILTER ( ALL ( FactAPBill[PaidDate] ), ISBLANK ( FactAPBill[PaidDate] ) || FactAPBill[PaidDate] > EndDate )
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 90f5d0a7-06ac-5f0e-a795-f878d90d3eeb
+
+	/// Number of bills outstanding on the balance date.
+	measure 'AP Open Bills' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        COUNTROWS ( FactAPBill ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactAPBill[BillDate] <= EndDate,
+			        FILTER ( ALL ( FactAPBill[PaidDate] ), ISBLANK ( FactAPBill[PaidDate] ) || FactAPBill[PaidDate] > EndDate )
+			    )
+		formatString: #,0
+		displayFolder: 07 Working Capital
+		lineageTag: 49feb53f-b6f4-53cd-82b1-b870ac883a5c
+
+	/// Outstanding payables whose due date has passed on the balance date.
+	measure 'AP Past Due' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE ( [AP Balance], FILTER ( ALL ( FactAPBill[DueDate] ), FactAPBill[DueDate] < EndDate ) )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 5d1e1bdc-4266-5f75-90e8-7546ce5b8241
+
+	/// Payables more than a year past due.
+	measure 'AP Over 365 Days' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE ( [AP Balance], FILTER ( ALL ( FactAPBill[DueDate] ), FactAPBill[DueDate] < EndDate - 365 ) )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: de19a7d3-262c-5ed6-bd7c-308eed9e13aa
+
+	/// Payables balance in the ageing bucket in context, aged as of the balance date.
+	measure 'AP Ageing Amount' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    SUMX (
+			        VALUES ( DimAgeingBucket[BucketOrder] ),
+			        VAR LowerDays = CALCULATE ( MIN ( DimAgeingBucket[MinDaysPastDue] ) )
+			        VAR UpperDays = CALCULATE ( MAX ( DimAgeingBucket[MaxDaysPastDue] ) )
+			        RETURN
+			            CALCULATE (
+			                [AP Balance],
+			                FILTER (
+			                    ALL ( FactAPBill[DueDate] ),
+			                    FactAPBill[DueDate] >= EndDate - UpperDays && FactAPBill[DueDate] <= EndDate - LowerDays
+			                )
+			            )
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 38caedf3-38ee-53cc-8f15-9c0f5e9a23bd
+
+	/// Value billed by suppliers in the period (by bill date).
+	measure 'AP Billed' = SUM ( FactAPBill[BillAmountAUD] )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: a5ef7101-21c4-5a27-b17f-5940064923a8
+
+	/// Value billed in the 90 days ending on the balance date: the DPO denominator.
+	measure 'AP Billed (Last 90 Days)' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactAPBill[BillAmountAUD] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactAPBill[BillDate] > EndDate - 90,
+			        FactAPBill[BillDate] <= EndDate
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 2b81b792-64e5-5c6d-ae74-36ce27a420b8
+
+	/// Days payable outstanding: balance divided by the last 90 days of billing, times 90.
+	measure 'DPO (Days)' = DIVIDE ( [AP Balance], [AP Billed (Last 90 Days)] ) * 90
+		formatString: #,0
+		displayFolder: 07 Working Capital
+		lineageTag: 0dd26df0-bb33-5264-b386-cf2a69cfe268
+
+	/// Cash paid to suppliers in the period, by payment date, capped at the as-of date.
+	measure 'AP Payments' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactAPBill[BillAmountAUD] ),
+			        USERELATIONSHIP ( FactAPBill[PaidDate], DimDate[Date] ),
+			        FILTER (
+			            ALL ( FactAPBill[PaidDate] ),
+			            NOT ISBLANK ( FactAPBill[PaidDate] ) && FactAPBill[PaidDate] <= AsOf
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 8c3b5a08-28cc-5d62-9c31-b3922de571f5
+
+	/// Value-weighted days from bill to payment, over bills paid in the period.
+	measure 'Days to Pay' =
+			VAR AsOf = [As Of Date]
+			VAR Weighted =
+			    CALCULATE (
+			        SUMX ( FactAPBill, FactAPBill[DaysToPay] * FactAPBill[BillAmountAUD] ),
+			        USERELATIONSHIP ( FactAPBill[PaidDate], DimDate[Date] ),
+			        FILTER (
+			            ALL ( FactAPBill[PaidDate] ),
+			            NOT ISBLANK ( FactAPBill[PaidDate] ) && FactAPBill[PaidDate] <= AsOf
+			        )
+			    )
+			RETURN
+			    DIVIDE ( Weighted, [AP Payments] )
+		formatString: #,0.0
+		displayFolder: 07 Working Capital
+		lineageTag: 6407be5f-727b-5a4a-b0a4-0476b14c6fc8
+
+	/// Receivables less payables on the balance date. Inventory has no source in this dataset, so it is not included and days inventory outstanding is not reported.
+	measure 'Trade Working Capital' = [AR Balance] - [AP Balance]
+		formatString: \$#,0
+		displayFolder: 07 Working Capital
+		lineageTag: 628ed5c8-7acf-5f93-804a-f53e51a58e6c
+
+	/// Days sales outstanding less days payable outstanding: how long the group funds the gap between collecting and paying.
+	measure 'DSO minus DPO (Days)' = [DSO (Days)] - [DPO (Days)]
+		formatString: #,0
+		displayFolder: 07 Working Capital
+		lineageTag: 5f02d75b-8988-5035-b933-86a1091a6593
+
+	/// Closing cash on the balance date, summed across entities in context. A balance is never summed over time.
+	measure 'Cash Balance' =
+			VAR EndDate = [Balance Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactCashBalance[ClosingCashAUD] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactCashBalance[Date] = EndDate
+			    )
+		formatString: \$#,0
+		displayFolder: 08 Cash
+		lineageTag: 804f8f63-6d3b-588f-98dc-4b2a37698142
+
+	/// Mean of the daily closing balances in the period, up to the as-of date.
+	measure 'Average Daily Cash' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    AVERAGEX (
+			        FILTER ( VALUES ( DimDate[Date] ), DimDate[Date] <= AsOf ),
+			        CALCULATE ( SUM ( FactCashBalance[ClosingCashAUD] ) )
+			    )
+		formatString: \$#,0
+		displayFolder: 08 Cash
+		lineageTag: 745a501d-3b4b-5f31-ba9a-c98b7d4c3088
+
+	/// Lowest daily closing balance in the period - the liquidity low point.
+	measure 'Minimum Daily Cash' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    MINX (
+			        FILTER ( VALUES ( DimDate[Date] ), DimDate[Date] <= AsOf ),
+			        CALCULATE ( SUM ( FactCashBalance[ClosingCashAUD] ) )
+			    )
+		formatString: \$#,0
+		displayFolder: 08 Cash
+		lineageTag: c1b16aad-ce47-56e6-9744-a2cb416f5e15
+
+	/// Closing cash less the balance on the day before the period started.
+	measure 'Cash Change in Period' =
+			VAR StartDate = MIN ( DimDate[Date] )
+			VAR Opening =
+			    CALCULATE (
+			        SUM ( FactCashBalance[ClosingCashAUD] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactCashBalance[Date] = StartDate - 1
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( Opening ), [Cash Balance] - Opening )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 08 Cash
+		lineageTag: e1fe1f97-d551-53cf-a37f-088f5e4823c2
+
+	/// Days where an entity's balance is exactly 50,000.00 - a generator floor in the source, not a treasury decision (audit finding 15).
+	measure 'Cash Floor Days' = CALCULATE ( COUNTROWS ( FactCashBalance ), FactCashBalance[IsFloorValue] = TRUE () )
+		formatString: #,0
+		displayFolder: 08 Cash
+		lineageTag: 30386938-8ae9-5516-abda-66eed833e9ec
+
+	/// Revenue driver of the selected scenario. Illustrative planning assumption, not supplied data.
+	measure 'Scenario Revenue Change %' = SELECTEDVALUE ( DimScenario[RevenueChangePct], 0 )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 09 Scenario Planning
+		lineageTag: d6e86e0c-a6cf-59b8-8915-c23d943f3d9d
+
+	/// Operating-expense driver of the selected scenario.
+	measure 'Scenario Opex Change %' = SELECTEDVALUE ( DimScenario[OpexChangePct], 0 )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 09 Scenario Planning
+		lineageTag: 99f288c4-f4c9-5067-b96a-322c6dfa313e
+
+	/// Exchange-rate driver: a positive value strengthens the AUD, which lowers the translated result of every foreign-currency entity.
+	measure 'Scenario AUD Change %' = SELECTEDVALUE ( DimScenario[AUDChangePct], 0 )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 09 Scenario Planning
+		lineageTag: 4c0e01b3-d876-5676-8774-d77da530c53d
+
+	/// Actual revenue booked so far in the financial year containing the as-of date.
+	measure 'Revenue Current FY to Date' = CALCULATE ( [Revenue], REMOVEFILTERS ( DimDate ), DimDate[FinancialYearOffset] = 0 )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: f03b78d0-7319-52e3-9746-afd6075fccd1
+
+	/// Actual COGS booked so far in the current financial year.
+	measure 'COGS Current FY to Date' = CALCULATE ( [COGS], REMOVEFILTERS ( DimDate ), DimDate[FinancialYearOffset] = 0 )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 685feb36-30e5-5cd9-9e4b-f09955db6543
+
+	/// Actual operating expense booked so far in the current financial year.
+	measure 'Operating Expense Current FY to Date' = CALCULATE ( [Operating Expense], REMOVEFILTERS ( DimDate ), DimDate[FinancialYearOffset] = 0 )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: d7ead5a2-256b-5587-bcde-fb8fe2d3097e
+
+	/// Average monthly revenue over the twelve complete months ending on the as-of date: the basis for projecting the rest of the year. A projection, not a supplied forecast.
+	measure 'Run-Rate Revenue (Monthly)' =
+			DIVIDE (
+			    CALCULATE (
+			        [Revenue],
+			        REMOVEFILTERS ( DimDate ),
+			        DimDate[MonthOffset] >= -11,
+			        DimDate[MonthOffset] <= 0
+			    ),
+			    12
+			)
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 46008af6-3c5e-550c-8ff4-1ae18a5fb6cd
+
+	/// Average monthly COGS over the twelve months ending on the as-of date.
+	measure 'Run-Rate COGS (Monthly)' =
+			DIVIDE (
+			    CALCULATE ( [COGS], REMOVEFILTERS ( DimDate ), DimDate[MonthOffset] >= -11, DimDate[MonthOffset] <= 0 ),
+			    12
+			)
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 6b05137c-7c76-5afd-b918-f54eada01e01
+
+	/// Average monthly operating expense over the twelve months ending on the as-of date.
+	measure 'Run-Rate Operating Expense (Monthly)' =
+			DIVIDE (
+			    CALCULATE ( [Operating Expense], REMOVEFILTERS ( DimDate ), DimDate[MonthOffset] >= -11, DimDate[MonthOffset] <= 0 ),
+			    12
+			)
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 238e9db6-0c30-580c-a7b1-0e218724e787
+
+	/// Full financial year: actual revenue to date plus the remaining months at the trailing-twelve-month run rate, flexed by the scenario's revenue driver and, for foreign-currency entities, by its exchange-rate driver.
+	measure 'Outlook Revenue' =
+			VAR RevenueDriver = [Scenario Revenue Change %]
+			VAR CurrencyDriver = [Scenario AUD Change %]
+			VAR RemainingMonths = [Months Remaining in FY]
+			RETURN
+			    SUMX (
+			        SUMMARIZE ( DimEntity, DimEntity[EntityID], DimEntity[CurrencyRole] ),
+			        VAR TranslationFactor =
+			            IF ( DimEntity[CurrencyRole] = "Foreign currency", DIVIDE ( 1, 1 + CurrencyDriver ), 1 )
+			        RETURN
+			            [Revenue Current FY to Date]
+			                + RemainingMonths * [Run-Rate Revenue (Monthly)] * ( 1 + RevenueDriver ) * TranslationFactor
+			    )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 65c2508e-be77-5a17-875a-992ee342f497
+
+	/// Cost of goods sold on the same basis. COGS moves with revenue volume, so the revenue driver applies to it too - gross margin is held at the run-rate level.
+	measure 'Outlook COGS' =
+			VAR RevenueDriver = [Scenario Revenue Change %]
+			VAR CurrencyDriver = [Scenario AUD Change %]
+			VAR RemainingMonths = [Months Remaining in FY]
+			RETURN
+			    SUMX (
+			        SUMMARIZE ( DimEntity, DimEntity[EntityID], DimEntity[CurrencyRole] ),
+			        VAR TranslationFactor =
+			            IF ( DimEntity[CurrencyRole] = "Foreign currency", DIVIDE ( 1, 1 + CurrencyDriver ), 1 )
+			        RETURN
+			            [COGS Current FY to Date]
+			                + RemainingMonths * [Run-Rate COGS (Monthly)] * ( 1 + RevenueDriver ) * TranslationFactor
+			    )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: b5e9c0e2-877e-5541-a590-93ceb5b8c736
+
+	/// Operating expense on the same basis, flexed by the scenario's cost driver. Treated as a fixed base: it does not move with revenue.
+	measure 'Outlook Operating Expense' =
+			VAR CostDriver = [Scenario Opex Change %]
+			VAR CurrencyDriver = [Scenario AUD Change %]
+			VAR RemainingMonths = [Months Remaining in FY]
+			RETURN
+			    SUMX (
+			        SUMMARIZE ( DimEntity, DimEntity[EntityID], DimEntity[CurrencyRole] ),
+			        VAR TranslationFactor =
+			            IF ( DimEntity[CurrencyRole] = "Foreign currency", DIVIDE ( 1, 1 + CurrencyDriver ), 1 )
+			        RETURN
+			            [Operating Expense Current FY to Date]
+			                + RemainingMonths * [Run-Rate Operating Expense (Monthly)] * ( 1 + CostDriver ) * TranslationFactor
+			    )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 9a59cc25-58ba-587c-bd24-f03155dc49d8
+
+	/// Full-year operating profit under the selected scenario: outlook revenue less outlook COGS and operating expense.
+	measure 'Outlook Operating Profit' = [Outlook Revenue] - [Outlook COGS] - [Outlook Operating Expense]
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 2385607a-beff-5968-86cf-9696d965dfc7
+
+	/// Outlook operating profit as a share of outlook revenue.
+	measure 'Outlook Operating Margin %' = DIVIDE ( [Outlook Operating Profit], [Outlook Revenue] )
+		formatString: 0.0%
+		displayFolder: 09 Scenario Planning
+		lineageTag: 88e6fe3b-65e1-521e-bb50-4df815e8b0a8
+
+	/// Operating profit of the last complete financial year - what the outlook is compared with.
+	measure 'Last Complete FY Operating Profit' = CALCULATE ( [Operating Profit], REMOVEFILTERS ( DimDate ), DimDate[FinancialYearOffset] = -1 )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: ae1f7672-2c94-5cd6-a10b-46f9b60cfdf2
+
+	/// Outlook operating profit less the last complete year's. Positive is an improvement.
+	measure 'Outlook vs Last FY Operating Profit' = [Outlook Operating Profit] - [Last Complete FY Operating Profit]
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 09 Scenario Planning
+		lineageTag: 457c86f3-584e-550f-b52a-0ed9ade276a4
+
+	/// Outlook operating profit when revenue moves by the step in context, on top of the selected scenario: the profit sensitivity curve.
+	measure 'Sensitivity Operating Profit' =
+			VAR RevenueStep = SELECTEDVALUE ( DimSensitivityStep[StepPct], 0 )
+			VAR RevenueDriver = [Scenario Revenue Change %] + RevenueStep
+			VAR CostDriver = [Scenario Opex Change %]
+			VAR CurrencyDriver = [Scenario AUD Change %]
+			VAR RemainingMonths = [Months Remaining in FY]
+			RETURN
+			    SUMX (
+			        SUMMARIZE ( DimEntity, DimEntity[EntityID], DimEntity[CurrencyRole] ),
+			        VAR TranslationFactor =
+			            IF ( DimEntity[CurrencyRole] = "Foreign currency", DIVIDE ( 1, 1 + CurrencyDriver ), 1 )
+			        VAR OutlookRevenue =
+			            [Revenue Current FY to Date]
+			                + RemainingMonths * [Run-Rate Revenue (Monthly)] * ( 1 + RevenueDriver ) * TranslationFactor
+			        VAR OutlookCogs =
+			            [COGS Current FY to Date]
+			                + RemainingMonths * [Run-Rate COGS (Monthly)] * ( 1 + RevenueDriver ) * TranslationFactor
+			        VAR OutlookOpex =
+			            [Operating Expense Current FY to Date]
+			                + RemainingMonths * [Run-Rate Operating Expense (Monthly)] * ( 1 + CostDriver ) * TranslationFactor
+			        RETURN
+			            OutlookRevenue - OutlookCogs - OutlookOpex
+			    )
+		formatString: \$#,0
+		displayFolder: 09 Scenario Planning
+		lineageTag: e82d54a5-1717-5e94-983a-829497c70be7
+
+	/// Value of the data-quality metric in context, computed live in SQL from dbo.
+	measure 'DQ Metric Value' = SUM ( DataQualityMetric[MetricValue] )
+		formatString: #,0.00
+		displayFolder: 10 Data Quality
+		lineageTag: 02e71a34-fa7d-582a-b4a7-2504a75d299a
+
+	/// How to read the metric in context: days, lines, share or AUD. A measure rather than a row level, so the matrix keeps one row per metric.
+	measure 'DQ Metric Unit' = SELECTEDVALUE ( DataQualityMetric[Unit] )
+		displayFolder: 10 Data Quality
+		lineageTag: 0ae601a7-b9f9-5ea6-8606-926a1ebadff8
+
+	/// Invoices whose receipt is dated after the as-of date. They are shown as OPEN on it, which is what they were.
+	measure 'Receipts After As-Of' = CALCULATE ( COUNTROWS ( FactARInvoice ), FactARInvoice[IsPaidAfterAsOf] = TRUE () )
+		formatString: #,0
+		displayFolder: 10 Data Quality
+		lineageTag: 34fc0ec9-a0cb-5553-ae61-7b84d5017c11
+
+	/// Bills whose payment is dated after the as-of date.
+	measure 'Payments After As-Of' = CALCULATE ( COUNTROWS ( FactAPBill ), FactAPBill[IsPaidAfterAsOf] = TRUE () )
+		formatString: #,0
+		displayFolder: 10 Data Quality
+		lineageTag: cae2fcd3-3528-5e0d-b042-65729608980a
+
+	/// Budget lines (month x entity x department x account) with no ledger posting at all: the clearest measure of the extract's partial coverage.
+	measure 'Budget Lines Without Posting' =
+			VAR PlanKeys =
+			    CALCULATETABLE (
+			        SUMMARIZE (
+			            FactFinancials,
+			            FactFinancials[MonthStart], FactFinancials[EntityID],
+			            FactFinancials[DepartmentID], FactFinancials[AccountCode]
+			        ),
+			        FactFinancials[VersionID] = "BUD"
+			    )
+			VAR PostedKeys =
+			    CALCULATETABLE (
+			        SUMMARIZE (
+			            FactFinancials,
+			            FactFinancials[MonthStart], FactFinancials[EntityID],
+			            FactFinancials[DepartmentID], FactFinancials[AccountCode]
+			        ),
+			        FactFinancials[VersionID] = "ACT"
+			    )
+			RETURN
+			    COUNTROWS ( EXCEPT ( PlanKeys, PostedKeys ) )
+		formatString: #,0
+		displayFolder: 10 Data Quality
+		lineageTag: 04fa1406-474a-58b8-b075-fd51832cd7ff
+
+	/// Cell colour for the operating-expense variance heatmap: the panel colour inside two standard deviations of the line's usual variance, green above, red below. A dead zone, not a gradient, so noise is never shaded.
+	measure 'Opex Variance Colour' =
+			VAR Z = [Opex vs Budget Z-Score]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Z ), BLANK (),
+			        Z >= 3, "#1F9D55",
+			        Z >= 2, "#14532D",
+			        Z <= -3, "#DC2626",
+			        Z <= -2, "#4C1D1D",
+			        "#151A23"
+			    )
+		displayFolder: 11 Report Formatting
+		lineageTag: 9a8ca9f7-e392-53d9-8157-73f2955a43fe
+
+	/// The same dead-zone shading for the revenue variance.
+	measure 'Revenue Variance Colour' =
+			VAR Z = [Revenue vs Budget Z-Score]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Z ), BLANK (),
+			        Z >= 3, "#1F9D55",
+			        Z >= 2, "#14532D",
+			        Z <= -3, "#DC2626",
+			        Z <= -2, "#4C1D1D",
+			        "#151A23"
+			    )
+		displayFolder: 11 Report Formatting
+		lineageTag: 7d6ec1c6-142a-5239-8692-12775b40fca2
+
+	/// Bar colour for an operating-profit variance: green when favourable, red when not.
+	measure 'Variance Bar Colour' =
+			VAR FavourableAmount = [Operating Profit vs Budget]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( FavourableAmount ), BLANK (),
+			        FavourableAmount >= 0, "#1F9D55",
+			        "#DC2626"
+			    )
+		displayFolder: 11 Report Formatting
+		lineageTag: 7a2be59f-b28d-54b9-a25a-93c4269c223c
+
+	/// Bar colour for the outlook against last year: the report's green where the outlook improves on FY26, red where it does not. Favourable is positive here as everywhere, drawn rather than written.
+	measure 'Outlook Variance Colour' =
+			VAR FavourableAmount = [Outlook vs Last FY Operating Profit]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( FavourableAmount ), BLANK (),
+			        FavourableAmount >= 0, "#22C55E",
+			        "#EF4444"
+			    )
+		displayFolder: 11 Report Formatting
+		lineageTag: f42de00f-6f52-5457-8ed2-aee2b9876727
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: b687d4ba-046f-5ffb-bdb3-32e980839a9f
+		summarizeBy: none
+		sourceColumn: Placeholder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [Placeholder = text], {})
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

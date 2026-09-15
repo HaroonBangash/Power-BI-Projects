@@ -1,0 +1,19 @@
+UserEmail,Role,EntityID,DepartmentID
+cfo@northstar.demo,CFO,ALL,ALL
+finance.director@northstar.demo,Finance Director,ALL,ALL
+sales@northstar.demo,Department Manager,ALL,D01
+marketing@northstar.demo,Department Manager,ALL,D02
+operations@northstar.demo,Department Manager,ALL,D03
+technology@northstar.demo,Department Manager,ALL,D04
+finance@northstar.demo,Department Manager,ALL,D05
+hr@northstar.demo,Department Manager,ALL,D06
+customersuccess@northstar.demo,Department Manager,ALL,D07
+procurement@northstar.demo,Department Manager,ALL,D08
+legal@northstar.demo,Department Manager,ALL,D09
+product@northstar.demo,Department Manager,ALL,D10
+e01manager@northstar.demo,Entity Manager,E01,ALL
+e02manager@northstar.demo,Entity Manager,E02,ALL
+e03manager@northstar.demo,Entity Manager,E03,ALL
+e04manager@northstar.demo,Entity Manager,E04,ALL
+e05manager@northstar.demo,Entity Manager,E05,ALL
+e06manager@northstar.demo,Entity Manager,E06,ALL

@@ -1,0 +1,98 @@
+/// Monthly average and closing AUD rates per currency, derived from the daily file. The average rate is what the ledger is translated at (IAS 21 practice); MeanAbsDailyMovePct records how noisy the daily source is.
+table FxRateMonthly
+	lineageTag: 4f406b86-366f-5759-8608-58f4b361569a
+
+	column MonthStart
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: cc65484c-67b6-5315-b98c-4be175a6d1de
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CurrencyCode
+		dataType: string
+		lineageTag: ae09d3a9-8b36-50b8-899a-d7256f811d17
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Mean of the month's daily rates: the translation rate.
+	column AvgAUDPerUnit
+		dataType: double
+		formatString: 0.0000
+		lineageTag: cfd1b054-237b-57c9-8e88-41068abd393c
+		summarizeBy: none
+		sourceColumn: AvgAUDPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClosingAUDPerUnit
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: 8ce867b1-3dc0-5aa3-898b-e47160898437
+		summarizeBy: none
+		sourceColumn: ClosingAUDPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinAUDPerUnit
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: ddb0b886-49fe-51b6-b8ac-e58cbb0f81cd
+		summarizeBy: none
+		sourceColumn: MinAUDPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxAUDPerUnit
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: 521c5d42-d2e9-596e-8c3e-12c4423a7b52
+		summarizeBy: none
+		sourceColumn: MaxAUDPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysInMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 32837cce-a696-567d-b1fd-1f4fb0f90af4
+		summarizeBy: none
+		sourceColumn: DaysInMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Average absolute day-on-day move, in per cent, of the supplied daily rates.
+	column MeanAbsDailyMovePct
+		dataType: double
+		isHidden
+		formatString: 0.00
+		lineageTag: 70a4be3f-0c4f-5d93-b51a-655b2951751b
+		summarizeBy: none
+		sourceColumn: MeanAbsDailyMovePct
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FxRateMonthly = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FxRateMonthly = Source{[Schema="analytics",Item="vw_FxRateMonthly"]}[Data]
+				in
+				    analytics_vw_FxRateMonthly
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

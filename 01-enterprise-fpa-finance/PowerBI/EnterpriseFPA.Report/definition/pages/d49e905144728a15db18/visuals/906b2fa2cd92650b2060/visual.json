@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "906b2fa2cd92650b2060",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 24
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "How to read this.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Cards are anchored to the as-of date (31 Aug 2026) and name their own window. Revenue has run at about 70% of budget in all 56 months on record - a plan-calibration finding, not news about the year, because the ledger is a partial extract (Data & Method). FY26 operating profit still beat budget by $1.6M: operating expense came in $10.6M under.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9AA4B6"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

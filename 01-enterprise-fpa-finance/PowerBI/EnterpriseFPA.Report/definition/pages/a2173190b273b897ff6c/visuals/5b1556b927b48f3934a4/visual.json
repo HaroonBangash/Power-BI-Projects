@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "5b1556b927b48f3934a4",
+  "position": {
+    "x": 184,
+    "y": 452,
+    "z": 0,
+    "height": 206,
+    "width": 524,
+    "tabOrder": 19
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What the data will not support",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#FB923C",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "A partial ledger. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Payroll posts in only 68% of department-months and 19,468 budget lines have no posting at all, so actuals sit at about 70% of plan in every month. Reported as measured; never rescaled or filled in.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Sub-ledgers stand alone. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Receivables invoicing is 2.9x ledger revenue, so DSO and DPO use each sub-ledger's own flows, never GL revenue.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No cash bridge. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Daily cash moves about 51,000 a day at random and never ties to the ledger, receipts or payments, so no cash-flow statement is drawn.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No inventory. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The chart has an inventory account with no postings: days inventory outstanding is not reported.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E7EAF0"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

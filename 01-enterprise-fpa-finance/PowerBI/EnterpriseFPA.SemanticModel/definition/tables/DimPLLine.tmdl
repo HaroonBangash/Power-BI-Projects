@@ -1,0 +1,66 @@
+/// The income statement as a layout: account groups, subtotals and margins in reporting order. Disconnected - [P&L Line Value] resolves each line, so the statement reads as a statement instead of a list of accounts.
+table DimPLLine
+	lineageTag: 2ad078cf-c297-578d-8029-0ccc6c98d006
+
+	column LineKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a75ea610-4217-5dee-b5ca-65e11aef6266
+		summarizeBy: none
+		sourceColumn: LineKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineName
+		dataType: string
+		lineageTag: 1651b590-fe6d-51e8-86cd-1fb679ee5bad
+		summarizeBy: none
+		sourceColumn: LineName
+		sortByColumn: LineKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Group, Subtotal or Ratio. Ratio lines are formatted as percentages.
+	column LineType
+		dataType: string
+		lineageTag: 3a127090-142d-5e2d-ba9e-e9c2163f36eb
+		summarizeBy: none
+		sourceColumn: LineType
+
+		annotation SummarizationSetBy = Automatic
+
+	/// +1 where more is better, -1 for cost lines: turns actual less plan into a favourable-positive variance.
+	column FavourableSign
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9860c7ee-3e0d-5585-a09f-7f8e9fa72989
+		summarizeBy: none
+		sourceColumn: FavourableSign
+
+		annotation SummarizationSetBy = Automatic
+
+	/// False below operating profit, where the plan has no lines.
+	column IsBudgeted
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5bff6269-eeff-5054-9872-55725453c999
+		summarizeBy: none
+		sourceColumn: IsBudgeted
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPLLine = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimPLLine = Source{[Schema="analytics",Item="vw_DimPLLine"]}[Data]
+				in
+				    analytics_vw_DimPLLine
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

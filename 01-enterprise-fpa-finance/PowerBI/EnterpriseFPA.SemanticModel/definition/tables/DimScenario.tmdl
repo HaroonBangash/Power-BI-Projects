@@ -1,0 +1,72 @@
+/// Scenario drivers for the full-year outlook: revenue, operating expense and exchange-rate assumptions. ILLUSTRATIVE PLANNING ASSUMPTIONS, not supplied data - the source's forecast 'Scenario' label carries no information (data quality report, finding 5). Disconnected.
+table DimScenario
+	lineageTag: 4b3050b2-62ab-5e63-98a7-d4496c6d90bc
+
+	column ScenarioKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: eea5ba30-1178-535b-9c04-1f0f8240ed10
+		summarizeBy: none
+		sourceColumn: ScenarioKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScenarioName
+		dataType: string
+		lineageTag: 990474f7-f899-5ba9-b726-2a7985106ed9
+		summarizeBy: none
+		sourceColumn: ScenarioName
+		sortByColumn: ScenarioKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RevenueChangePct
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 4064ce8a-2446-57b0-b5e7-91c4000598be
+		summarizeBy: none
+		sourceColumn: RevenueChangePct
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpexChangePct
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: e7ffb852-8306-5ad2-9db5-14ca45cd635c
+		summarizeBy: none
+		sourceColumn: OpexChangePct
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Positive strengthens the AUD, lowering the translated result of foreign-currency entities.
+	column AUDChangePct
+		dataType: double
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 1aae8d27-3778-5696-830f-80cba3fc4719
+		summarizeBy: none
+		sourceColumn: AUDChangePct
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 6276f123-406b-5390-aee6-6a8d50107026
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimScenario = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimScenario = Source{[Schema="analytics",Item="vw_DimScenario"]}[Data]
+				in
+				    analytics_vw_DimScenario
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

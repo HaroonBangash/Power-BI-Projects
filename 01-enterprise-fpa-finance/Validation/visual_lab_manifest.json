@@ -1,0 +1,320 @@
+[
+  {
+    "name": "10414017f72a39c5127c",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "4b784357d2f6018d1728",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 1 Statement"
+  },
+  {
+    "name": "d02980a93c3ffbf49157",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 2 Trends"
+  },
+  {
+    "name": "65577090557c3a5011c9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 3 Detail"
+  },
+  {
+    "name": "404bd0385f0dedd13625",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a560ca06f75de1c16fae",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "19a0412266176a9c7e0a",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "ab57fd05a9dde1f48e76",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Financial year (default selection)"
+  },
+  {
+    "name": "b790c93649c0e149e527",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Entity"
+  },
+  {
+    "name": "c07a6903a73b954ab804",
+    "visualType": "card",
+    "title": "Revenue",
+    "demonstrates": "Headline figure: Revenue"
+  },
+  {
+    "name": "201cc08efb42eb5d8b03",
+    "visualType": "multiRowCard",
+    "title": "",
+    "demonstrates": "multiRowCard: three ratios in one panel"
+  },
+  {
+    "name": "033e11c859a604109231",
+    "visualType": "gauge",
+    "title": "Revenue against budget",
+    "demonstrates": "gauge: a rate against a real target (budget), not an invented one"
+  },
+  {
+    "name": "2149f5c8368c78d9c68e",
+    "visualType": "kpi",
+    "title": "",
+    "demonstrates": "kpi: value, goal and trend in one"
+  },
+  {
+    "name": "71346c1a19a5287d57d0",
+    "visualType": "pivotTable",
+    "title": "Income statement: the calculation group on the columns",
+    "demonstrates": "pivotTable x calculation group: Actual, Budget and the variance as ONE measure; the calculation group itself is filtered to four items so the columns fit"
+  },
+  {
+    "name": "a8276446ab92d9664daa",
+    "visualType": "waterfallChart",
+    "title": "Where the operating-expense variance comes from, by department",
+    "demonstrates": "waterfallChart: signed contributions that net to the total"
+  },
+  {
+    "name": "67948b80c7ed0e534510",
+    "visualType": "lineClusteredColumnComboChart",
+    "title": "Actual and budget revenue by month, with gross margin",
+    "demonstrates": "combo: two money series on one axis and a rate on the other"
+  },
+  {
+    "name": "5f7d21b4712060e2bc80",
+    "visualType": "pivotTable",
+    "title": "Operating-expense variance against each department's usual range (z)",
+    "demonstrates": "pivotTable heatmap driven by a colour measure with a dead zone"
+  },
+  {
+    "name": "ec66d852ce92f3ab945f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "5d250e7ceaca7fa6d5de",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "845d5cf632c5d21f04ab",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 1 Statement"
+  },
+  {
+    "name": "5aa5f235c73a8debab5f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 2 Trends"
+  },
+  {
+    "name": "a38a671e7e6caf6b0b3a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 3 Detail"
+  },
+  {
+    "name": "70ba23cce17e39c0ab56",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "fee80773eaf651b2dd5a",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "e59c7433d72735c4b4b7",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "8285950c3a1f70bf7ff7",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Financial year"
+  },
+  {
+    "name": "3ae69194cf4ef6fe4802",
+    "visualType": "lineChart",
+    "title": "Revenue by month: actual vs budget",
+    "demonstrates": "lineChart on a date axis"
+  },
+  {
+    "name": "1041c93e5ba604a2dae6",
+    "visualType": "areaChart",
+    "title": "Group closing cash",
+    "demonstrates": "areaChart, value axis pinned to zero"
+  },
+  {
+    "name": "74568c5333835f225f6e",
+    "visualType": "donutChart",
+    "title": "Revenue by entity",
+    "demonstrates": "donutChart: part-to-whole"
+  },
+  {
+    "name": "02af81a6ecb1919b083e",
+    "visualType": "treemap",
+    "title": "Operating expense by department and account",
+    "demonstrates": "treemap: hierarchical part-to-whole"
+  },
+  {
+    "name": "7c49ddaf71c72f0ab5fe",
+    "visualType": "hundredPercentStackedColumnChart",
+    "title": "Cost mix by financial year",
+    "demonstrates": "hundredPercentStackedColumnChart: composition over time"
+  },
+  {
+    "name": "d7709d5627715b19df15",
+    "visualType": "ribbonChart",
+    "title": "Department spend ranking by year",
+    "demonstrates": "ribbonChart: rank changes over time"
+  },
+  {
+    "name": "798db70632397038b2ac",
+    "visualType": "lineChart",
+    "title": "Cash by entity",
+    "demonstrates": "lineChart small multiples: one panel per entity"
+  },
+  {
+    "name": "397d036b8907b6cf27d7",
+    "visualType": "barChart",
+    "title": "Receivables by age",
+    "demonstrates": "barChart with a disconnected bucket dimension"
+  },
+  {
+    "name": "cc40cdcedbfbf33153de",
+    "visualType": "columnChart",
+    "title": "Revenue by region and year",
+    "demonstrates": "columnChart (stacked) with a series"
+  },
+  {
+    "name": "020639e83e2b0e9418b3",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "dfff2f646abcdb114be4",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2660255c52e4202fc8c5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 1 Statement"
+  },
+  {
+    "name": "130f5639106184a201af",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 2 Trends"
+  },
+  {
+    "name": "1811313f5dbb2ace41bf",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Lab 3 Detail"
+  },
+  {
+    "name": "4a42c0165d7cd3693d95",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2664518dc400ba5c33f5",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "243f399372e27d824e8b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "d710035dbb7cf91762ef",
+    "visualType": "advancedSlicerVisual",
+    "title": "",
+    "demonstrates": "advancedSlicerVisual: the scenario selector as buttons"
+  },
+  {
+    "name": "ea9edc8854ec3eef91b8",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Department"
+  },
+  {
+    "name": "97b9a583023e65d7fe18",
+    "visualType": "clusteredColumnChart",
+    "title": "Full-year outlook by scenario",
+    "demonstrates": "clusteredColumnChart over a disconnected driver table"
+  },
+  {
+    "name": "0530539eb54792f58949",
+    "visualType": "lineChart",
+    "title": "Profit sensitivity to revenue",
+    "demonstrates": "lineChart over a disconnected sensitivity axis"
+  },
+  {
+    "name": "2074ea2f872759e5f087",
+    "visualType": "scatterChart",
+    "title": "Budget vs actual by department",
+    "demonstrates": "scatterChart: two measures plus volume"
+  },
+  {
+    "name": "7d19f911fa5210ec1111",
+    "visualType": "tableEx",
+    "title": "Largest outstanding customer balances",
+    "demonstrates": "tableEx with a Top N filter"
+  },
+  {
+    "name": "916fe3a026ff17b893e4",
+    "visualType": "decompositionTreeVisual",
+    "title": "Where the operating expense sits",
+    "demonstrates": "decompositionTreeVisual: user-chosen drill path"
+  },
+  {
+    "name": "e865a7811fdc0abe7f48",
+    "visualType": "tableEx",
+    "title": "Data quality, computed live in SQL",
+    "demonstrates": "tableEx over the data-quality view"
+  },
+  {
+    "name": "45a2b82b88d42f38edde",
+    "visualType": "pieChart",
+    "title": "Revenue by currency role",
+    "demonstrates": "pieChart: the only two-part split in the model"
+  },
+  {
+    "name": "39054132ec8e43d4aeed",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  }
+]

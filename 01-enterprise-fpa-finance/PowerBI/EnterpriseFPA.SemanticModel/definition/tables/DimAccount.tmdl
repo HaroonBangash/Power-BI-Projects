@@ -1,0 +1,134 @@
+/// Chart of accounts. NaturalSign turns the ledger's credit balances into positive revenue; IsOperating marks the scope the budget covers (revenue, COGS, operating expense).
+table DimAccount
+	lineageTag: fe323628-5e9d-5725-828c-ec22e97d356e
+
+	column AccountCode
+		dataType: string
+		isHidden
+		lineageTag: cbfbe93c-2da7-5ae4-ac81-0e9889da7c9d
+		summarizeBy: none
+		sourceColumn: AccountCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountName
+		dataType: string
+		lineageTag: b1632b83-e987-56c1-8be6-2548a01e75c8
+		summarizeBy: none
+		sourceColumn: AccountName
+		sortByColumn: AccountOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountGroup
+		dataType: string
+		lineageTag: 8d5a6a2a-2061-5740-94c9-8104f7740893
+		summarizeBy: none
+		sourceColumn: AccountGroup
+		sortByColumn: GroupOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Income statement or balance sheet. The ledger extract is income statement only.
+	column Statement
+		dataType: string
+		lineageTag: ae12bca7-4626-525d-a5a4-e69a98703aee
+		summarizeBy: none
+		sourceColumn: Statement
+
+		annotation SummarizationSetBy = Automatic
+
+	column GroupOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6c0f619a-cb8f-5960-972d-6d8d161ce3bd
+		summarizeBy: none
+		sourceColumn: GroupOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// -1 for revenue: a credit presented as a positive number.
+	column NaturalSign
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 492dcf08-9390-5338-b8c1-013ef3157180
+		summarizeBy: none
+		sourceColumn: NaturalSign
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsIncome
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: eadfe3e1-d015-57bd-b89b-193bbcc66344
+		summarizeBy: none
+		sourceColumn: IsIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Revenue, COGS and operating expense: the budgeted scope.
+	column IsOperating
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c9ab2d25-3d63-5f1d-87de-57cc16595fbc
+		summarizeBy: none
+		sourceColumn: IsOperating
+
+		annotation SummarizationSetBy = Automatic
+
+	/// False for interest, FX gain/loss and tax, which have actuals but no plan.
+	column IsBudgeted
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 23da7416-259f-58c7-94c1-55d0f068e83f
+		summarizeBy: none
+		sourceColumn: IsBudgeted
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountLabel
+		dataType: string
+		lineageTag: 3362c828-eb0d-5a5d-91ee-9eb5d2587c38
+		summarizeBy: none
+		sourceColumn: AccountLabel
+		sortByColumn: AccountOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fcb070d2-1c70-5093-81d6-7394383c5ddf
+		summarizeBy: none
+		sourceColumn: AccountOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Chart of Accounts'
+		lineageTag: 7e1c5c86-c735-59a6-96af-dc76d70dacb3
+
+		level AccountGroup
+			lineageTag: 87217f8a-7111-54fb-909c-2d0fc1208fa7
+			column: AccountGroup
+
+		level AccountLabel
+			lineageTag: 65bebb12-08bf-5ad9-9c89-0285e7ac1bf3
+			column: AccountLabel
+
+	partition DimAccount = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimAccount = Source{[Schema="analytics",Item="vw_DimAccount"]}[Data]
+				in
+				    analytics_vw_DimAccount
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
