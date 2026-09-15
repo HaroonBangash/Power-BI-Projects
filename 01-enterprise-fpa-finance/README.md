@@ -48,13 +48,13 @@ See [Documentation/data_quality_report.md](Documentation/data_quality_report.md)
 | | |
 |---|---|
 | **Income Statement** — actual, budget and forecast, line by line | **Budget Variance** — where plan and ledger differ, and what is unusual |
-| ![Income Statement](Validation/evidence/listing/statement.png) | ![Budget Variance](Validation/evidence/listing/variance.png) |
+| <img width="1423" height="774" alt="ppp2" src="https://github.com/user-attachments/assets/65a0d219-4ffa-4064-9d8b-e79500d1f29f" /> | <img width="1426" height="793" alt="ppp3" src="https://github.com/user-attachments/assets/271b5c47-6c8d-4fc1-ae6f-1ffbc2fd079a" /> |
 | **Cost Centres** — what departments spend, and with whom | **Scenario** — the outlook under stated driver assumptions |
-| ![Cost Centres](Validation/evidence/listing/costs.png) | ![Scenario](Validation/evidence/listing/scenario.png) |
+| <img width="1423" height="793" alt="ppp4" src="https://github.com/user-attachments/assets/02c4c99c-37e7-4d2f-9869-26be34256783" /> | <img width="1422" height="798" alt="ppp5" src="https://github.com/user-attachments/assets/023e2ec6-6a70-4305-ba01-139761dc46dc" /> |
 | **Working Capital** — what is owed, how old, how fast it moves | **Cash & FX** — what the group holds, and what the rate did |
-| ![Working Capital](Validation/evidence/listing/workingcapital.png) | ![Cash and FX](Validation/evidence/listing/cashfx.png) |
+| <img width="1422" height="792" alt="ppp6" src="https://github.com/user-attachments/assets/b45ef521-5217-4b4d-b27f-e15adb1c07cc" /> | <img width="1419" height="791" alt="ppp7" src="https://github.com/user-attachments/assets/606a75e9-94f0-409c-b586-b57a8030d8bd" /> |
 | **Data & Method** — what was assumed, fixed and flagged | |
-| ![Data and Method](Validation/evidence/listing/method.png) | |
+| <img width="1420" height="796" alt="ppp8" src="https://github.com/user-attachments/assets/df8ef9e1-8c85-4421-9397-ab1df27f24ca" /> | |
 
 ## Architecture
 
