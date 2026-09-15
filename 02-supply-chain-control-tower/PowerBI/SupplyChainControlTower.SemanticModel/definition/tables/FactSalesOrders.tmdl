@@ -1,0 +1,152 @@
+/// Grain: one row per sales order. 80,000 rows. Active date is OrderDate.
+table FactSalesOrders
+	lineageTag: 2955e634-c1a2-40fc-8102-2551fe2761ca
+
+	column SalesOrderID
+		dataType: string
+		lineageTag: 4ab31c06-930c-4923-b1e6-8c8b42866771
+		summarizeBy: none
+		sourceColumn: SalesOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 20d19545-44d9-49bf-af92-9e4421ac0618
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductID
+		dataType: string
+		isHidden
+		lineageTag: 7be62ae9-2880-4ecb-be1b-2d293fa96dc8
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseID
+		dataType: string
+		isHidden
+		lineageTag: f038f440-7272-469f-b15a-dc64301b9bec
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6ef8db00-ab94-4057-89ff-956da52c5f33
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Revenue
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 7cc0738e-2515-47e1-8659-ebca39baf0a9
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromisedDeliveryDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a4b0f493-52d4-4df8-8656-15df71dbdc99
+		summarizeBy: none
+		sourceColumn: PromisedDeliveryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// NULL while the order is open. Populated only for the 79,565 orders delivered on or before the as-of date.
+	column ActualDeliveryDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 58dfbaa4-be30-476e-9622-ee9a3cc95ffb
+		summarizeBy: none
+		sourceColumn: ActualDeliveryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// NULL once delivered. Populated only for the 435 orders still in flight - an expectation, not a fact.
+	column ScheduledDeliveryDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: aa6ef44f-ce35-4489-84b6-885f284e0119
+		summarizeBy: none
+		sourceColumn: ScheduledDeliveryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column OrderStatus
+		dataType: string
+		lineageTag: 2a079fe1-2f43-4667-a64a-524010c9d99c
+		summarizeBy: none
+		sourceColumn: OrderStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		lineageTag: ed20e4af-2e6a-467a-965c-f2ccac362be6
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsDelivered
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 58ca9213-28b0-414b-99ae-4e2693657dce
+		summarizeBy: none
+		sourceColumn: IsDelivered
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for orders not yet due. EXCLUDE from OTIF: an order that is not due can be neither on time nor late.
+	column IsOpenOrder
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3d585345-6eaa-47a2-a8be-90c0d9d8132f
+		summarizeBy: none
+		sourceColumn: IsOpenOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Actual minus promised, in days. Positive means late. NULL while open.
+	column DeliveryDelayDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 0563d4f7-bfec-44dd-aee9-0bc955bc18cb
+		summarizeBy: none
+		sourceColumn: DeliveryDelayDays
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSalesOrders = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_SalesOrders = Source{[Schema="analytics",Item="vw_SalesOrders"]}[Data]
+				in
+				    analytics_vw_SalesOrders
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

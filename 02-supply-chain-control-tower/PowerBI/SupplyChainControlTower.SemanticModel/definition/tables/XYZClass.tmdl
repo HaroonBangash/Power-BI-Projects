@@ -1,0 +1,31 @@
+/// Disconnected dimension holding the three XYZ demand-variability classes. X is most predictable, Z most volatile.
+table XYZClass
+	lineageTag: 53fade07-3f2f-423c-bae6-c64b87d05b0f
+
+	column Class
+		dataType: string
+		lineageTag: 4e598799-9ee0-4772-9dc5-607081d2b6db
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Class]
+		sortByColumn: ClassOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6133b367-1f46-4891-b66c-440cd177b3ac
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ClassOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition XYZClass = calculated
+		mode: import
+		source =
+				DATATABLE ( "Class", STRING, "ClassOrder", INTEGER,
+				  { { "X", 1 }, { "Y", 2 }, { "Z", 3 } } )
+

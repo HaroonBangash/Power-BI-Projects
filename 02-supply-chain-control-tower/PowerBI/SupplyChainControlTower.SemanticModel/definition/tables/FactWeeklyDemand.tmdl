@@ -1,0 +1,64 @@
+/// Grain: WeekStart x Product x Warehouse. Complete dense grid, 105 weeks x 500 products x 6 warehouses. BaselineForecastUnits is the locked forecasting benchmark.
+table FactWeeklyDemand
+	lineageTag: 1d378ac8-24d7-460c-b1b2-d9f5f8a927a4
+
+	column WeekStart
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: c3db6cd2-10cb-44c7-a896-b3f63bbb6ca0
+		summarizeBy: none
+		sourceColumn: WeekStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductID
+		dataType: string
+		isHidden
+		lineageTag: 87875840-d2e6-4412-8c82-98d6d68c530d
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseID
+		dataType: string
+		isHidden
+		lineageTag: 2c9a5e28-c9cf-4f7b-af98-072b69516c78
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActualDemandUnits
+		dataType: int64
+		formatString: #,0
+		lineageTag: b9c795f3-2063-4ac6-9a2a-0761886f1aad
+		summarizeBy: sum
+		sourceColumn: ActualDemandUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column BaselineForecastUnits
+		dataType: int64
+		formatString: #,0
+		lineageTag: 47376451-96f4-43f2-b33b-18a39154a1d9
+		summarizeBy: sum
+		sourceColumn: BaselineForecastUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactWeeklyDemand = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_WeeklyDemand = Source{[Schema="analytics",Item="vw_WeeklyDemand"]}[Data]
+				in
+				    analytics_vw_WeeklyDemand
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

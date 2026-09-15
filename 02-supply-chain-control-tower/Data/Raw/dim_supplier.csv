@@ -1,0 +1,121 @@
+SupplierID,SupplierName,Country,SupplierTier
+S0001,Supplier 0001,Germany,Watchlist
+S0002,Supplier 0002,Australia,Watchlist
+S0003,Supplier 0003,Vietnam,Approved
+S0004,Supplier 0004,China,Watchlist
+S0005,Supplier 0005,Germany,Preferred
+S0006,Supplier 0006,China,Approved
+S0007,Supplier 0007,China,Approved
+S0008,Supplier 0008,Vietnam,Preferred
+S0009,Supplier 0009,United States,Approved
+S0010,Supplier 0010,Vietnam,Approved
+S0011,Supplier 0011,United States,Strategic
+S0012,Supplier 0012,United States,Preferred
+S0013,Supplier 0013,India,Approved
+S0014,Supplier 0014,Vietnam,Preferred
+S0015,Supplier 0015,United States,Watchlist
+S0016,Supplier 0016,Australia,Approved
+S0017,Supplier 0017,India,Watchlist
+S0018,Supplier 0018,United States,Preferred
+S0019,Supplier 0019,Australia,Approved
+S0020,Supplier 0020,United States,Preferred
+S0021,Supplier 0021,Australia,Preferred
+S0022,Supplier 0022,Vietnam,Watchlist
+S0023,Supplier 0023,Germany,Preferred
+S0024,Supplier 0024,Vietnam,Preferred
+S0025,Supplier 0025,Australia,Approved
+S0026,Supplier 0026,China,Strategic
+S0027,Supplier 0027,China,Approved
+S0028,Supplier 0028,United States,Approved
+S0029,Supplier 0029,China,Watchlist
+S0030,Supplier 0030,United States,Strategic
+S0031,Supplier 0031,Australia,Strategic
+S0032,Supplier 0032,China,Watchlist
+S0033,Supplier 0033,China,Approved
+S0034,Supplier 0034,Australia,Preferred
+S0035,Supplier 0035,China,Preferred
+S0036,Supplier 0036,Vietnam,Approved
+S0037,Supplier 0037,India,Strategic
+S0038,Supplier 0038,China,Strategic
+S0039,Supplier 0039,India,Strategic
+S0040,Supplier 0040,Vietnam,Watchlist
+S0041,Supplier 0041,Australia,Approved
+S0042,Supplier 0042,Germany,Approved
+S0043,Supplier 0043,India,Approved
+S0044,Supplier 0044,China,Strategic
+S0045,Supplier 0045,Vietnam,Watchlist
+S0046,Supplier 0046,United States,Approved
+S0047,Supplier 0047,Vietnam,Preferred
+S0048,Supplier 0048,India,Strategic
+S0049,Supplier 0049,Germany,Approved
+S0050,Supplier 0050,Australia,Approved
+S0051,Supplier 0051,Australia,Watchlist
+S0052,Supplier 0052,China,Watchlist
+S0053,Supplier 0053,Germany,Strategic
+S0054,Supplier 0054,India,Approved
+S0055,Supplier 0055,Germany,Preferred
+S0056,Supplier 0056,Australia,Preferred
+S0057,Supplier 0057,China,Approved
+S0058,Supplier 0058,China,Preferred
+S0059,Supplier 0059,Australia,Preferred
+S0060,Supplier 0060,India,Approved
+S0061,Supplier 0061,Vietnam,Strategic
+S0062,Supplier 0062,India,Strategic
+S0063,Supplier 0063,India,Preferred
+S0064,Supplier 0064,India,Preferred
+S0065,Supplier 0065,Vietnam,Strategic
+S0066,Supplier 0066,Australia,Watchlist
+S0067,Supplier 0067,Australia,Preferred
+S0068,Supplier 0068,China,Strategic
+S0069,Supplier 0069,Germany,Preferred
+S0070,Supplier 0070,Vietnam,Watchlist
+S0071,Supplier 0071,India,Approved
+S0072,Supplier 0072,Vietnam,Watchlist
+S0073,Supplier 0073,China,Preferred
+S0074,Supplier 0074,United States,Preferred
+S0075,Supplier 0075,China,Approved
+S0076,Supplier 0076,Australia,Approved
+S0077,Supplier 0077,Germany,Watchlist
+S0078,Supplier 0078,Vietnam,Watchlist
+S0079,Supplier 0079,Australia,Preferred
+S0080,Supplier 0080,Germany,Approved
+S0081,Supplier 0081,United States,Approved
+S0082,Supplier 0082,India,Strategic
+S0083,Supplier 0083,India,Approved
+S0084,Supplier 0084,Vietnam,Approved
+S0085,Supplier 0085,United States,Preferred
+S0086,Supplier 0086,Vietnam,Watchlist
+S0087,Supplier 0087,United States,Approved
+S0088,Supplier 0088,India,Approved
+S0089,Supplier 0089,Vietnam,Strategic
+S0090,Supplier 0090,China,Approved
+S0091,Supplier 0091,China,Preferred
+S0092,Supplier 0092,China,Approved
+S0093,Supplier 0093,United States,Preferred
+S0094,Supplier 0094,Vietnam,Approved
+S0095,Supplier 0095,Australia,Preferred
+S0096,Supplier 0096,United States,Preferred
+S0097,Supplier 0097,India,Strategic
+S0098,Supplier 0098,China,Preferred
+S0099,Supplier 0099,Australia,Strategic
+S0100,Supplier 0100,United States,Approved
+S0101,Supplier 0101,Australia,Strategic
+S0102,Supplier 0102,Vietnam,Strategic
+S0103,Supplier 0103,India,Preferred
+S0104,Supplier 0104,India,Approved
+S0105,Supplier 0105,China,Preferred
+S0106,Supplier 0106,Vietnam,Strategic
+S0107,Supplier 0107,China,Strategic
+S0108,Supplier 0108,United States,Strategic
+S0109,Supplier 0109,China,Preferred
+S0110,Supplier 0110,India,Preferred
+S0111,Supplier 0111,India,Approved
+S0112,Supplier 0112,Australia,Approved
+S0113,Supplier 0113,United States,Watchlist
+S0114,Supplier 0114,China,Preferred
+S0115,Supplier 0115,Vietnam,Strategic
+S0116,Supplier 0116,United States,Strategic
+S0117,Supplier 0117,India,Approved
+S0118,Supplier 0118,Germany,Strategic
+S0119,Supplier 0119,India,Strategic
+S0120,Supplier 0120,India,Approved

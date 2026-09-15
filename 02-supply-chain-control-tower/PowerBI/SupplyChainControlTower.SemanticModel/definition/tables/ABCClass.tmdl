@@ -1,0 +1,31 @@
+/// Disconnected dimension holding the three ABC value classes, so ABC can be used as a chart axis. Unrelated to any fact table.
+table ABCClass
+	lineageTag: b2f80f87-0532-4f66-aa60-652e915d4edf
+
+	column Class
+		dataType: string
+		lineageTag: 33736f30-f914-4771-a206-744981c2c346
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Class]
+		sortByColumn: ClassOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7785b167-0376-4850-8e19-fd88c759b6e0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ClassOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ABCClass = calculated
+		mode: import
+		source =
+				DATATABLE ( "Class", STRING, "ClassOrder", INTEGER,
+				  { { "A", 1 }, { "B", 2 }, { "C", 3 } } )
+

@@ -1,0 +1,1166 @@
+/// Holds all business measures. The single hidden column exists only because a table requires one.
+table _Measures
+	lineageTag: 232d6549-0024-4ca0-a0ad-15850ec1592a
+
+	/// The dataset's fixed extract date, read from ModelConfig. Anchors every current and overdue calculation. Never substitute TODAY().
+	measure 'As Of Date' =
+			VAR ConfigText =
+			    CALCULATE (
+			        SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			        REMOVEFILTERS ( ModelConfig ),
+			        ModelConfig[ConfigKey] = "AsOfDate"
+			    )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( ConfigText ),
+			        DATE ( VALUE ( LEFT ( ConfigText, 4 ) ), VALUE ( MID ( ConfigText, 6, 2 ) ), VALUE ( RIGHT ( ConfigText, 2 ) ) )
+			    )
+		formatString: yyyy-mm-dd
+		displayFolder: 08 Model Controls
+		lineageTag: c35dfc61-567e-42f5-9983-c635afbb3ce1
+
+	/// Planned forward forecast horizon in weeks, read from ModelConfig.
+	measure 'Forecast Horizon Weeks' =
+			VAR ConfigText =
+			    CALCULATE (
+			        SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			        REMOVEFILTERS ( ModelConfig ),
+			        ModelConfig[ConfigKey] = "ForecastHorizonWeeks"
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( ConfigText ), VALUE ( ConfigText ) )
+		formatString: #,0
+		displayFolder: 08 Model Controls
+		lineageTag: 55e60cfc-29ab-49dc-bdb1-d95ee65654e4
+
+	/// Total sales-order revenue in the current filter context.
+	measure 'Total Revenue' = SUM ( FactSalesOrders[Revenue] )
+		formatString: #,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 475b2957-d87d-41b5-b222-80c9de46abe2
+
+	/// Count of sales orders. SalesOrderID is unique per row, so this equals a distinct order count.
+	measure 'Sales Orders' = COUNTROWS ( FactSalesOrders )
+		formatString: #,0
+		displayFolder: 01 Core KPIs
+		lineageTag: a3ebcda4-4a59-4f77-943a-9f3f13169466
+
+	/// Total quantity ordered across sales orders. This is quantity ORDERED; the dataset records no delivered quantity.
+	measure 'Units Sold' = SUM ( FactSalesOrders[Quantity] )
+		formatString: #,0
+		displayFolder: 01 Core KPIs
+		lineageTag: eafd0f69-77a8-491b-99c3-3fc2d59060d4
+
+	/// Total committed purchase-order value in the current filter context.
+	measure 'Purchase Order Value' = SUM ( FactPurchaseOrders[POValue] )
+		formatString: #,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 3f93f5d8-8ebd-4303-9d16-52a8b3c0c1cf
+
+	/// Total outbound freight cost across shipments.
+	measure 'Freight Cost' = SUM ( FactShipments[FreightCost] )
+		formatString: #,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 998775da-faa0-40c0-b12f-f8c7b6e7eec5
+
+	/// Share of DELIVERED orders that arrived on or before the promised date. Orders not yet due are excluded: they can be neither on time nor late. This is on-time only - it is NOT OTIF, because the dataset records no delivered quantity.
+	measure 'On-Time Delivery %' = DIVIDE ( [On-Time Deliveries], [Completed Deliveries] )
+		formatString: 0.0%
+		displayFolder: 01 Core KPIs
+		lineageTag: ecd505aa-3c7a-449f-a0ad-db49ddbd2747
+
+	/// Revenue divided by number of sales orders.
+	measure 'Average Order Value' = DIVIDE ( [Total Revenue], [Sales Orders] )
+		formatString: #,0.00
+		displayFolder: 02 Sales
+		lineageTag: 7a3c351e-e773-4095-a332-3039aad08785
+
+	/// Revenue divided by units sold. The realised price per unit, which differs from DimProduct[UnitPrice] because the source carries genuine price variance.
+	measure 'Average Selling Price' = DIVIDE ( [Total Revenue], [Units Sold] )
+		formatString: #,0.00
+		displayFolder: 02 Sales
+		lineageTag: ec0d36f6-5861-4053-9d62-90bbe5e13cea
+
+	/// Orders scheduled to deliver after the as-of date. In flight, not overdue.
+	measure 'Open Sales Orders' = CALCULATE ( [Sales Orders], FactSalesOrders[IsOpenOrder] = TRUE () )
+		formatString: #,0
+		displayFolder: 02 Sales
+		lineageTag: d458a62a-11e5-4e7d-9a04-93c79f1b2a18
+
+	/// Orders delivered on or before the as-of date.
+	measure 'Delivered Sales Orders' = CALCULATE ( [Sales Orders], FactSalesOrders[IsDelivered] = TRUE () )
+		formatString: #,0
+		displayFolder: 02 Sales
+		lineageTag: c10ebbad-a59f-4762-92d2-cdcdddfbb510
+
+	/// Orders whose promised delivery date fell on or before the as-of date - the population for which on-time performance is measurable.
+	measure 'Sales Orders Due As Of Date' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE ( [Sales Orders], FactSalesOrders[PromisedDeliveryDate] <= AsOf )
+		formatString: #,0
+		displayFolder: 02 Sales
+		lineageTag: 1c82660c-903b-4bfc-93eb-5719da36a271
+
+	/// The latest inventory snapshot on or before the as-of date. Anchored: ignores date slicers so current stock never disappears from a filtered page.
+	measure 'Current Inventory Snapshot Date' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        MAX ( FactInventorySnapshot[SnapshotDate] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] <= AsOf
+			    )
+		formatString: yyyy-mm-dd
+		displayFolder: 03 Inventory & Demand
+		lineageTag: b3816bce-8e43-4b34-810d-3156092bc716
+
+	/// Units on hand at the current snapshot. Responds to product, category and warehouse filters but never sums across time.
+	measure 'Current On Hand Units' =
+			VAR SnapDate = [Current Inventory Snapshot Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactInventorySnapshot[OnHandUnits] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = SnapDate
+			    )
+		formatString: #,0
+		displayFolder: 03 Inventory & Demand
+		lineageTag: 8561a839-c83e-431a-9574-0299ca38f3e8
+
+	/// Units in transit at the current snapshot. Ranges 0-29 per row in this dataset, so it barely moves replenishment arithmetic.
+	measure 'Current Inbound Units' =
+			VAR SnapDate = [Current Inventory Snapshot Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactInventorySnapshot[InboundUnits] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = SnapDate
+			    )
+		formatString: #,0
+		displayFolder: 03 Inventory & Demand
+		lineageTag: 0edd7d80-454e-44f4-9735-c24e733b4b61
+
+	/// On hand plus inbound at the current snapshot.
+	measure 'Current Inventory Position' = [Current On Hand Units] + [Current Inbound Units]
+		formatString: #,0
+		displayFolder: 03 Inventory & Demand
+		lineageTag: fb611c5f-3429-4405-b7e7-4a1c13774e6f
+
+	/// Value of stock held at the current snapshot, as on-hand units times unit cost evaluated per row. Rebuilt in DAX because the stored InventoryValue column was removed from the reporting contract as exactly derivable.
+	measure 'Current Inventory Value' =
+			VAR SnapDate = [Current Inventory Snapshot Date]
+			RETURN
+			    CALCULATE (
+			        SUMX (
+			            FactInventorySnapshot,
+			            FactInventorySnapshot[OnHandUnits] * RELATED ( DimProduct[UnitCost] )
+			        ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = SnapDate
+			    )
+		formatString: #,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 6181a7ae-8952-49cb-9a5e-5e8c40baf9d6
+
+	/// Actual weekly demand. Independent of sales orders in this dataset - the two series must never be presented as derived from one another.
+	measure 'Actual Demand Units' = SUM ( FactWeeklyDemand[ActualDemandUnits] )
+		formatString: #,0
+		displayFolder: 03 Inventory & Demand
+		lineageTag: f7d02c9b-5da4-4a7e-bba8-f9f97c5d3266
+
+	/// The supplied baseline forecast. This is the locked benchmark any model must beat in the forecasting phase.
+	measure 'Baseline Forecast Units' = SUM ( FactWeeklyDemand[BaselineForecastUnits] )
+		formatString: #,0
+		displayFolder: 03 Inventory & Demand
+		lineageTag: eac60fa1-7dea-4e0d-afa0-8aa98657869f
+
+	/// Baseline forecast minus actual demand. Negative means the baseline under-forecast.
+	measure 'Demand Variance Units' = [Baseline Forecast Units] - [Actual Demand Units]
+		formatString: #,0
+		displayFolder: 03 Inventory & Demand
+		lineageTag: 91de2cc0-5a61-4011-b448-e5261eddca06
+
+	/// Demand variance as a share of actual demand. This is forecast BIAS, not accuracy: opposite errors cancel.
+	measure 'Demand Variance %' = DIVIDE ( [Demand Variance Units], [Actual Demand Units] )
+		formatString: 0.0%
+		displayFolder: 03 Inventory & Demand
+		lineageTag: f989be57-48f0-44b1-ae2a-e0ea610141ee
+
+	/// Count of purchase orders. PurchaseOrderID is unique per row.
+	measure 'Purchase Orders' = COUNTROWS ( FactPurchaseOrders )
+		formatString: #,0
+		displayFolder: 04 Procurement
+		lineageTag: cf88959b-f9c4-41a3-9621-04dfc13aa852
+
+	/// Total quantity ordered from suppliers.
+	measure 'Units Ordered' = SUM ( FactPurchaseOrders[QuantityOrdered] )
+		formatString: #,0
+		displayFolder: 04 Procurement
+		lineageTag: 491150b4-3108-41d4-a89c-40217fefbbfc
+
+	/// Purchase-order value divided by number of purchase orders.
+	measure 'Average Purchase Order Value' = DIVIDE ( [Purchase Order Value], [Purchase Orders] )
+		formatString: #,0.00
+		displayFolder: 04 Procurement
+		lineageTag: 960aee55-a395-4e9c-9f23-403d0b5588c5
+
+	/// Purchase orders scheduled to arrive after the as-of date. In flight, not late.
+	measure 'Open Purchase Orders' = CALCULATE ( [Purchase Orders], FactPurchaseOrders[IsOpenPO] = TRUE () )
+		formatString: #,0
+		displayFolder: 04 Procurement
+		lineageTag: c8c308be-cc7b-4851-90ff-aa93c812de73
+
+	/// Purchase orders received on or before the as-of date.
+	measure 'Received Purchase Orders' = CALCULATE ( [Purchase Orders], FactPurchaseOrders[IsReceived] = TRUE () )
+		formatString: #,0
+		displayFolder: 04 Procurement
+		lineageTag: 5d78edc7-d62d-48b5-b330-5571e1fdea30
+
+	/// Purchase orders whose expected receipt date fell on or before the as-of date.
+	measure 'Purchase Orders Due As Of Date' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE ( [Purchase Orders], FactPurchaseOrders[ExpectedReceiptDate] <= AsOf )
+		formatString: #,0
+		displayFolder: 04 Procurement
+		lineageTag: befac71f-9bad-472e-a9c0-80475b78c30b
+
+	/// Mean days from order to receipt, over RECEIVED purchase orders only. Distinct from DimProduct[LeadTimeDays], which is the planning assumption.
+	measure 'Average Supplier Lead Time' = CALCULATE ( AVERAGE ( FactPurchaseOrders[ActualLeadTimeDays] ), FactPurchaseOrders[IsReceived] = TRUE () )
+		formatString: 0.00
+		displayFolder: 04 Procurement
+		lineageTag: 9d5e4dec-7182-4350-be3d-3d941d8148ea
+
+	/// Count of outbound shipments.
+	measure 'Total Shipments' = COUNTROWS ( FactShipments )
+		formatString: #,0
+		displayFolder: 05 Logistics
+		lineageTag: 0d35a0d9-6390-4aa0-9bdd-a13b6394afd5
+
+	/// Freight cost divided by number of shipments.
+	measure 'Average Freight Cost per Shipment' = DIVIDE ( [Freight Cost], [Total Shipments] )
+		formatString: #,0.00
+		displayFolder: 05 Logistics
+		lineageTag: aa974190-c893-4dcb-9b87-08dfb0f22a26
+
+	/// Freight cost divided by distinct sales orders shipped. Uses a distinct count so the measure stays correct if an order is ever split across shipments.
+	measure 'Average Freight Cost per Sales Order' = DIVIDE ( [Freight Cost], DISTINCTCOUNT ( FactShipments[SalesOrderID] ) )
+		formatString: #,0.00
+		displayFolder: 05 Logistics
+		lineageTag: 39e73d11-3c15-4426-9f1f-a79bbec90157
+
+	/// Orders actually delivered on or before the as-of date. The denominator for all delivery performance.
+	measure 'Completed Deliveries' = CALCULATE ( [Sales Orders], FactSalesOrders[IsDelivered] = TRUE () )
+		formatString: #,0
+		displayFolder: 06 Delivery Performance
+		lineageTag: 529c32e7-2bdd-4bfe-9704-c60d0652c0eb
+
+	/// Delivered orders that arrived on or before the promised date.
+	measure 'On-Time Deliveries' =
+			CALCULATE (
+			    [Sales Orders],
+			    FactSalesOrders[IsDelivered] = TRUE (),
+			    FactSalesOrders[DeliveryDelayDays] <= 0
+			)
+		formatString: #,0
+		displayFolder: 06 Delivery Performance
+		lineageTag: f0e082b7-d24c-4370-b31c-7f19b1dc0237
+
+	/// Delivered orders that arrived after the promised date.
+	measure 'Late Deliveries' =
+			CALCULATE (
+			    [Sales Orders],
+			    FactSalesOrders[IsDelivered] = TRUE (),
+			    FactSalesOrders[DeliveryDelayDays] > 0
+			)
+		formatString: #,0
+		displayFolder: 06 Delivery Performance
+		lineageTag: 9f73fa18-c23f-4e93-b0ae-af2ef0f0e52c
+
+	/// Share of delivered orders that arrived late.
+	measure 'Late Delivery %' = DIVIDE ( [Late Deliveries], [Completed Deliveries] )
+		formatString: 0.0%
+		displayFolder: 06 Delivery Performance
+		lineageTag: 6a79696f-ad49-4c5e-ade4-a69948f6fc65
+
+	/// Mean days between promised and actual delivery, over delivered orders. Positive means late; early deliveries pull the average down.
+	measure 'Average Delivery Delay Days' = CALCULATE ( AVERAGE ( FactSalesOrders[DeliveryDelayDays] ), FactSalesOrders[IsDelivered] = TRUE () )
+		formatString: 0.00
+		displayFolder: 06 Delivery Performance
+		lineageTag: ec236b54-ff1b-40b5-b3f9-1d4d592fe9d3
+
+	/// Purchase orders actually received. The denominator for supplier receipt performance.
+	measure 'Completed Receipts' = CALCULATE ( [Purchase Orders], FactPurchaseOrders[IsReceived] = TRUE () )
+		formatString: #,0
+		displayFolder: 06 Delivery Performance
+		lineageTag: 5651d6a5-c69f-430f-92f6-2f7c5fcfe54a
+
+	/// Received purchase orders that arrived on or before the expected receipt date.
+	measure 'On-Time Receipts' =
+			CALCULATE (
+			    [Purchase Orders],
+			    FactPurchaseOrders[IsReceived] = TRUE (),
+			    FactPurchaseOrders[ReceiptDelayDays] <= 0
+			)
+		formatString: #,0
+		displayFolder: 06 Delivery Performance
+		lineageTag: b0db7a6b-d507-4546-bbe6-55725af8c8f5
+
+	/// Received purchase orders that arrived after the expected receipt date.
+	measure 'Late Receipts' =
+			CALCULATE (
+			    [Purchase Orders],
+			    FactPurchaseOrders[IsReceived] = TRUE (),
+			    FactPurchaseOrders[ReceiptDelayDays] > 0
+			)
+		formatString: #,0
+		displayFolder: 06 Delivery Performance
+		lineageTag: 25ee50e6-bd08-45f3-9050-cd0b6e36d738
+
+	/// Share of received purchase orders that arrived on time. Supplier delivery reliability. NOT OTIF - no received quantity exists to prove 'in full'.
+	measure 'On-Time Receipt %' = DIVIDE ( [On-Time Receipts], [Completed Receipts] )
+		formatString: 0.0%
+		displayFolder: 06 Delivery Performance
+		lineageTag: c1ff09c6-88ae-49f8-8c39-3cbe0d3f9d00
+
+	/// Mean days between expected and actual receipt, over received purchase orders.
+	measure 'Average Receipt Delay Days' = CALCULATE ( AVERAGE ( FactPurchaseOrders[ReceiptDelayDays] ), FactPurchaseOrders[IsReceived] = TRUE () )
+		formatString: 0.00
+		displayFolder: 06 Delivery Performance
+		lineageTag: 31e6609f-820f-4feb-87ce-781f53bb22ef
+
+	/// Sales orders counted by when they were DELIVERED rather than ordered. Excludes orders not yet delivered.
+	measure 'Sales Orders by Actual Delivery Date' =
+			CALCULATE (
+			    [Sales Orders],
+			    USERELATIONSHIP ( FactSalesOrders[ActualDeliveryDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactSalesOrders[ActualDeliveryDate] )
+			)
+		formatString: #,0
+		displayFolder: 07 Date Roles
+		lineageTag: 1e497aa4-2bc7-4ae1-80b5-1d8fdbfae530
+
+	/// Sales orders counted by when delivery was PROMISED. The natural denominator for period on-time analysis.
+	measure 'Sales Orders by Promised Delivery Date' =
+			CALCULATE (
+			    [Sales Orders],
+			    USERELATIONSHIP ( FactSalesOrders[PromisedDeliveryDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactSalesOrders[PromisedDeliveryDate] )
+			)
+		formatString: #,0
+		displayFolder: 07 Date Roles
+		lineageTag: f28e5a84-1b4a-437b-bc54-4c315c48f539
+
+	/// Open orders counted by expected delivery date - the forward order book. Only in-flight orders carry this date, so this counts the open book, not the whole table.
+	measure 'Sales Orders by Scheduled Delivery Date' =
+			CALCULATE (
+			    [Sales Orders],
+			    USERELATIONSHIP ( FactSalesOrders[ScheduledDeliveryDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactSalesOrders[ScheduledDeliveryDate] )
+			)
+		formatString: #,0
+		displayFolder: 07 Date Roles
+		lineageTag: aa47cc4b-91b1-4968-9221-1d331195a74c
+
+	/// Purchase orders counted by when goods were RECEIVED rather than ordered. Excludes POs not yet received.
+	measure 'Purchase Orders by Actual Receipt Date' =
+			CALCULATE (
+			    [Purchase Orders],
+			    USERELATIONSHIP ( FactPurchaseOrders[ActualReceiptDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactPurchaseOrders[ActualReceiptDate] )
+			)
+		formatString: #,0
+		displayFolder: 07 Date Roles
+		lineageTag: 1d8fe69d-5d1f-417b-8961-fab1cab158e3
+
+	/// Open purchase orders counted by expected arrival - the inbound pipeline that later feeds stockout risk. Only open POs carry this date.
+	measure 'Purchase Orders by Scheduled Receipt Date' =
+			CALCULATE (
+			    [Purchase Orders],
+			    USERELATIONSHIP ( FactPurchaseOrders[ScheduledReceiptDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactPurchaseOrders[ScheduledReceiptDate] )
+			)
+		formatString: #,0
+		displayFolder: 07 Date Roles
+		lineageTag: 1641c6b1-ad84-4a71-b22a-266c0f3da408
+
+	/// Mean weekly demand over the 13 weeks ending at the as-of date. Anchored: ignores date slicers, so replenishment figures do not change when a user filters the calendar.
+	measure 'Average Weekly Demand' =
+			VAR AsOf = [As Of Date]
+			VAR WindowStart = AsOf - 91
+			RETURN
+			    CALCULATE (
+			        AVERAGE ( FactWeeklyDemand[ActualDemandUnits] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactWeeklyDemand[WeekStart] > WindowStart,
+			        FactWeeklyDemand[WeekStart] <= AsOf
+			    )
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 2dd00abd-2028-4ca8-a29b-d8fac60f88e7
+
+	/// Standard deviation of weekly demand over the same 13-week window. Feeds demand variability and the XYZ classification.
+	measure 'Demand Standard Deviation' =
+			VAR AsOf = [As Of Date]
+			VAR WindowStart = AsOf - 91
+			RETURN
+			    CALCULATE (
+			        STDEV.S ( FactWeeklyDemand[ActualDemandUnits] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactWeeklyDemand[WeekStart] > WindowStart,
+			        FactWeeklyDemand[WeekStart] <= AsOf
+			    )
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 658d6b60-3b34-4540-9e64-d7ded8ec99fb
+
+	/// Standard deviation divided by mean weekly demand. The dimensionless measure of demand predictability behind XYZ.
+	measure 'Demand Coefficient of Variation' = DIVIDE ( [Demand Standard Deviation], [Average Weekly Demand] )
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 77cd6758-a446-48b3-b4e3-1ea8a3e05b11
+
+	/// Supplier planning lead time expressed in weeks. Uses DimProduct[LeadTimeDays], the planning assumption - not observed supplier performance.
+	measure 'Lead Time Weeks' = DIVIDE ( AVERAGE ( DimProduct[LeadTimeDays] ), 7 )
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 0117836e-e90f-4187-bfc0-1308c735868f
+
+	/// Safety stock as supplied on DimProduct. A statistical alternative driven by demand variability and a service level is a candidate refinement, but the supplied figure is used here so the reorder point rests on given data rather than an assumed service level.
+	measure 'Safety Stock Units' = SUM ( DimProduct[SafetyStockUnits] )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: f49ad8e6-af8c-4fb1-84ca-4f9777b15435
+
+	/// Average weekly demand multiplied by lead time in weeks. The stock consumed while a replenishment order is in transit.
+	measure 'Expected Demand During Lead Time' = [Average Weekly Demand] * [Lead Time Weeks]
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 8a18bdaa-edd5-4ab9-8b73-610b40713d8a
+
+	/// Expected demand during lead time plus safety stock. Falling below this means an order should already have been raised.
+	measure 'Reorder Point' = [Expected Demand During Lead Time] + [Safety Stock Units]
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 30e8ce0b-5626-42ab-b9a7-2c2c0e0e579e
+
+	/// Reorder point minus inventory position. Positive means the line is short by that many units.
+	measure 'Reorder Gap' = [Reorder Point] - [Current Inventory Position]
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 619f4f99-bc01-4a41-a649-700ca6312087
+
+	/// Units to order to return to the reorder point. Floored at zero - a surplus is not a negative order.
+	measure 'Suggested Reorder Quantity' = MAX ( 0, [Reorder Gap] )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: d51f6f43-3bc3-4265-ad49-cb5112a6d211
+
+	/// How many weeks the current inventory position covers at recent demand. Blank where there is no demand, since dividing by zero demand is meaningless rather than infinite.
+	measure 'Weeks of Supply' = DIVIDE ( [Current Inventory Position], [Average Weekly Demand] )
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 50a986c2-3e1f-4544-a9e8-a12df76a0971
+
+	/// Critical: position below safety stock. Reorder Required: below reorder point. Monitor: below twice the reorder point. Overstock: more than 26 weeks of cover. Healthy: everything else. Thresholds are absolute business rules, documented in Documentation/inventory_logic.md.
+	measure 'Replenishment Status' =
+			VAR Position = [Current Inventory Position]
+			VAR Safety = [Safety Stock Units]
+			VAR ROP = [Reorder Point]
+			VAR WoS = [Weeks of Supply]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Position ), BLANK (),
+			        Position < Safety, "Critical",
+			        Position < ROP, "Reorder Required",
+			        Position < 2 * ROP, "Monitor",
+			        NOT ISBLANK ( WoS ) && WoS > 26, "Overstock",
+			        "Healthy"
+			    )
+		displayFolder: 09 Replenishment
+		lineageTag: a73e7b04-0bd3-473c-9906-f76a3e6ce325
+
+	/// Product-warehouse lines whose inventory position sits below their reorder point. Iterates the product-warehouse grain: a portfolio-level comparison would hide line shortages inside the aggregate surplus.
+	measure 'Products Requiring Reorder' =
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    SUMX ( Grain, IF ( [Reorder Gap] > 0, 1, 0 ) )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: 368fbe41-0d10-4ea0-bb88-b6c8aa175622
+
+	/// Product-warehouse lines already below their safety stock, not merely below the reorder point.
+	measure 'Critical Products' =
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    SUMX ( Grain, IF ( [Current Inventory Position] < [Safety Stock Units], 1, 0 ) )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: 54bc328a-d971-4110-a16b-f48218ac1312
+
+	/// Total units to order across every short line.
+	measure 'Suggested Reorder Units' =
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    SUMX ( Grain, MAX ( 0, [Reorder Gap] ) )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: ba15a731-b054-4784-acee-0a0222ec8938
+
+	/// Mean weeks of cover across product-warehouse lines that carry demand.
+	measure 'Average Weeks of Supply' =
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    AVERAGEX ( Grain, [Weeks of Supply] )
+		formatString: 0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 26fa9a76-68fb-4006-bd98-ff64329a63be
+
+	/// Units held beyond 26 weeks of cover, floored at zero.
+	measure 'Excess Inventory Units' =
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    SUMX ( Grain, MAX ( 0, [Current Inventory Position] - 26 * [Average Weekly Demand] ) )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: 4d9c6f51-9e5b-480c-a717-71b03dbd2bde
+
+	/// Value of stock held beyond 26 weeks of cover, priced at unit cost per product. The working capital tied up in stock that will not turn over within six months.
+	measure 'Excess Inventory Value' =
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    SUMX (
+			        Grain,
+			        MAX ( 0, [Current Inventory Position] - 26 * [Average Weekly Demand] )
+			            * CALCULATE ( SELECTEDVALUE ( DimProduct[UnitCost] ) )
+			    )
+		formatString: #,0.00
+		displayFolder: 09 Replenishment
+		lineageTag: 363604e3-0de4-4dc6-b498-4ae7cec21563
+
+	/// Count of product-warehouse lines at the replenishment status in context. Without a status filter it returns every line.
+	measure 'Lines at Status' =
+			VAR ClassSet = VALUES ( ReplenishmentStatus[Status] )
+			VAR Snap = [Current Inventory Snapshot Date]
+			VAR Grain =
+			    CALCULATETABLE (
+			        SUMMARIZE ( FactInventorySnapshot, DimProduct[ProductID], DimWarehouse[WarehouseID] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactInventorySnapshot[SnapshotDate] = Snap
+			    )
+			RETURN
+			    SUMX (
+			        Grain,
+			        VAR S = [Replenishment Status]
+			        RETURN
+			            IF ( NOT ISBLANK ( S ) && S IN ClassSet, 1, 0 )
+			    )
+		formatString: #,0
+		displayFolder: 09 Replenishment
+		lineageTag: 46dfddfc-f6a5-4f3b-b7e6-78f57443eed1
+
+	/// Mean weekly demand for a product, summed across warehouses first. Distinct from [Average Weekly Demand], which works at product-warehouse grain for replenishment.
+	measure 'Product Average Weekly Demand' =
+			VAR AsOf = [As Of Date]
+			VAR WindowStart = AsOf - 91
+			VAR WeeklyTotals =
+			    CALCULATETABLE (
+			        ADDCOLUMNS (
+			            SUMMARIZE ( FactWeeklyDemand, FactWeeklyDemand[WeekStart] ),
+			            "@Units", CALCULATE ( SUM ( FactWeeklyDemand[ActualDemandUnits] ) )
+			        ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactWeeklyDemand[WeekStart] > WindowStart,
+			        FactWeeklyDemand[WeekStart] <= AsOf
+			    )
+			RETURN
+			    AVERAGEX ( WeeklyTotals, [@Units] )
+		formatString: 0.00
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 12180dcc-516d-4126-9745-94a80f70dcbc
+
+	/// Standard deviation of a product's total weekly demand across the 13-week window.
+	measure 'Product Demand Std Dev' =
+			VAR AsOf = [As Of Date]
+			VAR WindowStart = AsOf - 91
+			VAR WeeklyTotals =
+			    CALCULATETABLE (
+			        ADDCOLUMNS (
+			            SUMMARIZE ( FactWeeklyDemand, FactWeeklyDemand[WeekStart] ),
+			            "@Units", CALCULATE ( SUM ( FactWeeklyDemand[ActualDemandUnits] ) )
+			        ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactWeeklyDemand[WeekStart] > WindowStart,
+			        FactWeeklyDemand[WeekStart] <= AsOf
+			    )
+			RETURN
+			    STDEVX.S ( WeeklyTotals, [@Units] )
+		formatString: 0.00
+		displayFolder: 10 ABC / XYZ
+		lineageTag: ce8eeaa0-2ef5-4ac2-9c38-d386a3333db8
+
+	/// Coefficient of variation of product-level weekly demand: standard deviation divided by mean. Blank where mean demand is zero - dividing by no demand is meaningless, not infinite.
+	measure 'Product Demand CV' = DIVIDE ( [Product Demand Std Dev], [Product Average Weekly Demand] )
+		formatString: 0.0000
+		displayFolder: 10 ABC / XYZ
+		lineageTag: d920b7b9-7720-475d-911d-1e9f611f087f
+
+	/// Lower tercile of product demand CV across the whole eligible portfolio. Computed, not hard-coded, and deliberately immune to report filters so class meaning stays stable.
+	measure 'XYZ P33 Threshold' =
+			VAR Population =
+			    FILTER (
+			        CALCULATETABLE (
+			            ADDCOLUMNS ( VALUES ( DimProduct[ProductID] ), "@CV", [Product Demand CV] ),
+			            REMOVEFILTERS ()
+			        ),
+			        NOT ISBLANK ( [@CV] )
+			    )
+			RETURN
+			    PERCENTILEX.INC ( Population, [@CV], DIVIDE ( 1, 3 ) )
+		formatString: 0.0000
+		displayFolder: 10 ABC / XYZ
+		lineageTag: de89a408-c4da-46ad-a9ff-dcef0aa67a90
+
+	/// Upper tercile of product demand CV across the whole eligible portfolio.
+	measure 'XYZ P66 Threshold' =
+			VAR Population =
+			    FILTER (
+			        CALCULATETABLE (
+			            ADDCOLUMNS ( VALUES ( DimProduct[ProductID] ), "@CV", [Product Demand CV] ),
+			            REMOVEFILTERS ()
+			        ),
+			        NOT ISBLANK ( [@CV] )
+			    )
+			RETURN
+			    PERCENTILEX.INC ( Population, [@CV], DIVIDE ( 2, 3 ) )
+		formatString: 0.0000
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 0558c4dd-c0b2-4858-89dc-2e2d290ec7c3
+
+	/// A product's share of revenue across the selected comparison population.
+	measure 'Product Revenue Contribution %' =
+			VAR Population =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( DimProduct[ProductID] ), "@Rev", [Total Revenue] ),
+			        ALLSELECTED ( DimProduct )
+			    )
+			VAR TotalRev = SUMX ( Population, [@Rev] )
+			VAR ThisRev = [Total Revenue]
+			RETURN
+			    DIVIDE ( ThisRev, TotalRev )
+		formatString: 0.0%
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 62b73ff2-057f-4c88-af5c-59dc3aae9695
+
+	/// Revenue rank within the selected population, highest first.
+	measure 'Product Revenue Rank' = RANKX ( ALLSELECTED ( DimProduct ), [Total Revenue], , DESC, DENSE )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 0b154cec-27b5-4b45-bde6-eb99dafd88ef
+
+	/// Running share of revenue for this product and every product ranked above it. The basis of the ABC boundary.
+	measure 'Cumulative Revenue %' =
+			VAR Population =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( DimProduct[ProductID] ), "@Rev", [Total Revenue] ),
+			        ALLSELECTED ( DimProduct )
+			    )
+			VAR TotalRev = SUMX ( Population, [@Rev] )
+			VAR ThisRev = [Total Revenue]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( ThisRev ),
+			        DIVIDE ( SUMX ( FILTER ( Population, [@Rev] >= ThisRev ), [@Rev] ), TotalRev )
+			    )
+		formatString: 0.0%
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 02f73c8a-cfec-47e2-b602-0568322619dd
+
+	/// A: products making up the first 80% of cumulative revenue. B: next 15%. C: remainder. Thresholds describe value contribution, not a target share of products - on this catalogue A holds 51.2% of SKUs, which is the real distribution.
+	measure 'ABC Class' =
+			VAR Cum = [Cumulative Revenue %]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Cum ), BLANK (),
+			        Cum <= 0.80, "A",
+			        Cum <= 0.95, "B",
+			        "C"
+			    )
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 5f4b73c7-f607-464a-84b4-24d5f5a5d313
+
+	/// X: lowest third of demand variability, most predictable. Y: middle third. Z: highest third, most volatile. Boundaries are measured terciles of the portfolio CV distribution, because generic cut-offs such as X<0.5 would classify every product here as X.
+	measure 'XYZ Class' =
+			VAR CV = [Product Demand CV]
+			VAR P33 = [XYZ P33 Threshold]
+			VAR P66 = [XYZ P66 Threshold]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( CV ), BLANK (),
+			        CV <= P33, "X",
+			        CV <= P66, "Y",
+			        "Z"
+			    )
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 69a5799d-1048-46b7-8688-16a9f7b58f51
+
+	/// Combined class, only where both parts are valid. Products with no demand history stay unclassified rather than being defaulted into X.
+	measure 'ABC XYZ Class' =
+			VAR A = [ABC Class]
+			VAR X = [XYZ Class]
+			RETURN
+			    IF ( NOT ISBLANK ( A ) && NOT ISBLANK ( X ), A & X )
+		displayFolder: 10 ABC / XYZ
+		lineageTag: e76ced63-2239-46f4-a461-b213e18ef9fc
+
+	/// Products in the ABC class in context. Without a class filter, every product with revenue.
+	measure 'Products at ABC Class' =
+			VAR ClassSet = VALUES ( ABCClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimProduct[ProductID] ),
+			        VAR C = [ABC Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, 1, 0 )
+			    )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: e5904820-9372-4eb4-b696-7990a02a1d5d
+
+	/// Products in the XYZ class in context. Without a class filter, every product carrying demand history.
+	measure 'Products at XYZ Class' =
+			VAR ClassSet = VALUES ( XYZClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimProduct[ProductID] ),
+			        VAR C = [XYZ Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, 1, 0 )
+			    )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 775deef6-c3bc-4283-9379-7ab65b842d09
+
+	/// Products in the combined class in context. The value behind each cell of the 3x3 matrix.
+	measure 'Products at ABCXYZ Class' =
+			VAR ClassSet = VALUES ( ABCXYZClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimProduct[ProductID] ),
+			        VAR C = [ABC XYZ Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, 1, 0 )
+			    )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 2beb68ab-482b-47cf-90a9-9bca7535efbf
+
+	/// Revenue attributable to the ABC class in context.
+	measure 'Revenue at ABC Class' =
+			VAR ClassSet = VALUES ( ABCClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimProduct[ProductID] ),
+			        VAR C = [ABC Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, [Total Revenue], 0 )
+			    )
+		formatString: #,0.00
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 4f59c6bc-9345-4824-9b29-74567f164d7c
+
+	/// Current inventory value held in the combined class in context. Shows where working capital sits across the strategy grid.
+	measure 'Inventory Value at ABCXYZ Class' =
+			VAR ClassSet = VALUES ( ABCXYZClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimProduct[ProductID] ),
+			        VAR C = [ABC XYZ Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, [Current Inventory Value], 0 )
+			    )
+		formatString: #,0.00
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 296446c7-b4c7-4d43-9c03-3faeeb98d724
+
+	/// Products in the first 80% of cumulative revenue.
+	measure 'A-Class Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [ABC Class] = "A", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: fbce0f24-03f6-4779-b839-506fb68ff0ef
+
+	/// Products in the next 15% of revenue.
+	measure 'B-Class Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [ABC Class] = "B", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: ad0507cb-9a6f-4fef-bf94-a37934b0a058
+
+	/// Products in the remaining 5% of revenue.
+	measure 'C-Class Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [ABC Class] = "C", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 9ce00b0d-74ed-4992-b251-46f4551281b1
+
+	/// Most predictable third of demand.
+	measure 'X-Class Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [XYZ Class] = "X", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 3c35f827-5e07-42a5-a90f-2ad82760114b
+
+	/// Middle third of demand variability.
+	measure 'Y-Class Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [XYZ Class] = "Y", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 5397fa8c-3703-4504-9665-897c6049b71e
+
+	/// Most volatile third of demand.
+	measure 'Z-Class Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [XYZ Class] = "Z", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: dc559d0d-c126-46eb-a608-993464eec66a
+
+	/// High financial importance with volatile demand. The group needing the closest forecasting and inventory attention.
+	measure 'AZ Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [ABC XYZ Class] = "AZ", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: 7eb42591-5140-42ab-823f-f8cfc2bb01ee
+
+	/// Products with revenue but no weekly demand history, so no XYZ class can be assigned. Counted explicitly rather than hidden or defaulted into X.
+	measure 'Unclassified Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( ISBLANK ( [XYZ Class] ) && NOT ISBLANK ( [ABC Class] ), 1, 0 ) )
+		formatString: #,0
+		displayFolder: 10 ABC / XYZ
+		lineageTag: b0ac05fb-6d1b-45b0-b760-e0ea09a7f6e7
+
+	/// Current inventory value held in class A products - the working capital tied to the products that drive 80% of revenue.
+	measure 'A-Class Inventory Value' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [ABC Class] = "A", [Current Inventory Value], 0 ) )
+		formatString: #,0.00
+		displayFolder: 10 ABC / XYZ
+		lineageTag: ad46316a-0b38-4842-bb51-64db2f2d50a3
+
+	/// Distinct suppliers in the current filter context.
+	measure 'Total Suppliers' = DISTINCTCOUNT ( FactPurchaseOrders[SupplierID] )
+		formatString: #,0
+		displayFolder: 11 Supplier Performance
+		lineageTag: 21e15e65-98fc-4e9b-9b62-fbe324524b1d
+
+	/// Standard deviation of actual order-to-receipt days across RECEIVED purchase orders. Consistency, not speed: an erratic supplier cannot be planned around even if fast on average.
+	measure 'Supplier Lead Time Variability' = CALCULATE ( STDEV.S ( FactPurchaseOrders[ActualLeadTimeDays] ), FactPurchaseOrders[IsReceived] = TRUE () )
+		formatString: 0.00
+		displayFolder: 11 Supplier Performance
+		lineageTag: f1478510-1941-43a4-9092-c6858bab512b
+
+	/// Mean defect rate across purchase orders. Note the whole supplier base spans only 2.94% to 3.64%, so differences between suppliers are small in absolute terms.
+	measure 'Average Defect Rate' = AVERAGE ( FactPurchaseOrders[DefectRate] )
+		formatString: 0.00%
+		displayFolder: 11 Supplier Performance
+		lineageTag: b349d0e3-d63a-4439-b90f-f265b17dceb1
+
+	/// On-time receipt performance normalised across the supplier population. 1 is the best performer, 0 the worst.
+	measure 'On-Time Receipt Score' =
+			VAR Population =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( DimSupplier[SupplierID] ), "@V", [On-Time Receipt %] ),
+			        REMOVEFILTERS ()
+			    )
+			VAR Lo = MINX ( Population, [@V] )
+			VAR Hi = MAXX ( Population, [@V] )
+			VAR Cur = [On-Time Receipt %]
+			VAR Scaled = DIVIDE ( Cur - Lo, Hi - Lo )
+			RETURN
+			    IF ( NOT ISBLANK ( Cur ), Scaled )
+		formatString: 0.00
+		displayFolder: 11 Supplier Performance
+		lineageTag: 523e1829-c9bc-4236-97ec-6d7bdcf0b44d
+
+	/// Lead-time consistency normalised across the population, inverted so that low variability scores high.
+	measure 'Lead-Time Reliability Score' =
+			VAR Population =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( DimSupplier[SupplierID] ), "@V", [Supplier Lead Time Variability] ),
+			        REMOVEFILTERS ()
+			    )
+			VAR Lo = MINX ( Population, [@V] )
+			VAR Hi = MAXX ( Population, [@V] )
+			VAR Cur = [Supplier Lead Time Variability]
+			VAR Scaled = DIVIDE ( Cur - Lo, Hi - Lo )
+			RETURN
+			    IF ( NOT ISBLANK ( Cur ), 1 - Scaled )
+		formatString: 0.00
+		displayFolder: 11 Supplier Performance
+		lineageTag: 2a3b6b4e-8936-4dbc-a120-ef4bc2d3f6b9
+
+	/// Defect rate normalised across the population and inverted so that low defects score high. The underlying spread is only 0.7 percentage points, so this component separates suppliers weakly in absolute terms.
+	measure 'Quality Score' =
+			VAR Population =
+			    CALCULATETABLE (
+			        ADDCOLUMNS ( VALUES ( DimSupplier[SupplierID] ), "@V", [Average Defect Rate] ),
+			        REMOVEFILTERS ()
+			    )
+			VAR Lo = MINX ( Population, [@V] )
+			VAR Hi = MAXX ( Population, [@V] )
+			VAR Cur = [Average Defect Rate]
+			VAR Scaled = DIVIDE ( Cur - Lo, Hi - Lo )
+			RETURN
+			    IF ( NOT ISBLANK ( Cur ), 1 - Scaled )
+		formatString: 0.00
+		displayFolder: 11 Supplier Performance
+		lineageTag: aca4c8b2-3101-47f0-a823-1cbe3ed2b1a8
+
+	/// Weighted composite on a 0-100 scale: 45% on-time receipt, 35% lead-time reliability, 20% quality. Higher is always better. There is no fulfilment component - the dataset records no received quantity, so it cannot be measured and is not invented.
+	measure 'Supplier Performance Score' =
+			VAR OnTime = [On-Time Receipt Score]
+			VAR Reliability = [Lead-Time Reliability Score]
+			VAR Quality = [Quality Score]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( OnTime ),
+			        100 * ( 0.45 * OnTime + 0.35 * Reliability + 0.20 * Quality )
+			    )
+		formatString: 0.0
+		displayFolder: 11 Supplier Performance
+		lineageTag: a257d016-6d4b-48ba-aa50-e8494bd92405
+
+	/// Rank by performance score within the selected supplier population, best first.
+	measure 'Supplier Rank' = RANKX ( ALLSELECTED ( DimSupplier ), [Supplier Performance Score], , DESC, DENSE )
+		formatString: #,0
+		displayFolder: 11 Supplier Performance
+		lineageTag: 1e2bab15-cb9d-4f6d-b946-cfaf3f373bc6
+
+	/// Excellent 70+, Good 55-69, Needs Improvement 40-54, High Risk below 40. Round cut points on the normalised scale rather than percentiles, so class sizes reflect real performance rather than being forced equal.
+	measure 'Supplier Performance Class' =
+			VAR S = [Supplier Performance Score]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( S ), BLANK (),
+			        S >= 70, "Excellent",
+			        S >= 55, "Good",
+			        S >= 40, "Needs Improvement",
+			        "High Risk"
+			    )
+		displayFolder: 11 Supplier Performance
+		lineageTag: 10ed9021-34c1-43b3-9c69-a6848656ffc0
+
+	/// Mean performance score across suppliers in context. Averaged over suppliers, not over purchase orders, so a high-volume supplier does not dominate.
+	measure 'Average Supplier Score' = AVERAGEX ( VALUES ( DimSupplier[SupplierID] ), [Supplier Performance Score] )
+		formatString: 0.0
+		displayFolder: 11 Supplier Performance
+		lineageTag: c55f6fa8-0fb3-43d3-9c5c-89f94478c84d
+
+	/// Suppliers scoring 70 or above.
+	measure 'Excellent Suppliers' = SUMX ( VALUES ( DimSupplier[SupplierID] ), IF ( [Supplier Performance Class] = "Excellent", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 11 Supplier Performance
+		lineageTag: 24d8c797-54ad-4dcf-b86b-ac182d19f7df
+
+	/// Suppliers scoring below 40 - the group creating most operational risk.
+	measure 'High-Risk Suppliers' = SUMX ( VALUES ( DimSupplier[SupplierID] ), IF ( [Supplier Performance Class] = "High Risk", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 11 Supplier Performance
+		lineageTag: 95cda059-f6b5-4363-b0df-edb7a271042a
+
+	/// Suppliers in the performance class in context. Without a class filter, every scored supplier.
+	measure 'Suppliers at Class' =
+			VAR ClassSet = VALUES ( SupplierClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimSupplier[SupplierID] ),
+			        VAR C = [Supplier Performance Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, 1, 0 )
+			    )
+		formatString: #,0
+		displayFolder: 11 Supplier Performance
+		lineageTag: 980e1191-e19a-4f94-a040-fc218a96fbfd
+
+	/// Purchase-order value placed with suppliers in the class in context. Shows whether spend is concentrated among strong or weak suppliers.
+	measure 'PO Value at Supplier Class' =
+			VAR ClassSet = VALUES ( SupplierClass[Class] )
+			RETURN
+			    SUMX (
+			        VALUES ( DimSupplier[SupplierID] ),
+			        VAR C = [Supplier Performance Class]
+			        RETURN
+			            IF ( NOT ISBLANK ( C ) && C IN ClassSet, [Purchase Order Value], 0 )
+			    )
+		formatString: #,0.00
+		displayFolder: 11 Supplier Performance
+		lineageTag: 1931690c-0bb1-4406-b335-281da766d11e
+
+	/// Total absolute gap between actual and baseline forecast units, summed at the product-warehouse-week grain. Iterates the fact so that over- and under-forecasts cannot cancel each other out.
+	measure 'Forecast Absolute Error' = SUMX ( FactWeeklyDemand, ABS ( FactWeeklyDemand[ActualDemandUnits] - FactWeeklyDemand[BaselineForecastUnits] ) )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: c7f94c99-e349-4213-bc4f-57977f6fda5e
+
+	/// Weighted absolute percentage error: total absolute error divided by total actual demand. Used instead of MAPE because 1,096 product-weeks have zero actual demand, where MAPE is undefined.
+	measure 'Forecast WAPE' = DIVIDE ( [Forecast Absolute Error], [Actual Demand Units] )
+		formatString: 0.0%
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 80163eb0-e342-4fa7-8130-91ddfd6f86cb
+
+	/// 1 minus WAPE. The share of demand volume the baseline forecast got right. Blank where there is no actual demand to score against.
+	measure 'Forecast Accuracy %' =
+			VAR W = [Forecast WAPE]
+			RETURN
+			    IF ( NOT ISBLANK ( W ), 1 - W )
+		formatString: 0.0%
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 64130a76-fdc0-4833-badd-dd50c0f08c3d
+
+	/// Mean absolute error in units per product-warehouse-week. Reported alongside WAPE because a percentage alone hides how small these weekly quantities are.
+	measure 'Forecast MAE' = AVERAGEX ( FactWeeklyDemand, ABS ( FactWeeklyDemand[ActualDemandUnits] - FactWeeklyDemand[BaselineForecastUnits] ) )
+		formatString: 0.00
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 7bff06d0-797e-4ddb-918f-73794c91dc07
+
+	/// Baseline forecast minus actual. Positive means the forecast ran high, negative means it ran low. Signed on purpose - this is the measure that reveals systematic lean.
+	measure 'Forecast Bias Units' = [Baseline Forecast Units] - [Actual Demand Units]
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 20826091-8be4-4597-8e73-b4acedf46961
+
+	/// Forecast bias as a share of actual demand. Distinct from WAPE: a forecast can be badly wrong every week yet almost unbiased overall if the errors offset.
+	measure 'Forecast Bias %' = DIVIDE ( [Forecast Bias Units], [Actual Demand Units] )
+		formatString: 0.0%
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 406a1e44-2dba-4907-9d40-52565b4bfb85
+
+	/// Product-warehouse-weeks where the baseline forecast exceeded actual demand.
+	measure 'Over-Forecast Weeks' = COUNTROWS ( FILTER ( FactWeeklyDemand, FactWeeklyDemand[BaselineForecastUnits] > FactWeeklyDemand[ActualDemandUnits] ) )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: f193a0ae-48b8-40c5-aaa8-810c6fac2606
+
+	/// Product-warehouse-weeks where the baseline forecast fell short of actual demand.
+	measure 'Under-Forecast Weeks' = COUNTROWS ( FILTER ( FactWeeklyDemand, FactWeeklyDemand[BaselineForecastUnits] < FactWeeklyDemand[ActualDemandUnits] ) )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 73d19da9-9d0e-4771-90b8-b8fb6a0e845e
+
+	/// Distinct weeks of demand history in context. The dataset holds 105 weeks and stops at the as-of date - there are no forward weeks.
+	measure 'Demand Weeks Covered' = DISTINCTCOUNT ( FactWeeklyDemand[WeekStart] )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 58a2f32b-ad72-4d07-9c2d-5b66be386bb2
+
+	/// Actual demand over the 13 weeks ending at the as-of date. Anchored: ignores date slicers so the growth comparison is always like-for-like.
+	measure 'Recent 13W Demand' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactWeeklyDemand[ActualDemandUnits] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactWeeklyDemand[WeekStart] > AsOf - 91,
+			        FactWeeklyDemand[WeekStart] <= AsOf
+			    )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 2dde34e4-e78f-4fb2-a1b4-ff76314e57c9
+
+	/// Actual demand over the 13 weeks immediately before the recent window. The comparison base for demand growth.
+	measure 'Prior 13W Demand' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactWeeklyDemand[ActualDemandUnits] ),
+			        REMOVEFILTERS ( DimDate ),
+			        FactWeeklyDemand[WeekStart] > AsOf - 182,
+			        FactWeeklyDemand[WeekStart] <= AsOf - 91
+			    )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 0a154db4-d49b-4420-a0fa-a31cf6f45b35
+
+	/// Change in actual demand, recent 13 weeks against the preceding 13 weeks. Blank where there was no demand in the prior window, since growth from zero is not a percentage.
+	measure 'Demand Growth %' = DIVIDE ( [Recent 13W Demand] - [Prior 13W Demand], [Prior 13W Demand] )
+		formatString: 0.0%
+		displayFolder: 12 Demand Forecasting
+		lineageTag: e32a55da-7a71-448f-bd1c-b7967a8aaaf6
+
+	/// Products whose demand grew more than 5% between the two 13-week windows. The 5% band is a business rule fixed before counting, not fitted to the data.
+	measure 'Growing Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [Demand Growth %] > 0.05, 1, 0 ) )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 20a69bad-88b2-4bec-a2d4-3623994a3e6e
+
+	/// Products whose demand fell more than 5% between the two 13-week windows.
+	measure 'Declining Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [Demand Growth %] < -0.05, 1, 0 ) )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: cfaddf5d-df7c-4ab3-8a3a-bd6fd44ce9d4
+
+	/// Products whose demand moved within plus or minus 5% between the two windows. Counted explicitly so growing + declining + stable reconciles to the products carrying demand history.
+	measure 'Stable Demand Products' =
+			SUMX (
+			        VALUES ( DimProduct[ProductID] ),
+			        VAR G = [Demand Growth %]
+			        RETURN
+			            IF ( NOT ISBLANK ( G ) && G >= -0.05 && G <= 0.05, 1, 0 )
+			    )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 00cd6739-9630-4c24-bf60-15ea72c62e2e
+
+	/// Products in the most volatile third of the portfolio by demand coefficient of variation - the Z class of the XYZ segmentation. These are the products a baseline forecast is least able to track.
+	measure 'Volatile Products' = SUMX ( VALUES ( DimProduct[ProductID] ), IF ( [XYZ Class] = "Z", 1, 0 ) )
+		formatString: #,0
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 2df1b93f-7b66-48dd-b034-04cad3f023b0
+
+	/// Mean coefficient of variation of weekly demand across the products in context. The portfolio-level read on how predictable demand is.
+	measure 'Average Product Demand CV' = AVERAGEX ( VALUES ( DimProduct[ProductID] ), [Product Demand CV] )
+		formatString: 0.0000
+		displayFolder: 12 Demand Forecasting
+		lineageTag: 7bbde5c3-a5cb-4702-913e-3f6e01175e66
+
+	column _
+		isHidden
+		lineageTag: 3f1a1ace-f2e7-4182-8ceb-4a1843795a32
+		isNameInferred
+		sourceColumn: [_]
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW("_", BLANK())
+

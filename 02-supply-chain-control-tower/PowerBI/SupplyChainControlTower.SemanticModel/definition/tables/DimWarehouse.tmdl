@@ -1,0 +1,66 @@
+/// Six distribution centres across four countries.
+table DimWarehouse
+	lineageTag: 4e6d68a9-a0bf-49c6-8269-1c07a5833c97
+
+	column WarehouseID
+		dataType: string
+		lineageTag: c024ed2e-4f79-480a-9888-b4ef7b469d8e
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseName
+		dataType: string
+		lineageTag: bb9094e1-d6c5-4c34-8caf-b69ba94f3042
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: WarehouseName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: a58fe0f8-1ea2-4f66-9b31-a76d5d82cb82
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: da9ff50d-7250-451e-8596-1a2f689bd36b
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Geography
+		lineageTag: ef9de952-e2d9-4b42-953e-2e6e759a8558
+
+		level Region
+			lineageTag: 16632dd4-7ed2-4d53-aa72-120bf9e17014
+			column: Region
+
+		level Country
+			lineageTag: b6b617de-b413-4a04-b495-dbf182409b44
+			column: Country
+
+		level WarehouseName
+			lineageTag: c4690092-0ca4-4fe8-80c9-5d0990161379
+			column: WarehouseName
+
+	partition DimWarehouse = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_DimWarehouse = Source{[Schema="analytics",Item="vw_DimWarehouse"]}[Data]
+				in
+				    analytics_vw_DimWarehouse
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

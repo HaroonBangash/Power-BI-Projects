@@ -1,0 +1,39 @@
+# --- Scaled performance-test data (regenerate with Python/scale_dataset.py) ---
+Data/Scaled/
+*_1m.csv
+*_5m.csv
+
+# --- Credentials: never commit ---
+.env
+*.env
+config.local.*
+**/credentials.json
+
+# --- Power BI working files ---
+# PBIP local state. These are per-machine or per-refresh artefacts, not project
+# definition. cache.abf in particular holds the compressed model data and would
+# churn on every refresh. editorSettings.json IS tracked: it carries project
+# behaviour such as autodetectRelationships.
+*.pbix.bak
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/unappliedChanges.json
+
+# --- Python ---
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# --- OS / editor ---
+Thumbs.db
+desktop.ini
+.vscode/settings.json
+
+# --- Cached Microsoft PBIR JSON schemas ---
+# Downloaded from developer.microsoft.com for offline schema validation during
+# report generation. Committed so generation is reproducible without network.
+
+# Scratch renders used to eyeball the report. Not part of the project.
+_review/

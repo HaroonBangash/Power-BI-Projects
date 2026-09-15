@@ -1,0 +1,190 @@
+/// Grain: one row per purchase order. 25,000 rows. Active date is OrderDate.
+table FactPurchaseOrders
+	lineageTag: f91f7801-8286-4bdc-b376-206b76434107
+
+	column PurchaseOrderID
+		dataType: string
+		lineageTag: c37251c2-9dfe-4481-9e16-1063303facc8
+		summarizeBy: none
+		sourceColumn: PurchaseOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: e12f1743-c0ed-4032-a6b2-7313eab48fc1
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SupplierID
+		dataType: string
+		isHidden
+		lineageTag: 777b5a36-0e5e-415b-af7a-ffbfc2fb4920
+		summarizeBy: none
+		sourceColumn: SupplierID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: string
+		isHidden
+		lineageTag: 996b4530-256b-41c3-bf6f-b99ed05776fc
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseID
+		dataType: string
+		isHidden
+		lineageTag: 66c3696f-d373-4cea-afa9-bf7caac00661
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuantityOrdered
+		dataType: int64
+		formatString: #,0
+		lineageTag: 10a61461-5ee8-41cb-890e-94c469cbcbe3
+		summarizeBy: sum
+		sourceColumn: QuantityOrdered
+
+		annotation SummarizationSetBy = Automatic
+
+	column POValue
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 6745c9bb-34d2-4130-a2c0-caeaed1f5bdf
+		summarizeBy: sum
+		sourceColumn: POValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExpectedReceiptDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 808408a6-ff9a-43b6-b3d8-6494ce3a5b12
+		summarizeBy: none
+		sourceColumn: ExpectedReceiptDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ActualReceiptDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 8e0e7b89-c092-45d2-92da-0db46b301e9a
+		summarizeBy: none
+		sourceColumn: ActualReceiptDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Inbound pipeline. Populated only for the 368 open POs; feeds stockout risk analysis.
+	column ScheduledReceiptDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 9508326c-0cdc-4b36-95d9-0a0582fa4596
+		summarizeBy: none
+		sourceColumn: ScheduledReceiptDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DefectRate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 15b27eb8-e46b-4c49-bf8e-c451c1f68b20
+		summarizeBy: none
+		sourceColumn: DefectRate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Status
+		dataType: string
+		lineageTag: 5a859fcd-c5b6-4fe1-b398-50e3248aebd6
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsReceived
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f0fc770c-9e55-4a31-8e8c-146b805cbe06
+		summarizeBy: none
+		sourceColumn: IsReceived
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOpenPO
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a9d8f9a0-e876-4838-a0cb-3c06494282a1
+		summarizeBy: none
+		sourceColumn: IsOpenPO
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Order to receipt, in days. Supplier performance - not the planning lead time on DimProduct.
+	column ActualLeadTimeDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 66005043-5d85-406c-bd55-21cae4c2abb9
+		summarizeBy: none
+		sourceColumn: ActualLeadTimeDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReceiptDelayDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 03a27623-6ab5-49d9-8872-3291addd575d
+		summarizeBy: none
+		sourceColumn: ReceiptDelayDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExpectedPOValue
+		dataType: double
+		formatString: #,0.00
+		lineageTag: ef306222-11b9-47c4-80a4-124875ced8a3
+		summarizeBy: sum
+		sourceColumn: ExpectedPOValue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// POValue minus QuantityOrdered x UnitCost. Genuine price variance: the two differ on 24,998 of 25,000 rows.
+	column PurchasePriceVariance
+		dataType: double
+		formatString: #,0.00
+		lineageTag: c52cfff5-45d0-4f64-9a0c-850b5933f9b8
+		summarizeBy: sum
+		sourceColumn: PurchasePriceVariance
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPurchaseOrders = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_PurchaseOrders = Source{[Schema="analytics",Item="vw_PurchaseOrders"]}[Data]
+				in
+				    analytics_vw_PurchaseOrders
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

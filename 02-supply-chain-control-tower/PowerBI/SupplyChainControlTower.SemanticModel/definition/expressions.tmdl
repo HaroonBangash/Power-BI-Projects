@@ -1,0 +1,8 @@
+/// Incremental refresh lower bound (inclusive). Development value only; the Service overrides it at refresh time. Not yet applied to any table filter.
+expression RangeStart = #datetime(2026, 1, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+	lineageTag: 3f1e5c6d-a5b2-4546-9ffb-c0800d60357b
+
+/// Incremental refresh upper bound (exclusive). Development value only; the Service overrides it at refresh time. Not yet applied to any table filter.
+expression RangeEnd = #datetime(2026, 9, 1, 0, 0, 0) meta [IsParameterQuery=true, Type="DateTime", IsParameterQueryRequired=true]
+	lineageTag: fd2152a7-e79e-4f08-9073-08acdeb569c0
+

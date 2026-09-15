@@ -1,0 +1,235 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "20c65cb63957c0a30c28",
+  "position": {
+    "x": 526,
+    "y": 528,
+    "z": 0,
+    "width": 738,
+    "height": 176,
+    "tabOrder": 28
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimSupplier"
+                    }
+                  },
+                  "Property": "SupplierName"
+                }
+              },
+              "queryRef": "DimSupplier.SupplierName",
+              "nativeQueryRef": "SupplierName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimSupplier"
+                    }
+                  },
+                  "Property": "SupplierTier"
+                }
+              },
+              "queryRef": "DimSupplier.SupplierTier",
+              "nativeQueryRef": "SupplierTier"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Purchase Orders"
+                }
+              },
+              "queryRef": "_Measures.Purchase Orders",
+              "nativeQueryRef": "Purchase Orders"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Purchase Order Value"
+                }
+              },
+              "queryRef": "_Measures.Purchase Order Value",
+              "nativeQueryRef": "Purchase Order Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Average Supplier Lead Time"
+                }
+              },
+              "queryRef": "_Measures.Average Supplier Lead Time",
+              "nativeQueryRef": "Average Supplier Lead Time"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Supplier Lead Time Variability"
+                }
+              },
+              "queryRef": "_Measures.Supplier Lead Time Variability",
+              "nativeQueryRef": "Supplier Lead Time Variability"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "On-Time Receipt %"
+                }
+              },
+              "queryRef": "_Measures.On-Time Receipt %",
+              "nativeQueryRef": "On-Time Receipt %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Average Defect Rate"
+                }
+              },
+              "queryRef": "_Measures.Average Defect Rate",
+              "nativeQueryRef": "Average Defect Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Supplier Performance Score"
+                }
+              },
+              "queryRef": "_Measures.Supplier Performance Score",
+              "nativeQueryRef": "Supplier Performance Score"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Supplier Performance Class"
+                }
+              },
+              "queryRef": "_Measures.Supplier Performance Class",
+              "nativeQueryRef": "Supplier Performance Class"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Supplier Performance Detail'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#1F2937'"
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F2B6C6'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Supplier Performance Detail'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

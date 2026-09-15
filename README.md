@@ -53,13 +53,57 @@ and labelled, never quietly rescaled.
 
 ---
 
+## Supply Chain Control Tower — inventory, procurement, logistics and demand
+
+[![Executive Control Tower](02-supply-chain-control-tower/Validation/evidence/listing/executive.png)](02-supply-chain-control-tower/)
+
+Six warehouses, a thousand SKUs, a hundred and twenty suppliers. Where the stock is,
+what needs reordering today, which suppliers are slow *and* unpredictable, and how
+close the demand baseline runs to what actually shipped — ten report pages over a
+SQL Server star schema.
+
+| | |
+|---|---|
+| **Stack** | SQL Server → Power Query → semantic model (TMDL) → report (PBIR) |
+| **Source** | 817,837 rows across 10 synthetic files |
+| **Model** | 17 tables, 121 measures, 24 relationships (16 active, 8 inactive role-playing dates) |
+| **Report** | 10 pages, 282 visuals |
+| **Verified** | **927 automated checks**, 0 failures |
+
+What it is careful about: inventory read as a stock at one snapshot date and never
+summed across snapshots; order, ship, delivery and snapshot dates each reaching the
+calendar through their own relationship rather than a duplicated one; no filter
+crossing between facts; and a forecast page that scores a *supplied in-sample
+baseline* against actuals — labelled as that, not dressed up as a forward prediction.
+
+**→ [Read the project](02-supply-chain-control-tower/)**
+
+<details>
+<summary>The other nine pages</summary>
+
+| | |
+|---|---|
+| Inventory Overview | Procurement Overview |
+| ![](02-supply-chain-control-tower/Validation/evidence/listing/inventory.png) | ![](02-supply-chain-control-tower/Validation/evidence/listing/procurement.png) |
+| Logistics & Delivery | Warehouse Performance |
+| ![](02-supply-chain-control-tower/Validation/evidence/listing/logistics.png) | ![](02-supply-chain-control-tower/Validation/evidence/listing/warehouse.png) |
+| Product / SKU Detail | Stockout & Replenishment Risk |
+| ![](02-supply-chain-control-tower/Validation/evidence/listing/product.png) | ![](02-supply-chain-control-tower/Validation/evidence/listing/replenishment.png) |
+| ABC/XYZ Inventory Strategy | Supplier Performance |
+| ![](02-supply-chain-control-tower/Validation/evidence/listing/abcxyz.png) | ![](02-supply-chain-control-tower/Validation/evidence/listing/suppliers.png) |
+| Demand Forecasting | |
+| ![](02-supply-chain-control-tower/Validation/evidence/listing/forecasting.png) | |
+
+</details>
+
+---
+
 ## Also in this portfolio
 
-Four further projects built the same way, to be added here:
+Three further projects built the same way, to be added here:
 
 | Project | What it covers |
 |---|---|
-| Supply Chain Control Tower | Inventory, logistics, service levels |
 | Omnichannel Marketing Attribution | Multi-touch attribution across channels |
 | SaaS Revenue, Retention & Churn | Cohort retention, MRR movement, unit economics |
 | Healthcare Claims & Revenue Cycle | AR ageing, denial analytics, RLS by facility |

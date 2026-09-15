@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "SupplyChainControlTower"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dee638e7-c663-4a86-b1ef-780581b9691e"
+  }
+}

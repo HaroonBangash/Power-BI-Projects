@@ -1,0 +1,36 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["DimDate","DimProduct","DimSupplier","DimWarehouse","FactInventorySnapshot","FactPurchaseOrders","FactSalesOrders","FactShipments","FactWeeklyDemand","ModelConfig","SecurityUserAccess","RangeStart","RangeEnd"]
+
+annotation __TEdtr = 1
+
+ref table DimDate
+ref table DimProduct
+ref table DimSupplier
+ref table DimWarehouse
+ref table ModelConfig
+ref table FactInventorySnapshot
+ref table FactSalesOrders
+ref table FactPurchaseOrders
+ref table SecurityUserAccess
+ref table FactShipments
+ref table FactWeeklyDemand
+ref table _Measures
+ref table ReplenishmentStatus
+ref table ABCClass
+ref table XYZClass
+ref table ABCXYZClass
+ref table SupplierClass
+
+ref cultureInfo en-US
+

@@ -1,0 +1,51 @@
+/// Disconnected dimension holding the nine combined classes, ordered A-to-C then X-to-Z so the 3x3 matrix reads naturally.
+table ABCXYZClass
+	lineageTag: bbfaf2c6-8371-4edc-a131-1893648859e9
+
+	column Class
+		dataType: string
+		lineageTag: b129b105-bd14-4659-b60b-7251c5564eff
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Class]
+		sortByColumn: ClassOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ABC
+		dataType: string
+		lineageTag: a41e6111-fd6b-47d8-9a76-f09f54e9ac25
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ABC]
+
+		annotation SummarizationSetBy = Automatic
+
+	column XYZ
+		dataType: string
+		lineageTag: 320ba6f6-e6ef-43ae-841f-9974311be4ad
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [XYZ]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fcf47d30-d962-420c-bde3-3921a9bd3cce
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ClassOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ABCXYZClass = calculated
+		mode: import
+		source =
+				DATATABLE ( "Class", STRING, "ABC", STRING, "XYZ", STRING, "ClassOrder", INTEGER,
+				  { { "AX", "A", "X", 1 }, { "AY", "A", "Y", 2 }, { "AZ", "A", "Z", 3 },
+				    { "BX", "B", "X", 4 }, { "BY", "B", "Y", 5 }, { "BZ", "B", "Z", 6 },
+				    { "CX", "C", "X", 7 }, { "CY", "C", "Y", 8 }, { "CZ", "C", "Z", 9 } } )
+

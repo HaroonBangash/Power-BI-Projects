@@ -1,0 +1,40 @@
+/// Disconnected dimension listing the five replenishment statuses, so status can be used as a chart axis. Deliberately unrelated to any fact table.
+table ReplenishmentStatus
+	lineageTag: 9d7356ea-7e30-4d8f-a45c-cd39c444b3c2
+
+	column Status
+		dataType: string
+		lineageTag: cc31bb35-e7c2-445b-9e1c-4673031c39f3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Status]
+		sortByColumn: StatusOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5bcd4df7-2fef-4360-875e-813b44302ac1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [StatusOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ReplenishmentStatus = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "Status", STRING,
+				    "StatusOrder", INTEGER,
+				    {
+				        { "Critical", 1 },
+				        { "Reorder Required", 2 },
+				        { "Monitor", 3 },
+				        { "Healthy", 4 },
+				        { "Overstock", 5 }
+				    }
+				)
+

@@ -1,0 +1,66 @@
+/// Grain: SnapshotDate x Product x Warehouse. SEMI-ADDITIVE: never sum across time. Complete dense grid, 315,000 rows.
+table FactInventorySnapshot
+	lineageTag: 68dda1ac-794e-45d2-b2e6-67d8572eea65
+
+	column SnapshotDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f211c14f-5d75-4227-8bb9-57d64adf7381
+		summarizeBy: none
+		sourceColumn: SnapshotDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ProductID
+		dataType: string
+		isHidden
+		lineageTag: e577a10c-9edd-492d-bc0a-488912ffa85a
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseID
+		dataType: string
+		isHidden
+		lineageTag: 0438b43d-2e68-439e-b9a9-765e81284ea7
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// SEMI-ADDITIVE. May be summed across products and warehouses, never across time.
+	column OnHandUnits
+		dataType: int64
+		formatString: #,0
+		lineageTag: c752f772-95f7-434b-948b-f98b1784ca9f
+		summarizeBy: sum
+		sourceColumn: OnHandUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Stock in transit. Ranges 0-29 against on-hand reaching 4,186, so it barely moves reorder arithmetic in this dataset.
+	column InboundUnits
+		dataType: int64
+		formatString: #,0
+		lineageTag: d4c97f89-bd69-474a-bbc6-3b767f75baf2
+		summarizeBy: sum
+		sourceColumn: InboundUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactInventorySnapshot = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_InventorySnapshot = Source{[Schema="analytics",Item="vw_InventorySnapshot"]}[Data]
+				in
+				    analytics_vw_InventorySnapshot
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

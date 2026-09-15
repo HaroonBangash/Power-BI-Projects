@@ -1,0 +1,8 @@
+UserEmail,Role,WarehouseID
+supply.director@northstar.demo,Supply Director,ALL
+sydneymanager@northstar.demo,Warehouse Manager,W01
+melbournemanager@northstar.demo,Warehouse Manager,W02
+brisbanemanager@northstar.demo,Warehouse Manager,W03
+aucklandmanager@northstar.demo,Warehouse Manager,W04
+singaporemanager@northstar.demo,Warehouse Manager,W05
+dubaimanager@northstar.demo,Warehouse Manager,W06

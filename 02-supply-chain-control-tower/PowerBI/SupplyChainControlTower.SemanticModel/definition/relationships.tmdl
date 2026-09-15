@@ -1,0 +1,104 @@
+relationship 4750cac9-5a68-4f83-8aa5-35714a47d4d7
+	fromColumn: FactSalesOrders.ProductID
+	toColumn: DimProduct.ProductID
+
+relationship b68b4d55-e13e-4637-a1ca-8c512365d464
+	fromColumn: FactPurchaseOrders.ProductID
+	toColumn: DimProduct.ProductID
+
+relationship 69aee440-637f-40a6-ad90-3d2b8ec88ecc
+	fromColumn: FactShipments.ProductID
+	toColumn: DimProduct.ProductID
+
+relationship 2afa4614-6a89-4276-9f90-def769f4c410
+	fromColumn: FactWeeklyDemand.ProductID
+	toColumn: DimProduct.ProductID
+
+relationship cb3753a0-38dd-4276-a2d1-401fea34ae32
+	fromColumn: FactInventorySnapshot.ProductID
+	toColumn: DimProduct.ProductID
+
+relationship 2f7d1038-52d2-4b6b-82d0-7c09d9b12b24
+	fromColumn: FactSalesOrders.WarehouseID
+	toColumn: DimWarehouse.WarehouseID
+
+relationship 279bb942-f9a2-4bfa-8b78-e6e52c1f728f
+	fromColumn: FactPurchaseOrders.WarehouseID
+	toColumn: DimWarehouse.WarehouseID
+
+relationship e57dab45-ab52-4d57-a673-c53462706f7e
+	fromColumn: FactShipments.WarehouseID
+	toColumn: DimWarehouse.WarehouseID
+
+relationship 9e9dc435-f961-4f8c-b987-cb382af5677c
+	fromColumn: FactWeeklyDemand.WarehouseID
+	toColumn: DimWarehouse.WarehouseID
+
+relationship ce28d1ab-56c6-41d1-ad07-310578380d4c
+	fromColumn: FactInventorySnapshot.WarehouseID
+	toColumn: DimWarehouse.WarehouseID
+
+relationship 078f5f21-e426-427a-b16c-f6a03ba07c40
+	fromColumn: FactPurchaseOrders.SupplierID
+	toColumn: DimSupplier.SupplierID
+
+relationship f402a78a-5803-433b-953a-bf85931044bb
+	fromColumn: FactSalesOrders.OrderDate
+	toColumn: DimDate.Date
+
+relationship 86a61ca5-1f85-404c-97f9-1b2ab905deec
+	fromColumn: FactPurchaseOrders.OrderDate
+	toColumn: DimDate.Date
+
+relationship a7e89a53-7549-41dd-a628-926bf12b402e
+	fromColumn: FactShipments.ShipDate
+	toColumn: DimDate.Date
+
+relationship 11d58a43-9fd1-495a-b432-f6226b925d77
+	fromColumn: FactWeeklyDemand.WeekStart
+	toColumn: DimDate.Date
+
+relationship 5ca782fd-866d-4ed7-b464-6e42880013f4
+	fromColumn: FactInventorySnapshot.SnapshotDate
+	toColumn: DimDate.Date
+
+relationship 55a5707a-5333-4862-b167-55497f9f09c0
+	isActive: false
+	fromColumn: FactSalesOrders.PromisedDeliveryDate
+	toColumn: DimDate.Date
+
+relationship dff71838-7dfd-45fc-8972-b08b2cf0d9dc
+	isActive: false
+	fromColumn: FactSalesOrders.ActualDeliveryDate
+	toColumn: DimDate.Date
+
+relationship 843aff70-eec3-44c9-b8f5-147a54f80361
+	isActive: false
+	fromColumn: FactSalesOrders.ScheduledDeliveryDate
+	toColumn: DimDate.Date
+
+relationship 64cdc088-e1c1-468f-a708-37cd7ec64730
+	isActive: false
+	fromColumn: FactPurchaseOrders.ExpectedReceiptDate
+	toColumn: DimDate.Date
+
+relationship 033500d6-4e82-48d7-b294-f59672233862
+	isActive: false
+	fromColumn: FactPurchaseOrders.ActualReceiptDate
+	toColumn: DimDate.Date
+
+relationship 6a7135d4-cf8a-49bf-a5c8-cbbf4429199c
+	isActive: false
+	fromColumn: FactPurchaseOrders.ScheduledReceiptDate
+	toColumn: DimDate.Date
+
+relationship b5cef788-dd64-4776-be77-ef04da9dda73
+	isActive: false
+	fromColumn: FactShipments.ActualDeliveryDate
+	toColumn: DimDate.Date
+
+relationship 1249ac1b-2c61-47b5-979a-08ca066716e2
+	isActive: false
+	fromColumn: FactShipments.ScheduledDeliveryDate
+	toColumn: DimDate.Date
+

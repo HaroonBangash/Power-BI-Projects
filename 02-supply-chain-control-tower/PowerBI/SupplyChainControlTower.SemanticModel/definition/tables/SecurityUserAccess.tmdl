@@ -1,0 +1,51 @@
+/// Disconnected during Phase 5. Source for dynamic row-level security, implemented in a later phase.
+table SecurityUserAccess
+	lineageTag: 5b3a5119-f849-41c8-8c76-9329aae6fcf6
+
+	column UserEmail
+		dataType: string
+		lineageTag: 96323b90-eb43-4e46-9167-630a56db3634
+		summarizeBy: none
+		sourceColumn: UserEmail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Role
+		dataType: string
+		lineageTag: 8ab0f80c-02b5-4220-bc25-ec90bb68c9d4
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseID
+		dataType: string
+		lineageTag: 0b97452a-7d97-44c9-84e4-cff2cdbc872b
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for the Supply Director row, where WarehouseID holds the sentinel 'ALL'.
+	column IsAllWarehouses
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3408303f-e348-420d-9618-40c990b885df
+		summarizeBy: none
+		sourceColumn: IsAllWarehouses
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SecurityUserAccess = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_SecurityUserAccess = Source{[Schema="analytics",Item="vw_SecurityUserAccess"]}[Data]
+				in
+				    analytics_vw_SecurityUserAccess
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

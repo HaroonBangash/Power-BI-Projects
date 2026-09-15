@@ -1,0 +1,32 @@
+/// Disconnected dimension holding the four supplier performance classes, so class can serve as a chart axis. Unrelated to any fact table.
+table SupplierClass
+	lineageTag: cf15ffdd-edc9-4ff4-b489-920f0e873402
+
+	column Class
+		dataType: string
+		lineageTag: e9b2c40f-bb56-41ba-a0f9-33081805f766
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Class]
+		sortByColumn: ClassOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b70839f2-db55-4281-86dc-fcfe461639d6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ClassOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SupplierClass = calculated
+		mode: import
+		source =
+				DATATABLE ( "Class", STRING, "ClassOrder", INTEGER,
+				  { { "Excellent", 1 }, { "Good", 2 },
+				    { "Needs Improvement", 3 }, { "High Risk", 4 } } )
+

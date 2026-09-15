@@ -1,0 +1,41 @@
+/// Disconnected configuration table. Supplies AsOfDate (2026-08-31) and other constants to DAX so they are not hard-coded across measures.
+table ModelConfig
+	lineageTag: 65d73c44-91aa-4351-b469-606621ea9378
+
+	column ConfigKey
+		dataType: string
+		lineageTag: 6adcddb8-e29a-4a12-9925-c2dffcc20e53
+		summarizeBy: none
+		sourceColumn: ConfigKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConfigValue
+		dataType: string
+		lineageTag: 114a8c2c-3894-42a8-bbcd-74a859d0509b
+		summarizeBy: none
+		sourceColumn: ConfigValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 3f9a39eb-37d6-4ec5-8b23-556b6746cff0
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ModelConfig = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_ModelConfig = Source{[Schema="analytics",Item="vw_ModelConfig"]}[Data]
+				in
+				    analytics_vw_ModelConfig
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,162 @@
+/// Grain: one row per shipment. 80,000 rows. Active date is ShipDate. ProductID is resolved from the sales order in the SQL view, so no fact-to-fact relationship is needed.
+table FactShipments
+	lineageTag: 463cb4ba-78c0-4105-b47f-43cc2f441601
+
+	column ShipmentID
+		dataType: string
+		lineageTag: 24631a5a-8917-4cbd-85bb-0c4e06d8279c
+		summarizeBy: none
+		sourceColumn: ShipmentID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Degenerate identifier. Deliberately NOT related to FactSalesOrders - a fact-to-fact relationship would break the star schema.
+	column SalesOrderID
+		dataType: string
+		lineageTag: b2338700-e9cd-4790-8833-695daab00cee
+		summarizeBy: none
+		sourceColumn: SalesOrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: string
+		isHidden
+		lineageTag: b6e54eb8-7192-4456-9c31-2a57bde6e77d
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseID
+		dataType: string
+		isHidden
+		lineageTag: 53b4158f-4a8b-4e1c-9975-004d260ba9bc
+		summarizeBy: none
+		sourceColumn: WarehouseID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Carrier
+		dataType: string
+		lineageTag: 30679d04-bfa2-4565-a87e-0103111bdaf1
+		summarizeBy: none
+		sourceColumn: Carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b45a178b-ed4c-402f-a4d7-f1a9e5ff5d24
+		summarizeBy: none
+		sourceColumn: ShipDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PromisedDeliveryDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: a504584d-d980-4a65-9da5-86260596ab85
+		summarizeBy: none
+		sourceColumn: PromisedDeliveryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ActualDeliveryDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 5b33002a-4bed-432a-bff7-d2d286e73fa1
+		summarizeBy: none
+		sourceColumn: ActualDeliveryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ScheduledDeliveryDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: aefa2c5c-3d2c-4eba-89a2-c3317d0a8e89
+		summarizeBy: none
+		sourceColumn: ScheduledDeliveryDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column FreightCost
+		dataType: double
+		formatString: #,0.00
+		lineageTag: e5f44b9c-9317-4b7a-9eb8-993271d14dd8
+		summarizeBy: sum
+		sourceColumn: FreightCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeliveryStatus
+		dataType: string
+		isHidden
+		lineageTag: 53edbf94-ae25-4b16-9530-e79a51bf3ba7
+		summarizeBy: none
+		sourceColumn: DeliveryStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsShipped
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9a40f16e-a751-4c02-a012-6d75f89ec2e0
+		summarizeBy: none
+		sourceColumn: IsShipped
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsDelivered
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c1f5292b-ce9a-47e4-b309-bdb6ed3fd5f0
+		summarizeBy: none
+		sourceColumn: IsDelivered
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransitDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 1cc72f45-12e4-4ee2-828c-abfd85c1d40e
+		summarizeBy: none
+		sourceColumn: TransitDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 433abf69-0687-4859-8ace-7dbfe9a29166
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FactShipments = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_Shipments = Source{[Schema="analytics",Item="vw_Shipments"]}[Data]
+				in
+				    analytics_vw_Shipments
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

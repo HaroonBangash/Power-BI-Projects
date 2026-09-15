@@ -1,0 +1,326 @@
+/// Conformed calendar, 2022-01-01 to 2027-06-30. Generated in SQL, not imported: the supplied calendar ended before the facts did. Marked as the model's date table. Financial year runs July to June.
+table DimDate
+	lineageTag: df81074b-8939-4943-9209-f24f3f263d32
+	dataCategory: Time
+
+	/// Model date key. Unique, contiguous, no gaps.
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: d81734b7-95f3-4afc-820b-3ddfce29a503
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cf0b475b-0fae-41fc-9249-bb3d150f0c7a
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: e8e438d0-a072-49cb-b853-a0bfec7eaf56
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 386fa61b-9796-42b2-94cd-a76467224d5d
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterLabel
+		dataType: string
+		lineageTag: 842edb9b-55ec-43af-9958-f42c4006e811
+		summarizeBy: none
+		sourceColumn: QuarterLabel
+		sortByColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarterKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4477b34c-b210-4289-857c-e45b44f3fbb9
+		summarizeBy: none
+		sourceColumn: YearQuarterKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarterLabel
+		dataType: string
+		lineageTag: b06b63aa-f981-4aa0-8689-67abc94c87b8
+		summarizeBy: none
+		sourceColumn: YearQuarterLabel
+		sortByColumn: YearQuarterKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f12969eb-b808-45e8-9a20-13ac65172eec
+		summarizeBy: none
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 0c339db3-714d-42fe-907f-59dcaf16a511
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthShortName
+		dataType: string
+		lineageTag: 720969d4-2ef0-4d2a-a003-0fb560c2a2d8
+		summarizeBy: none
+		sourceColumn: MonthShortName
+		sortByColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1fc6217b-5339-4bd7-9a6c-61691b1b7fef
+		summarizeBy: none
+		sourceColumn: YearMonthKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthLabel
+		dataType: string
+		lineageTag: 734bfe0d-97b6-43b1-b610-4840096269d5
+		summarizeBy: none
+		sourceColumn: YearMonthLabel
+		sortByColumn: YearMonthKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOYear
+		dataType: int64
+		formatString: 0
+		lineageTag: a1b1af1e-a7b6-496f-8224-dd18a8a417ad
+		summarizeBy: none
+		sourceColumn: ISOYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: 1136b83b-e4d8-4cae-90ea-6656899d8aad
+		summarizeBy: none
+		sourceColumn: ISOWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOYearWeekKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 97884e1b-7338-4d6d-89b5-12f8253fbe70
+		summarizeBy: none
+		sourceColumn: ISOYearWeekKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ISOYearWeekLabel
+		dataType: string
+		lineageTag: dfc2a535-494b-41dd-8546-16cb45c4bf44
+		summarizeBy: none
+		sourceColumn: ISOYearWeekLabel
+		sortByColumn: ISOYearWeekKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekStartDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: d1817002-a7b0-4eac-8034-901606eac371
+		summarizeBy: none
+		sourceColumn: WeekStartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column WeekEndDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 25b2d6ac-3713-4abf-b6da-38095f097a68
+		summarizeBy: none
+		sourceColumn: WeekEndDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DayOfMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: fc138e75-9144-4279-a269-bf6b7fb1aac2
+		summarizeBy: none
+		sourceColumn: DayOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekISO
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ada36ce7-baa9-4a24-9923-ed6f47a1ad59
+		summarizeBy: none
+		sourceColumn: DayOfWeekISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: 33c23228-4ad4-4309-ba8e-fa9c3af1b6cf
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: DayOfWeekISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayShortName
+		dataType: string
+		lineageTag: 525b630b-bcf8-4961-a1e9-5f5b4e2362a0
+		summarizeBy: none
+		sourceColumn: DayShortName
+		sortByColumn: DayOfWeekISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 885434f5-75ce-4ebe-920a-2930af3f632a
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialYearNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ce01f253-153d-49e8-9a23-cad6dea143c7
+		summarizeBy: none
+		sourceColumn: FinancialYearNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// July-June financial year. July 2026 to June 2027 is FY27.
+	column FinancialYear
+		dataType: string
+		lineageTag: 0003c904-ef10-4fae-b804-dbaf376d1229
+		summarizeBy: none
+		sourceColumn: FinancialYear
+		sortByColumn: FinancialYearNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialQuarter
+		dataType: int64
+		formatString: 0
+		lineageTag: b8fd30f8-9266-4eda-b023-e42b2caacc76
+		summarizeBy: none
+		sourceColumn: FinancialQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialMonthNumber
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4254cd5c-5440-488a-a173-6c37e369f999
+		summarizeBy: none
+		sourceColumn: FinancialMonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for dates on or before the 2026-08-31 as-of date. Use to exclude the forward horizon from historical visuals.
+	column IsOnOrBeforeAsOfDate
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: acf183e0-a521-46b4-bdcb-4a158f76a1f8
+		summarizeBy: none
+		sourceColumn: IsOnOrBeforeAsOfDate
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Calendar
+		lineageTag: f7f3dff9-4b4c-4ebe-8303-27e2537a4cb9
+
+		level Year
+			lineageTag: 32c86771-7091-42a6-b144-7539c6627b3f
+			column: Year
+
+		level QuarterLabel
+			lineageTag: 9db77554-c963-40ab-8732-728aca60a5d5
+			column: QuarterLabel
+
+		level MonthName
+			lineageTag: fa4b3c56-d44a-4ee5-8329-e9f5a4e66bbb
+			column: MonthName
+
+		level Date
+			lineageTag: 9387a769-38a5-4cc4-9fa8-bd32385039ca
+			column: Date
+
+	hierarchy 'Financial Calendar'
+		lineageTag: 207d0dce-57bb-416d-a29e-be6a216526c4
+
+		level FinancialYear
+			lineageTag: fa89a417-b89a-40c0-b605-e388932cee9c
+			column: FinancialYear
+
+		level FinancialQuarter
+			lineageTag: 955e6061-add9-4aeb-902a-5823c54cc326
+			column: FinancialQuarter
+
+		level MonthName
+			lineageTag: 65c460b3-ae7c-4c1a-a9ac-bbb270652524
+			column: MonthName
+
+		level Date
+			lineageTag: c8b13ee6-9efc-4321-89dc-86257f58d4d0
+			column: Date
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_DimDate = Source{[Schema="analytics",Item="vw_DimDate"]}[Data]
+				in
+				    analytics_vw_DimDate
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

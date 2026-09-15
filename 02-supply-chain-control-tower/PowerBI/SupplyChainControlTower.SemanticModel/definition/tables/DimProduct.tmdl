@@ -1,0 +1,110 @@
+/// Product master, 1,000 SKUs. Only 500 carry inventory and demand history - see HasDemandSignal.
+table DimProduct
+	lineageTag: 120f1501-0837-4a84-9a99-076e078e6ffb
+
+	column ProductID
+		dataType: string
+		lineageTag: 0b45e0c4-bdce-41c7-a8f0-3cd6f5c324c2
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 47d20cc1-796c-45d1-be31-d38d6657f778
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 457c24e9-ecc2-4ae2-9dac-d16a4fe35c07
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrimarySupplierID
+		dataType: string
+		isHidden
+		lineageTag: 741c3ab4-734b-4922-9147-7f40a6314420
+		summarizeBy: none
+		sourceColumn: PrimarySupplierID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Also the basis for deriving inventory value: InventoryValue was dropped from the fact because it equals OnHandUnits x UnitCost exactly.
+	column UnitCost
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 52fc30fb-b532-4fd8-905e-5928fde5d94e
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 06f7ba77-4050-4f50-aba8-9dcf463a4ccf
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	/// PLANNING lead time, used for reorder point. Distinct from actual supplier performance in FactPurchaseOrders[ActualLeadTimeDays].
+	column LeadTimeDays
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0847bb8e-c134-478c-bdcc-09ce8d59fb65
+		summarizeBy: none
+		sourceColumn: LeadTimeDays
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Safety stock as supplied. A statistical alternative is evaluated in the inventory phase.
+	column SafetyStockUnits
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4d1657da-7606-4c83-aecf-ce08d062120d
+		summarizeBy: none
+		sourceColumn: SafetyStockUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for the 500 products carrying inventory and demand history. Inventory, reorder and stockout measures are blank for the rest - by data coverage, not by fault.
+	column HasDemandSignal
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: da88dbf0-c118-4ce4-bae9-5b928ecd13e5
+		summarizeBy: none
+		sourceColumn: HasDemandSignal
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Product
+		lineageTag: 9b3a1eed-140f-45d4-9982-1b0e799d8065
+
+		level Category
+			lineageTag: 8a9169a4-4bb8-4ba4-bedf-de528d58b78c
+			column: Category
+
+		level ProductName
+			lineageTag: ca90b0fb-6c9a-4601-80e8-8329b3e25891
+			column: ProductName
+
+	partition DimProduct = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_DimProduct = Source{[Schema="analytics",Item="vw_DimProduct"]}[Data]
+				in
+				    analytics_vw_DimProduct
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

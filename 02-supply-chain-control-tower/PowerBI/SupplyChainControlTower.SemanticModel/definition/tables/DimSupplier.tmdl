@@ -1,0 +1,50 @@
+/// Supplier master, 120 suppliers. Relates to purchase orders only.
+table DimSupplier
+	lineageTag: 9d7e6376-c19b-4a6f-b367-998d2ab42209
+
+	column SupplierID
+		dataType: string
+		lineageTag: 4392f7c5-c9e0-42f1-8599-005c9b3a2b89
+		summarizeBy: none
+		sourceColumn: SupplierID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierName
+		dataType: string
+		lineageTag: 26b66db7-0f1d-4979-88fe-d08e94cd1791
+		summarizeBy: none
+		sourceColumn: SupplierName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: c2ad7601-5854-4c78-9b37-543f743f3a67
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupplierTier
+		dataType: string
+		lineageTag: 4b596307-5900-4d46-8118-a285726e57e1
+		summarizeBy: none
+		sourceColumn: SupplierTier
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSupplier = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost\SQLEXPRESS", "SupplyChainBI"),
+				    analytics_vw_DimSupplier = Source{[Schema="analytics",Item="vw_DimSupplier"]}[Data]
+				in
+				    analytics_vw_DimSupplier
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
