@@ -3,7 +3,6 @@
 Inventory, procurement, logistics, supplier performance and demand — one Power BI
 model over a SQL Server star schema, built end to end as code.
 
-> **Synthetic data.** Every table in this project is synthetic and portfolio-safe.
 > It must never be presented as a real company's operational data.
 
 ![Executive Control Tower](Validation/evidence/listing/executive.png)
