@@ -4,9 +4,6 @@ An end-to-end Power BI project on a 12,000-account SaaS business: SQL Server sta
 schema, a tabular model written as code, and an eight-page report — with the data
 audited first, and the analysis cut back to what the data will actually support.
 
-**The dataset is synthetic.** It is a portfolio dataset for a fictional SaaS business
-and is never presented as a real customer base.
-
 ![Executive Summary](Validation/evidence/listing/exec.png)
 
 ---
