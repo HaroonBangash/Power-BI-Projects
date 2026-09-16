@@ -1,0 +1,12 @@
+/// SQL Server instance hosting SaaSRevenueBI. The only place the server is named.
+expression SqlServer = "localhost\SQLEXPRESS" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 0c771acd-f642-50d1-8d6c-077a277e2a23
+
+	annotation PBI_ResultType = Text
+
+/// Database holding the analytics views.
+expression SqlDatabase = "SaaSRevenueBI" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 9f365259-f0d7-56a9-a63e-4691ad3257b7
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "b04fd5c861f6a555c321",
+  "position": {
+    "x": 183.71967654986523,
+    "y": 615.84905660377353,
+    "z": 1,
+    "height": 43.98921832884097,
+    "width": 1079.8921832884096,
+    "tabOrder": 25
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading the matrix.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Each row is a signup month, each column a month of life, so a diagonal is a calendar date. Blank means the cohort has not lived that long yet: the triangle is honest, not missing. Revenue retention tracks logo retention exactly, because MRR never changes inside a subscription.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

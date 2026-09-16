@@ -1,0 +1,109 @@
+/// The monthly SNAPSHOT: one row per subscription per month it is live at month end. MRR is a stock, so it is read at a moment and never summed across months - every measure here goes through [Snapshot Month]. 320,294 rows over 56 months.
+table FactSubscriptionMonth
+	lineageTag: b5c86dd0-1e78-5f10-9bd0-753e30af0405
+
+	column MonthStart
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 85b42af6-12bc-59dd-8235-eff746d023e0
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SubscriptionID
+		dataType: string
+		isHidden
+		lineageTag: 7ccf3fcb-a76d-5d80-aef8-c97002c1173b
+		summarizeBy: none
+		sourceColumn: SubscriptionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: b64a0ffa-0df9-5a92-a766-43e06691c5c4
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Carried by the view. NOT the filter path: plan filters through DimCustomer, so that it reaches tickets, usage, invoices and acquisition too.
+	column PlanID
+		dataType: string
+		isHidden
+		lineageTag: 18060a09-a82b-5336-97fa-1ed2459528b1
+		summarizeBy: none
+		sourceColumn: PlanID
+
+		annotation SummarizationSetBy = Automatic
+
+	column MRR
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 3219ec70-e69b-5695-9d1b-4b49fcffb459
+		summarizeBy: sum
+		sourceColumn: MRR
+
+		annotation SummarizationSetBy = Automatic
+
+	column CohortMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 091440e8-a918-5222-9a8d-4f236e4e50a4
+		summarizeBy: none
+		sourceColumn: CohortMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column TenureMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 18635282-d684-5ab5-9e4e-aa0f74d1ec1b
+		summarizeBy: none
+		sourceColumn: TenureMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The month the subscription started.
+	column IsFirstMonth
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e3914330-050f-5204-a562-d82584ea9dbc
+		summarizeBy: none
+		sourceColumn: IsFirstMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The last month it was live.
+	column IsLastMonth
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 97b984c3-393f-5203-b01e-7d737ad87f87
+		summarizeBy: none
+		sourceColumn: IsLastMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSubscriptionMonth = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactSubscriptionMonth = Source{[Schema="analytics",Item="vw_FactSubscriptionMonth"]}[Data]
+				in
+				    analytics_vw_FactSubscriptionMonth
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

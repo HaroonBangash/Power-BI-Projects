@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "dde054683f6eb553d120",
+  "position": {
+    "x": 183.13746630727761,
+    "y": 607.622641509434,
+    "z": 1,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 24
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Why three bars are empty.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "MRR is one static value per subscription, so nobody can grow or shrink: expansion and contraction cannot occur. Every customer has exactly one subscription ever, so reactivation cannot either. All five components are computed and checked; three are structurally nil, and that is the source, not the model.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

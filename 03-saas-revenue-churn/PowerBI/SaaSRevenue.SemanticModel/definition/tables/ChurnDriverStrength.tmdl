@@ -1,0 +1,75 @@
+/// The measured relationship between each candidate churn driver and whether a customer actually churned, computed in SQL on every refresh. Disconnected on purpose: it describes the customer base as a whole, so it must not be filtered by a slicer that would change the population it was computed over.
+table ChurnDriverStrength
+	lineageTag: 56bf45ea-568e-5de4-a35a-770f8fbbfec4
+
+	column Driver
+		dataType: string
+		lineageTag: ff650d9c-760f-50eb-b4d8-f911974dae5b
+		summarizeBy: none
+		sourceColumn: Driver
+		sortByColumn: DriverOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column DriverOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 921bbf20-a7d8-51d5-9ab7-2f670202ef05
+		summarizeBy: none
+		sourceColumn: DriverOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Commercial, Behaviour, Product or Billing.
+	column DriverGroup
+		dataType: string
+		lineageTag: 64dce7e6-38c5-5e65-85a6-058dea603c05
+		summarizeBy: none
+		sourceColumn: DriverGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for the two raw counts kept deliberately alongside their rate, to show that a count measures tenure rather than behaviour.
+	column IsRawCount
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0676d4e9-cef9-554c-8a1c-f29b2f5b4e04
+		summarizeBy: none
+		sourceColumn: IsRawCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customers
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: eb034296-9e0a-5b08-85ae-ddbb99006add
+		summarizeBy: sum
+		sourceColumn: Customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column Correlation
+		dataType: double
+		isHidden
+		formatString: +0.000;-0.000;0.000
+		lineageTag: 7a3f750a-a73a-54a8-a055-4565ab0c26b8
+		summarizeBy: average
+		sourceColumn: Correlation
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ChurnDriverStrength = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_ChurnDriverStrength = Source{[Schema="analytics",Item="vw_ChurnDriverStrength"]}[Data]
+				in
+				    analytics_vw_ChurnDriverStrength
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

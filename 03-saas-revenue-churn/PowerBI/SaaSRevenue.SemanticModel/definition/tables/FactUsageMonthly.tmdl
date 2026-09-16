@@ -1,0 +1,88 @@
+/// One customer's product usage in one month - for the customers it covers. Usage reaches about 40% of paying customers in any month, so everything here is a SAMPLE and is labelled as one. None of it predicts churn.
+table FactUsageMonthly
+	lineageTag: 7cbe54df-554a-5086-990a-bf251fd9a2cd
+
+	column MonthStart
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: ca2f2dd2-e403-5a71-bb4f-1caada28f7b8
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: f51854d9-971b-5e2c-bd24-deedf6d0b02c
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column LicensedSeats
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 45452421-9edc-506e-bf53-3344e96b2c7f
+		summarizeBy: sum
+		sourceColumn: LicensedSeats
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActiveUsers
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 6672214a-7a1d-54ff-8e13-38c6a521addc
+		summarizeBy: sum
+		sourceColumn: ActiveUsers
+
+		annotation SummarizationSetBy = Automatic
+
+	column Logins
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: fab277b1-e8b8-5ff9-9d6a-e9ee17065d4a
+		summarizeBy: sum
+		sourceColumn: Logins
+
+		annotation SummarizationSetBy = Automatic
+
+	column FeatureAdoptionRate
+		dataType: double
+		isHidden
+		formatString: 0.0%
+		lineageTag: df2b207b-2e68-5acd-a851-5421836363b9
+		summarizeBy: average
+		sourceColumn: FeatureAdoptionRate
+
+		annotation SummarizationSetBy = Automatic
+
+	column CriticalErrors
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 2b14965a-1a49-53dd-80b0-fb269f5ecad9
+		summarizeBy: sum
+		sourceColumn: CriticalErrors
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactUsageMonthly = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactUsageMonthly = Source{[Schema="analytics",Item="vw_FactUsageMonthly"]}[Data]
+				in
+				    analytics_vw_FactUsageMonthly
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -98,14 +98,57 @@ baseline* against actuals — labelled as that, not dressed up as a forward pred
 
 ---
 
+## SaaS Revenue, Retention & Churn — and what the data would not support
+
+[![Executive Summary](03-saas-revenue-churn/Validation/evidence/listing/exec.png)](03-saas-revenue-churn/)
+
+Twelve thousand accounts, fifty-six months. MRR movement, cohort retention, unit
+economics and churn drivers — eight report pages over a SQL Server star schema.
+
+The part worth reading is what the audit threw out. The brief asks for a five-part MRR
+waterfall, a churn model trained on product usage, and health scoring. Measured first:
+MRR is one static value per subscription and every customer has exactly one
+subscription ever, so expansion, contraction and reactivation are *structurally* nil
+and net revenue retention can never exceed gross. Usage correlates with churn at
+|r| < 0.02 — a model trained on it would fit noise. Raw ticket counts measure tenure,
+not unhappiness. So the empty bars are shown with the reason beside them, no churn
+model is built, and support is reported as a rate per month of tenure. The one strong
+real driver is price point: Starter churns at 26.1%, Enterprise at 7.8%.
+
+| | |
+|---|---|
+| **Stack** | SQL Server → Power Query → semantic model (TMDL) → report (PBIR) |
+| **Model** | 22 tables, 93 measures, a calculation group and a field parameter, RLS by country |
+| **Report** | 8 pages, 188 visuals of 22 types |
+| **Verified** | **1,827 automated checks**, 0 failures |
+
+**→ [Read the project](03-saas-revenue-churn/)**
+
+<details>
+<summary>The other seven pages</summary>
+
+| | |
+|---|---|
+| Revenue Movement | Retention & Cohorts |
+| ![](03-saas-revenue-churn/Validation/evidence/listing/movement.png) | ![](03-saas-revenue-churn/Validation/evidence/listing/retention.png) |
+| Churn Drivers | Customer Base |
+| ![](03-saas-revenue-churn/Validation/evidence/listing/drivers.png) | ![](03-saas-revenue-churn/Validation/evidence/listing/customers.png) |
+| Unit Economics | Product & Support |
+| ![](03-saas-revenue-churn/Validation/evidence/listing/economics.png) | ![](03-saas-revenue-churn/Validation/evidence/listing/product.png) |
+| Data & Method | |
+| ![](03-saas-revenue-churn/Validation/evidence/listing/method.png) | |
+
+</details>
+
+---
+
 ## Also in this portfolio
 
-Three further projects built the same way, to be added here:
+Two further projects built the same way, to be added here:
 
 | Project | What it covers |
 |---|---|
 | Omnichannel Marketing Attribution | Multi-touch attribution across channels |
-| SaaS Revenue, Retention & Churn | Cohort retention, MRR movement, unit economics |
 | Healthcare Claims & Revenue Cycle | AR ageing, denial analytics, RLS by facility |
 
 ---

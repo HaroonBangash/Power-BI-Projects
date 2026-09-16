@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "906b2fa2cd92650b2060",
+  "position": {
+    "x": 175.95687331536388,
+    "y": 624.4743935309973,
+    "z": 1,
+    "height": 43.98921832884097,
+    "width": 1079.8921832884096,
+    "tabOrder": 26
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "How to read this.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Cards are anchored to the as-of date, 31 Aug 2026. Net and gross revenue retention are IDENTICAL here because this source has no expansion or contraction - see Revenue Movement. The last two months show customers leaving and none arriving: the newest subscription in the file starts 30 Jun 2026, so that is where the data stops, not where the business did.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,161 @@
+/// One subscription, which in this source is also one customer. Its date relationship is to the START date, so filtering the calendar gives the customers that ARRIVED in the period; the end date is an inactive relationship, used through USERELATIONSHIP where churn timing is the question.
+table FactSubscription
+	lineageTag: 1e33ca55-3849-5cb6-bb79-2b2b5b86d4e8
+
+	column SubscriptionID
+		dataType: string
+		isHidden
+		lineageTag: 67fc0599-b624-55a3-8949-88d66b702877
+		summarizeBy: none
+		sourceColumn: SubscriptionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: 1e6375c1-ccd4-5dfe-a4a5-86d50831ee3c
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Carried by the view. NOT the filter path: plan filters through DimCustomer, so that it reaches tickets, usage, invoices and acquisition too.
+	column PlanID
+		dataType: string
+		isHidden
+		lineageTag: 2f50bd75-0990-5628-ac69-38bf6175eda8
+		summarizeBy: none
+		sourceColumn: PlanID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Active date relationship: the month the customer arrived.
+	column StartDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 4d3c7033-4fbe-5111-839a-c3ce8e94c6d5
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Inactive date relationship: the month the customer left.
+	column EndDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b9a65ee3-13f1-5c01-a2de-028b05405257
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column StartMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: bf451418-c7c2-59c8-b919-0d75803ee09e
+		summarizeBy: none
+		sourceColumn: StartMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: f9a93488-7037-5408-a6d4-a915be30fda9
+		summarizeBy: none
+		sourceColumn: EndMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Carried by the view. NOT the filter path - slice DimCustomer[SubscriptionStatus], which reaches the snapshot as well.
+	column Status
+		dataType: string
+		lineageTag: fb81c898-aaee-519e-a753-f646c6ac9e54
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Never disagrees with the status.
+	column IsChurned
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 327440a4-97b1-52f5-aa0e-5ac3db155a30
+		summarizeBy: none
+		sourceColumn: IsChurned
+
+		annotation SummarizationSetBy = Automatic
+
+	/// One static value for the whole life of the subscription - which is why this data has no expansion or contraction.
+	column MRR
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: f3552d31-779b-59b7-8492-2bd6b2689eb3
+		summarizeBy: sum
+		sourceColumn: MRR
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARR
+		dataType: double
+		isHidden
+		formatString: \$#,0
+		lineageTag: 8ff377f7-9f2d-53f4-a177-2865a4995556
+		summarizeBy: sum
+		sourceColumn: ARR
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Carried by the view. NOT the filter path - slice DimCustomer[BillingCycle] instead.
+	column BillingCycle
+		dataType: string
+		lineageTag: dc5f9b38-402d-5bc6-b244-1ea860d948ac
+		summarizeBy: none
+		sourceColumn: BillingCycle
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Completed months to the end date, or to the as-of date while still running.
+	column TenureMonths
+		dataType: int64
+		formatString: #,0
+		lineageTag: a9bd662b-6f63-508e-88ab-f7c7c4e5e63e
+		summarizeBy: none
+		sourceColumn: TenureMonths
+
+		annotation SummarizationSetBy = Automatic
+
+	column TenureBand
+		dataType: string
+		isHidden
+		lineageTag: daadf24f-7ab0-5f44-8dfb-cdf0748715d1
+		summarizeBy: none
+		sourceColumn: TenureBand
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSubscription = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactSubscription = Source{[Schema="analytics",Item="vw_FactSubscription"]}[Data]
+				in
+				    analytics_vw_FactSubscription
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

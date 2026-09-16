@@ -1,0 +1,123 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "384fcfcb1b4d97527e9d",
+  "position": {
+    "x": 654.687331536388,
+    "y": 400.7601078167117,
+    "z": 1,
+    "height": 196,
+    "width": 605,
+    "tabOrder": 25
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Two of these numbers are modelled, not measured",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9E1B32",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Gross margin is an assumption. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The source carries no cost of service at all, so gross profit per account, CAC payback and lifetime value cannot be derived from it. The 75% held in ModelConfig is a stated placeholder; change it there and every figure here moves.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Lifetime value assumes a constant churn rate. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "LTV is gross profit per account divided by the trailing-twelve-month monthly churn rate. That treats churn as if it never changed with tenure - and the cohort curve on the Retention page shows it does. Read LTV as a planning number, not a measurement.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "What IS measured: ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "acquisition cost per customer, ARPA, and the churn rate itself. Blended CAC leads because it is what the money actually was; the median sits beside it because the distribution is skewed about 1.7 to 1.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

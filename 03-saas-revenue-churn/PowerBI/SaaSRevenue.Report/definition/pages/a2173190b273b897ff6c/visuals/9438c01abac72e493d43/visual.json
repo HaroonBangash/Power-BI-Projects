@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "9438c01abac72e493d43",
+  "position": {
+    "x": 182.27493261455527,
+    "y": 411.4609164420487,
+    "z": 1,
+    "height": 206,
+    "width": 524,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What this data will not support",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#C4714C",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No expansion, contraction or reactivation. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "MRR is one static value per subscription, every subscription bills a single invoice amount for life, and every customer has exactly one subscription. Three of the five waterfall components are structurally nil, and net revenue retention can therefore never exceed gross.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No churn model. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Product usage is statistically independent of churn here - every correlation inside 0.02. A model trained on it would fit noise, so a tested driver view is published instead.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No lifetime value from the data. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "There is no cost of service anywhere in the source, so LTV and CAC payback are modelled on a stated gross-margin assumption held in ModelConfig.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No marketing efficiency over time. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Acquisition cost is attached to a customer, not to a campaign or a month.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,881 @@
+/// Holds every business measure. The single hidden column exists only because a table needs one.
+table _Measures
+	lineageTag: 283afbfa-5b8b-50c4-b17f-f412e7899754
+
+	/// The last day the data describes, read from ModelConfig. Every point-in-time figure is stated on it, and nothing in this model hard-codes it.
+	measure 'As-Of Date' =
+			VAR Raw =
+			    CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "AsOfDate", REMOVEFILTERS () )
+			RETURN
+			    DATEVALUE ( Raw )
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Model Context
+		lineageTag: 3983bd41-5278-5bf7-bc7f-d3edc7b1277b
+
+	/// The first day of the as-of month. The snapshot never runs past it.
+	measure 'As-Of Month' =
+			VAR D = [As-Of Date]
+			RETURN
+			    DATE ( YEAR ( D ), MONTH ( D ), 1 )
+		formatString: yyyy-mm-dd
+		isHidden
+		displayFolder: 00 Model Context
+		lineageTag: 368d6c22-2700-505e-84ca-d83d6f72ebce
+
+	/// The month every stock measure is read at: the last month in the current filter, capped at the as-of month, and BLANK when the whole selection is in the future - so a chart stops at the data instead of running flat into it.
+	measure 'Snapshot Month' =
+			VAR AsOfMonth = [As-Of Month]
+			VAR LastInContext = MAX ( DimDate[MonthStart] )
+			VAR FirstInContext = MIN ( DimDate[MonthStart] )
+			RETURN
+			    IF ( FirstInContext <= AsOfMonth, MIN ( LastInContext, AsOfMonth ) )
+		formatString: yyyy-mm-dd
+		isHidden
+		displayFolder: 00 Model Context
+		lineageTag: c253e20b-19f0-5397-ae69-8c70a3ed50d2
+
+	/// An ASSUMPTION, not data: the source carries no cost of service. Held in ModelConfig so it is visible and can be changed in one place. Lifetime value and CAC payback both depend on it and both say so.
+	measure 'Gross Margin Assumption' =
+			VAR Raw =
+			    CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "GrossMarginAssumption", REMOVEFILTERS () )
+			RETURN
+			    VALUE ( Raw )
+		formatString: 0.0%
+		displayFolder: 00 Model Context
+		lineageTag: 89be7061-3e18-5de0-a4ee-4fb880c5c97e
+
+	/// The newest subscription start in the source. Churn runs two months past it, so anything after this date shows losses and no wins.
+	measure 'Last New Business Date' = CALCULATE ( MAX ( FactSubscription[StartDate] ), REMOVEFILTERS () )
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Model Context
+		lineageTag: f31c4f31-6609-53ab-8130-625dbf4186d8
+
+	/// The one-line header every page carries, so a screenshot can never be read out of context.
+	measure 'Report Context' =
+			VAR AsOf = FORMAT ( [As-Of Date], "d MMM yyyy" )
+			VAR Margin = FORMAT ( [Gross Margin Assumption], "0%" )
+			RETURN
+			    "As of " & AsOf & "  |  USD  |  Gross margin assumed " & Margin & "  |  Synthetic data"
+		displayFolder: 00 Model Context
+		lineageTag: 4179aa11-f776-5eb1-b55c-1abe72dca96c
+
+	/// How many months the current filter covers. Guards the measures that only mean something over one month.
+	measure 'Months In Context' = CALCULATE ( DISTINCTCOUNT ( DimDate[MonthStart] ), FactSubscriptionMonth )
+		formatString: #,0
+		isHidden
+		displayFolder: 00 Model Context
+		lineageTag: 8761b1c9-2581-59d1-ac86-1482248b8e8d
+
+	/// Monthly recurring revenue on the books at the snapshot month. A stock: read at a moment, never summed over months. Selecting a range gives the figure at the END of the range, which is what 'MRR' means.
+	measure MRR =
+			VAR SnapshotMonth = [Snapshot Month]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapshotMonth ),
+			        CALCULATE (
+			            SUM ( FactSubscriptionMonth[MRR] ),
+			            FactSubscriptionMonth[MonthStart] = SnapshotMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 01 Revenue
+		lineageTag: 4df9d5bc-96f8-5df5-b82e-a89c59b073a7
+
+	/// Annual recurring revenue: MRR at the snapshot month times twelve. No annualisation of a partial period is involved - it is a restatement of the same stock.
+	measure ARR = [MRR] * 12
+		formatString: \$#,0
+		displayFolder: 01 Revenue
+		lineageTag: fc0b4b89-319d-55c7-a962-0e64501e7519
+
+	/// MRR at the end of the month BEFORE the period in context - what the period started with. The denominator of every retention figure.
+	measure 'Opening MRR' =
+			VAR FirstMonth = MIN ( DimDate[MonthStart] )
+			VAR PriorMonth = EDATE ( FirstMonth, -1 )
+			RETURN
+			    IF (
+			        PriorMonth >= CALCULATE ( MIN ( FactSubscriptionMonth[MonthStart] ), REMOVEFILTERS () ),
+			        CALCULATE (
+			            SUM ( FactSubscriptionMonth[MRR] ),
+			            FactSubscriptionMonth[MonthStart] = PriorMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 01 Revenue
+		lineageTag: 7dcbe15c-70be-5d54-9201-5ac6d8bf88fb
+
+	/// Average revenue per account: MRR divided by the customers it comes from, both read at the snapshot month.
+	measure ARPA = DIVIDE ( [MRR], [Customers] )
+		formatString: \$#,0.00
+		displayFolder: 01 Revenue
+		lineageTag: 9a38cc37-8978-5dfa-8cbf-659d63649b63
+
+	/// The average MRR a new customer arrives on, in the period in context. Compared with ARPA it says whether new business is landing above or below the installed base.
+	measure 'ARPA (New Customers)' = DIVIDE ( [New MRR], [New Customers] )
+		formatString: \$#,0.00
+		displayFolder: 01 Revenue
+		lineageTag: 58964a50-f977-532d-b2b2-a9e31b7b9d00
+
+	/// MRR as a share of the plan's list price, at the snapshot month. Every subscription in this source is discounted or uplifted off its plan, so realised price is worth watching separately from the price book.
+	measure 'Realised Price vs List %' =
+			VAR SnapshotMonth = [Snapshot Month]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapshotMonth ),
+			        CALCULATE (
+			            DIVIDE (
+			                SUM ( FactSubscriptionMonth[MRR] ),
+			                SUMX ( FactSubscriptionMonth, RELATED ( DimPlan[MonthlyListPrice] ) )
+			            ),
+			            FactSubscriptionMonth[MonthStart] = SnapshotMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: 0.0%
+		displayFolder: 01 Revenue
+		lineageTag: 73611a6c-8959-515c-9ee0-7af5c218dba9
+
+	/// Billed value in the period. This is a FLOW and does sum over time - unlike MRR. Annual subscriptions bill twelve months at once, so invoiced value is lumpy where MRR is smooth; the two are never mixed.
+	measure 'Invoiced Amount' = SUM ( FactInvoice[InvoiceAmount] )
+		formatString: \$#,0
+		displayFolder: 01 Revenue
+		lineageTag: 43e2c088-8728-54b1-8302-490a6a9d34c2
+
+	/// Billed value that was actually paid.
+	measure 'Collected Amount' = CALCULATE ( SUM ( FactInvoice[InvoiceAmount] ), FactInvoice[IsFailed] = FALSE () )
+		formatString: \$#,0
+		displayFolder: 01 Revenue
+		lineageTag: 637661a7-bda3-507a-8703-497947c7c200
+
+	/// MRR added by customers arriving in the period.
+	measure 'New MRR' =
+			CALCULATE (
+			    SUM ( FactMRRMovement[MRRDelta] ),
+			    FactMRRMovement[MovementType] = "New"
+			)
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 5ec35955-3b20-5860-97df-dee4e1d89191
+
+	/// MRR lost to customers leaving in the period. Negative, because that is the direction it moves the book.
+	measure 'Churned MRR' =
+			CALCULATE (
+			    SUM ( FactMRRMovement[MRRDelta] ),
+			    FactMRRMovement[MovementType] = "Churn"
+			)
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 4b91ecac-1406-5e78-9104-8c1ebaf947fa
+
+	/// MRR added by existing customers growing. STRUCTURALLY NIL in this source: MRR is one static value per subscription and every subscription bills a single invoice amount for life. The measure is real and the logic is tested; the data has nothing to put in it.
+	measure 'Expansion MRR' =
+			CALCULATE (
+			    SUM ( FactMRRMovement[MRRDelta] ),
+			    FactMRRMovement[MovementType] = "Expansion"
+			)
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 731a2c89-29c0-57cd-a119-bcfdf72cbf8d
+
+	/// MRR lost by existing customers shrinking. Structurally nil here, for the same reason as expansion.
+	measure 'Contraction MRR' =
+			CALCULATE (
+			    SUM ( FactMRRMovement[MRRDelta] ),
+			    FactMRRMovement[MovementType] = "Contraction"
+			)
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 57e36837-11d8-58b7-bdbf-d7cbaf3d49d9
+
+	/// MRR from customers returning after leaving. Structurally nil here: every customer has exactly one subscription, ever, so no customer can come back.
+	measure 'Reactivation MRR' =
+			CALCULATE (
+			    SUM ( FactMRRMovement[MRRDelta] ),
+			    FactMRRMovement[MovementType] = "Reactivation"
+			)
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: cffd8bc4-00fe-5eab-b3ed-bb76354730ed
+
+	/// Everything that moved the book in the period. Closing MRR minus opening MRR, by another route - and `09_validation.sql` checks the two agree every month.
+	measure 'Net MRR Movement' = SUM ( FactMRRMovement[MRRDelta] )
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 45c553c5-7328-5fe2-9b3f-aefef01ed58b
+
+	/// The movement amount under whatever movement types are in context. This is what the waterfall plots, so the chart is driven by the dimension rather than by five separate measures.
+	measure 'MRR Movement' = SUM ( FactMRRMovement[MRRDelta] )
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 68ebf685-832d-5432-8007-6854277c6d3f
+
+	/// The movement amount, forced to ZERO rather than blank where a movement type has no rows. The waterfall uses this so all five components appear on the axis: a blank one would simply vanish, and the reader would never learn that expansion, contraction and reactivation cannot happen in this source.
+	measure 'MRR Movement (All Components)' = SUM ( FactMRRMovement[MRRDelta] ) + 0
+		formatString: \$#,0
+		displayFolder: 02 MRR Movement
+		lineageTag: 6e193b6d-0f84-5113-bd90-47a2710f46e3
+
+	/// Whether the movement type in context can occur in THIS data, and why not where it cannot. Shown beside the waterfall so an empty bar reads as a property of the source rather than a missing number.
+	measure 'Movement Supported' =
+			VAR Unsupported =
+			    CALCULATETABLE (
+			        VALUES ( DimMovementType[WhyNot] ),
+			        DimMovementType[IsSupported] = FALSE ()
+			    )
+			RETURN
+			    IF ( COUNTROWS ( Unsupported ) = 1, CONCATENATEX ( Unsupported, DimMovementType[WhyNot] ) )
+		displayFolder: 02 MRR Movement
+		lineageTag: 0f1ce4b0-f430-5a10-83df-20bbf0874309
+
+	/// Paying customers at the snapshot month. Like MRR this is a stock, read at a moment.
+	measure Customers =
+			VAR SnapshotMonth = [Snapshot Month]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapshotMonth ),
+			        CALCULATE (
+			            DISTINCTCOUNT ( FactSubscriptionMonth[CustomerID] ),
+			            FactSubscriptionMonth[MonthStart] = SnapshotMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 03 Customers
+		lineageTag: 84d08c36-1f8b-5fb0-b2c6-891a8d24eb9e
+
+	/// Customers that arrived in the period.
+	measure 'New Customers' =
+			CALCULATE (
+			    COUNTROWS ( FactMRRMovement ),
+			    FactMRRMovement[MovementType] IN { "New", "Reactivation" }
+			)
+		formatString: #,0
+		displayFolder: 03 Customers
+		lineageTag: 0b7fb31b-3403-5480-90e1-accb5e579ae2
+
+	/// Customers that left in the period.
+	measure 'Churned Customers' = CALCULATE ( COUNTROWS ( FactMRRMovement ), FactMRRMovement[MovementType] = "Churn" )
+		formatString: #,0
+		displayFolder: 03 Customers
+		lineageTag: e4d9c2cd-4a8b-51f5-b3f1-3158939d648e
+
+	/// Arrivals less departures in the period.
+	measure 'Net Customer Change' = [New Customers] - [Churned Customers]
+		formatString: #,0
+		displayFolder: 03 Customers
+		lineageTag: 54be267c-c138-5b3e-9845-02a737ae5933
+
+	/// Every customer that has ever started, whether or not they are still here.
+	measure 'Customers Ever Acquired' = DISTINCTCOUNT ( FactSubscription[CustomerID] )
+		formatString: #,0
+		displayFolder: 03 Customers
+		lineageTag: 8d5ffebc-4a8a-58ef-8aa9-ee472548bd3f
+
+	/// Customers whose subscription has ended.
+	measure 'Customers Ever Churned' = CALCULATE ( DISTINCTCOUNT ( FactSubscription[CustomerID] ), FactSubscription[IsChurned] = TRUE () )
+		formatString: #,0
+		displayFolder: 03 Customers
+		lineageTag: deb36f22-124b-5a22-8037-fd0a286b8363
+
+	/// The share of all customers ever acquired that have left. A lifetime figure, not a rate per period - it is not comparable with monthly churn and is never plotted beside it.
+	measure 'Ever-Churn Rate' = DIVIDE ( [Customers Ever Churned], [Customers Ever Acquired] )
+		formatString: 0.0%
+		displayFolder: 03 Customers
+		lineageTag: ef669ee0-aca6-5759-9348-812593974a9c
+
+	/// Median completed months from start to the end date, or to the as-of date for a customer still running.
+	measure 'Median Tenure (Months)' = MEDIANX ( FactSubscription, FactSubscription[TenureMonths] )
+		formatString: #,0.0
+		displayFolder: 03 Customers
+		lineageTag: 508ecf28-8b71-522b-b623-9f0da2221ae5
+
+	/// Customers lost in the period as a share of the customers it opened with. The logo view: every customer counts the same whatever they pay. A month in which nobody left reads 0%, not blank - DIVIDE ( BLANK, n ) is BLANK, which would leave a GAP in the line where the best month should be. A month the data does not reach is BLANK, not 0% - otherwise a chart ends on a perfect month that is only an absence of data.
+	measure 'Logo Churn %' =
+			VAR Opening = [Opening Customers]
+			VAR InData = NOT ISBLANK ( [Snapshot Month] )
+			RETURN
+			    IF ( InData && NOT ISBLANK ( Opening ), DIVIDE ( COALESCE ( [Churned Customers], 0 ), Opening ) )
+		formatString: 0.00%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 7c51a89c-cda9-571f-9814-f1b713424fa8
+
+	/// Customers on the books at the end of the month BEFORE the period in context.
+	measure 'Opening Customers' =
+			VAR FirstMonth = MIN ( DimDate[MonthStart] )
+			VAR PriorMonth = EDATE ( FirstMonth, -1 )
+			RETURN
+			    IF (
+			        PriorMonth >= CALCULATE ( MIN ( FactSubscriptionMonth[MonthStart] ), REMOVEFILTERS () ),
+			        CALCULATE (
+			            DISTINCTCOUNT ( FactSubscriptionMonth[CustomerID] ),
+			            FactSubscriptionMonth[MonthStart] = PriorMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 04 Retention & Churn
+		lineageTag: f1853265-4712-5891-821a-cc95495e5c73
+
+	/// MRR lost in the period as a share of opening MRR. The revenue view: a departing Enterprise customer weighs twenty times a departing Starter, which is why this sits beside logo churn and never replaces it. A month the data does not reach is BLANK, not 0% - otherwise a chart ends on a perfect month that is only an absence of data.
+	measure 'Revenue Churn %' =
+			VAR Opening = [Opening MRR]
+			VAR InData = NOT ISBLANK ( [Snapshot Month] )
+			RETURN
+			    IF ( InData && NOT ISBLANK ( Opening ), DIVIDE ( -COALESCE ( [Churned MRR], 0 ), Opening ) )
+		formatString: 0.00%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 534a7a94-f20a-569e-91f6-96a2f7d17903
+
+	/// The complement of logo churn: the share of opening customers still here at the end of the period.
+	measure 'Logo Retention %' = IF ( NOT ISBLANK ( [Opening Customers] ), 1 - [Logo Churn %] )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: ac83dccb-cc70-56e5-8b68-97c5a4910ba7
+
+	/// Opening MRR less churn and contraction, over opening MRR. Expansion is deliberately excluded: GRR asks what the book keeps without selling anything more, so it can never exceed 100%.
+	measure 'Gross Revenue Retention %' =
+			VAR Opening = [Opening MRR]
+			VAR Lost = COALESCE ( [Churned MRR], 0 ) + COALESCE ( [Contraction MRR], 0 )
+			VAR InData = NOT ISBLANK ( [Snapshot Month] )
+			RETURN
+			    IF ( InData && NOT ISBLANK ( Opening ), DIVIDE ( Opening + Lost, Opening ) )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 627cea73-7181-503b-8a1f-2a409a5a4a37
+
+	/// Gross revenue retention plus expansion and reactivation. In THIS source there is neither, so NRR and GRR are identical by construction - both are published so the reader can see that, rather than being shown the flattering one alone. Any NRR above 100% on this data would be an arithmetic error.
+	measure 'Net Revenue Retention %' =
+			VAR Opening = [Opening MRR]
+			VAR Lost = COALESCE ( [Churned MRR], 0 ) + COALESCE ( [Contraction MRR], 0 )
+			VAR Won = COALESCE ( [Expansion MRR], 0 ) + COALESCE ( [Reactivation MRR], 0 )
+			VAR InData = NOT ISBLANK ( [Snapshot Month] )
+			RETURN
+			    IF ( InData && NOT ISBLANK ( Opening ), DIVIDE ( Opening + Lost + Won, Opening ) )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 13f74ca0-7a6e-5a59-b239-caa63c1f6fea
+
+	/// The gap between net and gross revenue retention, in percentage points - the contribution of expansion. It is zero here, and that zero is a finding about the data rather than a blank cell.
+	measure 'NRR less GRR (pp)' =
+			VAR N = [Net Revenue Retention %]
+			VAR G = [Gross Revenue Retention %]
+			RETURN
+			    IF ( NOT ISBLANK ( N ) && NOT ISBLANK ( G ), ( N - G ) * 100 )
+		formatString: #,0.00
+		displayFolder: 04 Retention & Churn
+		lineageTag: b27259bb-b16f-54a4-89a9-f755402dea8e
+
+	/// The trailing-twelve-month logo churn rate, so a monthly figure can be read against an annual retention target. Blank until twelve complete months exist.
+	measure 'Annualised Logo Churn %' =
+			VAR AsOfMonth = [As-Of Month]
+			VAR Window =
+			    CALCULATETABLE (
+			        VALUES ( DimDate[MonthStart] ),
+			        DimDate[MonthOffset] > -12,
+			        DimDate[MonthOffset] <= 0,
+			        REMOVEFILTERS ( DimDate )
+			    )
+			VAR Lost = CALCULATE ( [Churned Customers], Window, REMOVEFILTERS ( DimDate ) )
+			VAR OpeningN =
+			    CALCULATE (
+			        DISTINCTCOUNT ( FactSubscriptionMonth[CustomerID] ),
+			        FactSubscriptionMonth[MonthStart] = EDATE ( AsOfMonth, -12 ),
+			        REMOVEFILTERS ( DimDate )
+			    )
+			RETURN
+			    DIVIDE ( Lost, OpeningN )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: f440b4e1-c1d4-5f67-a8b9-962022a3ee68
+
+	/// Gross revenue retention measured over the twelve months ending at the as-of month. A fixed window, so it means the same thing whatever is selected on the page - which is why it is a card measure and not a chart one.
+	measure 'Trailing 12m Revenue Retention %' =
+			VAR AsOfMonth = [As-Of Month]
+			VAR OpeningMRR =
+			    CALCULATE (
+			        SUM ( FactSubscriptionMonth[MRR] ),
+			        FactSubscriptionMonth[MonthStart] = EDATE ( AsOfMonth, -12 ),
+			        REMOVEFILTERS ( DimDate )
+			    )
+			VAR LostMRR =
+			    CALCULATE (
+			        SUM ( FactMRRMovement[MRRDelta] ),
+			        FactMRRMovement[MovementType] IN { "Churn", "Contraction" },
+			        DimDate[MonthOffset] > -12,
+			        DimDate[MonthOffset] <= 0,
+			        REMOVEFILTERS ( DimDate )
+			    )
+			RETURN
+			    DIVIDE ( OpeningMRR + LostMRR, OpeningMRR )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 43280c10-2caa-5cc9-af94-2fac3d5db321
+
+	/// Logo retention in the newest complete month, whatever period is selected elsewhere. A card measure: a retention rate needs a window, and over all time there is no month before the first one to open with.
+	measure 'Logo Retention % (Latest Month)' =
+			VAR LatestMonth = [As-Of Month]
+			RETURN
+			    CALCULATE ( [Logo Retention %], DimDate[MonthStart] = LatestMonth, REMOVEFILTERS ( DimDate ) )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 11d8b8f7-bcf5-5f17-a8b1-553be47b1856
+
+	/// Gross revenue retention in the newest complete month, on the same fixed window as its logo counterpart.
+	measure 'Gross Revenue Retention % (Latest Month)' =
+			VAR LatestMonth = [As-Of Month]
+			RETURN
+			    CALCULATE ( [Gross Revenue Retention %], DimDate[MonthStart] = LatestMonth, REMOVEFILTERS ( DimDate ) )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: 60300e9a-4a7f-57ad-b821-89831eec016a
+
+	/// Net revenue retention in the newest complete month. Equal to the gross figure beside it, because this source has no expansion - which is the point of showing both.
+	measure 'Net Revenue Retention % (Latest Month)' =
+			VAR LatestMonth = [As-Of Month]
+			RETURN
+			    CALCULATE ( [Net Revenue Retention %], DimDate[MonthStart] = LatestMonth, REMOVEFILTERS ( DimDate ) )
+		formatString: 0.0%
+		displayFolder: 04 Retention & Churn
+		lineageTag: dc535476-00c2-58ac-affe-8e62d0ddbd1b
+
+	/// The gap between net and gross revenue retention in the newest complete month, in percentage points. It reads 0.00, and that zero is a finding about the data rather than an empty card.
+	measure 'NRR less GRR (Latest Month, pp)' =
+			VAR LatestMonth = [As-Of Month]
+			RETURN
+			    CALCULATE ( [NRR less GRR (pp)], DimDate[MonthStart] = LatestMonth, REMOVEFILTERS ( DimDate ) )
+		formatString: #,0.00
+		displayFolder: 04 Retention & Churn
+		lineageTag: 5bca267d-4696-53a7-a6bf-385939a13363
+
+	/// How many customers started in the cohort month. The denominator of cohort retention, and fixed - it never moves as customers leave.
+	measure 'Cohort Size' = SUM ( DimCohort[CohortSize] )
+		formatString: #,0
+		displayFolder: 05 Cohorts
+		lineageTag: 0f01c9e7-1520-58b8-8c5d-49a9441763d8
+
+	/// Customers from the cohort still paying at the tenure month in context.
+	measure 'Cohort Customers Retained' = DISTINCTCOUNT ( FactSubscriptionMonth[CustomerID] )
+		formatString: #,0
+		displayFolder: 05 Cohorts
+		lineageTag: 1ad7c170-27fc-5bae-9bce-2957198fc703
+
+	/// Retained customers over cohort size. BLANK where the cohort has not lived that long yet, so the matrix reads as the triangle it really is instead of showing 0% for a future that has not happened.
+	measure 'Cohort Retention %' =
+			VAR AsOfMonth = [As-Of Month]
+			VAR Cohort = MIN ( DimCohort[CohortMonth] )
+			VAR Tenure = MIN ( DimTenureMonth[TenureMonth] )
+			VAR Reached = EDATE ( Cohort, Tenure ) <= AsOfMonth
+			RETURN
+			    IF ( Reached, DIVIDE ( [Cohort Customers Retained], [Cohort Size] ) )
+		formatString: 0.0%
+		displayFolder: 05 Cohorts
+		lineageTag: a0ce05a4-cd79-522b-ad58-acdd3aea01db
+
+	/// MRR still coming from the cohort at the tenure month in context.
+	measure 'Cohort MRR Retained' = SUM ( FactSubscriptionMonth[MRR] )
+		formatString: \$#,0
+		displayFolder: 05 Cohorts
+		lineageTag: 926144f0-3c08-5749-8abe-0a885f80f447
+
+	/// Retained MRR over the MRR the cohort started with. Because MRR never changes per subscription in this source, this tracks logo retention exactly - which is itself the finding.
+	measure 'Cohort MRR Retention %' =
+			VAR AsOfMonth = [As-Of Month]
+			VAR Cohort = MIN ( DimCohort[CohortMonth] )
+			VAR Tenure = MIN ( DimTenureMonth[TenureMonth] )
+			VAR Reached = EDATE ( Cohort, Tenure ) <= AsOfMonth
+			RETURN
+			    IF ( Reached, DIVIDE ( [Cohort MRR Retained], SUM ( DimCohort[CohortMRR] ) ) )
+		formatString: 0.0%
+		displayFolder: 05 Cohorts
+		lineageTag: 209dc8e5-101c-50d5-90e3-d4f0489bc91e
+
+	/// The first tenure month at which the cohort has lost half the customers it started with - a median lifetime read off the curve rather than assumed from a churn rate. Blank for cohorts that have not yet halved.
+	measure 'Months To Half Retained' =
+			VAR Cohort = MIN ( DimCohort[CohortMonth] )
+			VAR Size = [Cohort Size]
+			VAR Curve =
+			    ADDCOLUMNS (
+			        CALCULATETABLE ( VALUES ( DimTenureMonth[TenureMonth] ), ALL ( DimTenureMonth ) ),
+			        "@Retained",
+			            CALCULATE ( DISTINCTCOUNT ( FactSubscriptionMonth[CustomerID] ) )
+			    )
+			RETURN
+			    MINX ( FILTER ( Curve, [@Retained] > 0 && [@Retained] <= Size / 2 ), DimTenureMonth[TenureMonth] )
+		formatString: #,0.0
+		displayFolder: 05 Cohorts
+		lineageTag: 6d8da23f-8088-5651-9f20-30d8ab6a1047
+
+	/// What was spent acquiring the customers in context. Cost is attached to the customer, not to a campaign or a month, so this can be cut by anything about the customer and by their signup month - but not by channel spend over time, which the source does not carry.
+	measure 'Acquisition Spend' = SUM ( FactAcquisition[AcquisitionCost] )
+		formatString: \$#,0
+		displayFolder: 06 Unit Economics
+		lineageTag: 5b0d29fa-5e48-5a6e-b5f0-cfe09c60df28
+
+	/// Acquisition spend divided by the customers it bought. Blended, because the source gives no campaign detail.
+	measure 'CAC (Blended)' = DIVIDE ( [Acquisition Spend], DISTINCTCOUNT ( FactAcquisition[CustomerID] ) )
+		formatString: \$#,0.00
+		displayFolder: 06 Unit Economics
+		lineageTag: a8b4f6a8-4ba1-53c7-8f7c-44e2631745a8
+
+	/// The median customer's acquisition cost. Shown beside the blended figure because the distribution is skewed about 1.7 to 1 - the mean is not the typical customer.
+	measure 'CAC (Median)' = MEDIANX ( FactAcquisition, FactAcquisition[AcquisitionCost] )
+		formatString: \$#,0.00
+		displayFolder: 06 Unit Economics
+		lineageTag: e18d7431-2ea5-5270-9c41-6f712b28d08f
+
+	/// ARPA times the gross-margin ASSUMPTION held in ModelConfig. There is no cost of service in this data, so this is modelled, not measured.
+	measure 'Gross Profit per Account' = [ARPA] * [Gross Margin Assumption]
+		formatString: \$#,0.00
+		displayFolder: 06 Unit Economics
+		lineageTag: ce0d3402-2c16-5ed8-ace0-de27d12ac7fc
+
+	/// How many months of gross profit it takes to repay the cost of acquiring one customer. Depends on the gross-margin assumption, which is shown on the page beside it.
+	measure 'CAC Payback (Months)' = DIVIDE ( [CAC (Blended)], [Gross Profit per Account] )
+		formatString: #,0.0
+		displayFolder: 06 Unit Economics
+		lineageTag: c8afe2ed-42f8-5670-8a53-d0b8798a0582
+
+	/// The average monthly logo churn rate over the trailing twelve months. The denominator of the lifetime-value calculation, isolated so the assumption behind LTV is visible.
+	measure 'Monthly Churn Rate (TTM)' = [Annualised Logo Churn %] / 12
+		formatString: 0.00%
+		displayFolder: 06 Unit Economics
+		lineageTag: 58504215-0543-5187-86a3-0096f9472b7c
+
+	/// Gross profit per account divided by the monthly churn rate: the value of an average customer over an average life. Two modelled inputs, both stated - the gross-margin assumption and a churn rate that is assumed constant. It is a planning number, not a measurement.
+	measure LTV =
+			VAR Churn = [Monthly Churn Rate (TTM)]
+			RETURN
+			    IF ( Churn > 0, DIVIDE ( [Gross Profit per Account], Churn ) )
+		formatString: \$#,0.00
+		displayFolder: 06 Unit Economics
+		lineageTag: d273c8d9-a2cf-58f2-8a41-f26a6dd68c5c
+
+	/// Lifetime value over acquisition cost. Inherits every assumption LTV carries.
+	measure 'LTV to CAC' = DIVIDE ( [LTV], [CAC (Blended)] )
+		formatString: #,0.00
+		displayFolder: 06 Unit Economics
+		lineageTag: 707f6810-a547-5132-a3d5-85b11ab9ba79
+
+	/// Customers with a usage record in the period. NOT the customer base: usage covers about 40% of paying customers in any month, so this is the sample every adoption figure is measured on.
+	measure 'Usage Customers' = DISTINCTCOUNT ( FactUsageMonthly[CustomerID] )
+		formatString: #,0
+		displayFolder: 07 Product Usage
+		lineageTag: ccd33016-e9e3-5e83-8530-6edc6fb96a01
+
+	/// Customers with usage as a share of customers paying, at the snapshot month. Published on the page beside the adoption figures so nobody reads a sample as a census.
+	measure 'Usage Coverage %' =
+			VAR SnapshotMonth = [Snapshot Month]
+			VAR Seen =
+			    CALCULATE (
+			        DISTINCTCOUNT ( FactUsageMonthly[CustomerID] ),
+			        FactUsageMonthly[MonthStart] = SnapshotMonth,
+			        REMOVEFILTERS ( DimDate )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( SnapshotMonth ), DIVIDE ( Seen, [Customers] ) )
+		formatString: 0.0%
+		displayFolder: 07 Product Usage
+		lineageTag: 9f87341a-6120-546d-9092-9c0b8a5bfd84
+
+	/// Seats licensed across the customers we can see, at the snapshot month.
+	measure 'Licensed Seats' =
+			VAR SnapshotMonth = [Snapshot Month]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapshotMonth ),
+			        CALCULATE (
+			            SUM ( FactUsageMonthly[LicensedSeats] ),
+			            FactUsageMonthly[MonthStart] = SnapshotMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 07 Product Usage
+		lineageTag: 1f1fff3e-e56c-55e4-bb8e-e81517e34ffc
+
+	/// Users actually active across the customers we can see, at the snapshot month.
+	measure 'Active Users' =
+			VAR SnapshotMonth = [Snapshot Month]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapshotMonth ),
+			        CALCULATE (
+			            SUM ( FactUsageMonthly[ActiveUsers] ),
+			            FactUsageMonthly[MonthStart] = SnapshotMonth,
+			            REMOVEFILTERS ( DimDate )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 07 Product Usage
+		lineageTag: 5b2a730e-8b5f-507a-ac21-438224c98ae1
+
+	/// Active users over licensed seats. The classic expansion signal in seat-based SaaS - and in this source it has no relationship with churn at all (r = -0.001), which the Churn Drivers page shows rather than asserts.
+	measure 'Seat Utilisation %' = DIVIDE ( [Active Users], [Licensed Seats] )
+		formatString: 0.0%
+		displayFolder: 07 Product Usage
+		lineageTag: 12c32dea-c122-542f-8d87-deed27369300
+
+	/// Average feature adoption across the customers we can see. Averaged over customers, not weighted by their size, because it describes the product experience rather than the revenue.
+	measure 'Feature Adoption %' = AVERAGE ( FactUsageMonthly[FeatureAdoptionRate] )
+		formatString: 0.0%
+		displayFolder: 07 Product Usage
+		lineageTag: 4ffd0e5d-5877-56ea-b26b-91f8f5ce9d3f
+
+	/// Average logins per observed customer-month.
+	measure 'Logins per Customer' = AVERAGE ( FactUsageMonthly[Logins] )
+		formatString: #,0.0
+		displayFolder: 07 Product Usage
+		lineageTag: 369d8834-123e-5acc-b33f-ff42e3db2ae5
+
+	/// Average critical errors per observed customer-month.
+	measure 'Critical Errors per Customer' = AVERAGE ( FactUsageMonthly[CriticalErrors] )
+		formatString: #,0.00
+		displayFolder: 07 Product Usage
+		lineageTag: 5957285c-8f16-5301-8851-3e58dcc7fbb9
+
+	/// The share of observed customers whose licensed seats move over time. Seats move in this data; MRR does not, which is exactly why seat growth is an adoption signal here and never billed expansion.
+	measure 'Seats Changed %' =
+			VAR Observed = DISTINCTCOUNT ( FactUsageMonthly[CustomerID] )
+			VAR Movers =
+			    COUNTROWS (
+			        FILTER (
+			            VALUES ( FactUsageMonthly[CustomerID] ),
+			            CALCULATE ( DISTINCTCOUNT ( FactUsageMonthly[LicensedSeats] ) ) > 1
+			        )
+			    )
+			RETURN
+			    DIVIDE ( Movers, Observed )
+		formatString: 0.0%
+		displayFolder: 07 Product Usage
+		lineageTag: 87391a14-d364-598c-bbf1-3b75b7082d4b
+
+	/// Support tickets opened in the period.
+	measure Tickets = COUNTROWS ( FactSupportTicket )
+		formatString: #,0
+		displayFolder: 08 Support
+		lineageTag: 07181e4b-60d6-5269-a00b-495fbee6f6aa
+
+	/// Tickets divided by the months of customer life they could have come from. THE rate that matters: a raw ticket count correlates with churn at -0.00 because it mostly measures how long somebody has been a customer, while this rate correlates at +0.15.
+	measure 'Tickets per Customer per Month' =
+			VAR Exposure = SUMX ( FactSubscription, FactSubscription[TenureMonths] )
+			RETURN
+			    DIVIDE ( [Tickets], Exposure )
+		formatString: #,0.00
+		displayFolder: 08 Support
+		lineageTag: 6e8994be-a544-5072-b3da-d460e4f923d2
+
+	/// High and Critical tickets as a share of all tickets opened.
+	measure 'Urgent Ticket Share' =
+			DIVIDE (
+			    CALCULATE ( COUNTROWS ( FactSupportTicket ), DimSeverity[IsUrgent] = TRUE () ),
+			    [Tickets]
+			)
+		formatString: 0.0%
+		displayFolder: 08 Support
+		lineageTag: d306f338-d28a-58fa-b94b-fe418ec24ac3
+
+	/// Average resolution time across RESOLVED tickets only. The source populates a resolution time for tickets that are still open, drawn from the same distribution - so including them would be meaningless even though it barely moves the number here.
+	measure 'Mean Time To Resolve (Hours)' =
+			CALCULATE (
+			    AVERAGE ( FactSupportTicket[ResolutionHours] ),
+			    FactSupportTicket[IsResolved] = TRUE ()
+			)
+		formatString: #,0.0
+		displayFolder: 08 Support
+		lineageTag: 68f0f837-e5e4-50c6-b516-95523d19f632
+
+	/// Tickets not yet resolved, of those opened in the period.
+	measure 'Open Tickets' = CALCULATE ( COUNTROWS ( FactSupportTicket ), FactSupportTicket[IsResolved] = FALSE () )
+		formatString: #,0
+		displayFolder: 08 Support
+		lineageTag: 4589c431-4ba4-571b-9a98-643ecc969b68
+
+	/// Tickets still open or escalated as a share of those opened.
+	measure 'Unresolved Share' = DIVIDE ( [Open Tickets], [Tickets] )
+		formatString: 0.0%
+		displayFolder: 08 Support
+		lineageTag: e4664aff-d0bd-5bd9-ae24-e14226917b86
+
+	/// Distinct customers that opened at least one ticket in the period.
+	measure 'Customers Raising Tickets' = DISTINCTCOUNT ( FactSupportTicket[CustomerID] )
+		formatString: #,0
+		displayFolder: 08 Support
+		lineageTag: 55e9bf76-05f0-5ed6-9f8f-430efbbaa5d6
+
+	/// Invoices issued in the period.
+	measure Invoices = COUNTROWS ( FactInvoice )
+		formatString: #,0
+		displayFolder: 09 Billing
+		lineageTag: 70810cea-c1a9-5fd5-bfb6-e84738f9e7cd
+
+	/// Invoices that did not collect.
+	measure 'Failed Invoices' = CALCULATE ( COUNTROWS ( FactInvoice ), FactInvoice[IsFailed] = TRUE () )
+		formatString: #,0
+		displayFolder: 09 Billing
+		lineageTag: 1ed41676-be53-5473-ad40-85ad5ed2a91a
+
+	/// Failed invoices over invoices issued. The exposure-adjusted view of payment trouble - and it has no relationship with churn in this source (r = +0.000), so involuntary churn does not exist here.
+	measure 'Payment Failure Rate' = DIVIDE ( [Failed Invoices], [Invoices] )
+		formatString: 0.00%
+		displayFolder: 09 Billing
+		lineageTag: bace1895-8a4c-5a87-ae21-1c870980480b
+
+	/// The value behind the failed invoices.
+	measure 'Failed Invoice Value' = CALCULATE ( SUM ( FactInvoice[InvoiceAmount] ), FactInvoice[IsFailed] = TRUE () )
+		formatString: \$#,0
+		displayFolder: 09 Billing
+		lineageTag: 5284d584-4fd1-5403-96ac-69a84e4b137d
+
+	/// Median days from invoice to payment, across invoices that were paid.
+	measure 'Median Days To Pay' =
+			MEDIANX (
+			    CALCULATETABLE ( FactInvoice, FactInvoice[IsFailed] = FALSE () ),
+			    FactInvoice[DaysToPay]
+			)
+		formatString: #,0.0
+		displayFolder: 09 Billing
+		lineageTag: 43fa48ca-239f-5e84-830d-366e6b47a4db
+
+	/// Distinct customers with at least one failed invoice in the period.
+	measure 'Customers With a Failure' = CALCULATE ( DISTINCTCOUNT ( FactInvoice[CustomerID] ), FactInvoice[IsFailed] = TRUE () )
+		formatString: #,0
+		displayFolder: 09 Billing
+		lineageTag: 18bbc8a6-e0af-5bbd-9718-04a207fba144
+
+	/// The correlation between the driver in context and whether a customer ever churned, computed in SQL on every refresh (analytics.vw_ChurnDriverStrength) rather than typed onto a page. Positive means more of it goes with leaving.
+	measure 'Driver Correlation' = AVERAGE ( ChurnDriverStrength[Correlation] )
+		formatString: +0.000;-0.000;0.000
+		displayFolder: 10 Churn Drivers
+		lineageTag: 0eff16a0-e0a6-5a65-860a-cd2813d2bdad
+
+	/// The correlation read in words, so the page states a conclusion rather than leaving the reader to judge a decimal: anything inside 0.05 is no relationship at all.
+	measure 'Driver Strength' =
+			VAR R = ABS ( [Driver Correlation] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( R ), BLANK (),
+			        R < 0.05, "No relationship",
+			        R < 0.10, "Very weak",
+			        R < 0.20, "Weak but real",
+			        R < 0.40, "Moderate",
+			        "Strong"
+			    )
+		displayFolder: 10 Churn Drivers
+		lineageTag: 914decac-5e38-5c08-b083-52cf2b9076cf
+
+	/// Which family a candidate driver belongs to - Commercial, Behaviour, Product or Billing. A text measure rather than a column, so the evidence can be shown in a matrix (which suppresses its own total, where a table will not) without the group becoming a nested row level.
+	measure 'Driver Group' = SELECTEDVALUE ( ChurnDriverStrength[DriverGroup] )
+		displayFolder: 10 Churn Drivers
+		lineageTag: 631e1824-b6b4-50a3-a534-2b7c9bf4bdb0
+
+	/// How many customers the correlation was measured over. The usage drivers are measured on fewer, because usage does not cover everyone.
+	measure 'Driver Customers' = SUM ( ChurnDriverStrength[Customers] )
+		formatString: #,0
+		displayFolder: 10 Churn Drivers
+		lineageTag: 61601df5-1b77-5549-9d12-6d2a07495d5f
+
+	/// The share of customers in context that have ever churned. Used to cut ever-churn by plan, segment, industry, country and channel - the cut that matters and the four that do not.
+	measure 'Churn Rate by Group' = DIVIDE ( [Customers Ever Churned], [Customers Ever Acquired] )
+		formatString: 0.0%
+		displayFolder: 10 Churn Drivers
+		lineageTag: 3a44b8c9-ce98-53ee-8a2f-7eb6103e9514
+
+	/// How far the group's ever-churn rate sits from the rate across every customer, in percentage points. The honest way to show that segment, industry and country say almost nothing here.
+	measure 'Churn Rate vs Average (pp)' =
+			VAR OverallRate = CALCULATE ( [Churn Rate by Group], REMOVEFILTERS () )
+			VAR GroupRate = [Churn Rate by Group]
+			RETURN
+			    IF ( NOT ISBLANK ( GroupRate ), ( GroupRate - OverallRate ) * 100 )
+		formatString: #,0.0
+		displayFolder: 10 Churn Drivers
+		lineageTag: b42f897b-9e5d-51d4-a972-3b71bcb8b13e
+
+	/// The distance between the highest and lowest ever-churn rate across the values in context, in percentage points. One number for 'does this cut tell me anything'.
+	measure 'Churn Rate Spread (pp)' =
+			VAR Rates =
+			    ADDCOLUMNS ( VALUES ( DimCustomer[Segment] ), "@r", [Churn Rate by Group] )
+			RETURN
+			    ( MAXX ( Rates, [@r] ) - MINX ( Rates, [@r] ) ) * 100
+		formatString: #,0.0
+		isHidden
+		displayFolder: 10 Churn Drivers
+		lineageTag: 0ca02073-78d2-560e-b7ab-97147768c6d4
+
+	/// A data-quality figure computed live in SQL from dbo, so the Data & Method page cannot drift from the data.
+	measure 'DQ Metric Value' = SUM ( DataQualityMetric[MetricValue] )
+		formatString: #,0.00
+		displayFolder: 11 Data Quality
+		lineageTag: 02e71a34-fa7d-582a-b4a7-2504a75d299a
+
+	/// How to read the value beside it: a share, a count, a correlation.
+	measure 'DQ Metric Unit' = SELECTEDVALUE ( DataQualityMetric[Unit] )
+		displayFolder: 11 Data Quality
+		lineageTag: 0ae601a7-b9f9-5ea6-8606-926a1ebadff8
+
+	/// Cell colour for the cohort retention matrix: a three-step scale from the panel colour, so a matrix reads as a shape rather than as 600 numbers.
+	measure 'Retention Colour' =
+			VAR R = [Cohort Retention %]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( R ), BLANK (),
+			        R >= 0.90, "#E8899B",
+			        R >= 0.75, "#F0AFBB",
+			        R >= 0.50, "#F6CED5",
+			        R >= 0.25, "#FBE7EA",
+			        "#FFFFFF"
+			    )
+		displayFolder: 12 Report Formatting
+		lineageTag: c076f5ea-c8da-5661-9adb-b1dd508a0f38
+
+	/// Waterfall bar colour from the sign of the movement it draws: what was won in green, what was lost in red, and a component that cannot occur in this data left grey so an empty bar reads as a property of the source.
+	measure 'Movement Bar Colour' =
+			VAR Amount = [MRR Movement]
+			VAR Supported = SELECTEDVALUE ( DimMovementType[IsSupported] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        Supported = FALSE (), "#DCD5D7",
+			        ISBLANK ( Amount ), BLANK (),
+			        Amount >= 0, "#E0788C",
+			        "#9E1B32"
+			    )
+		displayFolder: 12 Report Formatting
+		lineageTag: 25aab464-c061-5cb0-a27a-5b8c035d67e1
+
+	/// Colour for the churn-driver chart: a driver inside |r| < 0.05 is drawn in a flat grey because it is not a driver, and the page should say so with its ink as well as its words. Direction is read off the axis, so the colour carries one thing only - whether this is a driver at all.
+	measure 'Driver Bar Colour' =
+			VAR R = [Driver Correlation]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( R ), BLANK (),
+			        ABS ( R ) < 0.05, "#DCD5D7",
+			        "#9E1B32"
+			    )
+		displayFolder: 12 Report Formatting
+		lineageTag: 8cec6327-d6ca-56df-b7ba-ca2c49e5f20d
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: b687d4ba-046f-5ffb-bdb3-32e980839a9f
+		summarizeBy: none
+		sourceColumn: Placeholder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [Placeholder = text], {})
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

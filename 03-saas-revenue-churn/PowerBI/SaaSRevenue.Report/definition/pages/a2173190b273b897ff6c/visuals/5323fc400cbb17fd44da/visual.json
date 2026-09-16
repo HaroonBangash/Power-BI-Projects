@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "5323fc400cbb17fd44da",
+  "position": {
+    "x": 718.27493261455515,
+    "y": 149.46091644204864,
+    "z": 1,
+    "height": 250,
+    "width": 544,
+    "tabOrder": 19
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "The rules every figure obeys",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#9E1B32",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "As of 31 Aug 2026. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "MRR, ARR, customers and seats are STOCKS: read at a month end, never summed across months. Selecting a range gives the figure at the end of it.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Retention is quoted with its basis. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Revenue retention and logo retention answer different questions, so both are published and neither stands in for the other.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Rates, not counts, for behaviour. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Support contact and payment failure are per month of tenure and per invoice. A raw count measures how long somebody has been a customer.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Nothing beyond the data. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A month the file does not reach reads blank, not zero - so a chart stops where the data stops.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

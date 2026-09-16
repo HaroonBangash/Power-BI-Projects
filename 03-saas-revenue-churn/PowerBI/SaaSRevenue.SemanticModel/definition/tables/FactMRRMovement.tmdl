@@ -1,0 +1,88 @@
+/// The movement LEDGER: one row per customer per month its MRR changed, classified by comparing the month against the one before. The waterfall is derived from this, not inferred from dates - and the change it reports reconciles to the snapshot every month.
+table FactMRRMovement
+	lineageTag: c8b6107b-c398-54cb-b702-7d1772dee57b
+
+	column MonthStart
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 9fb51cef-ccc6-5e8f-83aa-780ea3015eee
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: e8920519-c6b9-5080-882d-018cc26f3104
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Carried by the view. NOT the filter path: plan filters through DimCustomer, so that it reaches tickets, usage, invoices and acquisition too.
+	column PlanID
+		dataType: string
+		isHidden
+		lineageTag: 2aaf81b4-2a4c-5f34-a77f-cd2944eb1cd2
+		summarizeBy: none
+		sourceColumn: PlanID
+
+		annotation SummarizationSetBy = Automatic
+
+	column MovementType
+		dataType: string
+		isHidden
+		lineageTag: b1f1ba94-6123-5cfa-a247-785ee5cbca56
+		summarizeBy: none
+		sourceColumn: MovementType
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Signed: churn is negative.
+	column MRRDelta
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 985122e9-d4db-5feb-b149-eb6e1ce208b1
+		summarizeBy: sum
+		sourceColumn: MRRDelta
+
+		annotation SummarizationSetBy = Automatic
+
+	column PriorMRR
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: bda5ee00-e934-5db4-bb0b-627bbc388e1d
+		summarizeBy: sum
+		sourceColumn: PriorMRR
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentMRR
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 1bfcbb01-2260-5f77-884b-ce4c77251ed4
+		summarizeBy: sum
+		sourceColumn: CurrentMRR
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactMRRMovement = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactMRRMovement = Source{[Schema="analytics",Item="vw_FactMRRMovement"]}[Data]
+				in
+				    analytics_vw_FactMRRMovement
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

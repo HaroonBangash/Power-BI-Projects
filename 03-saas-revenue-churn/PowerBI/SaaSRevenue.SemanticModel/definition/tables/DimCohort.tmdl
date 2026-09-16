@@ -1,0 +1,68 @@
+/// One row per signup month: the cohort, its size, and the MRR it started with. A real dimension rather than a fact column, so a retention matrix sorts by time instead of alphabetically.
+table DimCohort
+	lineageTag: dce7a09d-4c88-5aba-bb85-d7a1cb6ae4a7
+
+	column CohortMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 6eabb7ef-460e-5292-a55a-fcec86122e0d
+		summarizeBy: none
+		sourceColumn: CohortMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CohortLabel
+		dataType: string
+		lineageTag: e7bce698-effc-5d65-9ba9-c107320167d8
+		summarizeBy: none
+		sourceColumn: CohortLabel
+		sortByColumn: CohortSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column CohortSort
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 40c9cd47-9a05-539f-be96-c35588453ba4
+		summarizeBy: none
+		sourceColumn: CohortSort
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Customers that started in the month. Fixed: it never moves as customers leave.
+	column CohortSize
+		dataType: int64
+		formatString: #,0
+		lineageTag: aa393cc9-6ea0-5627-b1e3-dc9cc115fa3f
+		summarizeBy: sum
+		sourceColumn: CohortSize
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The MRR the cohort started with.
+	column CohortMRR
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 07a9b52c-9078-5bd2-9b45-79b66e87ab47
+		summarizeBy: sum
+		sourceColumn: CohortMRR
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCohort = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimCohort = Source{[Schema="analytics",Item="vw_DimCohort"]}[Data]
+				in
+				    analytics_vw_DimCohort
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,48 @@
+/// What each customer cost to acquire, landed in their signup month. No campaign and no spend over time exist in the source, so a blended CAC is honest and a marketing-efficiency trend is not.
+table FactAcquisition
+	lineageTag: 2bcd06b9-fec8-5c99-b669-b9e58a398d1c
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: b18eacec-b7c0-5a98-ba85-36105ef61eb7
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column AcquisitionMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 1dc3f93a-e24c-573c-a590-5894f5b36f35
+		summarizeBy: none
+		sourceColumn: AcquisitionMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AcquisitionCost
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 79e377db-592a-512f-82fc-d54ed26507a1
+		summarizeBy: sum
+		sourceColumn: AcquisitionCost
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAcquisition = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactAcquisition = Source{[Schema="analytics",Item="vw_FactAcquisition"]}[Data]
+				in
+				    analytics_vw_FactAcquisition
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

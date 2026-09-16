@@ -1,0 +1,74 @@
+/// The five movements a SaaS book can make. Three of them cannot occur in this source; the dimension carries that fact and the reason, so the waterfall can show an empty bar and say why.
+table DimMovementType
+	lineageTag: 30826171-31a9-5b86-9c12-29cc7a2cf468
+
+	column MovementType
+		dataType: string
+		lineageTag: 7a09781a-f423-5e73-a0c1-6c90d2f748a9
+		summarizeBy: none
+		sourceColumn: MovementType
+		sortByColumn: MovementOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MovementOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 80e0c193-66d8-5eda-965c-0adf4284bde5
+		summarizeBy: none
+		sourceColumn: MovementOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// +1 adds to MRR, -1 removes.
+	column MovementSign
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 79fb4748-93c4-55b9-a981-e6c40aca33a9
+		summarizeBy: none
+		sourceColumn: MovementSign
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Whether this movement can occur in this data at all.
+	column IsSupported
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 809c6a35-3479-5b65-bc71-51d3bca30329
+		summarizeBy: none
+		sourceColumn: IsSupported
+
+		annotation SummarizationSetBy = Automatic
+
+	column SupportLabel
+		dataType: string
+		lineageTag: a3efb527-d725-5248-8460-82abd2470910
+		summarizeBy: none
+		sourceColumn: SupportLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Why a movement cannot occur here. Empty for the two that can.
+	column WhyNot
+		dataType: string
+		lineageTag: 6d9411fe-e37b-544f-8a1e-c8f656ca97e1
+		summarizeBy: none
+		sourceColumn: WhyNot
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimMovementType = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimMovementType = Source{[Schema="analytics",Item="vw_DimMovementType"]}[Data]
+				in
+				    analytics_vw_DimMovementType
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

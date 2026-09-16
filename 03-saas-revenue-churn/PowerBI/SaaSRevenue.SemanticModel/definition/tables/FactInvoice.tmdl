@@ -1,0 +1,117 @@
+/// One invoice. Billed value is a FLOW and does sum over time, unlike MRR - and it is lumpy, because an annual customer bills twelve months at once. Invoices are all dated the 1st of the month while a subscription starts on any day, so an invoice date never decides when a subscription began.
+table FactInvoice
+	lineageTag: bb7dc8b9-03c4-5ebb-985d-12b66e825ea1
+
+	column InvoiceID
+		dataType: string
+		isHidden
+		lineageTag: 27e62339-6ad0-55de-ba30-815e3fd67209
+		summarizeBy: none
+		sourceColumn: InvoiceID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubscriptionID
+		dataType: string
+		isHidden
+		lineageTag: 24c03e5b-0b3c-5945-8875-d55b1ec2d222
+		summarizeBy: none
+		sourceColumn: SubscriptionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: efdc8fff-4dba-55b1-8073-c0bdb997e3ad
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Always the 1st of a month: a billing convention in the source.
+	column InvoiceDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f3a1e47c-4c61-55b6-a9ab-110be18271cf
+		summarizeBy: none
+		sourceColumn: InvoiceDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column InvoiceMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: a1089244-9e80-51b2-b937-b15193dad888
+		summarizeBy: none
+		sourceColumn: InvoiceMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column InvoiceAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: a436e51f-34ac-540d-ab41-1e28e5ffb0a0
+		summarizeBy: sum
+		sourceColumn: InvoiceAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Inactive date relationship. Blank where the invoice failed.
+	column PaymentDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 4bdc49f2-10ec-5d3b-8d99-75e50e998461
+		summarizeBy: none
+		sourceColumn: PaymentDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PaymentStatus
+		dataType: string
+		lineageTag: 70d6c94c-1202-5976-b037-6bff4320bad2
+		summarizeBy: none
+		sourceColumn: PaymentStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The invoice did not collect. Unrelated to churn in this source.
+	column IsFailed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 40c38122-14a8-5df2-87b2-0e55444d05e6
+		summarizeBy: none
+		sourceColumn: IsFailed
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToPay
+		dataType: int64
+		formatString: #,0
+		lineageTag: 677baca7-a66c-5366-b7de-7886f760d8ce
+		summarizeBy: none
+		sourceColumn: DaysToPay
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactInvoice = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactInvoice = Source{[Schema="analytics",Item="vw_FactInvoice"]}[Data]
+				in
+				    analytics_vw_FactInvoice
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

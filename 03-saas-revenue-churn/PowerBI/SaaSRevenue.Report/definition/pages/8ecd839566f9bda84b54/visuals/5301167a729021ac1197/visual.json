@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "5301167a729021ac1197",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 1,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 24
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "One subscription each.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every customer in this source has exactly one subscription, for life, at one price - which is why the customer base and the subscription base are the same list, and why nobody in it has ever upgraded, downgraded or come back. Tenure is completed months to the end date, or to 31 Aug 2026 for a customer still running.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

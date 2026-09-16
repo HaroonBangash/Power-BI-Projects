@@ -1,0 +1,56 @@
+/// Tenure grouped into bands, ordered.
+table DimTenureBand
+	lineageTag: a46d56ad-9501-5d95-97e6-d9fe1a22ae83
+
+	column TenureBand
+		dataType: string
+		lineageTag: c464ef7d-7e0e-5492-a587-ccf27520f26d
+		summarizeBy: none
+		sourceColumn: TenureBand
+		sortByColumn: TenureBandOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column TenureBandOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c6f73022-13ff-5f3a-813c-a54b402296c3
+		summarizeBy: none
+		sourceColumn: TenureBandOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinMonths
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5965cf12-0d54-55c7-a28d-09754322ac27
+		summarizeBy: none
+		sourceColumn: MinMonths
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxMonths
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 81041f17-83b4-5d00-b46b-80b2d493fe3c
+		summarizeBy: none
+		sourceColumn: MaxMonths
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTenureBand = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimTenureBand = Source{[Schema="analytics",Item="vw_DimTenureBand"]}[Data]
+				in
+				    analytics_vw_DimTenureBand
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

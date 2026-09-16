@@ -1,0 +1,42 @@
+/// Disconnected configuration: the as-of date, the gross-margin assumption, the currency. Read by measures so nothing is hard-coded, and shown on the page so no assumption is invisible.
+table ModelConfig
+	isHidden
+	lineageTag: 8eba24a9-cd0a-57ad-ba31-b942f3d46181
+
+	column ConfigKey
+		dataType: string
+		lineageTag: ec1f6875-8aab-5735-9fd5-2a9d3eb70fe2
+		summarizeBy: none
+		sourceColumn: ConfigKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConfigValue
+		dataType: string
+		lineageTag: 81de62f4-7cc3-5f8f-82bc-c6861879a117
+		summarizeBy: none
+		sourceColumn: ConfigValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 9946f02f-8e0b-5a39-85bd-4e6cabc610f8
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ModelConfig = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_ModelConfig = Source{[Schema="analytics",Item="vw_ModelConfig"]}[Data]
+				in
+				    analytics_vw_ModelConfig
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

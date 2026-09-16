@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "70442f84051d50e301d6",
+  "position": {
+    "x": 718.27493261455515,
+    "y": 411.4609164420487,
+    "z": 1,
+    "height": 206,
+    "width": 544,
+    "tabOrder": 21
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Traps in this source, and what was done",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#7B3F61",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Acquisition stops before churn does. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The newest subscription starts 30 Jun 2026 while churn runs to 30 Aug 2026, so the last two months show losses and no wins. Reported as measured, and flagged wherever it shows.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Usage is a 40% sample. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A customer appears in a median of nine months against a median tenure of twenty-nine. Adoption figures say 'of the customers we can see' and are never a denominator for revenue.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Unresolved tickets carry a resolution time. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "All 18,142 of them, drawn from the same distribution as resolved ones. Mean time to resolve uses resolved tickets only, and no claim is made that escalation takes longer.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Invoices are dated before subscriptions start. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "11,599 of them, every one inside the start month: invoices are dated the 1st while a subscription starts on any day. A convention, not a fault - but an invoice date never dates a subscription.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Synthetic data. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A portfolio dataset for a fictional SaaS business - never a real customer base.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#1C1B1D"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

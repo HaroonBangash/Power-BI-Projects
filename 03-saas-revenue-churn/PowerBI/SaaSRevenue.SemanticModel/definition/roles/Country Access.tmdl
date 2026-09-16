@@ -1,0 +1,17 @@
+/// Dynamic security by entity AND department, from the user's email. ALL means no restriction. A department-scoped user sees that department's income statement across entities and no receivables, payables or cash - those facts have no department. An unmapped user sees nothing.
+role 'Country Access'
+	modelPermission: read
+
+	tablePermission DimCustomer =
+			VAR UserScope =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[Country] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserScope || DimCustomer[Country] IN UserScope
+
+	tablePermission SecurityUserAccess = SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+
+	annotation PBI_Id = 28033582cab359c1a5bff47acd8c9087
+

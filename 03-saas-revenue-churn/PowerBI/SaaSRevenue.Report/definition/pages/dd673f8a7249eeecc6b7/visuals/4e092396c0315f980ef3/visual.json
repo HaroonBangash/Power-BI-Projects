@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "4e092396c0315f980ef3",
+  "position": {
+    "x": 185.72506738544473,
+    "y": 609.34770889487834,
+    "z": 1,
+    "height": 44,
+    "width": 1080,
+    "tabOrder": 26
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "A sample, not a census.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Usage covers about 40% of paying customers in any month: a customer appears in a median of nine months against a median tenure of twenty-nine. Adoption figures are 'of the customers we can see', never a denominator for revenue. Mean time to resolve counts resolved tickets only.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#6E686B"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

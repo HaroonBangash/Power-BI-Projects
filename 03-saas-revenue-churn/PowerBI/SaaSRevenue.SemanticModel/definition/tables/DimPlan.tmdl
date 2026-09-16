@@ -1,0 +1,65 @@
+/// The four subscription plans. Plan is the ONE strong churn driver in this data: Starter churns at 26% and Enterprise at 8%, and the gradient holds inside every segment.
+table DimPlan
+	lineageTag: 73b0ebfb-9261-5d91-b09c-cc1fe6c3c926
+
+	column PlanID
+		dataType: string
+		isHidden
+		lineageTag: 3f04ddc4-5d3f-51ce-84de-b03e5fa893c7
+		summarizeBy: none
+		sourceColumn: PlanID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlanName
+		dataType: string
+		lineageTag: e79422c2-271f-596d-bf30-6681244a57e0
+		summarizeBy: none
+		sourceColumn: PlanName
+		sortByColumn: PlanOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The price book. Realised MRR sits between 85% and 125% of it, so the two are reported apart.
+	column MonthlyListPrice
+		dataType: double
+		formatString: \$#,0
+		lineageTag: e61ab41a-f1e6-5b6c-8ff8-d415a05def59
+		summarizeBy: none
+		sourceColumn: MonthlyListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlanOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6251ea16-aa5d-5ceb-a8bb-de75bc8e3ebd
+		summarizeBy: none
+		sourceColumn: PlanOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Plan with its list price, for a chart axis.
+	column PlanLabel
+		dataType: string
+		lineageTag: 1cdbb108-5f55-5c0d-86e0-d97ee4a6c062
+		summarizeBy: none
+		sourceColumn: PlanLabel
+		sortByColumn: PlanOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPlan = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimPlan = Source{[Schema="analytics",Item="vw_DimPlan"]}[Data]
+				in
+				    analytics_vw_DimPlan
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

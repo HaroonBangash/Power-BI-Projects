@@ -1,0 +1,73 @@
+/// Applies a time comparison to whatever measure a visual shows: the period itself, the month before, the change, or the same month a year earlier. A comparison is BLANK where the model has no data to compare against, rather than showing the whole of a figure as growth.
+table 'Time Comparison'
+	lineageTag: 9452d05a-38f9-594f-a05e-ed4eb158e4e9
+
+	calculationGroup
+		precedence: 10
+
+		/// The measure as it stands, with no comparison applied.
+		calculationItem 'Selected period' = SELECTEDMEASURE ()
+
+		/// The same measure one month earlier. Blank in the first month the data covers.
+		calculationItem 'Prior month' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    DATEADD ( DimDate[Date], -1, MONTH )
+				)
+
+		/// This month less last month.
+		calculationItem 'Month over month' =
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -1, MONTH ) )
+				RETURN
+				    IF ( NOT ISBLANK ( PriorValue ), CurrentValue - PriorValue )
+
+		/// The change as a share of last month. Blank when last month is blank or zero, because a percentage of nothing is not infinity - it is unanswerable.
+		calculationItem 'Month over month %' =
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -1, MONTH ) )
+				RETURN
+				    IF ( PriorValue <> 0, DIVIDE ( CurrentValue - PriorValue, PriorValue ) )
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		/// The same measure twelve months earlier. Blank where the data does not reach back that far.
+		calculationItem 'Prior year' =
+				VAR Target = EDATE ( MIN ( DimDate[Date] ), -12 )
+				VAR FirstMonth = CALCULATE ( MIN ( FactSubscriptionMonth[MonthStart] ), REMOVEFILTERS () )
+				RETURN
+				    IF (
+				        Target >= FirstMonth,
+				        CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -12, MONTH ) )
+				    )
+
+		/// Growth on the same month a year earlier, with the same guard: a year the ledger does not cover is blank, not infinite growth.
+		calculationItem 'Year over year %' =
+				VAR Target = EDATE ( MIN ( DimDate[Date] ), -12 )
+				VAR FirstMonth = CALCULATE ( MIN ( FactSubscriptionMonth[MonthStart] ), REMOVEFILTERS () )
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -12, MONTH ) )
+				RETURN
+				    IF ( Target >= FirstMonth && PriorValue <> 0, DIVIDE ( CurrentValue - PriorValue, PriorValue ) )
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+	column Comparison
+		dataType: string
+		lineageTag: 0022e63d-228b-59b6-ab14-535c9f0f0df8
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f66febc2-2c55-5073-a9e5-eec7aa974b9a
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

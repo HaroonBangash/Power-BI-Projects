@@ -1,0 +1,42 @@
+/// Row-level security mapping: user email to country, or ALL. Disconnected; read by the role.
+table SecurityUserAccess
+	isHidden
+	lineageTag: 74d3b3a6-1989-50b2-9c0d-5874bee235df
+
+	column UserEmail
+		dataType: string
+		lineageTag: f0b8890d-52b4-5786-86c9-d2948eeb343d
+		summarizeBy: none
+		sourceColumn: UserEmail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Role
+		dataType: string
+		lineageTag: ef6027b8-5e48-5c33-a665-61c42ddedd3e
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 7f935649-88a9-5db4-a510-8a4c1845be98
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SecurityUserAccess = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_SecurityUserAccess = Source{[Schema="analytics",Item="vw_SecurityUserAccess"]}[Data]
+				in
+				    analytics_vw_SecurityUserAccess
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

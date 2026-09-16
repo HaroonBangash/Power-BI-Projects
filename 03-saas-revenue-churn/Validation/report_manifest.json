@@ -1,0 +1,1226 @@
+[
+  {
+    "name": "a70c9978504b4d5ed23a",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "e95eaff3bc9443769909",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a1e84492e6b79b017710",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "21ed15e8d8861f1d3b26",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "22e3f891d4da66f3bebb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "773dd4cdf1ddd3852714",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "ec65d508b96d227a9732",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "255d22c82f42d7d964ba",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "303058305fba83a4a335",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "928564c60d7b274569a9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "4663d72bb238e776e56e",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3f494efdf87896b5d810",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b3e17c73bd7d09b8ae1b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "8a34172bcddcc8a95f67",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Country"
+  },
+  {
+    "name": "c46dc627f11d3915da78",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Segment"
+  },
+  {
+    "name": "d39060159a29f7114c79",
+    "visualType": "card",
+    "title": "ARR at 31 Aug 2026",
+    "demonstrates": "Headline figure: ARR"
+  },
+  {
+    "name": "ce334c7d12f380f6fae9",
+    "visualType": "card",
+    "title": "MRR at 31 Aug 2026",
+    "demonstrates": "Headline figure: MRR"
+  },
+  {
+    "name": "62621b9db2b285585b8d",
+    "visualType": "card",
+    "title": "Paying customers",
+    "demonstrates": "Headline figure: Customers"
+  },
+  {
+    "name": "2c52c30f6b567de82b05",
+    "visualType": "card",
+    "title": "Average revenue per account",
+    "demonstrates": "Headline figure: ARPA"
+  },
+  {
+    "name": "a3ff2ae05ea9795d72c0",
+    "visualType": "card",
+    "title": "Logo churn, trailing 12 months",
+    "demonstrates": "Headline figure: Annualised Logo Churn %"
+  },
+  {
+    "name": "41b812c8686b8badf51d",
+    "visualType": "card",
+    "title": "Revenue retention, 12 months",
+    "demonstrates": "Headline figure: Trailing 12m Revenue Retention %"
+  },
+  {
+    "name": "29514c1d9c431bc0e11e",
+    "visualType": "areaChart",
+    "title": "MRR at each month end, since January 2022",
+    "demonstrates": "a stock read at each month end, never summed; the axis starts at zero because the question is how big, not how noisy"
+  },
+  {
+    "name": "0f1eea546522dfaec2c8",
+    "visualType": "donutChart",
+    "title": "MRR by customer segment",
+    "demonstrates": "donut: three shares of one whole, at the as-of date"
+  },
+  {
+    "name": "7995d272522ffd0fed3a",
+    "visualType": "columnChart",
+    "title": "Customers by plan, at each year end",
+    "demonstrates": "stacked column: the plan mix barely moves, which is itself the finding"
+  },
+  {
+    "name": "98a5ead12cfece344948",
+    "visualType": "lineChart",
+    "title": "Customers arriving and leaving each month",
+    "demonstrates": "the two flows behind the stock; arrivals stop in June 2026 where the extract ends"
+  },
+  {
+    "name": "0f9d8ba18c0cb2e17203",
+    "visualType": "multiRowCard",
+    "title": "",
+    "demonstrates": "multiRowCard: the three retention figures in one panel, at a height that fits"
+  },
+  {
+    "name": "906b2fa2cd92650b2060",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a42d3646deb1e9614567",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "72f58905d3043ea23b08",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "db7954092351943e5cf1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "c5501cbc45f32290f14d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "c5064efc62d3a20d8bc6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "97e9ade3f6621085902d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "aac02caf62e49ea00cae",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "8ab16bb8029881f33784",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "bddbbf70151f6f6bbc03",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "532f8eb528db08ce82ca",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "5dc9be0b55c07388fe1b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "63fcd382966c550b953f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6d40947eb2d8e7da6ef7",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "d14874a121f92df21170",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Country"
+  },
+  {
+    "name": "9b18d2cbdf1f71c51b4d",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Time comparison"
+  },
+  {
+    "name": "3332adf8b168e32ee0bb",
+    "visualType": "card",
+    "title": "MRR at 31 Aug 2025",
+    "demonstrates": "Headline figure: Opening MRR"
+  },
+  {
+    "name": "adbb2ed23129b354d018",
+    "visualType": "card",
+    "title": "Won in 12 months",
+    "demonstrates": "Headline figure: New MRR"
+  },
+  {
+    "name": "8d069ba096469ebb48d8",
+    "visualType": "card",
+    "title": "Lost in 12 months",
+    "demonstrates": "Headline figure: Churned MRR"
+  },
+  {
+    "name": "47a7a75627c5e27bfcb8",
+    "visualType": "card",
+    "title": "Net change",
+    "demonstrates": "Headline figure: Net MRR Movement"
+  },
+  {
+    "name": "57b774201a4a75992131",
+    "visualType": "card",
+    "title": "MRR at 31 Aug 2026",
+    "demonstrates": "Headline figure: MRR"
+  },
+  {
+    "name": "2c107ac572cfd1f2a59a",
+    "visualType": "waterfallChart",
+    "title": "Where MRR moved, 12 months to Aug 2026",
+    "demonstrates": "waterfall: the five components of a SaaS book. Three of them are empty here and the page says why rather than dropping them"
+  },
+  {
+    "name": "56090287acecf9ce43d0",
+    "visualType": "lineClusteredColumnComboChart",
+    "title": "Won and lost each month, with MRR on the right",
+    "demonstrates": "combo: the flows as columns and the stock as a line, because they are different kinds of number and must not share an axis"
+  },
+  {
+    "name": "ab43501751ea4ba7b1d9",
+    "visualType": "tableEx",
+    "title": "The five movements, and which of them this source can show",
+    "demonstrates": "the empty components explained in the same table that reports them"
+  },
+  {
+    "name": "af1fe003240942e570ad",
+    "visualType": "clusteredBarChart",
+    "title": "MRR lost by plan",
+    "demonstrates": "where the churn actually costs: Starter churns most often, Enterprise costs most per loss"
+  },
+  {
+    "name": "dde054683f6eb553d120",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "1732116e5f9b1c20ae18",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "dafe6df4210b6f389a40",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "7e64cf0e5f1e92941a0c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "0d9600c1266d727abdcd",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "3dc7b851fe1f70f76133",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "31857175525b0c13607e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "52759d4e97fc6bebac3e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "6a5ca9d91eaa0452a4e5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "2c8fb606ba1c98cf4082",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "3f70f2c74d384275c8a3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "5f4409a0142ce29b8e06",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "13b270cb0fedab74a5c5",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "084998199295d0b536d5",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "af24dbfdeeecad04032f",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Country"
+  },
+  {
+    "name": "7f1616f8366993d700dd",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Plan"
+  },
+  {
+    "name": "a7e4fcc7d4a8726f3915",
+    "visualType": "card",
+    "title": "Logo retention, Aug 2026",
+    "demonstrates": "Headline figure: Logo Retention % (Latest Month)"
+  },
+  {
+    "name": "8eb9ff6a263f7dd3e131",
+    "visualType": "card",
+    "title": "Gross revenue retention, Aug 2026",
+    "demonstrates": "Headline figure: Gross Revenue Retention % (Latest Month)"
+  },
+  {
+    "name": "11463685f764af882c63",
+    "visualType": "card",
+    "title": "Net revenue retention, Aug 2026",
+    "demonstrates": "Headline figure: Net Revenue Retention % (Latest Month)"
+  },
+  {
+    "name": "342aaedd11a8c640fd82",
+    "visualType": "card",
+    "title": "Expansion contribution (pp)",
+    "demonstrates": "Headline figure: NRR less GRR (Latest Month, pp)"
+  },
+  {
+    "name": "0d886a9a3bab38848b1b",
+    "visualType": "card",
+    "title": "Median tenure, months",
+    "demonstrates": "Headline figure: Median Tenure (Months)"
+  },
+  {
+    "name": "2527b17fc7f3739e30b4",
+    "visualType": "pivotTable",
+    "title": "Cohort retention: ten 2025 cohorts, their first twelve months",
+    "demonstrates": "the matrix is a triangle because a cohort cannot have a month it has not lived yet - blank, never 0%"
+  },
+  {
+    "name": "235645e706c7be6f5559",
+    "visualType": "lineChart",
+    "title": "The survival curve, all cohorts",
+    "demonstrates": "the matrix collapsed to one line: how retention decays with age rather than with date"
+  },
+  {
+    "name": "56e6b8e63a50e2d389c5",
+    "visualType": "columnChart",
+    "title": "Customers acquired by year",
+    "demonstrates": "a retention rate means little without the size behind it; by year because eighteen month labels do not fit a quarter of a row"
+  },
+  {
+    "name": "50745af9835a0b90f499",
+    "visualType": "clusteredBarChart",
+    "title": "Where customers are lost, by tenure",
+    "demonstrates": "churn concentrates in the first year and a half, which is where onboarding pays"
+  },
+  {
+    "name": "ba375c9a3e918277e7d3",
+    "visualType": "lineChart",
+    "title": "Monthly churn: logo against revenue",
+    "demonstrates": "revenue churn runs BELOW logo churn: the customers leaving are the small ones"
+  },
+  {
+    "name": "b04fd5c861f6a555c321",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "eb85a7911065c2b14798",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "b0a26f9af3ba6404ed3f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "e28b4948d11528ea4b2f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "1ad5ebbd6a0da7c257fa",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "49ad238971df657b4f24",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "52728a4e3926d6511c60",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "c75395061d23e61203ca",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "6005951e2ba097294887",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "d4b640739a5df5599945",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "ac5ffb25bc56e279d557",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "33931ab48d1285f760f9",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3e58b2a5477c1927d633",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "347e441536a3853c86cd",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "122a643bea684fc0a274",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Country"
+  },
+  {
+    "name": "ce211e695bc818b08b69",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Cut the base by"
+  },
+  {
+    "name": "be8546a8afd7e7962a92",
+    "visualType": "card",
+    "title": "Customers ever churned",
+    "demonstrates": "Headline figure: Ever-Churn Rate"
+  },
+  {
+    "name": "ebcc7670aceaac72ccca",
+    "visualType": "card",
+    "title": "Customers lost, all time",
+    "demonstrates": "Headline figure: Customers Ever Churned"
+  },
+  {
+    "name": "5c451cb44afd6fd1c723",
+    "visualType": "card",
+    "title": "Support contacts per month",
+    "demonstrates": "Headline figure: Tickets per Customer per Month"
+  },
+  {
+    "name": "7729f90c485fef843f98",
+    "visualType": "card",
+    "title": "Invoices that failed",
+    "demonstrates": "Headline figure: Payment Failure Rate"
+  },
+  {
+    "name": "d69bf65ca8f583a8f99e",
+    "visualType": "card",
+    "title": "Median tenure, months",
+    "demonstrates": "Headline figure: Median Tenure (Months)"
+  },
+  {
+    "name": "67283f538c8827faae2f",
+    "visualType": "clusteredBarChart",
+    "title": "What actually predicts churn, measured",
+    "demonstrates": "computed in SQL on every refresh, not asserted. A bar drawn in the panel colour is inside |r| < 0.05 - which is to say, not a driver at all"
+  },
+  {
+    "name": "abf62d1d15527a8524ad",
+    "visualType": "pivotTable",
+    "title": "The same evidence, with its verdict in words",
+    "demonstrates": "a matrix, not a table: a table totals its columns, and there is no such thing as the sum of eleven correlations. A decimal invites interpretation, so the verdict states the conclusion"
+  },
+  {
+    "name": "9daaa49470e5759a1ed7",
+    "visualType": "clusteredColumnChart",
+    "title": "Churn by price point - the one real driver",
+    "demonstrates": "Starter churns at more than three times Enterprise, and the gradient holds inside every segment, so it is the price point and not the kind of company"
+  },
+  {
+    "name": "119c9a4325605bde9225",
+    "visualType": "clusteredColumnChart",
+    "title": "Ever-churn rate - pick a cut above to re-group",
+    "demonstrates": "driven by the field parameter. With nothing picked it shows the base rate against each cut on offer, which is true and obviously waiting for input; pick one and it re-groups. Every cut except plan lands within a couple of points of the base rate"
+  },
+  {
+    "name": "6184ab982bac815fd158",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3f0b16e5002154ef303f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "4f9967aad9712baee5bb",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "4c07914eafd8a1f30dad",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "e80a3a4a6c2e46fb5dac",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "db734816d9042a488ed2",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "b5b821e0dc1cdcb54bec",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "25307b280ce764f4a66a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "a28d66aff73e3b681ad7",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "c90bd9980e4ccdab7db6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "bd74f3eaea0eaad7e9b3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "a57afe308085d786e231",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "1cae611a4b164e5b0acf",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6272bd56344b5d64aa74",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "fcd33e6569e829376d8e",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Country"
+  },
+  {
+    "name": "8646b2f6cf3acaf562dc",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Industry"
+  },
+  {
+    "name": "144e3cc1149f4a7c047a",
+    "visualType": "advancedSlicerVisual",
+    "title": "",
+    "demonstrates": "Active or Churned, as buttons"
+  },
+  {
+    "name": "36c922ef1378eca66af8",
+    "visualType": "card",
+    "title": "Paying customers",
+    "demonstrates": "Headline figure: Customers"
+  },
+  {
+    "name": "4becb96ce7281c90b074",
+    "visualType": "card",
+    "title": "Ever acquired",
+    "demonstrates": "Headline figure: Customers Ever Acquired"
+  },
+  {
+    "name": "6a49765bfbf80a728662",
+    "visualType": "card",
+    "title": "Left, all months",
+    "demonstrates": "Headline figure: Churned Customers"
+  },
+  {
+    "name": "6dd9bfb54abef60bfa73",
+    "visualType": "card",
+    "title": "Median tenure, months",
+    "demonstrates": "Headline figure: Median Tenure (Months)"
+  },
+  {
+    "name": "2efdef69f99e9e06a880",
+    "visualType": "card",
+    "title": "Realised price against list",
+    "demonstrates": "Headline figure: Realised Price vs List %"
+  },
+  {
+    "name": "b0e629de7b541fb2bddc",
+    "visualType": "decompositionTreeVisual",
+    "title": "Where the MRR sits - choose the path",
+    "demonstrates": "decomposition tree: five attributes in any order the reader wants"
+  },
+  {
+    "name": "b1d0d46fae1e58193e36",
+    "visualType": "scatterChart",
+    "title": "Price against tenure, by plan and segment",
+    "demonstrates": "the higher the price point the longer they stay - the same finding as the drivers page, drawn rather than tabulated"
+  },
+  {
+    "name": "7190d0bcbb2fb88597f0",
+    "visualType": "tableEx",
+    "title": "Top 15 customers by MRR",
+    "demonstrates": "the account detail behind every aggregate on the report"
+  },
+  {
+    "name": "5301167a729021ac1197",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a3dbce9d7340b52fca46",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "f022c57bfbed8a3ad24d",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "88ae71c6a9fdd7ea6643",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "176435f856ae994b3807",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "6025fada1cc768357dfa",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "e8e4523f494fbaf2c95a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "ed133a6580219a57e3e7",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "e53950db8663cc09b822",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "f0156173e33249e9f65b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "999607a0a21770acc448",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "d3bb23967a8d4a3fc8fc",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "90fa63b8a0a4ab9eb330",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6688a4dfb5a5eb7d30c4",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "e8fed0b6837b9ad288d8",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Country"
+  },
+  {
+    "name": "ed9f8ed7b0109192f2b5",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Channel"
+  },
+  {
+    "name": "04ac2172997f3fbf40de",
+    "visualType": "card",
+    "title": "Blended CAC",
+    "demonstrates": "Headline figure: CAC (Blended)"
+  },
+  {
+    "name": "14fefe3be53006f812f6",
+    "visualType": "card",
+    "title": "Median CAC",
+    "demonstrates": "Headline figure: CAC (Median)"
+  },
+  {
+    "name": "384101aae59de8ce3a67",
+    "visualType": "card",
+    "title": "ARPA",
+    "demonstrates": "Headline figure: ARPA"
+  },
+  {
+    "name": "6826dd8c3e0c57c8216a",
+    "visualType": "card",
+    "title": "Gross profit per account",
+    "demonstrates": "Headline figure: Gross Profit per Account"
+  },
+  {
+    "name": "ed01b4a2ee3816e9c4a1",
+    "visualType": "card",
+    "title": "CAC payback, months",
+    "demonstrates": "Headline figure: CAC Payback (Months)"
+  },
+  {
+    "name": "6a7c747958081f4153b1",
+    "visualType": "card",
+    "title": "LTV to CAC",
+    "demonstrates": "Headline figure: LTV to CAC"
+  },
+  {
+    "name": "940f7155d008fa0bfe75",
+    "visualType": "clusteredBarChart",
+    "title": "Acquisition cost by channel",
+    "demonstrates": "flat: about $120 between the dearest and cheapest channel on a $2,017 base, so channel choice is not a cost lever here"
+  },
+  {
+    "name": "030a3ef49fa2583a169a",
+    "visualType": "clusteredColumnChart",
+    "title": "Months to repay acquisition, by plan",
+    "demonstrates": "the same cost against very different revenue: a Starter customer takes far longer to repay than an Enterprise one"
+  },
+  {
+    "name": "a8de6cbaaf68b24086a6",
+    "visualType": "gauge",
+    "title": "LTV to CAC",
+    "demonstrates": "a gauge against the conventional 3x benchmark - and the number depends entirely on the two assumptions stated below it"
+  },
+  {
+    "name": "d646e8c9d194cb232267",
+    "visualType": "treemap",
+    "title": "Where the acquisition money went",
+    "demonstrates": "treemap: seven channels and three segments in one view"
+  },
+  {
+    "name": "384fcfcb1b4d97527e9d",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b0966dc1a90643d28239",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "c53c6b0cb034eb0b6e87",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "0736f25ca60333e73043",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6ec9b29a40b56951fc6b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "6e60f938fdb4d7842773",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "75e39bcd8fb7f7c415be",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "f772a6ace25b5584679a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "f4469435e75ee2ef1c33",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "f56cfcfded8e5d7c811d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "9845481ef4a4d974e6a6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "40876fac691090e259f4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "b0d9723ac056e73adc32",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "ffb970ff5b8ba22e18ca",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "929a1cc57c34995a12cb",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "631a11495f9be6ed316c",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Segment"
+  },
+  {
+    "name": "0a4d7fd2cc6c608ba409",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Severity"
+  },
+  {
+    "name": "9fbf7ed6b1e720f3db92",
+    "visualType": "card",
+    "title": "Customers we can see",
+    "demonstrates": "Headline figure: Usage Coverage %"
+  },
+  {
+    "name": "ab2ee902b7b47f52c7a7",
+    "visualType": "card",
+    "title": "Active users per licensed seat",
+    "demonstrates": "Headline figure: Seat Utilisation %"
+  },
+  {
+    "name": "8b38271f8a1fdb6c2f7b",
+    "visualType": "card",
+    "title": "Feature adoption",
+    "demonstrates": "Headline figure: Feature Adoption %"
+  },
+  {
+    "name": "1b322bb8e95b08870e04",
+    "visualType": "card",
+    "title": "Tickets per customer month",
+    "demonstrates": "Headline figure: Tickets per Customer per Month"
+  },
+  {
+    "name": "285a004f63efde50d39b",
+    "visualType": "card",
+    "title": "Hours to resolve",
+    "demonstrates": "Headline figure: Mean Time To Resolve (Hours)"
+  },
+  {
+    "name": "186fb8bbf1dd9ca2d19f",
+    "visualType": "card",
+    "title": "Still open or escalated",
+    "demonstrates": "Headline figure: Unresolved Share"
+  },
+  {
+    "name": "cb34c427a99d3e109ef5",
+    "visualType": "lineChart",
+    "title": "Adoption and utilisation over time, for the customers we can see",
+    "demonstrates": "both flat for four years - and neither has any relationship with churn"
+  },
+  {
+    "name": "286bdfa8b9725748dcc2",
+    "visualType": "lineChart",
+    "title": "Usage coverage by segment",
+    "demonstrates": "small multiples: the sample is about the same size in every segment, so the gap is not a segment effect"
+  },
+  {
+    "name": "6ee9233b617d56a353bf",
+    "visualType": "hundredPercentStackedColumnChart",
+    "title": "Ticket severity mix by year",
+    "demonstrates": "composition, not volume: the mix is the same every year"
+  },
+  {
+    "name": "4531828a8deb45cb3590",
+    "visualType": "pieChart",
+    "title": "What tickets are about",
+    "demonstrates": "pie: six near-equal slices, which is the point - nothing dominates"
+  },
+  {
+    "name": "a32f16744502c7c54b69",
+    "visualType": "clusteredColumnChart",
+    "title": "Support contact rate by plan",
+    "demonstrates": "a rate, not a count: a raw ticket count would just rank plans by how long their customers have been around"
+  },
+  {
+    "name": "4e092396c0315f980ef3",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "71e1f026c7bbbebffa5e",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": "The navigation rail"
+  },
+  {
+    "name": "2763839bcea01846b9cc",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "70515f2ee9251b742593",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "64d654e672c3c210c1c4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Movement"
+  },
+  {
+    "name": "97cc2dcf9654893b9dc4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Retention & Cohorts"
+  },
+  {
+    "name": "624830ef122ded3c9425",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Churn Drivers"
+  },
+  {
+    "name": "ff4248d4f7e7eb0294da",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Customer Base"
+  },
+  {
+    "name": "6e99dd8fde0fe5b665d5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Unit Economics"
+  },
+  {
+    "name": "a968e63d8c1c0f470aa0",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Product & Support"
+  },
+  {
+    "name": "dbbe80eb643ce4608077",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "4aafb1c90799b0b6999b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3b270005ed08a7f72c16",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "88699dbe3938e67a2a9e",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "ca849c6be191488f20ea",
+    "visualType": "card",
+    "title": "Customers in the file",
+    "demonstrates": "Headline figure: Customers Ever Acquired"
+  },
+  {
+    "name": "51d68fca638bad39effc",
+    "visualType": "card",
+    "title": "Invoices",
+    "demonstrates": "Headline figure: Invoices"
+  },
+  {
+    "name": "6fc7622eb10e2d0fa109",
+    "visualType": "card",
+    "title": "Support tickets",
+    "demonstrates": "Headline figure: Tickets"
+  },
+  {
+    "name": "90cd95d690eb7530f821",
+    "visualType": "card",
+    "title": "Failed invoices",
+    "demonstrates": "Headline figure: Failed Invoices"
+  },
+  {
+    "name": "38426cabb4c13bb6c112",
+    "visualType": "card",
+    "title": "Usage coverage",
+    "demonstrates": "Headline figure: Usage Coverage %"
+  },
+  {
+    "name": "2f206e89c349d8061ed5",
+    "visualType": "pivotTable",
+    "title": "Data quality, computed live in SQL",
+    "demonstrates": "fifteen properties measured from the database on every refresh, so this page cannot drift from the data. A matrix, not a table: a table renders the text column blank"
+  },
+  {
+    "name": "5323fc400cbb17fd44da",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "9438c01abac72e493d43",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "70442f84051d50e301d6",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  }
+]

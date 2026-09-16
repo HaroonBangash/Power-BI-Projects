@@ -1,0 +1,297 @@
+/// Conformed calendar 2022-01-01 to 2027-06-30, generated in SQL. The supplied calendar stops on the as-of date, two months into FY27, so it was extended to complete the financial year; added days are flagged and never counted as data. Marked as the date table. The financial year runs July to June.
+table DimDate
+	lineageTag: d24c5bc2-00be-5aca-9559-642d4d9231c5
+	dataCategory: Time
+
+	/// Model date key: unique, contiguous, no gaps.
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 6dc94a11-3704-59ee-b377-3adcb7853285
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: c3d5fe39-0d06-5e39-8c0e-8afdac970a83
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 910202bc-03ba-54be-abb8-2555d53f2e90
+		summarizeBy: none
+		sourceColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 2a25a34f-ed19-501f-9fb4-6ed311b41f7a
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Month abbreviation, for a narrow axis.
+	column MonthShort
+		dataType: string
+		lineageTag: c6c769be-ee26-5c38-8144-c90807d8db73
+		summarizeBy: none
+		sourceColumn: MonthShort
+		sortByColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3b0aaf81-7002-5fde-a607-0fb98ae1eaf5
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterLabel
+		dataType: string
+		lineageTag: 6c94bc6b-edd0-558f-b0ef-d2a4e530b5b0
+		summarizeBy: none
+		sourceColumn: QuarterLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sort key for YearMonthLabel.
+	column YearMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 54fccd02-6617-5e83-a3bf-a321e8102c42
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthLabel
+		dataType: string
+		lineageTag: 08c47c79-75f0-54e2-8ee6-546b1be748bf
+		summarizeBy: none
+		sourceColumn: YearMonthLabel
+		sortByColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	/// First day of the month: the grain every monthly fact joins on.
+	column MonthStart
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b5d77ea8-9dd6-5b1b-bce6-a1eb4962d25b
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonthEnd
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: f0c50849-90ae-50b8-b7ff-96e5b22eb326
+		summarizeBy: none
+		sourceColumn: MonthEnd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ISOWeek
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 26233b0f-3fcf-5a51-8158-8060155c540c
+		summarizeBy: none
+		sourceColumn: ISOWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		lineageTag: 250354dd-8f13-598b-879a-fb00c027850f
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: DayOfWeekNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9cd3bbc0-3757-5397-ab28-334ddefd682d
+		summarizeBy: none
+		sourceColumn: DayOfWeekNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialYearStart
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4dba547c-ba42-5737-ba58-c8dcbc2743a2
+		summarizeBy: none
+		sourceColumn: FinancialYearStart
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialYear
+		dataType: string
+		lineageTag: e6bc3c0c-e32b-5947-ba56-1dadf41f57a4
+		summarizeBy: none
+		sourceColumn: FinancialYear
+
+		annotation SummarizationSetBy = Automatic
+
+	/// 1 = July.
+	column FinancialMonthNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 395c6315-d8c7-528f-afc1-89ab1d20cb65
+		summarizeBy: none
+		sourceColumn: FinancialMonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialQuarter
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 033afd6a-438f-5add-9c1e-9156098f1543
+		summarizeBy: none
+		sourceColumn: FinancialQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialQuarterLabel
+		dataType: string
+		lineageTag: 2520d0f4-b759-5f8f-8edf-7be1871a4061
+		summarizeBy: none
+		sourceColumn: FinancialQuarterLabel
+		sortByColumn: FinancialQuarterSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialQuarterSort
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 05f8c64b-b8bc-5ef7-89a0-b2d59a5b7e42
+		summarizeBy: none
+		sourceColumn: FinancialQuarterSort
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Months from the as-of month: 0 = Aug 2026, -11 to 0 is the trailing twelve months. A trailing window is then a range on an integer, which folds to SQL.
+	column MonthOffset
+		dataType: int64
+		formatString: 0
+		lineageTag: a5ec3e52-0178-5836-8ea1-df77cffd1fcb
+		summarizeBy: none
+		sourceColumn: MonthOffset
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True where the supplied dim_date also covers the day.
+	column IsSourceCalendar
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b91c0a60-cb0b-5a2e-b720-91a59ddd50b0
+		summarizeBy: none
+		sourceColumn: IsSourceCalendar
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for days after the as-of date: no data exists there.
+	column IsAfterAsOf
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 77e297ff-0ba9-58af-9108-2dc4c4b8007a
+		summarizeBy: none
+		sourceColumn: IsAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True when the whole month falls on or before the as-of date.
+	column IsMonthComplete
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: eea82930-b5a4-5f34-9b3c-7a80cbcf03c9
+		summarizeBy: none
+		sourceColumn: IsMonthComplete
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Calendar
+		lineageTag: 03d3dd16-1f01-5341-87b8-eb0bee8f5b8c
+
+		level Year
+			lineageTag: 6ba15a70-0efd-50a8-923d-aa6f08654aaf
+			column: Year
+
+		level QuarterLabel
+			lineageTag: fcdb7b7f-6879-5a18-af7f-f9632bba4994
+			column: QuarterLabel
+
+		level YearMonthLabel
+			lineageTag: 44be55d2-f8c0-5bf6-aa97-1f94bccd2862
+			column: YearMonthLabel
+
+		level Date
+			lineageTag: f0fdafdc-df30-55c6-951b-b337760e673b
+			column: Date
+
+	hierarchy Financial
+		lineageTag: b92fa8f7-e883-53ee-8553-e038c0fe13da
+
+		level FinancialYear
+			lineageTag: 25b83b8e-70df-5380-8e3e-fb4505b97c2c
+			column: FinancialYear
+
+		level FinancialQuarterLabel
+			lineageTag: 72e4fb2d-aea5-5d41-bf07-f887292eafa7
+			column: FinancialQuarterLabel
+
+		level YearMonthLabel
+			lineageTag: 555e066e-1d7d-5931-ba7e-de42c33f7122
+			column: YearMonthLabel
+
+		level Date
+			lineageTag: 902fc4db-48c0-551b-8c96-d566bfe10be5
+			column: Date
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimDate = Source{[Schema="analytics",Item="vw_DimDate"]}[Data]
+				in
+				    analytics_vw_DimDate
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

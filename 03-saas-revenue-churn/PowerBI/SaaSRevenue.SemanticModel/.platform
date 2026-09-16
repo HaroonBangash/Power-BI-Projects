@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "SaaSRevenue"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "93605ebc-195f-5d89-b494-1368db8cdc6d"
+  }
+}

@@ -1,0 +1,90 @@
+relationship 555c71ad-6e8d-5397-823d-c25611e46aa0
+	fromColumn: FactSubscriptionMonth.MonthStart
+	toColumn: DimDate.Date
+
+relationship a187d9ff-a6ae-5682-8123-7ede4c856f5c
+	fromColumn: FactSubscriptionMonth.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship bbf341bf-f639-5a4c-b1bc-f8c31a4890cd
+	fromColumn: DimCustomer.PlanID
+	toColumn: DimPlan.PlanID
+
+relationship 75fd216c-a827-5f39-9e40-5fc9b179181c
+	fromColumn: FactSubscriptionMonth.CohortMonth
+	toColumn: DimCohort.CohortMonth
+
+relationship 29531cff-41ad-5d9d-b113-408e72c4a1e1
+	fromColumn: FactSubscriptionMonth.TenureMonth
+	toColumn: DimTenureMonth.TenureMonth
+
+relationship 513b8dc6-d466-5f5b-8a0f-d369067d9dcf
+	fromColumn: FactMRRMovement.MonthStart
+	toColumn: DimDate.Date
+
+relationship 87931258-174c-5475-95ac-2938f7927eaa
+	fromColumn: FactMRRMovement.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship 9f7c11ba-67f0-5386-a3d1-9a11c6c1caff
+	fromColumn: FactMRRMovement.MovementType
+	toColumn: DimMovementType.MovementType
+
+relationship 65b7deb4-58a2-5fe3-9b38-ecb8245fdaf7
+	fromColumn: FactSubscription.StartDate
+	toColumn: DimDate.Date
+
+relationship a146ddee-a57b-51a5-a08d-140a01be5bb4
+	isActive: false
+	fromColumn: FactSubscription.EndDate
+	toColumn: DimDate.Date
+
+relationship 67ca1cf0-cc87-5baa-83a4-8400a95c6fea
+	fromColumn: FactSubscription.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship 97f7e135-0b04-5cc3-a821-efdae62f3410
+	fromColumn: FactSubscription.TenureBand
+	toColumn: DimTenureBand.TenureBand
+
+relationship 6456511f-3ea1-5246-90e3-93fb95e30330
+	fromColumn: FactInvoice.InvoiceDate
+	toColumn: DimDate.Date
+
+relationship d672be6b-4a4b-5041-8aac-261ac141570c
+	isActive: false
+	fromColumn: FactInvoice.PaymentDate
+	toColumn: DimDate.Date
+
+relationship 026843bf-72c0-581f-a79b-0ede1a97484b
+	fromColumn: FactInvoice.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship 363805de-81bc-5cd8-ab20-c168d1e1252b
+	fromColumn: FactUsageMonthly.MonthStart
+	toColumn: DimDate.Date
+
+relationship 05f67986-c6f8-56bd-b98e-b6787956e70f
+	fromColumn: FactUsageMonthly.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship e3ad6cbf-8f6b-51bd-b551-65edf17bb526
+	fromColumn: FactSupportTicket.OpenedDate
+	toColumn: DimDate.Date
+
+relationship 344e9eaf-5af9-5c8d-880f-d4a7235a37ce
+	fromColumn: FactSupportTicket.CustomerID
+	toColumn: DimCustomer.CustomerID
+
+relationship 182c1718-88ba-5729-a1f7-c8fc666e33b7
+	fromColumn: FactSupportTicket.Severity
+	toColumn: DimSeverity.SeverityName
+
+relationship 6be73c25-1947-5593-9455-9524edbb6d58
+	fromColumn: FactAcquisition.AcquisitionMonth
+	toColumn: DimDate.Date
+
+relationship 317bc4b8-c61a-5c56-bc3f-129f9aa57492
+	fromColumn: FactAcquisition.CustomerID
+	toColumn: DimCustomer.CustomerID
+

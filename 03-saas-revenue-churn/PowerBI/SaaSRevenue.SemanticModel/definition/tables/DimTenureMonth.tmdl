@@ -1,0 +1,47 @@
+/// Months since a customer signed up: M0 is the signup month. The other axis of the retention matrix, again a dimension so that M2 sorts before M10.
+table DimTenureMonth
+	lineageTag: 3261a2c5-8f89-50f9-adfa-ad4d77d7f0c0
+
+	column TenureMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c1163b5a-f819-5800-8c42-bb1a0be5a60d
+		summarizeBy: none
+		sourceColumn: TenureMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column TenureLabel
+		dataType: string
+		lineageTag: 6e0ca862-f027-50e3-adde-b2921acdb79f
+		summarizeBy: none
+		sourceColumn: TenureLabel
+		sortByColumn: TenureMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Year of life: 0 for the first twelve months.
+	column TenureYear
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9181e47f-d129-5634-a322-0b2093e1b507
+		summarizeBy: none
+		sourceColumn: TenureYear
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTenureMonth = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimTenureMonth = Source{[Schema="analytics",Item="vw_DimTenureMonth"]}[Data]
+				in
+				    analytics_vw_DimTenureMonth
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,160 @@
+/// The 12,000 accounts. How a customer was acquired is an attribute of the customer and lives here; what they cost is a number that sums and lives in FactAcquisition. Row-level security filters this table by country, so a country scope reaches every fact through it.
+table DimCustomer
+	lineageTag: 9a60d357-c968-5806-bbc2-32ff48df16fd
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: cacb9be9-58c3-5c86-b699-7cbe623ddb48
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 1b90330f-daed-5dd1-91df-408a5e9eaa49
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Also the subscription start date, for every customer without exception.
+	column SignupDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: e36c8700-4199-5cf4-b132-653dc38bfa8b
+		summarizeBy: none
+		sourceColumn: SignupDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CohortMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: db6cb69f-e644-51fd-86d3-99a5e3100ef9
+		summarizeBy: none
+		sourceColumn: CohortMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// The signup month as a label. For cohort analysis use DimCohort, which sorts.
+	column CohortLabel
+		dataType: string
+		lineageTag: d1f9438f-1426-52c4-8157-16a43f02f2fe
+		summarizeBy: none
+		sourceColumn: CohortLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry
+		dataType: string
+		lineageTag: 6299bb88-574f-5845-8509-ec4a73494e7e
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Drives row-level security.
+	column Country
+		dataType: string
+		lineageTag: 0b497bc2-eec4-5359-ac0b-a12725c829f3
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	/// SMB, Mid-Market or Enterprise - the company's own size band, which turns out to say almost nothing about churn.
+	column Segment
+		dataType: string
+		lineageTag: 03d9d3f2-e6ae-51df-9249-ac57ac2a2cc6
+		summarizeBy: none
+		sourceColumn: Segment
+		sortByColumn: SegmentOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column SegmentOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4c66dad2-7d0e-53dd-8dbf-6d08353d5eb4
+		summarizeBy: none
+		sourceColumn: SegmentOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The customer's plan. It lives here, not only on the subscription, because a plan filter has to reach tickets, usage, invoices and acquisition - and all of those hang off the customer. Sound only because this source gives every customer exactly one subscription for life, on one plan; checked in 09_validation.sql.
+	column PlanID
+		dataType: string
+		isHidden
+		lineageTag: 1570c116-1789-5c67-94f6-d257f8a961a8
+		summarizeBy: none
+		sourceColumn: PlanID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Monthly or Annual - one per customer, for life. Annual customers churn slightly less (18.3% against 19.9%).
+	column BillingCycle
+		dataType: string
+		lineageTag: 7851eb22-1d02-54c4-972e-4658fd0812a2
+		summarizeBy: none
+		sourceColumn: BillingCycle
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Active or Churned. On the customer, not only on the subscription, so that a status slicer reaches the monthly snapshot.
+	column SubscriptionStatus
+		dataType: string
+		lineageTag: 38569d70-3173-52c8-a315-db4bd7384466
+		summarizeBy: none
+		sourceColumn: SubscriptionStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Has this customer's subscription ended?
+	column IsChurned
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ce16c296-ce28-50e6-b504-d7e8fdb27530
+		summarizeBy: none
+		sourceColumn: IsChurned
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The channel that brought them in. Flat against churn and against cost.
+	column AcquisitionSource
+		dataType: string
+		lineageTag: 6f38acd3-e103-5ceb-9d43-05029afe0bbd
+		summarizeBy: none
+		sourceColumn: AcquisitionSource
+
+		annotation SummarizationSetBy = Automatic
+
+	/// First touch, last touch or multi-touch - how the source attributed them.
+	column AttributionType
+		dataType: string
+		lineageTag: 4ab4c851-6c85-5efb-9402-d0a74bcdc999
+		summarizeBy: none
+		sourceColumn: AttributionType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimCustomer = Source{[Schema="analytics",Item="vw_DimCustomer"]}[Data]
+				in
+				    analytics_vw_DimCustomer
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,52 @@
+/// A field parameter: pick the attribute every 'by' chart on the page should group by. One slicer, six questions, and no duplicated visuals.
+table 'Customer Cut'
+	lineageTag: c35a5578-31fc-5eb3-b33d-3b6cbabd6dec
+
+	column 'Customer Cut'
+		dataType: string
+		lineageTag: d95604ed-8c25-56d7-bbc9-5cbef338965a
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Customer Cut Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Cut Fields'
+		dataType: string
+		isHidden
+		lineageTag: cf0c4a6d-a016-541c-a7b5-b3b85c549907
+		summarizeBy: none
+		sourceColumn: [Value2]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Cut Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b8f51324-287d-5f8e-b3b6-7f27a0c60525
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Customer Cut' = calculated
+		mode: import
+		source =
+				{
+				    ("Segment", NAMEOF('DimCustomer'[Segment]), 0),
+				    ("Industry", NAMEOF('DimCustomer'[Industry]), 1),
+				    ("Country", NAMEOF('DimCustomer'[Country]), 2),
+				    ("Plan", NAMEOF('DimPlan'[PlanName]), 3),
+				    ("Acquisition channel", NAMEOF('DimCustomer'[AcquisitionSource]), 4),
+				    ("Billing cycle", NAMEOF('DimCustomer'[BillingCycle]), 5)
+				}
+
+	annotation PBI_Id = a6c002176f655e7eb07da96f6e04e398
+

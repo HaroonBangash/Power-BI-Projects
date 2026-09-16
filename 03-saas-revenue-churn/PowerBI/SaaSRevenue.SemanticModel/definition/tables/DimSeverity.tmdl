@@ -1,0 +1,46 @@
+/// Ticket severity, with an order so a chart reads Low to Critical rather than alphabetically.
+table DimSeverity
+	lineageTag: c0b56a92-ff6b-5388-b1e0-281fab803a94
+
+	column SeverityName
+		dataType: string
+		lineageTag: bdd6f1b7-f25d-5b59-8ada-21402817939e
+		summarizeBy: none
+		sourceColumn: SeverityName
+		sortByColumn: SeverityOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeverityOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 075b0b26-927d-5934-8ffd-ac4f273b19d0
+		summarizeBy: none
+		sourceColumn: SeverityOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// High or Critical.
+	column IsUrgent
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dbb06670-f21a-5191-8388-c7b947f205f7
+		summarizeBy: none
+		sourceColumn: IsUrgent
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimSeverity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimSeverity = Source{[Schema="analytics",Item="vw_DimSeverity"]}[Data]
+				in
+				    analytics_vw_DimSeverity
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,103 @@
+/// One support ticket. Resolution hours are populated for tickets that are still open, drawn from the same distribution as resolved ones, so mean time to resolve uses resolved tickets only.
+table FactSupportTicket
+	lineageTag: a11a2a93-c043-560d-adaf-a6d2213edfba
+
+	column TicketID
+		dataType: string
+		isHidden
+		lineageTag: fa47d3c5-f923-52a0-bf36-90024aee4e6a
+		summarizeBy: none
+		sourceColumn: TicketID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerID
+		dataType: string
+		isHidden
+		lineageTag: 2b46bfbb-1870-5dd1-a010-a3e8cf354e57
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpenedDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: a118ba4b-50c2-5fcd-807a-9a0d9f4b6493
+		summarizeBy: none
+		sourceColumn: OpenedDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column OpenedMonth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 94bec0b2-f65d-5cfc-b555-ecd3161931ad
+		summarizeBy: none
+		sourceColumn: OpenedMonth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Severity
+		dataType: string
+		isHidden
+		lineageTag: a6031d52-f957-5406-b971-99604e129b22
+		summarizeBy: none
+		sourceColumn: Severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResolutionHours
+		dataType: double
+		isHidden
+		formatString: #,0.0
+		lineageTag: 7360d30b-f3e6-55bf-8337-1133b4410b38
+		summarizeBy: average
+		sourceColumn: ResolutionHours
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 3bf1bedd-4dd5-5ad7-a2bd-1060460b9f19
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsResolved
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 911fb6ea-06ba-5932-b1f1-ce2544464c40
+		summarizeBy: none
+		sourceColumn: IsResolved
+
+		annotation SummarizationSetBy = Automatic
+
+	/// What the ticket was about. Flat against churn, like everything else here.
+	column Category
+		dataType: string
+		lineageTag: e043dbfc-4c2f-5387-80e7-e86eded0a139
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSupportTicket = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactSupportTicket = Source{[Schema="analytics",Item="vw_FactSupportTicket"]}[Data]
+				in
+				    analytics_vw_FactSupportTicket
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
