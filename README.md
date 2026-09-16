@@ -1,6 +1,6 @@
 # Power BI Projects
 
-Business intelligence work by [Haroon K.](https://github.com/HaroonBangash) — data
+Business intelligence work by [Haroon Bangash.](https://github.com/HaroonBangash) — data
 platform, semantic model and report, built end to end.
 
 The projects below are **built as code**: the SQL Server schema, the Power BI semantic
