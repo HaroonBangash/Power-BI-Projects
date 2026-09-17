@@ -1,0 +1,8 @@
+ChannelID,ChannelName,ChannelGroup
+CH01,Google Ads,Paid Search
+CH02,Meta Ads,Paid Social
+CH03,LinkedIn Ads,Paid Social
+CH04,Email,Owned
+CH05,Organic Search,Organic
+CH06,Referral,Referral
+CH07,Display,Paid Display

@@ -1,0 +1,766 @@
+/// Holds every business measure. The single hidden column exists only because a table needs one.
+table _Measures
+	lineageTag: 4d25142c-a515-5521-8d00-ad8f8cf0d535
+
+	/// Last day of recorded marketing activity, read from ModelConfig. Anchors every figure in the report: nothing dated later is counted, except in the Post-Period measures. Never TODAY().
+	measure 'As Of Date' =
+			VAR ConfigText =
+			    CALCULATE (
+			        SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			        REMOVEFILTERS ( ModelConfig ),
+			        ModelConfig[ConfigKey] = "AsOfDate"
+			    )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( ConfigText ),
+			        DATE ( VALUE ( LEFT ( ConfigText, 4 ) ), VALUE ( MID ( ConfigText, 6, 2 ) ), VALUE ( RIGHT ( ConfigText, 2 ) ) )
+			    )
+		formatString: yyyy-mm-dd
+		displayFolder: 01 Model Controls
+		lineageTag: 4584ad4d-b8f9-52bf-b09d-5153a01882da
+
+	/// Currency of every money measure. Spend is converted at planning rates, not market rates.
+	measure 'Reporting Currency' =
+			CALCULATE (
+			    SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			    REMOVEFILTERS ( ModelConfig ),
+			    ModelConfig[ConfigKey] = "ReportingCurrency"
+			)
+		displayFolder: 01 Model Controls
+		lineageTag: ddaf7aeb-ad23-5999-afa9-3ad7fa593cf5
+
+	/// Model in effect: the one selected, else the configured default. Deliberately NOT a sum when several models are in scope - credit from different models describes the same revenue and must never be added.
+	measure 'Attribution Model Key' =
+			VAR DefaultName =
+			    CALCULATE (
+			        SELECTEDVALUE ( ModelConfig[ConfigValue] ),
+			        REMOVEFILTERS ( ModelConfig ),
+			        ModelConfig[ConfigKey] = "DefaultAttributionModel"
+			    )
+			VAR DefaultKey =
+			    CALCULATE (
+			        SELECTEDVALUE ( DimAttributionModel[ModelKey] ),
+			        REMOVEFILTERS ( DimAttributionModel ),
+			        DimAttributionModel[ModelName] = DefaultName
+			    )
+			RETURN
+			    IF ( HASONEVALUE ( DimAttributionModel[ModelKey] ), VALUES ( DimAttributionModel[ModelKey] ), DefaultKey )
+		formatString: 0
+		displayFolder: 01 Model Controls
+		lineageTag: 9e143b21-5547-59fc-8318-9f94bb3dbaa9
+
+	/// Name of the attribution model the attributed measures are using - shown on the report so a reader always knows.
+	measure 'Attribution Model In Use' =
+			VAR KeyInUse = [Attribution Model Key]
+			RETURN
+			    CALCULATE (
+			        SELECTEDVALUE ( DimAttributionModel[ModelName] ),
+			        REMOVEFILTERS ( DimAttributionModel ),
+			        DimAttributionModel[ModelKey] = KeyInUse
+			    )
+		displayFolder: 01 Model Controls
+		lineageTag: 32f74a44-b2af-50d7-8b74-5f3cc992e189
+
+	/// Channel cost in USD at planning FX rates, by spend date. Includes the cost recorded against owned, organic and referral channels, so it is labelled channel cost rather than ad spend.
+	measure 'Spend USD' = SUM ( FactAdSpend[SpendUSD] )
+		formatString: \$#,0
+		displayFolder: 02 Media & Spend
+		lineageTag: 522c8aef-84f2-5ccc-9c80-c9e55c65e179
+
+	/// Spend on Paid Search, Paid Social and Paid Display only.
+	measure 'Paid Media Spend USD' = CALCULATE ( [Spend USD], DimCampaign[IsPaidMedia] = TRUE () )
+		formatString: \$#,0
+		displayFolder: 02 Media & Spend
+		lineageTag: 4da39345-32a5-59ee-8286-6c180a100013
+
+	/// Ad impressions.
+	measure Impressions = SUM ( FactAdSpend[Impressions] )
+		formatString: #,0
+		displayFolder: 02 Media & Spend
+		lineageTag: 81aa3b2f-5e04-5a6f-a196-4bee4d7bd786
+
+	/// Ad clicks.
+	measure Clicks = SUM ( FactAdSpend[Clicks] )
+		formatString: #,0
+		displayFolder: 02 Media & Spend
+		lineageTag: b8f563c8-0b98-555e-883c-f17f4cb21088
+
+	/// Click-through rate: clicks per impression.
+	measure CTR = DIVIDE ( [Clicks], [Impressions] )
+		formatString: 0.00%
+		displayFolder: 02 Media & Spend
+		lineageTag: 9c2f0dd3-7806-57dd-90bf-1ceb004c5cf4
+
+	/// Cost per click.
+	measure 'CPC USD' = DIVIDE ( [Spend USD], [Clicks] )
+		formatString: \$#,0.00
+		displayFolder: 02 Media & Spend
+		lineageTag: 5e27cbc7-5a35-5c11-b098-45418bd9db1e
+
+	/// Cost per thousand impressions.
+	measure 'CPM USD' = DIVIDE ( [Spend USD], [Impressions] ) * 1000
+		formatString: \$#,0.00
+		displayFolder: 02 Media & Spend
+		lineageTag: ec31c9ff-325c-5d84-a581-afbd29b3137b
+
+	/// Share of the selected spend. Denominator lifts every campaign filter set by the visual but keeps slicers.
+	measure 'Spend Share %' = DIVIDE ( [Spend USD], CALCULATE ( [Spend USD], ALLSELECTED ( DimCampaign ) ) )
+		formatString: 0.0%
+		displayFolder: 02 Media & Spend
+		lineageTag: 950ca348-455a-5421-b328-665ac44d58a8
+
+	/// Leads created, by creation date and lead-source campaign.
+	measure Leads = COUNTROWS ( FactLeadFunnel )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 23b87820-045f-5d56-a95d-f1acf438a3bf
+
+	/// Leads that reached MQL or beyond (derived stage).
+	measure MQLs = CALCULATE ( [Leads], FactLeadFunnel[ReachedMQL] = TRUE () )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: b9622788-0be4-5a2e-b9d4-156902cbbb2e
+
+	/// Leads that reached SQL or beyond (derived stage).
+	measure SQLs = CALCULATE ( [Leads], FactLeadFunnel[ReachedSQL] = TRUE () )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 9f7d4b7a-cd57-5b05-ae87-fe351802af0e
+
+	/// Leads whose opportunity was opened by the as-of date.
+	measure Opportunities = CALCULATE ( [Leads], FactLeadFunnel[IsOpportunityByAsOf] = TRUE () )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: a5b4169f-628d-59a6-8a69-775cdf4fed61
+
+	/// Leads that became customers by the as-of date - evidenced by revenue booked by then, not by the stale CRM label.
+	measure Customers = CALCULATE ( [Leads], FactLeadFunnel[IsWonByAsOf] = TRUE () )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: a5572029-c232-5055-92ef-d3bce12d605a
+
+	/// Share of leads reaching MQL.
+	measure 'Lead to MQL %' = DIVIDE ( [MQLs], [Leads] )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 01d0e3e5-acd8-5e81-8638-e8971efa1cd1
+
+	/// Share of MQLs reaching SQL.
+	measure 'MQL to SQL %' = DIVIDE ( [SQLs], [MQLs] )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: d0ef525b-d9c9-5e70-b2db-e940b566ce95
+
+	/// Share of SQLs with an opportunity by the as-of date.
+	measure 'SQL to Opportunity %' = DIVIDE ( [Opportunities], [SQLs] )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 51d9df61-539f-5c7f-9203-c8878cc812e9
+
+	/// Share of opportunities won by the as-of date. Still-open opportunities stay in the denominator - see Win Rate for closed deals only.
+	measure 'Opportunity to Customer %' = DIVIDE ( [Customers], [Opportunities] )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: efc0ada2-2f66-5027-883b-e18c45d1bec8
+
+	/// End-to-end conversion by the as-of date.
+	measure 'Lead to Customer %' = DIVIDE ( [Customers], [Leads] )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 5e472132-6b20-5093-9394-79e6f53436a3
+
+	/// Won share of opportunities CLOSED by the as-of date. Open ones - including deals won later - are excluded, not counted as lost.
+	measure 'Win Rate %' =
+			DIVIDE (
+			    CALCULATE ( [Leads], FactLeadFunnel[OpportunityStatusAsOf] = "Closed Won" ),
+			    CALCULATE ( [Leads], FactLeadFunnel[OpportunityStatusAsOf] IN { "Closed Won", "Closed Lost" } )
+			)
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: f7684796-0edc-564e-8884-8a98ae4ff0db
+
+	/// Revenue booked by the as-of date by the leads created in the period - the lead-cohort view used for payback.
+	measure 'Cohort Revenue USD' = CALCULATE ( SUM ( FactLeadFunnel[RevenueUSD] ), FactLeadFunnel[IsWonByAsOf] = TRUE () )
+		formatString: \$#,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: d8f214b7-b506-5356-9e03-f935b56f002d
+
+	/// Revenue booked on or before the as-of date, by booking date. The headline revenue figure.
+	measure 'Revenue USD' =
+			CALCULATE (
+			    SUM ( FactLeadFunnel[RevenueUSD] ),
+			    USERELATIONSHIP ( FactLeadFunnel[RevenueDate], DimDate[Date] ),
+			    FactLeadFunnel[IsRevenueAfterAsOf] = FALSE ()
+			)
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 6bf7e614-a71e-5dd5-a1cf-44dc606f49a9
+
+	/// Revenue dated after the as-of date (209 bookings in the source). Shown only as a data-quality figure, never in headline numbers.
+	measure 'Post-Period Revenue USD' =
+			CALCULATE (
+			    SUM ( FactLeadFunnel[RevenueUSD] ),
+			    USERELATIONSHIP ( FactLeadFunnel[RevenueDate], DimDate[Date] ),
+			    FactLeadFunnel[IsRevenueAfterAsOf] = TRUE ()
+			)
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: c06c291d-c272-5f8d-9ae5-8083893a0933
+
+	/// Revenue bookings by booking date, up to the as-of date.
+	measure 'Deals Won' =
+			CALCULATE (
+			    COUNTROWS ( FactLeadFunnel ),
+			    USERELATIONSHIP ( FactLeadFunnel[RevenueDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactLeadFunnel[RevenueDate] ),
+			    FactLeadFunnel[IsRevenueAfterAsOf] = FALSE ()
+			)
+		formatString: #,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: cdd03606-b663-5d87-8e33-d68fab9a29b8
+
+	/// Revenue per deal won.
+	measure 'Average Deal Size USD' = DIVIDE ( [Revenue USD], [Deals Won] )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 725fe8d4-adf2-5d9d-82f6-1731033f313c
+
+	/// Opportunities by their own creation date, up to the as-of date.
+	measure 'Opportunities Created' =
+			CALCULATE (
+			    COUNTROWS ( FactLeadFunnel ),
+			    USERELATIONSHIP ( FactLeadFunnel[OpportunityCreatedDate], DimDate[Date] ),
+			    NOT ISBLANK ( FactLeadFunnel[OpportunityCreatedDate] ),
+			    FactLeadFunnel[IsOpportunityAfterAsOf] = FALSE ()
+			)
+		formatString: #,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 3a584079-4639-563b-acdf-e5529ee37f67
+
+	/// Value of opportunities open on the as-of date, including those won later.
+	measure 'Open Pipeline USD' = CALCULATE ( SUM ( FactLeadFunnel[OpportunityValue] ), FactLeadFunnel[OpportunityStatusAsOf] = "Open" )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 21616531-e25e-540b-b1b6-972ff63f272a
+
+	/// Mean days from lead creation to an opportunity opened by the as-of date.
+	measure 'Avg Days Lead to Opportunity' = CALCULATE ( AVERAGE ( FactLeadFunnel[DaysLeadToOpportunity] ), FactLeadFunnel[IsOpportunityByAsOf] = TRUE () )
+		formatString: 0.0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: da56d43b-9544-5d3f-99ab-15a9d5cb94e0
+
+	/// Mean days from opportunity to revenue booked by the as-of date.
+	measure 'Avg Days Opportunity to Revenue' = CALCULATE ( AVERAGE ( FactLeadFunnel[DaysOpportunityToRevenue] ), FactLeadFunnel[IsWonByAsOf] = TRUE () )
+		formatString: 0.0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 555c3547-2a5e-567d-baa8-02eb944431e7
+
+	/// Revenue credited to touches under the model in use, for revenue booked by the as-of date, dated by BOOKING date - so any period's attributed revenue equals the revenue booked in it, under every model.
+	measure 'Attributed Revenue USD' =
+			VAR KeyInUse = [Attribution Model Key]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactAttributionCredit[AttributedRevenueUSD] ),
+			        FactAttributionCredit[ModelKey] = KeyInUse,
+			        NOT ISBLANK ( FactAttributionCredit[RevenueDate] ),
+			        FactAttributionCredit[IsRevenueAfterAsOf] = FALSE (),
+			        USERELATIONSHIP ( FactAttributionCredit[RevenueDate], DimDate[Date] )
+			    )
+		formatString: \$#,0
+		displayFolder: 05 Attribution
+		lineageTag: 80f1152f-cbee-5826-b5d9-2e0979521c98
+
+	/// Fractional lead credit under the model in use, dated by TOUCH date: a lead with four touches spreads its one lead across them. Not used for revenue.
+	measure 'Attributed Leads' =
+			VAR KeyInUse = [Attribution Model Key]
+			RETURN
+			    CALCULATE ( SUM ( FactAttributionCredit[CreditWeight] ), FactAttributionCredit[ModelKey] = KeyInUse )
+		formatString: #,0.00
+		displayFolder: 05 Attribution
+		lineageTag: 88487ad6-ebdb-5a82-a0f7-7dc37afa363e
+
+	/// Fractional customer credit under the model in use, for customers won by the as-of date, by booking date.
+	measure 'Attributed Customers' =
+			VAR KeyInUse = [Attribution Model Key]
+			RETURN
+			    CALCULATE (
+			        SUM ( FactAttributionCredit[CreditWeight] ),
+			        FactAttributionCredit[ModelKey] = KeyInUse,
+			        NOT ISBLANK ( FactAttributionCredit[RevenueDate] ),
+			        FactAttributionCredit[IsRevenueAfterAsOf] = FALSE (),
+			        USERELATIONSHIP ( FactAttributionCredit[RevenueDate], DimDate[Date] )
+			    )
+		formatString: #,0.00
+		displayFolder: 05 Attribution
+		lineageTag: af1252a3-ac3b-5cd8-a136-090f33cec74a
+
+	/// Attributed revenue under Last Touch - the baseline for credit shift.
+	measure 'Last Touch Revenue USD' =
+			CALCULATE (
+			    SUM ( FactAttributionCredit[AttributedRevenueUSD] ),
+			    FactAttributionCredit[ModelKey] = 2,
+			    NOT ISBLANK ( FactAttributionCredit[RevenueDate] ),
+			    FactAttributionCredit[IsRevenueAfterAsOf] = FALSE (),
+			    USERELATIONSHIP ( FactAttributionCredit[RevenueDate], DimDate[Date] )
+			)
+		formatString: \$#,0
+		displayFolder: 05 Attribution
+		lineageTag: a7189376-38ba-523f-bad2-1275c7e7154c
+
+	/// Revenue the model in use moves onto (+) or away from (-) this channel or campaign compared with Last Touch.
+	measure 'Credit Shift vs Last Touch USD' = [Attributed Revenue USD] - [Last Touch Revenue USD]
+		formatString: \$#,0
+		displayFolder: 05 Attribution
+		lineageTag: 264c608c-1dd7-510e-a086-e963d4c79954
+
+	/// Share of selected attributed revenue.
+	measure 'Attributed Revenue Share %' = DIVIDE ( [Attributed Revenue USD], CALCULATE ( [Attributed Revenue USD], ALLSELECTED ( DimCampaign ) ) )
+		formatString: 0.0%
+		displayFolder: 05 Attribution
+		lineageTag: c0026ab7-050c-5d6b-bfe0-592ccd0e3101
+
+	/// Attributed revenue per USD of channel cost. Around 0.03 on this synthetic data because the ad and CRM extracts are on different scales (Click-to-Lead %): compare channels relatively, never against benchmarks.
+	measure ROAS = DIVIDE ( [Attributed Revenue USD], [Spend USD] )
+		formatString: 0.00
+		displayFolder: 05 Attribution
+		lineageTag: 3d1f56d1-f63a-55d9-98f0-457b194b3576
+
+	/// Attributed revenue share divided by spend share. Above 1: earns more than its share of the budget. Scale-free, so it stays meaningful however spend and revenue compare in absolute terms.
+	measure 'Revenue-to-Spend Index' = DIVIDE ( [Attributed Revenue Share %], [Spend Share %] )
+		formatString: 0.00
+		displayFolder: 05 Attribution
+		lineageTag: a1aa6317-5721-5f7b-a53f-c576b2c4819b
+
+	/// Cost per lead: spend over leads created (lead-source lens). About $21.8K on this data - read relatively (Click-to-Lead %).
+	measure 'CPL USD' = DIVIDE ( [Spend USD], [Leads] )
+		formatString: \$#,0.00
+		displayFolder: 06 Cost Efficiency
+		lineageTag: 27b23175-e0d3-57e2-b6a5-affa046b1fe2
+
+	/// Spend per MQL.
+	measure 'Cost per MQL USD' = DIVIDE ( [Spend USD], [MQLs] )
+		formatString: \$#,0.00
+		displayFolder: 06 Cost Efficiency
+		lineageTag: a9b6a5a9-d0c2-5af4-9a91-eebf9edb58da
+
+	/// Spend per SQL.
+	measure 'Cost per SQL USD' = DIVIDE ( [Spend USD], [SQLs] )
+		formatString: \$#,0.00
+		displayFolder: 06 Cost Efficiency
+		lineageTag: 7f1af7d5-b3f3-5119-80e7-b50a2f375b83
+
+	/// Spend per opportunity opened by the as-of date.
+	measure 'Cost per Opportunity USD' = DIVIDE ( [Spend USD], [Opportunities] )
+		formatString: \$#,0.00
+		displayFolder: 06 Cost Efficiency
+		lineageTag: c80488dd-e8da-5788-8ffd-169fce1156bc
+
+	/// Cost per acquisition: spend per ATTRIBUTED customer, so a channel is charged only for the customers credited to it. Changes with the attribution model.
+	measure 'CPA USD' = DIVIDE ( [Spend USD], [Attributed Customers] )
+		formatString: \$#,0
+		displayFolder: 06 Cost Efficiency
+		lineageTag: 1bd6b243-c772-5d88-8fd8-4d53c72f2c8d
+
+	/// Blended customer acquisition cost: all channel cost per customer won by the as-of date. Independent of attribution.
+	measure 'CAC USD' = DIVIDE ( [Spend USD], [Customers] )
+		formatString: \$#,0
+		displayFolder: 06 Cost Efficiency
+		lineageTag: 996e203d-8448-5480-9d36-3c5a9e2acf36
+
+	/// Marketing touches.
+	measure Touchpoints = COUNTROWS ( FactTouchpoint )
+		formatString: #,0
+		displayFolder: 07 Journey
+		lineageTag: 22244c2f-bcd0-58eb-82b8-b0bf8fbcda91
+
+	/// Mean touches before a lead is created.
+	measure 'Avg Touches per Journey' = AVERAGE ( FactLeadFunnel[TouchCount] )
+		formatString: 0.00
+		displayFolder: 07 Journey
+		lineageTag: d69383d7-ea51-5ed0-9c84-5df015d00c4b
+
+	/// Share of leads whose journey spans two or more channels.
+	measure 'Multi-Channel Journey %' = DIVIDE ( CALCULATE ( [Leads], FactLeadFunnel[DistinctChannels] > 1 ), [Leads] )
+		formatString: 0.0%
+		displayFolder: 07 Journey
+		lineageTag: 83696efa-8a9e-52ca-9af2-0f0fedc8de64
+
+	/// Mean days from a lead's first touch to its creation.
+	measure 'Avg Days First Touch to Lead' =
+			AVERAGEX (
+			    VALUES ( FactTouchpoint[LeadID] ),
+			    CALCULATE ( MAX ( FactTouchpoint[DaysBeforeLead] ) )
+			)
+		formatString: 0.0
+		displayFolder: 07 Journey
+		lineageTag: e15f5105-ac77-52ee-900b-337a76c82a79
+
+	/// Raw campaign aliases supplied.
+	measure 'Campaign Aliases' = COUNTROWS ( CampaignAliasResolution )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: 1aceab7c-aca8-52e8-8060-af7a92510b7c
+
+	/// Aliases the Power Query rules resolved to the correct campaign.
+	measure 'Aliases Resolved' = CALCULATE ( COUNTROWS ( CampaignAliasResolution ), CampaignAliasResolution[ResolutionStatus] = "Resolved" )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: eed1490a-c076-517f-b0d1-6bfb9103dab6
+
+	/// Share of aliases resolved correctly.
+	measure 'Alias Resolution %' = DIVIDE ( [Aliases Resolved], [Campaign Aliases] )
+		formatString: 0.0%
+		displayFolder: 08 Data Quality
+		lineageTag: 57768470-6580-58cf-83df-0cd5bec302c9
+
+	/// Aliases resolved to the WRONG campaign. Must be zero.
+	measure 'Alias Mismatches' = CALCULATE ( COUNTROWS ( CampaignAliasResolution ), CampaignAliasResolution[ResolutionStatus] = "Mismatch" ) + 0
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: b1a94862-8d36-50c9-a451-61e8c0bdb914
+
+	/// Leads whose CRM stage label disagrees with the evidence.
+	measure 'Stale Stage Labels' = CALCULATE ( [Leads], FactLeadFunnel[IsStageLabelStale] = TRUE () )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: aeced736-bf26-5edb-b950-239e2911f294
+
+	/// Leads whose supplied touch sequence contradicts touch dates.
+	measure 'Journeys With Contradicting Sequence' = CALCULATE ( [Leads], FactLeadFunnel[SequenceContradictsDate] = TRUE () )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: 5e89893d-ddad-5b9f-8a1c-b8a577a8e897
+
+	/// Spend lines dated before their campaign's StartDate.
+	measure 'Spend Lines Before Campaign Start' = CALCULATE ( COUNTROWS ( FactAdSpend ), FactAdSpend[IsBeforeCampaignStart] = TRUE () )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: 48b32a1e-f980-5ce6-8677-14554b8cb574
+
+	/// Service level for campaign-name cleansing: every alias must resolve. The gauge target.
+	measure 'Alias Resolution Target %' = 1
+		formatString: 0.0%
+		displayFolder: 08 Data Quality
+		lineageTag: 76024279-7cd9-53be-b77a-4d24a5614b12
+
+	/// Leads per ad click. 0.02% here against the 2-5% typical of B2B landing pages: the ad data and the CRM extract are on different scales, so absolute ROAS and CAC are not meaningful. Media efficiency (CTR, CPC, CPM) and funnel conversion are unaffected.
+	measure 'Click-to-Lead %' = DIVIDE ( [Leads], [Clicks] )
+		formatString: 0.000%
+		displayFolder: 02 Media & Spend
+		lineageTag: ef1ca83b-e18b-5fd2-96f5-925be21ebb8e
+
+	/// Leads that reached AT LEAST the funnel stage in context by the as-of date. Blank without a single stage - a funnel total has no meaning, so it is deliberately not a sum of stages.
+	measure 'Funnel Stage Leads' =
+			VAR StageRankInScope = SELECTEDVALUE ( DimFunnelStage[StageRank] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( StageRankInScope ),
+			        CALCULATE ( [Leads], FactLeadFunnel[StageRankAsOf] >= StageRankInScope )
+			    )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 27647443-f909-5dd5-8dd9-dac8a09e8894
+
+	/// Share of the previous funnel stage that reached this one by the as-of date. Blank for the first stage.
+	measure 'Conversion From Previous Stage %' =
+			VAR StageRankInScope = SELECTEDVALUE ( DimFunnelStage[StageRank] )
+			VAR StageLeads = CALCULATE ( [Leads], FactLeadFunnel[StageRankAsOf] >= StageRankInScope )
+			VAR PriorStageLeads = CALCULATE ( [Leads], FactLeadFunnel[StageRankAsOf] >= StageRankInScope - 1 )
+			RETURN
+			    IF ( StageRankInScope > 1, DIVIDE ( StageLeads, PriorStageLeads ) )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 0a167e4c-e6cb-5b48-8bac-2cdaace3e99c
+
+	/// Leads in the same period one year earlier. Blank for periods after the as-of date: they have no actuals to compare against.
+	measure 'Leads PY' =
+			VAR PeriodStart = MIN ( DimDate[Date] )
+			RETURN
+			    IF ( PeriodStart <= [As Of Date], CALCULATE ( [Leads], SAMEPERIODLASTYEAR ( DimDate[Date] ) ) )
+		formatString: #,0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: b43090bd-acb0-5c38-beb1-7f1af3c5186d
+
+	/// Revenue booked in the same period one year earlier. Blank for periods after the as-of date, so a trend ends at the last actual month instead of comparing an empty future month with last year.
+	measure 'Revenue PY USD' =
+			VAR PeriodStart = MIN ( DimDate[Date] )
+			RETURN
+			    IF ( PeriodStart <= [As Of Date], CALCULATE ( [Revenue USD], SAMEPERIODLASTYEAR ( DimDate[Date] ) ) )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 728003ef-3b84-5895-97fa-2fa3fb1a233f
+
+	/// Change in booked revenue against the same period last year. Month-level values swing widely (after the January 2024 ramp-up month, monthly revenue ranges $0.77M-$1.26M), so the headline comparison is year-to-date - see Revenue YTD vs PY %.
+	measure 'Revenue YoY %' = DIVIDE ( [Revenue USD] - [Revenue PY USD], [Revenue PY USD] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: d353fb47-7925-597b-b3f4-12be29517e8d
+
+	/// How much the attribution model matters here: the spread of attributed revenue across the five models, as a share of their average. Zero at the grand total (every model conserves revenue); large for many campaigns - that is where the model choice changes budget decisions.
+	measure 'Attribution Sensitivity %' =
+			VAR ByModel =
+			    ADDCOLUMNS (
+			        ALL ( DimAttributionModel[ModelKey] ),
+			        "@Rev",
+			            VAR ModelKeyRow = DimAttributionModel[ModelKey]
+			            RETURN
+			                CALCULATE (
+			                    SUM ( FactAttributionCredit[AttributedRevenueUSD] ),
+			                    FactAttributionCredit[ModelKey] = ModelKeyRow,
+			                    NOT ISBLANK ( FactAttributionCredit[RevenueDate] ),
+			                    FactAttributionCredit[IsRevenueAfterAsOf] = FALSE (),
+			                    USERELATIONSHIP ( FactAttributionCredit[RevenueDate], DimDate[Date] )
+			                )
+			    )
+			VAR Spread = MAXX ( ByModel, [@Rev] ) - MINX ( ByModel, [@Rev] )
+			RETURN
+			    DIVIDE ( Spread, AVERAGEX ( ByModel, [@Rev] ) )
+		formatString: 0.0%
+		displayFolder: 05 Attribution
+		lineageTag: 984e6628-c185-59fd-a239-6189530766d9
+
+	/// One line stating the basis of every figure on the page: as-of date, attribution model, currency basis.
+	measure 'Report Context' =
+			"Data as of " & FORMAT ( [As Of Date], "d mmm yyyy" ) & "  |  Attribution: " & [Attribution Model In Use]
+			    & "  |  USD at planning FX"
+		displayFolder: 01 Model Controls
+		lineageTag: 1c9c21c4-d7fe-5ae0-a4a7-a12b82d03f2d
+
+	/// Longest observed time from lead creation to booked revenue (58 days). A lead cohort younger than this has not finished converting, so conversion trends leave it out.
+	measure 'Conversion Window Days' =
+			CALCULATE (
+			    MAXX (
+			        FILTER ( FactLeadFunnel, NOT ISBLANK ( FactLeadFunnel[RevenueDate] ) ),
+			        FactLeadFunnel[DaysLeadToOpportunity] + FactLeadFunnel[DaysOpportunityToRevenue]
+			    ),
+			    REMOVEFILTERS ()
+			)
+		formatString: 0
+		displayFolder: 01 Model Controls
+		lineageTag: 8b52de55-825f-5c18-9e06-04697d8841ef
+
+	/// Click-through rate on paid media only. Impressions and clicks have no media meaning for owned, organic and referral channels. Near-identical on every channel in this synthetic data (4.21-4.25%), so it is shown as a total and never ranked by channel.
+	measure 'Paid CTR' = CALCULATE ( [CTR], DimCampaign[IsPaidMedia] = TRUE () )
+		formatString: 0.00%
+		displayFolder: 02 Media & Spend
+		lineageTag: 8a2e4d0a-8738-5d42-8345-b78046ea046b
+
+	/// Cost per click on paid media only (see Paid CTR).
+	measure 'Paid CPC USD' = CALCULATE ( [CPC USD], DimCampaign[IsPaidMedia] = TRUE () )
+		formatString: \$#,0.00
+		displayFolder: 02 Media & Spend
+		lineageTag: f7d99476-7f3d-52d7-a474-380b8445ab95
+
+	/// Cost per thousand impressions on paid media only (see Paid CTR).
+	measure 'Paid CPM USD' = CALCULATE ( [CPM USD], DimCampaign[IsPaidMedia] = TRUE () )
+		formatString: \$#,0.00
+		displayFolder: 02 Media & Spend
+		lineageTag: 4d92ce3c-c7ac-59fb-be1e-dd2b4a77496f
+
+	/// Lead-to-customer conversion for cohorts old enough to have finished converting (created at least the Conversion Window before the as-of date). Blank for younger cohorts and for any period reaching past that point: the August 2026 cohort shows 2.1% by the as-of date against 13.5% eventually, which a trend would misread as a collapse.
+	measure 'Lead to Customer % (Mature Cohorts)' =
+			VAR LastCohortDay = MAX ( DimDate[Date] )
+			VAR MatureUntil = [As Of Date] - [Conversion Window Days]
+			RETURN
+			    IF ( LastCohortDay <= MatureUntil, [Lead to Customer %] )
+		formatString: 0.0%
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: 49412329-38f0-57ed-b763-e95ce1fbcfea
+
+	/// How many standard errors this cell's lead-to-customer rate sits from the rate of everything selected (binomial). Beyond +/-2 is unlikely to be chance; inside it, the difference is noise. Drives the heatmap colour.
+	measure 'Lead to Customer z vs Portfolio' =
+			VAR Rate = [Lead to Customer %]
+			VAR LeadCount = [Leads]
+			VAR PortfolioRate =
+			    CALCULATE ( [Lead to Customer %], ALLSELECTED ( FactLeadFunnel ), ALLSELECTED ( DimCampaign ) )
+			RETURN
+			    IF (
+			        LeadCount > 0,
+			        DIVIDE ( Rate - PortfolioRate, SQRT ( DIVIDE ( PortfolioRate * ( 1 - PortfolioRate ), LeadCount ) ) )
+			    )
+		formatString: 0.0
+		displayFolder: 03 Funnel (Lead Cohort)
+		lineageTag: bca4ba04-e2be-58ef-88ce-90f27c6f841e
+
+	/// Revenue booked from 1 January of the as-of year to the as-of date. Fixed to the as-of date: it ignores date slicers by design.
+	measure 'Revenue YTD USD' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        [Revenue USD],
+			        REMOVEFILTERS ( DimDate ),
+			        DATESBETWEEN ( DimDate[Date], DATE ( YEAR ( AsOf ), 1, 1 ), AsOf )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 78a1a9ee-e144-50d2-bbb4-459368db26e6
+
+	/// Revenue booked over the same days one year earlier (1 January to the as-of date minus one year).
+	measure 'Revenue PYTD USD' =
+			VAR AsOf = [As Of Date]
+			RETURN
+			    CALCULATE (
+			        [Revenue USD],
+			        REMOVEFILTERS ( DimDate ),
+			        DATESBETWEEN ( DimDate[Date], DATE ( YEAR ( AsOf ) - 1, 1, 1 ), EDATE ( AsOf, -12 ) )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 34ce8fb9-5284-5302-9490-8b6f788fc572
+
+	/// Like-for-like year-to-date growth: the same calendar days this year and last year.
+	measure 'Revenue YTD vs PY %' = DIVIDE ( [Revenue YTD USD] - [Revenue PYTD USD], [Revenue PYTD USD] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 57861bfe-942b-5945-acc2-d31c098a7f2c
+
+	/// Running year-to-date revenue for each period of the as-of year, up to the as-of date; blank for other years. The KPI visual's indicator.
+	measure 'Revenue Cumulative YTD USD' =
+			VAR AsOf = [As Of Date]
+			VAR PeriodStart = MIN ( DimDate[Date] )
+			VAR PeriodEnd = MIN ( MAX ( DimDate[Date] ), AsOf )
+			RETURN
+			    IF (
+			        YEAR ( PeriodStart ) = YEAR ( AsOf ) && PeriodStart <= AsOf,
+			        CALCULATE (
+			            [Revenue USD],
+			            REMOVEFILTERS ( DimDate ),
+			            DATESBETWEEN ( DimDate[Date], DATE ( YEAR ( AsOf ), 1, 1 ), PeriodEnd )
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: caa31bc1-ad0d-5325-982c-bd6d9fc79fc4
+
+	/// Running year-to-date revenue one year earlier, over the same days as Revenue Cumulative YTD USD. The KPI visual's goal.
+	measure 'Revenue Cumulative PYTD USD' =
+			VAR AsOf = [As Of Date]
+			VAR PeriodStart = MIN ( DimDate[Date] )
+			VAR PeriodEnd = MIN ( MAX ( DimDate[Date] ), AsOf )
+			RETURN
+			    IF (
+			        YEAR ( PeriodStart ) = YEAR ( AsOf ) && PeriodStart <= AsOf,
+			        CALCULATE (
+			            [Revenue USD],
+			            REMOVEFILTERS ( DimDate ),
+			            DATESBETWEEN ( DimDate[Date], DATE ( YEAR ( AsOf ) - 1, 1, 1 ), EDATE ( PeriodEnd, -12 ) )
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 04 Revenue & Pipeline
+		lineageTag: 8b26649f-c209-57f4-8e89-8c70f3ece164
+
+	/// Signal test for one campaign's Revenue-to-Spend Index: how many standard errors its attributed revenue sits from what its spend share would earn. Variance is taken under that fair-share hypothesis (compound Poisson with the model's campaign dispersion, SQL 07), which stays honest with heavily skewed deal sizes. Blank unless exactly one campaign is in scope.
+	measure 'Campaign Index z' =
+			VAR KeyInUse = [Attribution Model Key]
+			VAR CampaignRevenue = [Attributed Revenue USD]
+			VAR ExpectedRevenue =
+			    [Spend Share %] * CALCULATE ( [Attributed Revenue USD], ALLSELECTED ( DimCampaign ) )
+			VAR Dispersion =
+			    CALCULATE (
+			        SELECTEDVALUE ( DimAttributionModel[CampaignDispersionUSD] ),
+			        REMOVEFILTERS ( DimAttributionModel ),
+			        DimAttributionModel[ModelKey] = KeyInUse
+			    )
+			RETURN
+			    IF (
+			        HASONEVALUE ( DimCampaign[CampaignID] ) && ExpectedRevenue > 0,
+			        DIVIDE ( CampaignRevenue - ExpectedRevenue, SQRT ( ExpectedRevenue * Dispersion ) )
+			    )
+		formatString: 0.0
+		displayFolder: 05 Attribution
+		lineageTag: 8cac6fc9-35cf-55e5-9414-46b834294d03
+
+	/// Reading of Campaign Index z. |z| >= 3 is a clear signal (about 1 of 300 campaigns would cross it by chance); 2-3 is possible (about 14 of 300 would by chance); anything smaller is noise, however high or low the index.
+	measure 'Campaign Index Signal' =
+			VAR ZScore = [Campaign Index z]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( ZScore ), BLANK (),
+			        ZScore >= 3, "Clearly above",
+			        ZScore >= 2, "Possibly above",
+			        ZScore <= -3, "Clearly below",
+			        ZScore <= -2, "Possibly below",
+			        "Within noise"
+			    )
+		displayFolder: 05 Attribution
+		lineageTag: d8714b63-1b1a-5a07-8ad3-5a2d29cdf72f
+
+	/// Opportunities the source dates after the as-of date. Excluded from every funnel figure.
+	measure 'Post-Period Opportunities' = CALCULATE ( COUNTROWS ( FactLeadFunnel ), FactLeadFunnel[IsOpportunityAfterAsOf] = TRUE () )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: f29647dd-f65b-53b9-b7bf-6138011fae40
+
+	/// Revenue bookings the source dates after the as-of date. Excluded from every revenue and customer figure.
+	measure 'Post-Period Bookings' = CALCULATE ( COUNTROWS ( FactLeadFunnel ), FactLeadFunnel[IsRevenueAfterAsOf] = TRUE () )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: ea6f5728-3751-5297-ab72-bb2de51bb75b
+
+	/// Ad clicks recorded per CRM lead. Typical B2B landing pages convert 2-5% of clicks (20-50 clicks per lead); about 5,100 here shows the ad and CRM extracts are on different scales.
+	measure 'Clicks per Lead' = DIVIDE ( [Clicks], [Leads] )
+		formatString: #,0
+		displayFolder: 08 Data Quality
+		lineageTag: 045227a7-b39c-5c8e-a96e-6c18eab7e600
+
+	/// Channel cost per dollar of revenue booked. Far above 1 on this data for the same scale reason - the figure that makes absolute ROAS, CPL and CAC unusable against benchmarks.
+	measure 'Spend to Revenue Ratio' = DIVIDE ( [Spend USD], [Revenue USD] )
+		formatString: 0.0
+		displayFolder: 08 Data Quality
+		lineageTag: bb7c5ad6-4ce5-545b-85fc-8098d0d1b879
+
+	/// Background colour of a funnel-heatmap cell: unshaded (the panel colour) unless its lead-to-customer rate differs from the portfolio by more than chance (|z| >= 2 muted, >= 3 strong; green above, red below).
+	measure 'Heatmap Signal Colour' =
+			VAR ZScore = [Lead to Customer z vs Portfolio]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( ZScore ), BLANK (),
+			        ZScore >= 3, "#4E9A1E",
+			        ZScore >= 2, "#2A5518",
+			        ZScore <= -3, "#8A2E24",
+			        ZScore <= -2, "#4A1F1A",
+			        "#0A120A"
+			    )
+		displayFolder: 09 Report Formatting
+		lineageTag: 9db88e6f-87c5-50b3-b391-db7f1f152e5d
+
+	/// Background colour of a campaign's Revenue-to-Spend Index: unshaded (the panel colour) unless Campaign Index z says the campaign differs from fair share by more than chance (|z| >= 2 muted, >= 3 strong; green above, red below).
+	measure 'Campaign Signal Colour' =
+			VAR ZScore = [Campaign Index z]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( ZScore ), BLANK (),
+			        ZScore >= 3, "#4E9A1E",
+			        ZScore >= 2, "#2A5518",
+			        ZScore <= -3, "#8A2E24",
+			        ZScore <= -2, "#4A1F1A",
+			        "#0A120A"
+			    )
+		displayFolder: 09 Report Formatting
+		lineageTag: d3320cba-fa07-548d-9a27-34d3843bc441
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: 26d3fb0f-afc0-57f0-93f2-a0cfbda37cdb
+		summarizeBy: none
+		sourceColumn: Placeholder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [Placeholder = text], {})
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

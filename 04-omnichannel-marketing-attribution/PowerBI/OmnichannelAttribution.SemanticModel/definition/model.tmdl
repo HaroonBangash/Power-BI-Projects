@@ -1,0 +1,32 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["SqlServer","SqlDatabase","DimDate","DimCampaign","DimAttributionModel","FactAdSpend","FactLeadFunnel","FactTouchpoint","DimFunnelStage","FactAttributionCredit","CampaignAliasResolution","FxRate","ModelConfig","SecurityUserAccess","_Measures"]
+
+ref table DimDate
+ref table DimCampaign
+ref table DimAttributionModel
+ref table FactAdSpend
+ref table FactLeadFunnel
+ref table FactTouchpoint
+ref table FactAttributionCredit
+ref table CampaignAliasResolution
+ref table FxRate
+ref table ModelConfig
+ref table SecurityUserAccess
+ref table _Measures
+ref table DimFunnelStage
+
+ref role 'Regional Marketing'
+
+ref cultureInfo en-US
+

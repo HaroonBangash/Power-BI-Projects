@@ -1,0 +1,125 @@
+/// Paid-media billing lines, one per AdRowID. Several lines can share Date x Campaign; they differ in metrics and usually currency, so they are separate lines, not duplicates. Spend converted to USD at planning rates.
+table FactAdSpend
+	lineageTag: c3340aef-980e-5889-b905-89b1101e5ad9
+
+	column AdRowID
+		dataType: string
+		isHidden
+		lineageTag: 85396496-c3fd-51ad-a520-32396a2cf434
+		summarizeBy: none
+		sourceColumn: AdRowID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: cf3bf104-2d06-58e7-94bf-ce12fa0d3bf9
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampaignID
+		dataType: string
+		isHidden
+		lineageTag: 12b76cfc-e0d3-5c4b-b74a-4a7b82e75673
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelID
+		dataType: string
+		isHidden
+		lineageTag: 6d14fe8b-809f-52f6-94df-089c0ae0c390
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Impressions
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: 41d65da4-a5c8-543c-a9b9-e27e24340039
+		summarizeBy: sum
+		sourceColumn: Impressions
+
+		annotation SummarizationSetBy = Automatic
+
+	column Clicks
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: fa505e14-9a7f-5d0d-ac99-a2d93db2752d
+		summarizeBy: sum
+		sourceColumn: Clicks
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Spend in the billing currency. Not additive across currencies - use SpendUSD.
+	column SpendLocal
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 8b231e09-0691-5e08-9173-1faa59e3f29e
+		summarizeBy: sum
+		sourceColumn: SpendLocal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyCode
+		dataType: string
+		lineageTag: 3de26c95-3ead-52cd-a8fc-ab9bb0b6576d
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column FxRateToUSD
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: fe8077cd-0c8a-5e8d-9554-f97e9ddd8292
+		summarizeBy: none
+		sourceColumn: FxRateToUSD
+
+		annotation SummarizationSetBy = Automatic
+
+	column SpendUSD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: a36c0495-663a-57cb-bd86-3c1d7c3db08e
+		summarizeBy: sum
+		sourceColumn: SpendUSD
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Spend dated before the campaign's recorded StartDate.
+	column IsBeforeCampaignStart
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b6816656-a302-51de-8b62-b23987949489
+		summarizeBy: none
+		sourceColumn: IsBeforeCampaignStart
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAdSpend = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactAdSpend = Source{[Schema="analytics",Item="vw_FactAdSpend"]}[Data]
+				in
+				    analytics_vw_FactAdSpend
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

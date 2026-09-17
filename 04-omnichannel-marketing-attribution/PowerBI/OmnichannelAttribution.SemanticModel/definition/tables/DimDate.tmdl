@@ -1,0 +1,250 @@
+/// Conformed calendar 2022-01-01 to 2027-06-30, generated in SQL because the supplied calendar ended before the last opportunity and revenue dates. Marked as the date table. Financial year runs July to June.
+table DimDate
+	lineageTag: 4d6dc2d1-d58f-51b1-8e3b-55b69df66b5c
+	dataCategory: Time
+
+	/// Model date key: unique, contiguous, no gaps.
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: e385da0d-b75b-504d-af0b-8809c60b60c4
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7e7d8b80-7a25-5683-bf5b-4aa5dbebb271
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 05565b73-07ef-5564-80b8-b2e677acefcb
+		summarizeBy: none
+		sourceColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 4bf628f7-8a84-5f1b-8337-70f0d039d87e
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthShort
+		dataType: string
+		lineageTag: 6567aafc-9844-518d-ae19-83dc01d25853
+		summarizeBy: none
+		sourceColumn: MonthShort
+		sortByColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f7e01e1b-ab15-53f2-b06c-af8b0386c3e5
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterLabel
+		dataType: string
+		lineageTag: 039cde1c-7eb2-5b8e-a992-af2fd0f58c71
+		summarizeBy: none
+		sourceColumn: QuarterLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Sort key for YearMonthLabel.
+	column YearMonth
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: dcb03fb9-5db3-5b51-b020-3b1ca9cf2687
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthLabel
+		dataType: string
+		lineageTag: 53d214d2-7bfa-5535-9fea-2253dbcc3591
+		summarizeBy: none
+		sourceColumn: YearMonthLabel
+		sortByColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthStart
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 362077a0-fd03-53bf-87e4-03e8d97e4499
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ISOWeek
+		dataType: int64
+		formatString: 0
+		lineageTag: 0592b5fc-fef1-5193-a066-2f9c83ecb227
+		summarizeBy: none
+		sourceColumn: ISOWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Monday of the ISO week.
+	column WeekStart
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 275b36c8-1f0f-54db-befc-da181d13cca0
+		summarizeBy: none
+		sourceColumn: WeekStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DayName
+		dataType: string
+		lineageTag: fbcacbd2-a510-51ba-967d-4a956bdd6365
+		summarizeBy: none
+		sourceColumn: DayName
+		sortByColumn: DayOfWeekNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ee36de22-97a9-5c0d-ba26-f28e0debe7eb
+		summarizeBy: none
+		sourceColumn: DayOfWeekNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialYearStart
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ab279586-cfb6-537f-bcab-35c9b06f4fdc
+		summarizeBy: none
+		sourceColumn: FinancialYearStart
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialYear
+		dataType: string
+		lineageTag: 28832c20-0637-550f-9513-2011d86b9d04
+		summarizeBy: none
+		sourceColumn: FinancialYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column FinancialMonthNo
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 69e70d45-0c01-5102-bc2f-088e680d6b08
+		summarizeBy: none
+		sourceColumn: FinancialMonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True where the supplied dim_date also covers the day.
+	column IsSourceCalendar
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c9d6a3ae-63b5-5a3f-9e69-d901fb1b1c6e
+		summarizeBy: none
+		sourceColumn: IsSourceCalendar
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for days after the as-of date: no actuals exist yet.
+	column IsAfterAsOf
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b2d8629e-926a-54f4-b5a2-7157609af43b
+		summarizeBy: none
+		sourceColumn: IsAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True when the whole quarter lies on or before the as-of date. Filter quarterly counts on it: 2026 Q3 holds two of its three months and would read as a collapse.
+	column IsQuarterComplete
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5f57a709-e528-5827-962a-ca5107ba2ffe
+		summarizeBy: none
+		sourceColumn: IsQuarterComplete
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Calendar
+		lineageTag: aae27713-1d2c-5070-852e-3a07bd5948ca
+
+		level Year
+			lineageTag: a6a669fa-8f01-5b3e-aa76-83800c101759
+			column: Year
+
+		level QuarterLabel
+			lineageTag: 403b0f00-d037-5562-ae14-a3e7260b5318
+			column: QuarterLabel
+
+		level YearMonthLabel
+			lineageTag: d5d08c49-7b26-56de-b8be-1956bec65894
+			column: YearMonthLabel
+
+		level Date
+			lineageTag: 45474985-e070-5934-99b7-627c93287ce4
+			column: Date
+
+	hierarchy Financial
+		lineageTag: ee0bccae-2ab1-5ab0-a3d1-c583a89e753d
+
+		level FinancialYear
+			lineageTag: e00f3095-c034-5ee6-8712-b48649df2cb1
+			column: FinancialYear
+
+		level YearMonthLabel
+			lineageTag: e14af42f-47b7-5fff-ac52-afff266bb512
+			column: YearMonthLabel
+
+		level Date
+			lineageTag: f7b50876-cca9-5c45-af3e-f1ddd95f3509
+			column: Date
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimDate = Source{[Schema="analytics",Item="vw_DimDate"]}[Data]
+				in
+				    analytics_vw_DimDate
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

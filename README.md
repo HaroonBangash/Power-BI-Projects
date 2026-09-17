@@ -142,13 +142,58 @@ real driver is price point: Starter churns at 26.1%, Enterprise at 7.8%.
 
 ---
 
+## Omnichannel Marketing Attribution — five models over one revenue number
+
+[![Executive Summary](04-omnichannel-marketing-attribution/Validation/evidence/listing/executive.png)](04-omnichannel-marketing-attribution/)
+
+Seven channels, 300 campaigns, 174,938 touchpoints. Multi-touch attribution under five
+models — First Touch, Last Touch, Linear, Position-Based, Time-Decay — switchable in
+the report, with funnel conversion and cost efficiency beside it.
+
+Each model re-divides the *same* $30,867,506 of booked revenue, and all five totals tie
+out on the page. The 874,690 credit weights are checked against an independent pandas
+implementation, agreeing to 6.7 × 10⁻¹⁶. Where the models disagree is shown directly:
+channel shares barely move, because every channel's touches sit at similar journey
+positions — campaign-level credit moves far more.
+
+| | |
+|---|---|
+| **Stack** | SQL Server → Power Query → semantic model (TMDL) → report (PBIR) |
+| **Model** | 13 tables, 85 measures, 12 relationships, RLS by region |
+| **Report** | 7 pages, 148 visuals of 23 types |
+| **Verified** | **3,165 automated checks**, 0 failures |
+
+What it is careful about: one as-of date for every figure, with outcomes recorded after
+it flagged rather than dropped; attributed revenue dated by booking date, so each
+month ties to what finance booked; complete periods and mature cohorts only in trends;
+differences coloured only when larger than chance, by binomial and fair-share z-tests;
+and an ad-versus-CRM scale gap that is disclosed with a data note rather than quietly
+rescaled.
+
+**→ [Read the project](04-omnichannel-marketing-attribution/)**
+
+<details>
+<summary>The other six pages</summary>
+
+| | |
+|---|---|
+| Channels & Budget | Funnel & Pipeline |
+| ![](04-omnichannel-marketing-attribution/Validation/evidence/listing/channels.png) | ![](04-omnichannel-marketing-attribution/Validation/evidence/listing/funnel.png) |
+| Attribution Models | Customer Journeys |
+| ![](04-omnichannel-marketing-attribution/Validation/evidence/listing/attribution.png) | ![](04-omnichannel-marketing-attribution/Validation/evidence/listing/journeys.png) |
+| Campaign Scorecard | Data & Method |
+| ![](04-omnichannel-marketing-attribution/Validation/evidence/listing/campaigns.png) | ![](04-omnichannel-marketing-attribution/Validation/evidence/listing/method.png) |
+
+</details>
+
+---
+
 ## Also in this portfolio
 
-Two further projects built the same way, to be added here:
+One further project built the same way, to be added here:
 
 | Project | What it covers |
 |---|---|
-| Omnichannel Marketing Attribution | Multi-touch attribution across channels |
 | Healthcare Claims & Revenue Cycle | AR ageing, denial analytics, RLS by facility |
 
 ---

@@ -1,0 +1,42 @@
+/// Disconnected configuration: as-of date, reporting currency, attribution parameters. Read by measures so nothing is hard-coded.
+table ModelConfig
+	isHidden
+	lineageTag: 7589eeaf-fffe-5703-aacf-efbc73fe2998
+
+	column ConfigKey
+		dataType: string
+		lineageTag: 639deef8-29d0-5da7-a00f-f145cd871e4e
+		summarizeBy: none
+		sourceColumn: ConfigKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConfigValue
+		dataType: string
+		lineageTag: ed51f112-0471-524b-b0ef-8b1fcb62394a
+		summarizeBy: none
+		sourceColumn: ConfigValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 854e7d7f-1424-5e43-9274-3db572e8ee1e
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ModelConfig = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_ModelConfig = Source{[Schema="analytics",Item="vw_ModelConfig"]}[Data]
+				in
+				    analytics_vw_ModelConfig
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

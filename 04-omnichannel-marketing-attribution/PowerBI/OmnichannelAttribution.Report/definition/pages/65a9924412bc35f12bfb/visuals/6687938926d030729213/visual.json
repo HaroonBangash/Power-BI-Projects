@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "6687938926d030729213",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "width": 1080,
+    "height": 44,
+    "tabOrder": 16
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading this page.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Index = share of attributed revenue / share of channel cost (1.0 = fair share). Signal compares a campaign's revenue with what its cost share would earn, in standard errors: |z| >= 3 clear, 2-3 possible. With 300 campaigns about 14 reach |z| >= 2 by chance alone, so most index differences are noise.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,44 @@
+/// Disconnected funnel axis: Lead, MQL, SQL, Opportunity, Customer. Each stage counts leads that reached AT LEAST that stage, so the funnel's bars nest by construction.
+table DimFunnelStage
+	lineageTag: 51eada30-bd58-558b-842a-ba953d8abedd
+
+	column StageRank
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1b21a51e-141f-501e-be24-57a38176e7e7
+		summarizeBy: none
+		sourceColumn: StageRank
+
+		annotation SummarizationSetBy = Automatic
+
+	column StageName
+		dataType: string
+		lineageTag: 2789b878-5a95-5bb2-92f9-473bf57fd95b
+		summarizeBy: none
+		sourceColumn: StageName
+		sortByColumn: StageRank
+
+		annotation SummarizationSetBy = Automatic
+
+	column Definition
+		dataType: string
+		lineageTag: 28934d1c-8719-5f99-9304-c907cdc4f05f
+		summarizeBy: none
+		sourceColumn: Definition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimFunnelStage = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimFunnelStage = Source{[Schema="analytics",Item="vw_DimFunnelStage"]}[Data]
+				in
+				    analytics_vw_DimFunnelStage
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

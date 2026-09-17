@@ -1,0 +1,72 @@
+/// Planning exchange rates to USD. Illustrative assumptions, NOT market data. Disconnected - shown for transparency.
+table FxRate
+	lineageTag: a88a794b-aad2-5025-93c1-13e3560325e3
+
+	column CurrencyCode
+		dataType: string
+		lineageTag: 6b8351c1-e18c-5920-9edc-0e0f7d1561e7
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column RateType
+		dataType: string
+		lineageTag: 080f19f3-e5a8-5231-9f41-4d9b21ab9a79
+		summarizeBy: none
+		sourceColumn: RateType
+
+		annotation SummarizationSetBy = Automatic
+
+	column EffectiveFrom
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 6f646592-6de7-50b3-b6f2-e9f2fd2964d3
+		summarizeBy: none
+		sourceColumn: EffectiveFrom
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EffectiveTo
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: fb14b209-d3ac-5e37-9982-151c3bb2590b
+		summarizeBy: none
+		sourceColumn: EffectiveTo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RateToUSD
+		dataType: double
+		formatString: 0.0000
+		lineageTag: ddb598a3-dbd6-5140-86fe-beb3439b7b58
+		summarizeBy: none
+		sourceColumn: RateToUSD
+
+		annotation SummarizationSetBy = Automatic
+
+	column Source
+		dataType: string
+		lineageTag: 3c9f7a2a-7247-55a7-876a-78eee56d564f
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FxRate = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FxRate = Source{[Schema="analytics",Item="vw_FxRate"]}[Data]
+				in
+				    analytics_vw_FxRate
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

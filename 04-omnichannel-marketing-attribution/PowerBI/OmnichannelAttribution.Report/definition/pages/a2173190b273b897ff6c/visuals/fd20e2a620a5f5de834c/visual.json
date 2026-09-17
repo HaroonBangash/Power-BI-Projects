@@ -1,0 +1,187 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "fd20e2a620a5f5de834c",
+  "position": {
+    "x": 516,
+    "y": 386,
+    "z": 0,
+    "height": 318,
+    "width": 748,
+    "tabOrder": 24
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "As of 31 Aug 2026. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "Every figure counts only what happened by then: an opportunity once opened, a customer once revenue is booked. Records dated later appear only on this page.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Attribution. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "Five models precomputed in SQL and checked against an independent Python implementation. Attributed revenue is dated by booking date, so every model's monthly total equals the revenue booked that month.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Scale. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "The ad and CRM extracts are on different scales (cards at left). Figures are reported as measured, never rescaled - compare them relatively.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Media rates. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "CTR, CPC and CPM are near-identical on every channel, so they are not ranked.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Signal. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "Heatmap and scorecard shading marks only differences larger than chance.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Currency. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "Spend in AUD, EUR, GBP and USD is converted at the planning rates above.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Synthetic data. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  },
+                  {
+                    "value": "A portfolio dataset - never client data.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#e3eedb"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

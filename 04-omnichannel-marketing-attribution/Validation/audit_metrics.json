@@ -1,0 +1,103 @@
+{
+  "rows": {
+    "dim_channel": 7,
+    "dim_campaign": 300,
+    "campaign_name_mapping": 900,
+    "dim_date": 1704,
+    "fact_ad_spend": 80000,
+    "fact_leads": 50000,
+    "fact_touchpoints": 174938,
+    "fact_opportunities": 11152,
+    "fact_revenue": 6559,
+    "security_user_access": 7
+  },
+  "pk_duplicates": 0,
+  "null_cells": 0,
+  "orphans": {
+    "ad_spend.CampaignID": 0,
+    "ad_spend.ChannelID": 0,
+    "leads.CampaignID": 0,
+    "touchpoints.CampaignID": 0,
+    "touchpoints.LeadID": 0,
+    "opportunities.LeadID": 0,
+    "revenue.OpportunityID": 0
+  },
+  "as_of_date": "2026-08-31",
+  "calendar_end": "2026-08-31",
+  "opportunities_outside_calendar": 244,
+  "revenue_outside_calendar": 209,
+  "opportunities_after_asof": 244,
+  "revenue_rows_after_asof": 209,
+  "revenue_after_asof": 888614.96,
+  "as_of_funnel": {
+    "opportunities": 10908,
+    "customers": 6350,
+    "revenue": 30867505.68,
+    "closed_lost": 2258,
+    "open": 2300,
+    "open_pipeline": 11053204.4,
+    "open_but_won_later": 63
+  },
+  "revenue_ytd": 8300947.22,
+  "revenue_pytd": 7651833.75,
+  "leads_sequence_contradicts_date": 35409,
+  "lead_campaign_matches_first_touch": 0.0031,
+  "lead_campaign_matches_last_touch": 0.0034,
+  "touches_after_lead_created": 0,
+  "touches_same_day_as_another": 12424,
+  "touches_per_lead": {
+    "1": 8361,
+    "2": 8357,
+    "3": 8343,
+    "4": 8264,
+    "5": 8272,
+    "6": 8403
+  },
+  "multichannel_leads": 40152,
+  "email_open_touches_on_paid_search": 5219,
+  "funnel": {
+    "leads": 50000,
+    "mql_plus": 32589,
+    "sql_plus": 20148,
+    "opportunities": 11152,
+    "won": 6559
+  },
+  "stale_stage_labels": 2428,
+  "revenue_equals_opportunity_value": true,
+  "total_revenue": 31756120.64,
+  "max_days_lead_to_revenue": 58,
+  "average_deal_by_segment": {
+    "Enterprise": 4748.16,
+    "Mid-Market": 4853.9,
+    "SMB": 4921.97
+  },
+  "currencies": {
+    "GBP": 20142,
+    "USD": 19986,
+    "AUD": 19940,
+    "EUR": 19932
+  },
+  "spend_local_total": 1085259568.68,
+  "spend_to_revenue_ratio_local": 34.2,
+  "clicks_total": 254585358,
+  "click_to_lead_pct": 0.0196,
+  "ctr_pct": 4.229,
+  "spend_on_unpaid_channels_local": 435199001.01,
+  "ctr_by_channel_pct": {
+    "Display": 4.226,
+    "Email": 4.215,
+    "Google Ads": 4.25,
+    "LinkedIn Ads": 4.207,
+    "Meta Ads": 4.23,
+    "Organic Search": 4.254,
+    "Referral": 4.225
+  },
+  "shared_grain_groups": 9275,
+  "exact_duplicate_ad_rows": 0,
+  "spend_rows_before_campaign_start": 33739,
+  "aliases_per_campaign": {
+    "3": 300
+  },
+  "ambiguous_raw_names": 0,
+  "aliases_region_spelled_au_nz": 61
+}

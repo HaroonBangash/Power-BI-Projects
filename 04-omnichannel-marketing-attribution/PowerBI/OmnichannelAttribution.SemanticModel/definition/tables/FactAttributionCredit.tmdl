@@ -1,0 +1,117 @@
+/// One row per touchpoint per attribution model: the share of the lead's conversion credited to the touch. Weights sum to 1 per lead per model. Always filter to ONE model - summing across models multiplies revenue.
+table FactAttributionCredit
+	lineageTag: b6aaac97-c659-5b0b-9b6b-9ddac547b869
+
+	column TouchpointID
+		dataType: string
+		isHidden
+		lineageTag: 57ab5142-0805-5f2f-9e05-fc6ab87588c3
+		summarizeBy: none
+		sourceColumn: TouchpointID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 79b01c4b-cfd3-553e-bddd-5538a863559c
+		summarizeBy: none
+		sourceColumn: ModelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LeadID
+		dataType: string
+		isHidden
+		lineageTag: a8bc4722-1d5b-5891-92e1-c20166147b5e
+		summarizeBy: none
+		sourceColumn: LeadID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampaignID
+		dataType: string
+		isHidden
+		lineageTag: 217f54a3-b4fa-5d86-81a5-1b9fcf7353bc
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelID
+		dataType: string
+		isHidden
+		lineageTag: 48304a2e-13ee-5a59-bd05-2aad724f5243
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TouchDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: d3be32b7-f844-5ee5-8452-a6aa0a74a3d8
+		summarizeBy: none
+		sourceColumn: TouchDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RevenueDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 338d98c8-2bf6-562c-b7ad-f77286a4c01b
+		summarizeBy: none
+		sourceColumn: RevenueDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CreditWeight
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: 956aa6d6-2773-525e-b596-1e3ffd9565a7
+		summarizeBy: sum
+		sourceColumn: CreditWeight
+
+		annotation SummarizationSetBy = Automatic
+
+	column AttributedRevenueUSD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 81ff5bfe-da57-5cb4-8d32-c4e8a90ebf35
+		summarizeBy: sum
+		sourceColumn: AttributedRevenueUSD
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsRevenueAfterAsOf
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c5560f5d-4b04-5142-956a-90728188ffb7
+		summarizeBy: none
+		sourceColumn: IsRevenueAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAttributionCredit = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactAttributionCredit = Source{[Schema="analytics",Item="vw_FactAttributionCredit"]}[Data]
+				in
+				    analytics_vw_FactAttributionCredit
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

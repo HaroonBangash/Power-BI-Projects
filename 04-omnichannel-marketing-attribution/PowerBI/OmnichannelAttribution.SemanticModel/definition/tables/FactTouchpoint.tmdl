@@ -1,0 +1,131 @@
+/// One marketing touch on a lead's pre-conversion journey. JourneyPosition orders touches by date; the supplied sequence number contradicted the calendar for 71% of leads.
+table FactTouchpoint
+	lineageTag: d3b05808-0a04-596a-98e2-add7948f99ee
+
+	column TouchpointID
+		dataType: string
+		isHidden
+		lineageTag: 29e94840-9fd6-5fd6-9d2d-971752cb6cb2
+		summarizeBy: none
+		sourceColumn: TouchpointID
+
+		annotation SummarizationSetBy = Automatic
+
+	column LeadID
+		dataType: string
+		isHidden
+		lineageTag: cc5d6058-9138-5d6b-b6a6-c4ff66cff33b
+		summarizeBy: none
+		sourceColumn: LeadID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TouchDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 7008f5f5-3779-5586-a2f1-80c1b639e1fb
+		summarizeBy: none
+		sourceColumn: TouchDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampaignID
+		dataType: string
+		isHidden
+		lineageTag: bca3b6c8-ab4c-5a6a-bc24-aba06060aae8
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelID
+		dataType: string
+		isHidden
+		lineageTag: 18e6940e-394b-512b-87de-43ad16146c79
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TouchType
+		dataType: string
+		lineageTag: 7b5f6b44-e7f5-5894-9e94-d455e400bb27
+		summarizeBy: none
+		sourceColumn: TouchType
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceTouchSequence
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4a0f4dc1-1c2d-5a4a-ad94-b85bf87431e6
+		summarizeBy: none
+		sourceColumn: SourceTouchSequence
+
+		annotation SummarizationSetBy = Automatic
+
+	/// 1 = earliest touch, by date.
+	column JourneyPosition
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dabaced-4d8b-5f3c-a4ff-f21a942a0d0f
+		summarizeBy: none
+		sourceColumn: JourneyPosition
+
+		annotation SummarizationSetBy = Automatic
+
+	column JourneyLength
+		dataType: int64
+		formatString: 0
+		lineageTag: 23d0fb1a-7dde-5502-be66-7f48325d635a
+		summarizeBy: none
+		sourceColumn: JourneyLength
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysBeforeLead
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ee52943-9311-5122-b84a-dfe06fbd689b
+		summarizeBy: none
+		sourceColumn: DaysBeforeLead
+
+		annotation SummarizationSetBy = Automatic
+
+	/// First, Middle, Last or Only touch. First Touch credits only First; Last Touch only Last.
+	column PositionBand
+		dataType: string
+		lineageTag: 381de091-c9e1-5d0b-927f-98b078a0bb7c
+		summarizeBy: none
+		sourceColumn: PositionBand
+		sortByColumn: PositionBandOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column PositionBandOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 212eaee6-119a-58e0-a78b-d64588b85d5c
+		summarizeBy: none
+		sourceColumn: PositionBandOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactTouchpoint = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactTouchpoint = Source{[Schema="analytics",Item="vw_FactTouchpoint"]}[Data]
+				in
+				    analytics_vw_FactTouchpoint
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,926 @@
+[
+  {
+    "name": "e95eaff3bc9443769909",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a1e84492e6b79b017710",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "40a0a883c4b8ca0aa453",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "3cb128dd2c5e9a9b05fb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "bcb556d11cfd5dbf4225",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "763abca81d99e3ea1ef0",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "8db560bbc01949692c69",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "928564c60d7b274569a9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "4663d72bb238e776e56e",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3f494efdf87896b5d810",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b3e17c73bd7d09b8ae1b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "06a5b78424c4cad7f0eb",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Region"
+  },
+  {
+    "name": "0c198a4f5330cc14dd8a",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Channel group"
+  },
+  {
+    "name": "3183ce034c76b0342e97",
+    "visualType": "card",
+    "title": "Channel cost",
+    "demonstrates": "Headline figure: Spend USD"
+  },
+  {
+    "name": "975b10e25b7ac777f95a",
+    "visualType": "card",
+    "title": "Revenue booked",
+    "demonstrates": "Headline figure: Revenue USD"
+  },
+  {
+    "name": "a1e83ddf8ae2ee7179bf",
+    "visualType": "card",
+    "title": "Leads",
+    "demonstrates": "Headline figure: Leads"
+  },
+  {
+    "name": "62621b9db2b285585b8d",
+    "visualType": "card",
+    "title": "Customers",
+    "demonstrates": "Headline figure: Customers"
+  },
+  {
+    "name": "e54907ab53861fc4ec9c",
+    "visualType": "card",
+    "title": "Lead to customer",
+    "demonstrates": "Headline figure: Lead to Customer %"
+  },
+  {
+    "name": "5c0a2e302109be0deb04",
+    "visualType": "card",
+    "title": "Revenue YTD vs last year",
+    "demonstrates": "Headline figure: Revenue YTD vs PY %"
+  },
+  {
+    "name": "b7352f6972e2c4cf7468",
+    "visualType": "kpi",
+    "title": "Revenue year to date vs the same days last year",
+    "demonstrates": "Like-for-like YTD growth with the running total behind it; a single month's YoY swings with deal timing, so it is not the headline."
+  },
+  {
+    "name": "c38203025efb7b07bda3",
+    "visualType": "lineStackedColumnComboChart",
+    "title": "Leads created (columns) and lead-to-customer conversion of mature cohorts (line)",
+    "demonstrates": "Volume and quality on two scales; the line stops where cohorts are still converting."
+  },
+  {
+    "name": "fcc0c493072d47b7d597",
+    "visualType": "donutChart",
+    "title": "Channel cost by channel group",
+    "demonstrates": "Budget split: part-to-whole with six parts."
+  },
+  {
+    "name": "e59ec67b09ede25092b8",
+    "visualType": "lineChart",
+    "title": "Revenue booked by month vs the same month last year",
+    "demonstrates": "Monthly revenue against last year - shows how noisy single months are."
+  },
+  {
+    "name": "906b2fa2cd92650b2060",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6526db54072164036e42",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "8cf242477171d57b963f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "5784e62320fa1c1b44c6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "a58a998ad0700980a210",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "b1f6be1e03d9100b8d60",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "f46235df1c1dd12b5cfb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "cebdb06873dd09046166",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "d85bf667161ee836a798",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "5cc5b33fa9c34bf66262",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "d9dab34e8067b9fcb83c",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "e14fff0eb83406cabc2b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "10d695a5708003decd65",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Region"
+  },
+  {
+    "name": "c3ee6bc524862bd1e038",
+    "visualType": "card",
+    "title": "Paid media spend",
+    "demonstrates": "Headline figure: Paid Media Spend USD"
+  },
+  {
+    "name": "147a1904e454395e701d",
+    "visualType": "card",
+    "title": "Paid CTR",
+    "demonstrates": "Headline figure: Paid CTR"
+  },
+  {
+    "name": "14ca18c860b72669018c",
+    "visualType": "card",
+    "title": "Paid CPC",
+    "demonstrates": "Headline figure: Paid CPC USD"
+  },
+  {
+    "name": "5e26fc7f585173dfa7ab",
+    "visualType": "card",
+    "title": "Paid CPM",
+    "demonstrates": "Headline figure: Paid CPM USD"
+  },
+  {
+    "name": "e743d4a97a06cc94e5a1",
+    "visualType": "card",
+    "title": "Click to lead",
+    "demonstrates": "Headline figure: Click-to-Lead %"
+  },
+  {
+    "name": "e33e1be1844a2970cf9b",
+    "visualType": "clusteredColumnChart",
+    "title": "Share of channel cost vs share of attributed revenue",
+    "demonstrates": "Does credit follow budget? Scale-free, so valid despite the ad/CRM scale gap."
+  },
+  {
+    "name": "9f0e392d304df0bbc782",
+    "visualType": "lineChart",
+    "title": "Cost per lead by month, one panel per region",
+    "demonstrates": "Same trend, five regions, no overplotting; the whole period visible in every panel."
+  },
+  {
+    "name": "58786e5d661a199c7201",
+    "visualType": "treemap",
+    "title": "Channel cost by region, then channel",
+    "demonstrates": "Hierarchical budget allocation."
+  },
+  {
+    "name": "6313503865758dcb098c",
+    "visualType": "ribbonChart",
+    "title": "Channel rank by attributed revenue, complete quarters",
+    "demonstrates": "Rank changes over time (booking-date quarters): Meta Ads leads 9 of 10 complete quarters while Display ranges from 1st to 6th."
+  },
+  {
+    "name": "53f5bab97d9247367d7c",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6d727a95ab666d18d4fe",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "cf7ccb577b636f9fd0ad",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "f0f8a302691bfeba8181",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "30ceecfdebf24a1d8cdd",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "a21678303a4df4e40dd8",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "e70beae93299066b5dc9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "f3bfc64b4b385d38b676",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "4030836806f36d98916f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "52e5a1cf86a2a87364a4",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "084242545d0d225c4a55",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "02dda93456c2521b746b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "6acb6644030a8121ba47",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Region"
+  },
+  {
+    "name": "bc410cf8a0073ee1736e",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Segment"
+  },
+  {
+    "name": "1426513d273c4ffc524e",
+    "visualType": "card",
+    "title": "Opportunities",
+    "demonstrates": "Headline figure: Opportunities"
+  },
+  {
+    "name": "7864ab1b43f843c1049d",
+    "visualType": "card",
+    "title": "Customers",
+    "demonstrates": "Headline figure: Customers"
+  },
+  {
+    "name": "edf3e919131227f90926",
+    "visualType": "card",
+    "title": "Win rate (closed deals)",
+    "demonstrates": "Headline figure: Win Rate %"
+  },
+  {
+    "name": "6092ad78cccaeedef768",
+    "visualType": "card",
+    "title": "Open pipeline",
+    "demonstrates": "Headline figure: Open Pipeline USD"
+  },
+  {
+    "name": "479b68caa263e7e2ddaa",
+    "visualType": "card",
+    "title": "Days lead to opportunity",
+    "demonstrates": "Headline figure: Avg Days Lead to Opportunity"
+  },
+  {
+    "name": "2f534280223a2d972ef4",
+    "visualType": "card",
+    "title": "Days opportunity to close",
+    "demonstrates": "Headline figure: Avg Days Opportunity to Revenue"
+  },
+  {
+    "name": "fb39a6c45abb0d0744fc",
+    "visualType": "funnel",
+    "title": "Lead funnel by the as-of date",
+    "demonstrates": "Stage-by-stage attrition; stages nest by construction."
+  },
+  {
+    "name": "0f2ba3bccd5e3c26a23d",
+    "visualType": "clusteredColumnChart",
+    "title": "Conversion from the previous stage",
+    "demonstrates": "Where the funnel leaks, stage by stage."
+  },
+  {
+    "name": "e457ab3e3104e77f6888",
+    "visualType": "pivotTable",
+    "title": "Lead to customer by segment and channel group (shaded only when beyond chance)",
+    "demonstrates": "Two-way comparison coloured by statistical distance, not by size."
+  },
+  {
+    "name": "f8e839b5ac97d3b25ed2",
+    "visualType": "lineChart",
+    "title": "Lead-to-customer conversion by lead cohort month (mature cohorts)",
+    "demonstrates": "Is lead quality changing? Young cohorts are excluded so the line does not fake a collapse."
+  },
+  {
+    "name": "c9926df3c6f33e4406ec",
+    "visualType": "clusteredColumnChart",
+    "title": "Deals by days from opportunity to close",
+    "demonstrates": "Sales-cycle distribution as a histogram."
+  },
+  {
+    "name": "69f28b164716c97efdd7",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "d7646eb7fadba5b5a778",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "0c4a460170914a1cad27",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "85755ef89e6addd72480",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "283323067f7f30dcd9b1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "f74c767f3db2b574fc1c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "bb9fce45154f9c8e20ac",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "47841cf20f17ae9c1d2e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "26d5b2b047975462167c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "755fd7d8ad26d46c175c",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "4287ac665e768ac9ab46",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "8e1c7923dee95451c734",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "0708637ce7b3fda35929",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "cb7fdcc2b905d4c67493",
+    "visualType": "advancedSlicerVisual",
+    "title": "",
+    "demonstrates": "Button selector for the model in use (untitled; labelled beside it)."
+  },
+  {
+    "name": "a86874ecab15cee693b8",
+    "visualType": "clusteredColumnChart",
+    "title": "Attributed revenue share by channel under each of the five models",
+    "demonstrates": "All five models side by side - unaffected by the selector."
+  },
+  {
+    "name": "cea1410f7dcd986318fa",
+    "visualType": "pivotTable",
+    "title": "Attributed revenue by channel and model (USD) - every model totals the same",
+    "demonstrates": "Exact figures behind the comparison - unaffected by the selector."
+  },
+  {
+    "name": "7ce48cae37c876b29ac3",
+    "visualType": "clusteredBarChart",
+    "title": "Top 10 campaigns where the model choice matters most",
+    "demonstrates": "Spread across the five models as a share of their average."
+  },
+  {
+    "name": "b3ba5b8031dcb45321da",
+    "visualType": "waterfallChart",
+    "title": "Credit the selected model moves vs Last Touch",
+    "demonstrates": "Signed shifts that net to zero: every model conserves revenue."
+  },
+  {
+    "name": "8a8729d488172ebd22eb",
+    "visualType": "hundredPercentStackedBarChart",
+    "title": "Where each channel's touches sit in the journey",
+    "demonstrates": "Every channel sits at similar positions, which is why models agree at channel level."
+  },
+  {
+    "name": "b20e8d98905858cc23cb",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "373df05e144314734d23",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "fcfdbb6e88c52f5fc5c5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "3abcf6913ca0de3fe010",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "71806dd2a56489c23c79",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "baa934e449a3bb0ca81c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "595edd663c923899bbf6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "b314accff6a8490551fd",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "eaabaa5f096532e3da49",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "9f5b9b76e8f76de76c20",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "a99a24bc8f89049e0b7b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "7a8601ac798ce67ce038",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "1799a35331f399acea08",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Region"
+  },
+  {
+    "name": "a0a7a203ef2ae9d6d168",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Channel group"
+  },
+  {
+    "name": "12361143d7c23176ad62",
+    "visualType": "card",
+    "title": "Touchpoints",
+    "demonstrates": "Headline figure: Touchpoints"
+  },
+  {
+    "name": "a1d1d608b88cce64e4c1",
+    "visualType": "card",
+    "title": "Touches per journey",
+    "demonstrates": "Headline figure: Avg Touches per Journey"
+  },
+  {
+    "name": "5431a009f9c6b6ed62bb",
+    "visualType": "card",
+    "title": "Multi-channel journeys",
+    "demonstrates": "Headline figure: Multi-Channel Journey %"
+  },
+  {
+    "name": "bd9b49632226f8842f4e",
+    "visualType": "card",
+    "title": "Days first touch to lead",
+    "demonstrates": "Headline figure: Avg Days First Touch to Lead"
+  },
+  {
+    "name": "b50040fb3e4480b48835",
+    "visualType": "columnChart",
+    "title": "Leads by journey length, split by channels in the journey",
+    "demonstrates": "Journey length and channel mix in one stacked view."
+  },
+  {
+    "name": "810cdc0b84aa4dbc8e95",
+    "visualType": "areaChart",
+    "title": "Touches by days before the lead was created",
+    "demonstrates": "When in the month-long journey touches happen - on a zero-based axis."
+  },
+  {
+    "name": "ac3f18abbeb1303e01e3",
+    "visualType": "donutChart",
+    "title": "Leads by number of channels in the journey",
+    "demonstrates": "How omnichannel the buyer is."
+  },
+  {
+    "name": "7e825cd560c963857905",
+    "visualType": "clusteredColumnChart",
+    "title": "Lead-to-customer conversion by journey length",
+    "demonstrates": "Do longer journeys convert better? The question behind every multi-touch model."
+  },
+  {
+    "name": "506d360e53761b2846b8",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3fbbb7a85a17c6078530",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "e11e38b27a0e027af16a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "afcc2197429ea9bc07bd",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "38bfbff50b70da8135de",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "f7ca8bde38f3f52b4105",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "d7c20427aeac40a79eeb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "1bf8a74ec579254728e5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "c102c505b366e94ef3d6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "5e03b78d6957f6ba2f8a",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "0a613fc7727b4b0c3945",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "7c9a7243d81c613f1d4e",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "372c6d139528a216896d",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Region"
+  },
+  {
+    "name": "89cb0408da037188d2d2",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Channel group"
+  },
+  {
+    "name": "c5e220737f68a37b2b2c",
+    "visualType": "scatterChart",
+    "title": "Campaigns: channel cost vs attributed revenue (bubble = customers credited)",
+    "demonstrates": "Efficiency across 300 campaigns with volume."
+  },
+  {
+    "name": "6d2ff5278117567aacd2",
+    "visualType": "decompositionTreeVisual",
+    "title": "Attributed revenue: region, channel group, channel, campaign",
+    "demonstrates": "Guided drill into where attributed revenue comes from."
+  },
+  {
+    "name": "35e02ced8a5833ce3de3",
+    "visualType": "tableEx",
+    "title": "Campaign scorecard - index shaded only where it is beyond chance",
+    "demonstrates": "Detail per campaign with a statistical signal beside the ranking."
+  },
+  {
+    "name": "6687938926d030729213",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2763839bcea01846b9cc",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "70515f2ee9251b742593",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "cac4118cc89eea5b9d54",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Channels"
+  },
+  {
+    "name": "fc1bbbe3db0962b4fcc4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Funnel"
+  },
+  {
+    "name": "24f6022ee27e997acd76",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Attribution"
+  },
+  {
+    "name": "e0f59870975ef35c502b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Journeys"
+  },
+  {
+    "name": "7561d7a4ee00428d825a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Campaigns"
+  },
+  {
+    "name": "dbbe80eb643ce4608077",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "4aafb1c90799b0b6999b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "3b270005ed08a7f72c16",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "88699dbe3938e67a2a9e",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: Report Context"
+  },
+  {
+    "name": "6140c38e09cf34bcc6a0",
+    "visualType": "card",
+    "title": "Campaign aliases resolved",
+    "demonstrates": "Headline figure: Aliases Resolved"
+  },
+  {
+    "name": "6221c6d07864da6cdf7e",
+    "visualType": "card",
+    "title": "Alias mismatches",
+    "demonstrates": "Headline figure: Alias Mismatches"
+  },
+  {
+    "name": "ec8e03363627d1abba68",
+    "visualType": "card",
+    "title": "Stale CRM stage labels",
+    "demonstrates": "Headline figure: Stale Stage Labels"
+  },
+  {
+    "name": "020cbc1cd706b097bf04",
+    "visualType": "card",
+    "title": "Sequence contradicts dates",
+    "demonstrates": "Headline figure: Journeys With Contradicting Sequence"
+  },
+  {
+    "name": "11333d92deaf1b9744ba",
+    "visualType": "card",
+    "title": "Spend lines pre-start",
+    "demonstrates": "Headline figure: Spend Lines Before Campaign Start"
+  },
+  {
+    "name": "b77375601c8ce1f44399",
+    "visualType": "card",
+    "title": "Bookings after as-of",
+    "demonstrates": "Headline figure: Post-Period Bookings"
+  },
+  {
+    "name": "2b0d2c380f59918aab35",
+    "visualType": "gauge",
+    "title": "Campaign aliases resolved by the Power Query rules",
+    "demonstrates": "A rate against its 100% service level."
+  },
+  {
+    "name": "748864b58924458161f8",
+    "visualType": "clusteredColumnChart",
+    "title": "Aliases resolved by naming style",
+    "demonstrates": "Every naming style is handled by rules R1-R4."
+  },
+  {
+    "name": "a4df09870093234e9169",
+    "visualType": "tableEx",
+    "title": "Planning exchange rates to USD (not market data)",
+    "demonstrates": "The one currency assumption, in full."
+  },
+  {
+    "name": "841caf629c11fbaf5557",
+    "visualType": "card",
+    "title": "Ad clicks per lead",
+    "demonstrates": "Headline figure: Clicks per Lead"
+  },
+  {
+    "name": "9bb58870d48b3b376721",
+    "visualType": "card",
+    "title": "Cost per $ of revenue",
+    "demonstrates": "Headline figure: Spend to Revenue Ratio"
+  },
+  {
+    "name": "35f4e5100898f5faddbb",
+    "visualType": "card",
+    "title": "Revenue after as-of",
+    "demonstrates": "Headline figure: Post-Period Revenue USD"
+  },
+  {
+    "name": "b3a394752765462e5ad2",
+    "visualType": "card",
+    "title": "Conversion window (days)",
+    "demonstrates": "Headline figure: Conversion Window Days"
+  },
+  {
+    "name": "fd20e2a620a5f5de834c",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  }
+]

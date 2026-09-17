@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "53f5bab97d9247367d7c",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "width": 1080,
+    "height": 44,
+    "tabOrder": 21
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading this page.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "CTR, CPC and CPM are near-identical on every channel in this data (CTR 4.21-4.25%), so they are reported for paid media in total and not ranked by channel. Revenue shares use the attribution model shown top right. Quarterly charts show complete quarters only.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

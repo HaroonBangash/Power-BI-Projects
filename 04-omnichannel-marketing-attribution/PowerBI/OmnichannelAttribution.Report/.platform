@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "OmnichannelAttribution"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "23555596-4dd1-5294-bfdf-fe44c63a0926"
+  }
+}

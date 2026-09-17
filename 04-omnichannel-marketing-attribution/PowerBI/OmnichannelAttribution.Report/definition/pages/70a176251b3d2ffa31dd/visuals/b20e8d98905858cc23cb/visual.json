@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "b20e8d98905858cc23cb",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "width": 1080,
+    "height": 44,
+    "tabOrder": 18
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading this page.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every model re-divides the same revenue booked. Channel shares barely move between models because every channel's touches sit at similar journey positions (right); campaign credit moves far more (left).",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

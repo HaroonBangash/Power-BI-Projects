@@ -1,0 +1,122 @@
+[
+  {
+    "name": "5ebe1f746d38db42b775",
+    "visualType": "clusteredColumnChart",
+    "title": "CANARY - carries a fake role; Power BI must strip it",
+    "demonstrates": "Detector calibration: proves a save-diff reveals invalid roles."
+  },
+  {
+    "name": "0983c7dec817c3bc35d5",
+    "visualType": "funnel",
+    "title": "Funnel - leads reaching each stage",
+    "demonstrates": "Stage-by-stage drop-off from Lead to Customer."
+  },
+  {
+    "name": "26d359c8bbc5919ca20c",
+    "visualType": "ribbonChart",
+    "title": "Ribbon - channel rank by attributed revenue, per quarter",
+    "demonstrates": "Channel ranks shift by quarter (Display 2nd to 7th); a ribbon shows rank changes."
+  },
+  {
+    "name": "58fa94eebf2ec6dd4df3",
+    "visualType": "decompositionTreeVisual",
+    "title": "Decomposition - attributed revenue by region, channel group, channel",
+    "demonstrates": "Guided drill into where attributed revenue comes from."
+  },
+  {
+    "name": "b86118c379f1f07bdc51",
+    "visualType": "scatterChart",
+    "title": "Bubble - campaign spend vs attributed revenue (size = leads)",
+    "demonstrates": "Efficiency quadrant across 300 campaigns; bubble size adds volume."
+  },
+  {
+    "name": "fac5f6623aa00809d2dc",
+    "visualType": "hundredPercentStackedBarChart",
+    "title": "100% bar - where each channel sits in journeys",
+    "demonstrates": "Every channel is ~24/48/24 first/middle/last: why models agree at channel level."
+  },
+  {
+    "name": "b57dd162cffefb30354e",
+    "visualType": "lineChart",
+    "title": "Small multiples - CPL trend, one panel per region",
+    "demonstrates": "Same trend compared across five regions without overplotting."
+  },
+  {
+    "name": "a4a661e5c85fcbf9f8b4",
+    "visualType": "gauge",
+    "title": "Gauge - campaign aliases resolved vs 100% target",
+    "demonstrates": "A rate against a genuine service level."
+  },
+  {
+    "name": "cc05a81b9c66fa63ce23",
+    "visualType": "treemap",
+    "title": "Treemap - spend by region, then channel",
+    "demonstrates": "Hierarchical budget allocation; roles confirmed from Power BI's own bundle."
+  },
+  {
+    "name": "b1a72c52b51611f539a0",
+    "visualType": "cardVisual",
+    "title": "Headline KPIs",
+    "demonstrates": "Four headline numbers in one card visual."
+  },
+  {
+    "name": "f1b50bc4d70f1d44e132",
+    "visualType": "kpi",
+    "title": "KPI - revenue vs same period last year",
+    "demonstrates": "Current value, target and trend in one visual."
+  },
+  {
+    "name": "28c2f9c2aa3717c0b853",
+    "visualType": "lineStackedColumnComboChart",
+    "title": "Combo - leads (columns) vs cost per lead (line), by quarter",
+    "demonstrates": "Volume and unit cost need two axes."
+  },
+  {
+    "name": "f88e3607c8cbfdf9a921",
+    "visualType": "donutChart",
+    "title": "Donut - spend share by channel group",
+    "demonstrates": "Part-to-whole with six parts."
+  },
+  {
+    "name": "f11f59df64a2e9eed1ea",
+    "visualType": "waterfallChart",
+    "title": "Waterfall - credit the selected model moves vs Last Touch",
+    "demonstrates": "Signed shifts that net to zero: every model conserves revenue."
+  },
+  {
+    "name": "316690f8f9775cd0be67",
+    "visualType": "stackedAreaChart",
+    "title": "Stacked area - touchpoints by touch type over time",
+    "demonstrates": "Engagement mix and volume over time."
+  },
+  {
+    "name": "1d58e35f81360e0ac3dd",
+    "visualType": "advancedSlicerVisual",
+    "title": "Attribution model",
+    "demonstrates": "Button slicer driving every attributed measure."
+  },
+  {
+    "name": "e9dbf4c06376ccdc7134",
+    "visualType": "clusteredColumnChart",
+    "title": "Five models side by side - attributed revenue share by channel",
+    "demonstrates": "Shows channel-level convergence directly."
+  },
+  {
+    "name": "923c986d852ca806aa7e",
+    "visualType": "pivotTable",
+    "title": "Heatmap - lead-to-customer conversion, segment x channel group",
+    "demonstrates": "Colour scale centred on the portfolio rate (13.1%)."
+  },
+  {
+    "name": "8cbf6eb8b3c3e1139f32",
+    "visualType": "clusteredBarChart",
+    "title": "Top 10 campaigns where the attribution model matters most",
+    "demonstrates": "161 of 300 campaigns move >25% between models: this is where it changes decisions."
+  },
+  {
+    "name": "3a2a08e4a049b4971f9f",
+    "visualType": "tableEx",
+    "title": "Campaign scorecard - index coloured around fair share (1.0)",
+    "demonstrates": "Above 1.0 earns more than its share of budget."
+  }
+]

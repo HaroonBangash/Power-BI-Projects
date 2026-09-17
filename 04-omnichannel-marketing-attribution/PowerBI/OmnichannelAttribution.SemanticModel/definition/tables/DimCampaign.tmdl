@@ -1,0 +1,122 @@
+/// The single marketing dimension: campaign with its region, objective and channel. Channel is a level of the campaign hierarchy because every fact row's channel equals its campaign's channel (SQL check: 0 mismatches). Row-level security filters this table by Region.
+table DimCampaign
+	lineageTag: 213ec0e0-6ea9-5328-b7c3-e8267d068889
+
+	column CampaignID
+		dataType: string
+		lineageTag: 03c4ce62-6702-53e5-b3eb-3c9e87bab338
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampaignName
+		dataType: string
+		lineageTag: 54a92ea2-1d1f-5b31-b347-830a4479dca7
+		summarizeBy: none
+		sourceColumn: CampaignName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 04f27e18-47d8-5bde-9bce-aa81fb9ece72
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Objective
+		dataType: string
+		lineageTag: fb807b80-5c23-5929-9944-731b11313253
+		summarizeBy: none
+		sourceColumn: Objective
+
+		annotation SummarizationSetBy = Automatic
+
+	/// As supplied. Unreliable: 42% of spend predates it, so it is never used as a filter.
+	column StartDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: aa22a5ae-9e80-5ad0-ae00-64ba810b134f
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ChannelID
+		dataType: string
+		isHidden
+		lineageTag: b5b317b5-a8e4-5089-a3de-233e9863c1f5
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelName
+		dataType: string
+		lineageTag: 5a758703-89ac-59fe-84a4-643507d072a3
+		summarizeBy: none
+		sourceColumn: ChannelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelGroup
+		dataType: string
+		lineageTag: 583f9b22-579c-5982-8f0d-b459b2a7f2a5
+		summarizeBy: none
+		sourceColumn: ChannelGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	/// True for Paid Search, Paid Social and Paid Display.
+	column IsPaidMedia
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8249496a-c1c0-5caa-883c-91e7cc0ef079
+		summarizeBy: none
+		sourceColumn: IsPaidMedia
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy Channel
+		lineageTag: 5e711a57-5380-58c8-a140-b439ade60e61
+
+		level ChannelGroup
+			lineageTag: b8624b85-2f03-5bfc-9925-ce1aa9273e3c
+			column: ChannelGroup
+
+		level ChannelName
+			lineageTag: da4f70ab-63a9-591c-9e2b-0bd2e611360f
+			column: ChannelName
+
+		level CampaignName
+			lineageTag: 0dc9da88-ec50-5383-b5f4-14554fa8abac
+			column: CampaignName
+
+	hierarchy 'Region Campaign'
+		lineageTag: 8ae5ea68-8a0b-5379-937a-07cdbe323f8f
+
+		level Region
+			lineageTag: 390754f1-7693-59f1-8616-eb9ef2ed355e
+			column: Region
+
+		level CampaignName
+			lineageTag: 8fe3b866-a630-5647-98a5-5561c7c126e7
+			column: CampaignName
+
+	partition DimCampaign = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimCampaign = Source{[Schema="analytics",Item="vw_DimCampaign"]}[Data]
+				in
+				    analytics_vw_DimCampaign
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

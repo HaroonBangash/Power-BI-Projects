@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "906b2fa2cd92650b2060",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "width": 1080,
+    "height": 44,
+    "tabOrder": 23
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Data note.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Synthetic dataset. Ad and CRM extracts are on different scales (about 5,100 clicks per lead vs 20-50 typical in B2B), so channel cost is about 35x revenue: compare ROAS, CPL and CAC between channels, not with benchmarks. Figures count activity by the as-of date; January 2024 revenue is low: the data starts then and deals take about a month to close.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "69f28b164716c97efdd7",
+  "position": {
+    "x": 184,
+    "y": 668,
+    "z": 0,
+    "width": 1080,
+    "height": 44,
+    "tabOrder": 24
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading this page.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Stages count leads that had reached at least that stage by the as-of date. A heatmap cell is shaded only when its rate differs from the portfolio by more than chance (|z| >= 2); unshaded cells are within noise. The cohort line omits cohorts younger than the 58-day conversion window.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA387"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,17 @@
+/// Dynamic regional security: a user sees the campaigns - and through them all spend, leads, touches and attributed credit - of the regions mapped to their email in SecurityUserAccess. ALL sees everything; an unmapped user sees nothing.
+role 'Regional Marketing'
+	modelPermission: read
+
+	tablePermission DimCampaign =
+			VAR UserRegions =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[Region] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserRegions || DimCampaign[Region] IN UserRegions
+
+	tablePermission SecurityUserAccess = SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+
+	annotation PBI_Id = 31344070c3c654deb203c4d8d2b6fa3e
+

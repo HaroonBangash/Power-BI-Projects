@@ -1,0 +1,113 @@
+/// Power Query cleansing showcase: the 900 messy campaign aliases resolved to canonical campaigns by documented rules R1-R4, and checked against the supplied mapping (CampaignID). ResolutionStatus reports Resolved, Unresolved or Mismatch per alias.
+table CampaignAliasResolution
+	lineageTag: df4f7be4-b811-5af7-8699-df625b465a3f
+
+	column RawCampaignKey
+		dataType: string
+		lineageTag: d9b1c28e-b8b1-5f2e-9a21-f938a9c9c8df
+		summarizeBy: none
+		sourceColumn: RawCampaignKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RawCampaignName
+		dataType: string
+		lineageTag: 160d734e-5c57-5115-8078-1c9a83420c5e
+		summarizeBy: none
+		sourceColumn: RawCampaignName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Supplied mapping - the answer key.
+	column CampaignID
+		dataType: string
+		isHidden
+		lineageTag: 53a6bfea-f71a-5f49-a058-a1639ded161c
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Normalised name after rules R1-R4.
+	column MatchKey
+		dataType: string
+		lineageTag: 40c6b79e-ca0c-5c2c-9494-343242ae7c35
+		summarizeBy: none
+		sourceColumn: MatchKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResolvedCampaignID
+		dataType: string
+		lineageTag: 22e2c9ac-674c-5604-932b-7ed583bc3f15
+		summarizeBy: none
+		sourceColumn: ResolvedCampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResolvedCampaignName
+		dataType: string
+		lineageTag: a133b9d3-7904-5f92-84ad-b542c7e6622d
+		summarizeBy: none
+		sourceColumn: ResolvedCampaignName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AliasStyle
+		dataType: string
+		lineageTag: ecae229c-a8b9-53b3-94ce-6a1501ff0b9f
+		summarizeBy: none
+		sourceColumn: AliasStyle
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResolutionStatus
+		dataType: string
+		lineageTag: b5697891-40b5-53d5-a0f9-86cdb6f62234
+		summarizeBy: none
+		sourceColumn: ResolutionStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CampaignAliasResolution = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    Aliases = Source{[Schema="analytics",Item="vw_CampaignAlias"]}[Data],
+				    Campaigns = Source{[Schema="analytics",Item="vw_DimCampaign"]}[Data],
+				    // Documented cleansing rules (Documentation/data_quality_report.md):
+				    //   R1 case-insensitive                 R2 space, hyphen, underscore are one separator
+				    //   R3 separator runs collapse, trimmed R4 region synonym: AU-NZ is ANZ
+				    RegionSynonyms = {{"au nz", "anz"}},
+				    Normalise = (name as text) as text =>
+				        let
+				            Lowered = Text.Lower(Text.Trim(name)),
+				            Unified = Text.Replace(Text.Replace(Lowered, "-", " "), "_", " "),
+				            Joined = Text.Combine(List.Select(Text.Split(Unified, " "), each _ <> ""), " "),
+				            Synonymised = List.Accumulate(RegionSynonyms, Joined,
+				                (state, pair) => if Text.StartsWith(state, pair{0} & " ")
+				                                 then pair{1} & Text.Middle(state, Text.Length(pair{0}))
+				                                 else state)
+				        in
+				            Synonymised,
+				    CanonicalKeys = Table.AddColumn(Table.SelectColumns(Campaigns, {"CampaignID", "CampaignName"}),
+				                                    "MatchKey", each Normalise([CampaignName]), type text),
+				    AliasKeys = Table.AddColumn(Aliases, "MatchKey", each Normalise([RawCampaignName]), type text),
+				    Matched = Table.NestedJoin(AliasKeys, {"MatchKey"}, CanonicalKeys, {"MatchKey"}, "Canonical", JoinKind.LeftOuter),
+				    Expanded = Table.ExpandTableColumn(Matched, "Canonical", {"CampaignID", "CampaignName"},
+				                                       {"ResolvedCampaignID", "ResolvedCampaignName"}),
+				    WithStyle = Table.AddColumn(Expanded, "AliasStyle",
+				                                each Text.AfterDelimiter([RawCampaignKey], "_", {0, RelativePosition.FromEnd}), type text),
+				    WithStatus = Table.AddColumn(WithStyle, "ResolutionStatus",
+				                                 each if [ResolvedCampaignID] = null then "Unresolved"
+				                                      else if [ResolvedCampaignID] = [CampaignID] then "Resolved"
+				                                      else "Mismatch", type text),
+				    Typed = Table.TransformColumnTypes(WithStatus, {{"ResolvedCampaignID", type text}, {"ResolvedCampaignName", type text}})
+				in
+				    Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

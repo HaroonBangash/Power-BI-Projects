@@ -1,0 +1,336 @@
+/// Accumulating snapshot: one row per lead with its opportunity and revenue milestones. Stage is derived from evidence, not the stale CRM label. CreatedDate is the active date; opportunity and revenue dates are inactive role-playing relationships.
+table FactLeadFunnel
+	lineageTag: 66df5fd7-dc84-5b1c-819d-249a63ae52af
+
+	column LeadID
+		dataType: string
+		isHidden
+		lineageTag: ce86047d-d876-5789-a32f-cf9f8e6d55fa
+		summarizeBy: none
+		sourceColumn: LeadID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 7e7a5fef-d4df-5cde-9a31-e9b349d50fde
+		summarizeBy: none
+		sourceColumn: CreatedDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampaignID
+		dataType: string
+		isHidden
+		lineageTag: 31aa6ad5-40a1-5c59-9709-819ae9bd262e
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 26ce0050-dd71-58e6-bcd2-926d29d53684
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: f7266739-a3ed-52fa-aa71-48662322e295
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column EstimatedValue
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 60ff9a4e-821b-583a-ba4b-d2467809ad03
+		summarizeBy: sum
+		sourceColumn: EstimatedValue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Stage as supplied by the CRM. Stale for 2,428 won leads - see DerivedStage.
+	column LatestStageLabel
+		dataType: string
+		lineageTag: ab6a32ea-b518-5b31-b609-7c9c7ddb35cb
+		summarizeBy: none
+		sourceColumn: LatestStageLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Stage from evidence: revenue > opportunity > CRM label.
+	column DerivedStage
+		dataType: string
+		lineageTag: a4eb8c92-8bb6-5bee-b604-69d89c52a9ff
+		summarizeBy: none
+		sourceColumn: DerivedStage
+		sortByColumn: StageRank
+
+		annotation SummarizationSetBy = Automatic
+
+	column StageRank
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 297484a4-c1f6-548f-a010-e494eeb5a07f
+		summarizeBy: none
+		sourceColumn: StageRank
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReachedMQL
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5e8f7ee0-6a3b-5edc-a861-ed9fe1d03f1c
+		summarizeBy: none
+		sourceColumn: ReachedMQL
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReachedSQL
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: aba28026-b44f-5138-bf2e-18e1c79f19ab
+		summarizeBy: none
+		sourceColumn: ReachedSQL
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasOpportunity
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: deb4ce8b-b17f-50b0-aaad-65388b679338
+		summarizeBy: none
+		sourceColumn: HasOpportunity
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWon
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9dc1f6df-ad7c-5efb-9a4d-460b6fd2c605
+		summarizeBy: none
+		sourceColumn: IsWon
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsStageLabelStale
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 22279dd1-06b8-55ee-9082-d1f07e5b0b55
+		summarizeBy: none
+		sourceColumn: IsStageLabelStale
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Touches in the lead's journey (1-6).
+	column TouchCount
+		dataType: int64
+		formatString: 0
+		lineageTag: bbcb3288-9652-5f58-accc-f7872524c7f4
+		summarizeBy: none
+		sourceColumn: TouchCount
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Distinct channels in the lead's journey.
+	column DistinctChannels
+		dataType: int64
+		formatString: 0
+		lineageTag: 294cabde-afc7-5efd-b24b-b46d8121e1d0
+		summarizeBy: none
+		sourceColumn: DistinctChannels
+
+		annotation SummarizationSetBy = Automatic
+
+	column SequenceContradictsDate
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2320811d-f401-55f8-ab84-83ae13053f62
+		summarizeBy: none
+		sourceColumn: SequenceContradictsDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpportunityID
+		dataType: string
+		isHidden
+		lineageTag: 0c06b431-0bde-56ae-951a-c33c327ba99d
+		summarizeBy: none
+		sourceColumn: OpportunityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpportunityCreatedDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 15ebfb74-887e-5e71-b1b7-a977152ebfcf
+		summarizeBy: none
+		sourceColumn: OpportunityCreatedDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column OpportunityValue
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 2bb75cd0-7a21-5d31-b76c-8719e1ef0407
+		summarizeBy: sum
+		sourceColumn: OpportunityValue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Status at extract time, seven weeks after the as-of date. Use OpportunityStatusAsOf.
+	column OpportunityStatus
+		dataType: string
+		isHidden
+		lineageTag: 744ee3d5-00f7-5c68-8974-25502f5d9ea5
+		summarizeBy: none
+		sourceColumn: OpportunityStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOpportunityAfterAsOf
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3ba0746a-b31a-540e-aa7a-eee57d97428f
+		summarizeBy: none
+		sourceColumn: IsOpportunityAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column RevenueID
+		dataType: string
+		isHidden
+		lineageTag: 653d6f1c-560b-5f91-bcb8-b85581b16af7
+		summarizeBy: none
+		sourceColumn: RevenueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column RevenueDate
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: d07d737d-6d83-511e-9f06-706808b43f33
+		summarizeBy: none
+		sourceColumn: RevenueDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column RevenueUSD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: d7a91e1e-1dff-5b88-af89-40500be9c6e6
+		summarizeBy: sum
+		sourceColumn: RevenueUSD
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsRevenueAfterAsOf
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a246a955-163e-5640-a8da-277c5cdaeb99
+		summarizeBy: none
+		sourceColumn: IsRevenueAfterAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Days from lead creation to its opportunity (2-39).
+	column DaysLeadToOpportunity
+		dataType: int64
+		formatString: 0
+		lineageTag: adf89953-654f-595d-83bc-66a7a34b25a0
+		summarizeBy: none
+		sourceColumn: DaysLeadToOpportunity
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Days from opportunity to booked revenue (1-19).
+	column DaysOpportunityToRevenue
+		dataType: int64
+		formatString: 0
+		lineageTag: ef4951b9-5993-59a0-8ead-04bd1e43bc38
+		summarizeBy: none
+		sourceColumn: DaysOpportunityToRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The opportunity existed by the as-of date.
+	column IsOpportunityByAsOf
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d680f964-1b1e-58e7-b204-27ed7b597ac7
+		summarizeBy: none
+		sourceColumn: IsOpportunityByAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Revenue was booked by the as-of date.
+	column IsWonByAsOf
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e90044bf-0d33-5dbb-b260-3fe86afe8ede
+		summarizeBy: none
+		sourceColumn: IsWonByAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Status on the as-of date: Closed Won if booked by then, Open if won later or still open, Closed Lost (the source has no loss date, so a lost deal opened by the as-of date is taken as lost by then).
+	column OpportunityStatusAsOf
+		dataType: string
+		lineageTag: 3ca38952-97de-5cce-8206-0d003ee05648
+		summarizeBy: none
+		sourceColumn: OpportunityStatusAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Furthest funnel stage reached by the as-of date: 5 won, 4 opportunity, else the CRM stage capped at SQL.
+	column StageRankAsOf
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1ea41bba-4856-541c-87e9-218e8bb2f3a1
+		summarizeBy: none
+		sourceColumn: StageRankAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactLeadFunnel = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactLeadFunnel = Source{[Schema="analytics",Item="vw_FactLeadFunnel"]}[Data]
+				in
+				    analytics_vw_FactLeadFunnel
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

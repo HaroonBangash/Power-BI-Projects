@@ -1,0 +1,51 @@
+relationship 2198603c-ef4e-5f51-8a89-2c844bfb8439
+	fromColumn: FactAdSpend.Date
+	toColumn: DimDate.Date
+
+relationship 6697d52f-8bbe-538d-a622-7e0346d48443
+	fromColumn: FactLeadFunnel.CreatedDate
+	toColumn: DimDate.Date
+
+relationship c2793de7-e841-5e0b-a2b2-6c31c09b30b3
+	isActive: false
+	fromColumn: FactLeadFunnel.OpportunityCreatedDate
+	toColumn: DimDate.Date
+
+relationship 6352ba29-9c12-5c39-bc0f-47399c717d61
+	isActive: false
+	fromColumn: FactLeadFunnel.RevenueDate
+	toColumn: DimDate.Date
+
+relationship 0af6e0b6-18bd-5927-892c-0aefed2dc4dc
+	fromColumn: FactTouchpoint.TouchDate
+	toColumn: DimDate.Date
+
+relationship 68ba5b52-a38f-52bb-88ed-1d6dde6b61b7
+	fromColumn: FactAttributionCredit.TouchDate
+	toColumn: DimDate.Date
+
+relationship 1068efe1-e270-51c1-bc82-f60c960f5c56
+	isActive: false
+	fromColumn: FactAttributionCredit.RevenueDate
+	toColumn: DimDate.Date
+
+relationship faa1660a-ae03-5749-b093-4b4b2a3d9fee
+	fromColumn: FactAdSpend.CampaignID
+	toColumn: DimCampaign.CampaignID
+
+relationship 804afac4-54e5-5395-988b-de47016a4d0c
+	fromColumn: FactLeadFunnel.CampaignID
+	toColumn: DimCampaign.CampaignID
+
+relationship d73e7c0c-8065-5bdf-9bc9-b31994da233b
+	fromColumn: FactTouchpoint.CampaignID
+	toColumn: DimCampaign.CampaignID
+
+relationship c26050dc-425e-59d3-893b-877c4feef113
+	fromColumn: FactAttributionCredit.CampaignID
+	toColumn: DimCampaign.CampaignID
+
+relationship 18cef103-06dd-52f7-a103-f057494ccd9c
+	fromColumn: CampaignAliasResolution.CampaignID
+	toColumn: DimCampaign.CampaignID
+

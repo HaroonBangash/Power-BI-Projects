@@ -1,0 +1,65 @@
+/// Disconnected attribution-model selector. Deliberately has no relationship: measures read the selection and filter FactAttributionCredit[ModelKey] to it, falling back to the default model when none or several are selected - credit from different models must never be summed.
+table DimAttributionModel
+	lineageTag: 25845cc7-2787-5afc-9c67-e6534b204e6b
+
+	column ModelKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6ab55711-ff64-50c1-88f2-e068c24b358c
+		summarizeBy: none
+		sourceColumn: ModelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelName
+		dataType: string
+		lineageTag: 95e842b4-99fa-5f77-8cbd-d54c14efdd52
+		summarizeBy: none
+		sourceColumn: ModelName
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d5fa4c2c-a152-5831-9b9f-39ca32a6d1de
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 1220bee5-6e21-5ef6-b70b-3520c9d2514f
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	/// sum(v^2)/sum(v) of each lead's credited revenue per campaign, by model: the variance term of the campaign signal test (SQL 07).
+	column CampaignDispersionUSD
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 752cdddd-d737-5a29-995b-1e9bb8ec68e6
+		summarizeBy: none
+		sourceColumn: CampaignDispersionUSD
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimAttributionModel = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimAttributionModel = Source{[Schema="analytics",Item="vw_DimAttributionModel"]}[Data]
+				in
+				    analytics_vw_DimAttributionModel
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

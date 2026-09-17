@@ -1,0 +1,12 @@
+/// SQL Server instance hosting MarketingAttributionBI. The only place the server is named.
+expression SqlServer = "localhost\SQLEXPRESS" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: c5539c7b-f322-520b-91de-4a75842d2f7c
+
+	annotation PBI_ResultType = Text
+
+/// Database holding the analytics views.
+expression SqlDatabase = "MarketingAttributionBI" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 9883fffd-eee8-51a6-b9f5-18ec943e39a5
+
+	annotation PBI_ResultType = Text
+
