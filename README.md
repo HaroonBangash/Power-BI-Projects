@@ -240,22 +240,17 @@ page shows the distribution against its own chance baseline instead of ranking n
 
 ## Earlier reports
 
-Standalone `.pbix` files from earlier work. Download and open in Power BI Desktop —
-GitHub cannot preview them in the browser.
+Eight reports built before the projects above - Adventure Works, telecom churn for a
+PwC virtual internship, S&P 500 prices, Spotify audio features, pharmaceutical sales,
+food delivery, marketing campaigns and HR interview outcomes.
 
-| File | Subject |
-|---|---|
-| `Adventure_work PBI (1).pbix` | Adventure Works sales and profitability |
-| `Food Delivery Analytics.pbix` | Delivery operations |
-| `HR Analytics.pbix` | Workforce and attrition |
-| `Market Campaign Analytics.pbix` | Campaign performance |
-| `Pharmacueticals company.pbix` | Pharmaceutical sales |
-| `Pwc_project.pbix` | PwC virtual internship |
-| `Spotify Project PBI.pbix` | Listening data |
-| `s&p 500.pbix` | Index constituents and returns |
+Each is now documented with a write-up and a screenshot of every page - **61 pages in all** - in **[earlier-reports/](earlier-reports/)**.
+
+These are `.pbix` files authored in the Power BI interface, with no SQL build and no
+automated validation. The data is embedded, so each opens in Desktop without its
+original source dataset.
 
 ---
-
 ## Licence
 
 [MIT](LICENSE) for the code. Datasets are synthetic, included so each build is
