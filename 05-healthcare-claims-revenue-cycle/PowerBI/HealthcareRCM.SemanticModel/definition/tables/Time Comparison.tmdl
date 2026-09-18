@@ -1,0 +1,69 @@
+/// Applies a time comparison to whatever measure a visual shows. Higher precedence than Date Basis, so the comparison wraps the basis: 'prior month on submission date' means the month before, measured on submission. A comparison is BLANK where there is nothing to compare against, rather than reporting the whole of a figure as growth.
+table 'Time Comparison'
+	lineageTag: 615bbf12-3a81-5da3-8555-da745e0cb668
+
+	calculationGroup
+		precedence: 20
+
+		/// The measure as it stands, with no comparison applied.
+		calculationItem 'Selected period' = SELECTEDMEASURE ()
+
+		/// The same measure one month earlier. Blank in the first month the data covers.
+		calculationItem 'Prior month' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    DATEADD ( DimDate[Date], -1, MONTH )
+				)
+
+		/// This month less last month.
+		calculationItem 'Month over month' =
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -1, MONTH ) )
+				RETURN
+				    IF ( NOT ISBLANK ( PriorValue ), CurrentValue - PriorValue )
+
+		/// The change as a share of last month. Blank when last month is blank or zero, because a percentage of nothing is not infinity - it is unanswerable.
+		calculationItem 'Month over month %' =
+				VAR CurrentValue = SELECTEDMEASURE ()
+				VAR PriorValue = CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -1, MONTH ) )
+				RETURN
+				    IF ( PriorValue <> 0, DIVIDE ( CurrentValue - PriorValue, PriorValue ) )
+
+			formatStringDefinition = "+0.0%;-0.0%;0.0%"
+
+		/// The same measure twelve months earlier. Blank where the data does not reach back that far, rather than comparing against nothing.
+		calculationItem 'Prior year' =
+				VAR Target = EDATE ( MIN ( DimDate[Date] ), -12 )
+				VAR FirstDay = CALCULATE ( MIN ( DimDate[Date] ), REMOVEFILTERS ( DimDate ) )
+				RETURN
+				    IF (
+				        Target >= FirstDay,
+				        CALCULATE ( SELECTEDMEASURE (), DATEADD ( DimDate[Date], -12, MONTH ) )
+				    )
+
+		/// The measure summed over the twelve months ending in the current one. A stock measure is unaffected by this, which is correct: a receivable has no twelve-month total.
+		calculationItem 'Trailing 12 months' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    DATESINPERIOD ( DimDate[Date], MAX ( DimDate[Date] ), -12, MONTH )
+				)
+
+	column Comparison
+		dataType: string
+		lineageTag: 56583b45-9d8b-5659-858e-47fa66fe45cd
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a9cce59c-ca12-5d2a-8f48-8e6716fc16e7
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

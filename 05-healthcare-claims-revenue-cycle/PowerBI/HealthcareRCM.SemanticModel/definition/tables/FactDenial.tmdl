@@ -1,0 +1,149 @@
+/// One row per denial, 7,824 of them - exactly one per denied claim. Carries the allowed amount so the denied value can be sliced by reason without reaching back to the claim header.
+table FactDenial
+	lineageTag: c3414631-cd31-5bf2-93cf-f999eb95f540
+
+	column DenialKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 713b50fe-5adf-5efc-8961-0e1bdd934ba8
+		summarizeBy: none
+		sourceColumn: DenialKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DenialID
+		dataType: string
+		isHidden
+		lineageTag: 65ac4104-9e1a-5ca6-9430-bf99f228546b
+		summarizeBy: none
+		sourceColumn: DenialID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimID
+		dataType: string
+		isHidden
+		lineageTag: 57a8d09b-d8a2-5696-9aca-151c692ce1a3
+		summarizeBy: none
+		sourceColumn: ClaimID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Active. Always equal to the adjudication date in this file.
+	column DenialDateKey
+		dataType: int64
+		isHidden
+		lineageTag: f8b8ed0f-c4ca-59b8-91e8-a520d8d18b10
+		summarizeBy: none
+		sourceColumn: DenialDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Inactive.
+	column SubmittedDateKey
+		dataType: int64
+		isHidden
+		lineageTag: f1f06871-e1b5-522e-aad5-ff164d377622
+		summarizeBy: none
+		sourceColumn: SubmittedDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DenialReasonKey
+		dataType: int64
+		isHidden
+		lineageTag: 9df2a11e-cef3-51e0-8a02-708f24369fbf
+		summarizeBy: none
+		sourceColumn: DenialReasonKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DenialStatusKey
+		dataType: int64
+		isHidden
+		lineageTag: 814c68d2-e1fb-576d-87db-e4502f5c0720
+		summarizeBy: none
+		sourceColumn: DenialStatusKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		lineageTag: 840e967b-7265-58c2-b557-60c2f08333b6
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		lineageTag: f393f2be-9585-5360-adf7-54ebb521f954
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		lineageTag: e660d5d0-a2cb-5886-a365-c56fca731588
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		lineageTag: 7180c6b0-5467-5332-9b4b-138e71e75147
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeniedAllowed
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 9be67e11-b3ec-5b62-8c24-4ea084afdc75
+		summarizeBy: sum
+		sourceColumn: DeniedAllowed
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeniedBilled
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 061ebb06-c850-5f93-b9c0-25aec707e28a
+		summarizeBy: sum
+		sourceColumn: DeniedBilled
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToDeny
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c63a96c4-05c6-5ed1-ba4a-80d77ad3ad0f
+		summarizeBy: sum
+		sourceColumn: DaysToDeny
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactDenial = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactDenial = Source{[Schema="analytics",Item="vw_FactDenial"]}[Data]
+				in
+				    analytics_vw_FactDenial
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

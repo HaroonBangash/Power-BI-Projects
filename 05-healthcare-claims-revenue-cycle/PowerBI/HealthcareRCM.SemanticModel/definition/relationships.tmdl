@@ -1,0 +1,181 @@
+relationship c69a8428-c223-5ad0-9ddd-bb2eb7eec1a0
+	fromColumn: FactClaim.ServiceDateKey
+	toColumn: DimDate.DateKey
+
+relationship ef43e4d1-b6b4-57f6-8773-0a1b4fdef998
+	isActive: false
+	fromColumn: FactClaim.SubmittedDateKey
+	toColumn: DimDate.DateKey
+
+relationship adc9ffc9-df75-577b-85f0-6f09f5b472c9
+	isActive: false
+	fromColumn: FactClaim.ProcessedDateKey
+	toColumn: DimDate.DateKey
+
+relationship 40a81431-7051-531e-b034-f7a43633301c
+	isActive: false
+	fromColumn: FactClaim.ResolvedDateKey
+	toColumn: DimDate.DateKey
+
+relationship faf9af59-97a6-5639-bb65-abf8f3cc78a1
+	fromColumn: FactClaim.BeneficiaryKey
+	toColumn: DimPatient.BeneficiaryKey
+
+relationship c8695271-3309-5974-9d44-323b4f880181
+	fromColumn: FactClaim.ProviderKey
+	toColumn: DimProvider.ProviderKey
+
+relationship 0f2e2459-9880-5dc5-b716-b4871c56a9f4
+	fromColumn: FactClaim.FacilityKey
+	toColumn: DimFacility.FacilityKey
+
+relationship fb8e382c-5f8c-5cca-a75d-77d5cef29837
+	fromColumn: FactClaim.PayerKey
+	toColumn: DimPayer.PayerKey
+
+relationship 96d2f0c2-7a65-5537-87b5-a788ec8185fa
+	fromColumn: FactClaim.ClaimStatusKey
+	toColumn: DimClaimStatus.ClaimStatusKey
+
+relationship 811047d4-44e4-5208-81b2-b12ed2d88fb6
+	fromColumn: FactClaimLine.ServiceDateKey
+	toColumn: DimDate.DateKey
+
+relationship 4318f731-03f7-5ad5-ad6e-ca593b42bab3
+	fromColumn: FactClaimLine.ProcedureKey
+	toColumn: DimProcedure.ProcedureKey
+
+relationship 5a9c1325-3a94-5ca4-b2ca-31de053c68ae
+	fromColumn: FactClaimLine.DiagnosisKey
+	toColumn: DimDiagnosis.DiagnosisKey
+
+relationship 0472525a-7bff-5cd5-886a-c70ce9320410
+	fromColumn: FactClaimLine.BeneficiaryKey
+	toColumn: DimPatient.BeneficiaryKey
+
+relationship 8bf02496-9e2f-55df-9b70-8eb393913773
+	fromColumn: FactClaimLine.ProviderKey
+	toColumn: DimProvider.ProviderKey
+
+relationship b961af7c-a9ba-58aa-b0aa-22f85a903b55
+	fromColumn: FactClaimLine.FacilityKey
+	toColumn: DimFacility.FacilityKey
+
+relationship a62c66b3-9227-5791-bd6f-c831f54ea01e
+	fromColumn: FactClaimLine.PayerKey
+	toColumn: DimPayer.PayerKey
+
+relationship 112f5153-a36f-529e-a07f-0a6470514a84
+	fromColumn: FactClaimLine.ClaimStatusKey
+	toColumn: DimClaimStatus.ClaimStatusKey
+
+relationship 6696ee03-f1dc-57e1-b18f-dcc806144f16
+	fromColumn: FactPayment.PaymentDateKey
+	toColumn: DimDate.DateKey
+
+relationship 7bbc1ada-6ae8-5f1c-903d-6330df0694e8
+	isActive: false
+	fromColumn: FactPayment.SubmittedDateKey
+	toColumn: DimDate.DateKey
+
+relationship 7c23bfe1-7e5b-5d45-ba12-111c394716d6
+	fromColumn: FactPayment.PaymentMethodKey
+	toColumn: DimPaymentMethod.PaymentMethodKey
+
+relationship 8d07d936-a39a-5180-a78e-611e270fea18
+	fromColumn: FactPayment.BeneficiaryKey
+	toColumn: DimPatient.BeneficiaryKey
+
+relationship f347fc8d-f431-59b7-9982-948d75a6d8e2
+	fromColumn: FactPayment.ProviderKey
+	toColumn: DimProvider.ProviderKey
+
+relationship 1899d024-9032-548c-a2ca-6eb2a130b3f6
+	fromColumn: FactPayment.FacilityKey
+	toColumn: DimFacility.FacilityKey
+
+relationship d7db31e0-1762-5633-9d0d-1ae39f74bf6c
+	fromColumn: FactPayment.PayerKey
+	toColumn: DimPayer.PayerKey
+
+relationship 0353b01f-69be-51c9-8de4-841373444ffa
+	fromColumn: FactDenial.DenialDateKey
+	toColumn: DimDate.DateKey
+
+relationship 03a98247-15c0-5242-b266-6c55ca322fde
+	isActive: false
+	fromColumn: FactDenial.SubmittedDateKey
+	toColumn: DimDate.DateKey
+
+relationship 9cb4dfba-4ed6-575e-acc9-886efe2836c0
+	fromColumn: FactDenial.DenialReasonKey
+	toColumn: DimDenialReason.DenialReasonKey
+
+relationship f25be517-e0e2-523c-b7f6-e40dd96abee4
+	fromColumn: FactDenial.DenialStatusKey
+	toColumn: DimDenialStatus.DenialStatusKey
+
+relationship 149946ef-28e2-570f-9788-af244013d45e
+	fromColumn: FactDenial.BeneficiaryKey
+	toColumn: DimPatient.BeneficiaryKey
+
+relationship c63898ab-0436-598a-986d-c86cc0bb1116
+	fromColumn: FactDenial.ProviderKey
+	toColumn: DimProvider.ProviderKey
+
+relationship 58024b93-9da1-59fd-980c-86813b8a7c3b
+	fromColumn: FactDenial.FacilityKey
+	toColumn: DimFacility.FacilityKey
+
+relationship b1be4793-dba9-58a4-8d41-4040f7fbc30a
+	fromColumn: FactDenial.PayerKey
+	toColumn: DimPayer.PayerKey
+
+relationship be679344-182c-50b2-96a7-d563f36fbdf1
+	fromColumn: FactARSnapshot.SnapshotDateKey
+	toColumn: DimDate.DateKey
+
+relationship 48504e51-a571-5efd-baf8-6bf4a042e985
+	fromColumn: FactARSnapshot.ARBucketKey
+	toColumn: DimARBucket.ARBucketKey
+
+relationship 1cf33c5c-55f0-5559-93bb-60db026b3885
+	fromColumn: FactARSnapshot.BeneficiaryKey
+	toColumn: DimPatient.BeneficiaryKey
+
+relationship d0fa414b-17cd-50a0-8471-bdd3b7e64572
+	fromColumn: FactARSnapshot.ProviderKey
+	toColumn: DimProvider.ProviderKey
+
+relationship 2cca0e35-9d31-56af-94d1-fb1ed6c219c0
+	fromColumn: FactARSnapshot.FacilityKey
+	toColumn: DimFacility.FacilityKey
+
+relationship 5b65db73-b7e3-5f1b-8177-40257fe938e8
+	fromColumn: FactARSnapshot.PayerKey
+	toColumn: DimPayer.PayerKey
+
+relationship c12e7962-81f4-5435-af62-80f867dba16d
+	fromColumn: FactARMovement.MovementDateKey
+	toColumn: DimDate.DateKey
+
+relationship d98c9ed0-8b14-5f31-953e-6b1a9798b44d
+	fromColumn: FactARMovement.ARMovementTypeKey
+	toColumn: DimARMovementType.ARMovementTypeKey
+
+relationship 877d5587-f10f-543c-80c6-5053f91305fc
+	fromColumn: FactARMovement.BeneficiaryKey
+	toColumn: DimPatient.BeneficiaryKey
+
+relationship 7866fcbf-6b7b-50bf-bd18-c91b758cf484
+	fromColumn: FactARMovement.ProviderKey
+	toColumn: DimProvider.ProviderKey
+
+relationship 0ca0ff1d-7f01-50ce-a9ff-fb04c65c0c2a
+	fromColumn: FactARMovement.FacilityKey
+	toColumn: DimFacility.FacilityKey
+
+relationship 4b344f81-ba50-5821-9126-6decc0d85eef
+	fromColumn: FactARMovement.PayerKey
+	toColumn: DimPayer.PayerKey
+

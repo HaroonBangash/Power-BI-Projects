@@ -1,0 +1,75 @@
+/// Paid, Pending or Denied. Mutually exclusive and complete: a paid claim has exactly one payment and no denial, a denied claim exactly one denial and no payment, a pending claim neither.
+table DimClaimStatus
+	lineageTag: 3d1a3633-2329-52f3-a094-0d1115f7c8a3
+
+	column ClaimStatusKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: e63d9cdb-ec98-542f-8124-ef40b3deaac9
+		summarizeBy: none
+		sourceColumn: ClaimStatusKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimStatus
+		dataType: string
+		lineageTag: 265d078c-d2f7-539a-9f1d-d28915fc4ea6
+		summarizeBy: none
+		sourceColumn: ClaimStatus
+		sortByColumn: StatusOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ebb61bed-9c5d-53a1-a5e5-267602c8de4b
+		summarizeBy: none
+		sourceColumn: StatusOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Paid or denied. A pending claim in this file is never resolved.
+	column IsResolved
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1f07f72e-9e0e-51bb-8ae2-355b718c143e
+		summarizeBy: none
+		sourceColumn: IsResolved
+
+		annotation SummarizationSetBy = Automatic
+
+	/// TRUE for Pending: the claims carried as a receivable.
+	column IsOpenAR
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b90a16bc-bdd1-56ff-8ecc-ad2c504d5870
+		summarizeBy: none
+		sourceColumn: IsOpenAR
+
+		annotation SummarizationSetBy = Automatic
+
+	/// What the status means here, shown on the method page.
+	column Definition
+		dataType: string
+		lineageTag: f2d0ed95-72dd-57c8-99cd-4fbd61e3fdeb
+		summarizeBy: none
+		sourceColumn: Definition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimClaimStatus = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimClaimStatus = Source{[Schema="analytics",Item="vw_DimClaimStatus"]}[Data]
+				in
+				    analytics_vw_DimClaimStatus
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

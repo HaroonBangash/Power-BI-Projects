@@ -1,0 +1,501 @@
+ProviderID,ProviderName,Specialty,FacilityID
+PR00001,Provider 00001,Neurology,F010
+PR00002,Provider 00002,Neurology,F013
+PR00003,Provider 00003,Orthopaedics,F026
+PR00004,Provider 00004,Radiology,F029
+PR00005,Provider 00005,General Medicine,F013
+PR00006,Provider 00006,Radiology,F008
+PR00007,Provider 00007,Orthopaedics,F019
+PR00008,Provider 00008,Neurology,F012
+PR00009,Provider 00009,Radiology,F013
+PR00010,Provider 00010,ENT,F016
+PR00011,Provider 00011,Oncology,F023
+PR00012,Provider 00012,ENT,F026
+PR00013,Provider 00013,Radiology,F022
+PR00014,Provider 00014,Cardiology,F030
+PR00015,Provider 00015,Radiology,F005
+PR00016,Provider 00016,Orthopaedics,F006
+PR00017,Provider 00017,Neurology,F020
+PR00018,Provider 00018,Neurology,F016
+PR00019,Provider 00019,Cardiology,F021
+PR00020,Provider 00020,Dermatology,F011
+PR00021,Provider 00021,Cardiology,F025
+PR00022,Provider 00022,Orthopaedics,F010
+PR00023,Provider 00023,Orthopaedics,F015
+PR00024,Provider 00024,Dermatology,F004
+PR00025,Provider 00025,Orthopaedics,F015
+PR00026,Provider 00026,Radiology,F003
+PR00027,Provider 00027,Dermatology,F018
+PR00028,Provider 00028,Dermatology,F022
+PR00029,Provider 00029,ENT,F019
+PR00030,Provider 00030,Dermatology,F006
+PR00031,Provider 00031,ENT,F029
+PR00032,Provider 00032,Dermatology,F026
+PR00033,Provider 00033,Cardiology,F023
+PR00034,Provider 00034,ENT,F015
+PR00035,Provider 00035,General Medicine,F001
+PR00036,Provider 00036,Oncology,F030
+PR00037,Provider 00037,General Medicine,F002
+PR00038,Provider 00038,General Medicine,F014
+PR00039,Provider 00039,Neurology,F011
+PR00040,Provider 00040,Oncology,F015
+PR00041,Provider 00041,Oncology,F029
+PR00042,Provider 00042,Orthopaedics,F009
+PR00043,Provider 00043,General Medicine,F019
+PR00044,Provider 00044,Neurology,F029
+PR00045,Provider 00045,Radiology,F014
+PR00046,Provider 00046,General Medicine,F009
+PR00047,Provider 00047,Cardiology,F007
+PR00048,Provider 00048,General Medicine,F024
+PR00049,Provider 00049,Radiology,F016
+PR00050,Provider 00050,General Medicine,F017
+PR00051,Provider 00051,ENT,F030
+PR00052,Provider 00052,Dermatology,F026
+PR00053,Provider 00053,General Medicine,F023
+PR00054,Provider 00054,ENT,F014
+PR00055,Provider 00055,Cardiology,F025
+PR00056,Provider 00056,ENT,F013
+PR00057,Provider 00057,ENT,F025
+PR00058,Provider 00058,General Medicine,F016
+PR00059,Provider 00059,Cardiology,F019
+PR00060,Provider 00060,Cardiology,F013
+PR00061,Provider 00061,Dermatology,F008
+PR00062,Provider 00062,Radiology,F014
+PR00063,Provider 00063,ENT,F030
+PR00064,Provider 00064,Cardiology,F028
+PR00065,Provider 00065,Radiology,F027
+PR00066,Provider 00066,ENT,F021
+PR00067,Provider 00067,Dermatology,F013
+PR00068,Provider 00068,Dermatology,F020
+PR00069,Provider 00069,ENT,F021
+PR00070,Provider 00070,Dermatology,F025
+PR00071,Provider 00071,Oncology,F003
+PR00072,Provider 00072,Neurology,F027
+PR00073,Provider 00073,Orthopaedics,F030
+PR00074,Provider 00074,Dermatology,F011
+PR00075,Provider 00075,ENT,F024
+PR00076,Provider 00076,General Medicine,F018
+PR00077,Provider 00077,Neurology,F006
+PR00078,Provider 00078,Orthopaedics,F029
+PR00079,Provider 00079,Cardiology,F007
+PR00080,Provider 00080,Orthopaedics,F029
+PR00081,Provider 00081,ENT,F028
+PR00082,Provider 00082,General Medicine,F009
+PR00083,Provider 00083,Oncology,F012
+PR00084,Provider 00084,Neurology,F002
+PR00085,Provider 00085,Orthopaedics,F002
+PR00086,Provider 00086,Orthopaedics,F018
+PR00087,Provider 00087,Oncology,F010
+PR00088,Provider 00088,Radiology,F022
+PR00089,Provider 00089,ENT,F007
+PR00090,Provider 00090,Neurology,F026
+PR00091,Provider 00091,Neurology,F011
+PR00092,Provider 00092,Neurology,F017
+PR00093,Provider 00093,Neurology,F030
+PR00094,Provider 00094,ENT,F002
+PR00095,Provider 00095,Neurology,F007
+PR00096,Provider 00096,General Medicine,F010
+PR00097,Provider 00097,General Medicine,F029
+PR00098,Provider 00098,Cardiology,F019
+PR00099,Provider 00099,Oncology,F009
+PR00100,Provider 00100,Orthopaedics,F015
+PR00101,Provider 00101,Radiology,F013
+PR00102,Provider 00102,Orthopaedics,F021
+PR00103,Provider 00103,Radiology,F023
+PR00104,Provider 00104,ENT,F018
+PR00105,Provider 00105,Neurology,F001
+PR00106,Provider 00106,Orthopaedics,F024
+PR00107,Provider 00107,Oncology,F002
+PR00108,Provider 00108,Cardiology,F014
+PR00109,Provider 00109,Cardiology,F016
+PR00110,Provider 00110,Radiology,F029
+PR00111,Provider 00111,Radiology,F003
+PR00112,Provider 00112,Cardiology,F013
+PR00113,Provider 00113,General Medicine,F012
+PR00114,Provider 00114,ENT,F005
+PR00115,Provider 00115,Orthopaedics,F023
+PR00116,Provider 00116,Neurology,F007
+PR00117,Provider 00117,Dermatology,F028
+PR00118,Provider 00118,Oncology,F001
+PR00119,Provider 00119,General Medicine,F016
+PR00120,Provider 00120,Radiology,F020
+PR00121,Provider 00121,Oncology,F016
+PR00122,Provider 00122,General Medicine,F026
+PR00123,Provider 00123,Orthopaedics,F025
+PR00124,Provider 00124,Oncology,F003
+PR00125,Provider 00125,General Medicine,F028
+PR00126,Provider 00126,General Medicine,F004
+PR00127,Provider 00127,Neurology,F019
+PR00128,Provider 00128,Dermatology,F020
+PR00129,Provider 00129,Orthopaedics,F002
+PR00130,Provider 00130,ENT,F011
+PR00131,Provider 00131,Cardiology,F024
+PR00132,Provider 00132,Cardiology,F004
+PR00133,Provider 00133,General Medicine,F020
+PR00134,Provider 00134,General Medicine,F003
+PR00135,Provider 00135,Dermatology,F024
+PR00136,Provider 00136,Orthopaedics,F014
+PR00137,Provider 00137,Oncology,F002
+PR00138,Provider 00138,General Medicine,F021
+PR00139,Provider 00139,General Medicine,F011
+PR00140,Provider 00140,Cardiology,F030
+PR00141,Provider 00141,Dermatology,F008
+PR00142,Provider 00142,Orthopaedics,F012
+PR00143,Provider 00143,Dermatology,F025
+PR00144,Provider 00144,ENT,F002
+PR00145,Provider 00145,ENT,F014
+PR00146,Provider 00146,ENT,F002
+PR00147,Provider 00147,Neurology,F008
+PR00148,Provider 00148,Radiology,F018
+PR00149,Provider 00149,Cardiology,F030
+PR00150,Provider 00150,General Medicine,F012
+PR00151,Provider 00151,Orthopaedics,F026
+PR00152,Provider 00152,Cardiology,F004
+PR00153,Provider 00153,General Medicine,F027
+PR00154,Provider 00154,General Medicine,F015
+PR00155,Provider 00155,Cardiology,F016
+PR00156,Provider 00156,ENT,F025
+PR00157,Provider 00157,Dermatology,F025
+PR00158,Provider 00158,General Medicine,F029
+PR00159,Provider 00159,Radiology,F019
+PR00160,Provider 00160,ENT,F016
+PR00161,Provider 00161,Oncology,F003
+PR00162,Provider 00162,Radiology,F019
+PR00163,Provider 00163,Oncology,F016
+PR00164,Provider 00164,ENT,F030
+PR00165,Provider 00165,Neurology,F011
+PR00166,Provider 00166,General Medicine,F013
+PR00167,Provider 00167,Oncology,F004
+PR00168,Provider 00168,General Medicine,F028
+PR00169,Provider 00169,Neurology,F020
+PR00170,Provider 00170,Radiology,F016
+PR00171,Provider 00171,Cardiology,F013
+PR00172,Provider 00172,Orthopaedics,F012
+PR00173,Provider 00173,Dermatology,F009
+PR00174,Provider 00174,Neurology,F014
+PR00175,Provider 00175,Orthopaedics,F026
+PR00176,Provider 00176,General Medicine,F024
+PR00177,Provider 00177,Oncology,F029
+PR00178,Provider 00178,General Medicine,F005
+PR00179,Provider 00179,ENT,F021
+PR00180,Provider 00180,Radiology,F024
+PR00181,Provider 00181,Orthopaedics,F007
+PR00182,Provider 00182,Orthopaedics,F028
+PR00183,Provider 00183,ENT,F026
+PR00184,Provider 00184,ENT,F015
+PR00185,Provider 00185,Dermatology,F015
+PR00186,Provider 00186,Oncology,F013
+PR00187,Provider 00187,Oncology,F029
+PR00188,Provider 00188,Dermatology,F009
+PR00189,Provider 00189,Cardiology,F005
+PR00190,Provider 00190,ENT,F004
+PR00191,Provider 00191,Dermatology,F017
+PR00192,Provider 00192,Radiology,F027
+PR00193,Provider 00193,Dermatology,F029
+PR00194,Provider 00194,General Medicine,F002
+PR00195,Provider 00195,Neurology,F016
+PR00196,Provider 00196,Dermatology,F012
+PR00197,Provider 00197,General Medicine,F019
+PR00198,Provider 00198,Cardiology,F021
+PR00199,Provider 00199,Neurology,F019
+PR00200,Provider 00200,Neurology,F010
+PR00201,Provider 00201,Neurology,F009
+PR00202,Provider 00202,General Medicine,F028
+PR00203,Provider 00203,ENT,F007
+PR00204,Provider 00204,General Medicine,F021
+PR00205,Provider 00205,Neurology,F001
+PR00206,Provider 00206,Radiology,F007
+PR00207,Provider 00207,Neurology,F003
+PR00208,Provider 00208,General Medicine,F007
+PR00209,Provider 00209,Dermatology,F021
+PR00210,Provider 00210,Orthopaedics,F006
+PR00211,Provider 00211,ENT,F020
+PR00212,Provider 00212,Dermatology,F025
+PR00213,Provider 00213,Orthopaedics,F005
+PR00214,Provider 00214,Radiology,F011
+PR00215,Provider 00215,Dermatology,F001
+PR00216,Provider 00216,Oncology,F003
+PR00217,Provider 00217,Neurology,F017
+PR00218,Provider 00218,Dermatology,F024
+PR00219,Provider 00219,General Medicine,F016
+PR00220,Provider 00220,Neurology,F017
+PR00221,Provider 00221,Orthopaedics,F019
+PR00222,Provider 00222,Neurology,F011
+PR00223,Provider 00223,Cardiology,F010
+PR00224,Provider 00224,ENT,F019
+PR00225,Provider 00225,Orthopaedics,F028
+PR00226,Provider 00226,Orthopaedics,F028
+PR00227,Provider 00227,Neurology,F003
+PR00228,Provider 00228,Neurology,F022
+PR00229,Provider 00229,ENT,F021
+PR00230,Provider 00230,Oncology,F004
+PR00231,Provider 00231,Neurology,F030
+PR00232,Provider 00232,Orthopaedics,F018
+PR00233,Provider 00233,Dermatology,F025
+PR00234,Provider 00234,Oncology,F015
+PR00235,Provider 00235,ENT,F018
+PR00236,Provider 00236,General Medicine,F016
+PR00237,Provider 00237,Dermatology,F002
+PR00238,Provider 00238,General Medicine,F007
+PR00239,Provider 00239,Orthopaedics,F007
+PR00240,Provider 00240,Oncology,F016
+PR00241,Provider 00241,Radiology,F014
+PR00242,Provider 00242,Radiology,F023
+PR00243,Provider 00243,Oncology,F017
+PR00244,Provider 00244,Dermatology,F004
+PR00245,Provider 00245,Radiology,F013
+PR00246,Provider 00246,Orthopaedics,F027
+PR00247,Provider 00247,Neurology,F003
+PR00248,Provider 00248,Neurology,F025
+PR00249,Provider 00249,Dermatology,F023
+PR00250,Provider 00250,Oncology,F001
+PR00251,Provider 00251,Orthopaedics,F003
+PR00252,Provider 00252,ENT,F017
+PR00253,Provider 00253,General Medicine,F024
+PR00254,Provider 00254,Orthopaedics,F017
+PR00255,Provider 00255,Cardiology,F002
+PR00256,Provider 00256,Oncology,F024
+PR00257,Provider 00257,General Medicine,F021
+PR00258,Provider 00258,ENT,F004
+PR00259,Provider 00259,Oncology,F006
+PR00260,Provider 00260,Orthopaedics,F030
+PR00261,Provider 00261,Oncology,F003
+PR00262,Provider 00262,Radiology,F026
+PR00263,Provider 00263,Radiology,F007
+PR00264,Provider 00264,ENT,F013
+PR00265,Provider 00265,Dermatology,F020
+PR00266,Provider 00266,Radiology,F017
+PR00267,Provider 00267,Cardiology,F027
+PR00268,Provider 00268,Radiology,F017
+PR00269,Provider 00269,ENT,F019
+PR00270,Provider 00270,Oncology,F030
+PR00271,Provider 00271,ENT,F012
+PR00272,Provider 00272,General Medicine,F024
+PR00273,Provider 00273,ENT,F009
+PR00274,Provider 00274,Dermatology,F004
+PR00275,Provider 00275,General Medicine,F009
+PR00276,Provider 00276,Orthopaedics,F023
+PR00277,Provider 00277,Radiology,F025
+PR00278,Provider 00278,Radiology,F026
+PR00279,Provider 00279,General Medicine,F005
+PR00280,Provider 00280,Orthopaedics,F006
+PR00281,Provider 00281,Neurology,F004
+PR00282,Provider 00282,Radiology,F023
+PR00283,Provider 00283,Radiology,F006
+PR00284,Provider 00284,Oncology,F003
+PR00285,Provider 00285,Orthopaedics,F026
+PR00286,Provider 00286,Cardiology,F022
+PR00287,Provider 00287,Orthopaedics,F004
+PR00288,Provider 00288,Orthopaedics,F013
+PR00289,Provider 00289,Radiology,F018
+PR00290,Provider 00290,Radiology,F013
+PR00291,Provider 00291,Orthopaedics,F016
+PR00292,Provider 00292,Radiology,F029
+PR00293,Provider 00293,Radiology,F012
+PR00294,Provider 00294,Radiology,F018
+PR00295,Provider 00295,Dermatology,F009
+PR00296,Provider 00296,Dermatology,F005
+PR00297,Provider 00297,Dermatology,F026
+PR00298,Provider 00298,Dermatology,F008
+PR00299,Provider 00299,Neurology,F014
+PR00300,Provider 00300,Dermatology,F012
+PR00301,Provider 00301,Neurology,F028
+PR00302,Provider 00302,Dermatology,F013
+PR00303,Provider 00303,Orthopaedics,F020
+PR00304,Provider 00304,Oncology,F027
+PR00305,Provider 00305,Orthopaedics,F018
+PR00306,Provider 00306,General Medicine,F024
+PR00307,Provider 00307,Dermatology,F008
+PR00308,Provider 00308,ENT,F024
+PR00309,Provider 00309,Dermatology,F006
+PR00310,Provider 00310,Radiology,F017
+PR00311,Provider 00311,Orthopaedics,F023
+PR00312,Provider 00312,Orthopaedics,F015
+PR00313,Provider 00313,General Medicine,F019
+PR00314,Provider 00314,ENT,F019
+PR00315,Provider 00315,Cardiology,F005
+PR00316,Provider 00316,Neurology,F029
+PR00317,Provider 00317,Orthopaedics,F021
+PR00318,Provider 00318,Cardiology,F024
+PR00319,Provider 00319,Oncology,F003
+PR00320,Provider 00320,Radiology,F022
+PR00321,Provider 00321,Oncology,F012
+PR00322,Provider 00322,General Medicine,F004
+PR00323,Provider 00323,Cardiology,F007
+PR00324,Provider 00324,Orthopaedics,F004
+PR00325,Provider 00325,ENT,F001
+PR00326,Provider 00326,Dermatology,F013
+PR00327,Provider 00327,Dermatology,F016
+PR00328,Provider 00328,Oncology,F005
+PR00329,Provider 00329,Orthopaedics,F013
+PR00330,Provider 00330,ENT,F020
+PR00331,Provider 00331,Cardiology,F007
+PR00332,Provider 00332,Radiology,F029
+PR00333,Provider 00333,Neurology,F028
+PR00334,Provider 00334,General Medicine,F019
+PR00335,Provider 00335,Dermatology,F024
+PR00336,Provider 00336,General Medicine,F022
+PR00337,Provider 00337,Radiology,F014
+PR00338,Provider 00338,Cardiology,F007
+PR00339,Provider 00339,Radiology,F012
+PR00340,Provider 00340,Neurology,F010
+PR00341,Provider 00341,Dermatology,F019
+PR00342,Provider 00342,Orthopaedics,F008
+PR00343,Provider 00343,Dermatology,F020
+PR00344,Provider 00344,General Medicine,F014
+PR00345,Provider 00345,Orthopaedics,F015
+PR00346,Provider 00346,Orthopaedics,F014
+PR00347,Provider 00347,General Medicine,F030
+PR00348,Provider 00348,General Medicine,F018
+PR00349,Provider 00349,Orthopaedics,F010
+PR00350,Provider 00350,Cardiology,F018
+PR00351,Provider 00351,Oncology,F023
+PR00352,Provider 00352,Cardiology,F027
+PR00353,Provider 00353,Dermatology,F014
+PR00354,Provider 00354,Oncology,F028
+PR00355,Provider 00355,Cardiology,F008
+PR00356,Provider 00356,Dermatology,F009
+PR00357,Provider 00357,Neurology,F023
+PR00358,Provider 00358,Cardiology,F025
+PR00359,Provider 00359,Neurology,F014
+PR00360,Provider 00360,General Medicine,F018
+PR00361,Provider 00361,ENT,F025
+PR00362,Provider 00362,Dermatology,F015
+PR00363,Provider 00363,Radiology,F006
+PR00364,Provider 00364,General Medicine,F021
+PR00365,Provider 00365,Radiology,F015
+PR00366,Provider 00366,Cardiology,F008
+PR00367,Provider 00367,Cardiology,F015
+PR00368,Provider 00368,Orthopaedics,F028
+PR00369,Provider 00369,Cardiology,F011
+PR00370,Provider 00370,ENT,F029
+PR00371,Provider 00371,Radiology,F027
+PR00372,Provider 00372,Orthopaedics,F001
+PR00373,Provider 00373,Oncology,F018
+PR00374,Provider 00374,Cardiology,F005
+PR00375,Provider 00375,Cardiology,F009
+PR00376,Provider 00376,Neurology,F024
+PR00377,Provider 00377,Cardiology,F010
+PR00378,Provider 00378,Cardiology,F015
+PR00379,Provider 00379,Neurology,F002
+PR00380,Provider 00380,ENT,F016
+PR00381,Provider 00381,Orthopaedics,F019
+PR00382,Provider 00382,ENT,F027
+PR00383,Provider 00383,General Medicine,F004
+PR00384,Provider 00384,Orthopaedics,F002
+PR00385,Provider 00385,Oncology,F015
+PR00386,Provider 00386,Neurology,F002
+PR00387,Provider 00387,Cardiology,F004
+PR00388,Provider 00388,Oncology,F003
+PR00389,Provider 00389,General Medicine,F014
+PR00390,Provider 00390,Orthopaedics,F029
+PR00391,Provider 00391,ENT,F010
+PR00392,Provider 00392,Neurology,F009
+PR00393,Provider 00393,Dermatology,F026
+PR00394,Provider 00394,Radiology,F029
+PR00395,Provider 00395,Dermatology,F011
+PR00396,Provider 00396,General Medicine,F013
+PR00397,Provider 00397,Radiology,F001
+PR00398,Provider 00398,General Medicine,F009
+PR00399,Provider 00399,General Medicine,F023
+PR00400,Provider 00400,Cardiology,F020
+PR00401,Provider 00401,Cardiology,F026
+PR00402,Provider 00402,Neurology,F006
+PR00403,Provider 00403,ENT,F007
+PR00404,Provider 00404,Cardiology,F027
+PR00405,Provider 00405,Neurology,F018
+PR00406,Provider 00406,Neurology,F020
+PR00407,Provider 00407,Cardiology,F016
+PR00408,Provider 00408,Radiology,F001
+PR00409,Provider 00409,Dermatology,F012
+PR00410,Provider 00410,General Medicine,F028
+PR00411,Provider 00411,General Medicine,F028
+PR00412,Provider 00412,Orthopaedics,F003
+PR00413,Provider 00413,Dermatology,F001
+PR00414,Provider 00414,Dermatology,F005
+PR00415,Provider 00415,ENT,F017
+PR00416,Provider 00416,Neurology,F027
+PR00417,Provider 00417,Cardiology,F019
+PR00418,Provider 00418,Cardiology,F029
+PR00419,Provider 00419,General Medicine,F029
+PR00420,Provider 00420,Radiology,F022
+PR00421,Provider 00421,Neurology,F011
+PR00422,Provider 00422,Radiology,F002
+PR00423,Provider 00423,Dermatology,F029
+PR00424,Provider 00424,Neurology,F018
+PR00425,Provider 00425,Oncology,F024
+PR00426,Provider 00426,Orthopaedics,F011
+PR00427,Provider 00427,Dermatology,F017
+PR00428,Provider 00428,Orthopaedics,F002
+PR00429,Provider 00429,General Medicine,F020
+PR00430,Provider 00430,General Medicine,F016
+PR00431,Provider 00431,Orthopaedics,F001
+PR00432,Provider 00432,Neurology,F007
+PR00433,Provider 00433,General Medicine,F026
+PR00434,Provider 00434,General Medicine,F022
+PR00435,Provider 00435,Orthopaedics,F006
+PR00436,Provider 00436,Dermatology,F012
+PR00437,Provider 00437,Neurology,F001
+PR00438,Provider 00438,Cardiology,F027
+PR00439,Provider 00439,Cardiology,F022
+PR00440,Provider 00440,Neurology,F008
+PR00441,Provider 00441,General Medicine,F014
+PR00442,Provider 00442,Radiology,F005
+PR00443,Provider 00443,Cardiology,F015
+PR00444,Provider 00444,Radiology,F026
+PR00445,Provider 00445,General Medicine,F022
+PR00446,Provider 00446,Neurology,F010
+PR00447,Provider 00447,General Medicine,F018
+PR00448,Provider 00448,Orthopaedics,F026
+PR00449,Provider 00449,Radiology,F014
+PR00450,Provider 00450,Dermatology,F015
+PR00451,Provider 00451,Orthopaedics,F004
+PR00452,Provider 00452,Radiology,F028
+PR00453,Provider 00453,Cardiology,F012
+PR00454,Provider 00454,Orthopaedics,F022
+PR00455,Provider 00455,Oncology,F024
+PR00456,Provider 00456,Cardiology,F008
+PR00457,Provider 00457,Neurology,F008
+PR00458,Provider 00458,Dermatology,F023
+PR00459,Provider 00459,Neurology,F011
+PR00460,Provider 00460,Dermatology,F027
+PR00461,Provider 00461,ENT,F022
+PR00462,Provider 00462,Neurology,F007
+PR00463,Provider 00463,Cardiology,F017
+PR00464,Provider 00464,Radiology,F023
+PR00465,Provider 00465,Neurology,F019
+PR00466,Provider 00466,Radiology,F012
+PR00467,Provider 00467,Neurology,F003
+PR00468,Provider 00468,Oncology,F030
+PR00469,Provider 00469,Dermatology,F007
+PR00470,Provider 00470,ENT,F011
+PR00471,Provider 00471,Orthopaedics,F002
+PR00472,Provider 00472,General Medicine,F022
+PR00473,Provider 00473,General Medicine,F012
+PR00474,Provider 00474,General Medicine,F026
+PR00475,Provider 00475,Orthopaedics,F027
+PR00476,Provider 00476,Dermatology,F012
+PR00477,Provider 00477,Oncology,F024
+PR00478,Provider 00478,General Medicine,F016
+PR00479,Provider 00479,Oncology,F013
+PR00480,Provider 00480,Dermatology,F022
+PR00481,Provider 00481,ENT,F014
+PR00482,Provider 00482,Oncology,F013
+PR00483,Provider 00483,Neurology,F021
+PR00484,Provider 00484,Orthopaedics,F013
+PR00485,Provider 00485,Oncology,F029
+PR00486,Provider 00486,Orthopaedics,F020
+PR00487,Provider 00487,General Medicine,F007
+PR00488,Provider 00488,Oncology,F015
+PR00489,Provider 00489,ENT,F012
+PR00490,Provider 00490,ENT,F023
+PR00491,Provider 00491,Orthopaedics,F028
+PR00492,Provider 00492,Orthopaedics,F008
+PR00493,Provider 00493,Neurology,F029
+PR00494,Provider 00494,Neurology,F018
+PR00495,Provider 00495,Dermatology,F015
+PR00496,Provider 00496,Orthopaedics,F017
+PR00497,Provider 00497,Dermatology,F009
+PR00498,Provider 00498,General Medicine,F007
+PR00499,Provider 00499,ENT,F014
+PR00500,Provider 00500,Oncology,F022

@@ -1,0 +1,63 @@
+/// The seven denial reasons, grouped the way a denials team is organised: front-end failures preventable at registration, coding failures at charge capture, clinical failures needing the record, and process failures in the billing office. The reason mix is uniform across payers, so it is reported as a WORKLOAD PROFILE - what the team has to work - and never as a root cause.
+table DimDenialReason
+	lineageTag: 5fedef9d-f02d-5d34-ac00-217bdf6b0c45
+
+	column DenialReasonKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 894b14a4-e766-57ad-ad2c-9e6ac7a76688
+		summarizeBy: none
+		sourceColumn: DenialReasonKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DenialReason
+		dataType: string
+		lineageTag: ab6778a5-7c74-538a-bd60-9550c5533f95
+		summarizeBy: none
+		sourceColumn: DenialReason
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReasonCategory
+		dataType: string
+		lineageTag: 29fb3b39-20a5-5657-b3db-8120ed9272e8
+		summarizeBy: none
+		sourceColumn: ReasonCategory
+		sortByColumn: CategoryOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ef3ca0b1-c373-5bc4-bed5-910b837a9d49
+		summarizeBy: none
+		sourceColumn: CategoryOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The step in the cycle where this denial could have been avoided.
+	column PreventableAt
+		dataType: string
+		lineageTag: 95df9b60-7a1b-5eea-9f8d-a1db5aa8fde4
+		summarizeBy: none
+		sourceColumn: PreventableAt
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDenialReason = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimDenialReason = Source{[Schema="analytics",Item="vw_DimDenialReason"]}[Data]
+				in
+				    analytics_vw_DimDenialReason
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

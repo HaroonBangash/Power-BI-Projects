@@ -1,0 +1,69 @@
+/// Ten ICD-10 three-character categories with their chapter. IsChronicCondition marks the five on a standard chronic disease register, so the diagnosis mix can be checked against the patient's own risk band - a claim the source makes that the model can test.
+table DimDiagnosis
+	lineageTag: a41bbf16-c67a-5517-88b4-04d56b38acf8
+
+	column DiagnosisKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 3b456fe9-cc6c-598b-aa66-8003e053dbde
+		summarizeBy: none
+		sourceColumn: DiagnosisKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiagnosisCode
+		dataType: string
+		lineageTag: 94b317cf-45fd-5c3a-b2b4-1b5efa080ac8
+		summarizeBy: none
+		sourceColumn: DiagnosisCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiagnosisName
+		dataType: string
+		lineageTag: cd6dcc93-5812-52be-8721-28f63c73b748
+		summarizeBy: none
+		sourceColumn: DiagnosisName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Code and name together, for a chart axis.
+	column DiagnosisLabel
+		dataType: string
+		lineageTag: 55e417c3-4a8e-50b5-950d-2aff4a3b6eb4
+		summarizeBy: none
+		sourceColumn: DiagnosisLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column ICD10Chapter
+		dataType: string
+		lineageTag: 6716b981-da5c-51ce-9915-3bf282e97393
+		summarizeBy: none
+		sourceColumn: ICD10Chapter
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsChronicCondition
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a58072e7-ff76-515d-97d1-70f52b19350d
+		summarizeBy: none
+		sourceColumn: IsChronicCondition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDiagnosis = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimDiagnosis = Source{[Schema="analytics",Item="vw_DimDiagnosis"]}[Data]
+				in
+				    analytics_vw_DimDiagnosis
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

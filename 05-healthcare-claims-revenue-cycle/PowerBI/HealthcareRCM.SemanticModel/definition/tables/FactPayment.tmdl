@@ -1,0 +1,140 @@
+/// One row per remittance, 69,111 of them - exactly one per paid claim. There are no partial payments, no takebacks and no secondary payer, so days-to-pay is a single clean event. PaymentAmount is the SAME money as FactClaim[PaidAmount] seen on the cash date instead of the service date; the two are never added together.
+table FactPayment
+	lineageTag: 41b0930c-7414-5d57-b6f1-d9812719b153
+
+	column PaymentKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 8f581f5c-d249-5fa5-a311-47fd7ed0f13c
+		summarizeBy: none
+		sourceColumn: PaymentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaymentID
+		dataType: string
+		isHidden
+		lineageTag: 492b9faa-36fc-541c-8a5a-5baff9a0417b
+		summarizeBy: none
+		sourceColumn: PaymentID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimID
+		dataType: string
+		isHidden
+		lineageTag: 37680a77-6949-562b-adfb-86dfbcb6da9f
+		summarizeBy: none
+		sourceColumn: ClaimID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Active: when the cash arrived.
+	column PaymentDateKey
+		dataType: int64
+		isHidden
+		lineageTag: 27c32261-2286-5f18-be03-6e6398ba428b
+		summarizeBy: none
+		sourceColumn: PaymentDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Inactive.
+	column SubmittedDateKey
+		dataType: int64
+		isHidden
+		lineageTag: cf125ef4-042a-5b17-9142-e375aaf169e1
+		summarizeBy: none
+		sourceColumn: SubmittedDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaymentMethodKey
+		dataType: int64
+		isHidden
+		lineageTag: 05d83595-b1a6-56bd-bebd-612684665c91
+		summarizeBy: none
+		sourceColumn: PaymentMethodKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		lineageTag: 345a82d4-cc51-5fd0-ab2c-2c52a00bf48d
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		lineageTag: 087e0f7c-9dc4-5e43-b2bf-106ca8682d34
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		lineageTag: ba9b3007-c887-560b-81e8-a0479196dd8d
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		lineageTag: 93b796da-baee-5377-b561-7876a7ecb15b
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaymentAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 57de12db-54bf-5d03-ad26-1fcd051359cc
+		summarizeBy: sum
+		sourceColumn: PaymentAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllowedAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 16e28bf7-cd4e-5ed0-9249-d705d5cf04b6
+		summarizeBy: sum
+		sourceColumn: AllowedAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToPay
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1f97b936-690f-5350-a3eb-9826b170fb7b
+		summarizeBy: sum
+		sourceColumn: DaysToPay
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPayment = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactPayment = Source{[Schema="analytics",Item="vw_FactPayment"]}[Data]
+				in
+				    analytics_vw_FactPayment
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

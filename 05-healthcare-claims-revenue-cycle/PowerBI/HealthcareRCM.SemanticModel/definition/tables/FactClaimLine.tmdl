@@ -1,0 +1,127 @@
+/// One row per procedure line, 249,905 of them. ChargeAmount is the ONLY money here and it sums to the claim header's billed amount, so the line table carries mix and volume without becoming a second source of truth. No measure adds line charges to header amounts.
+table FactClaimLine
+	lineageTag: 7246e06f-a1a4-5d50-9c3c-eba26b423e3e
+
+	column ClaimLineKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 9b8102c6-72bd-5287-8469-92e30ffbf76d
+		summarizeBy: none
+		sourceColumn: ClaimLineKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimLineID
+		dataType: string
+		isHidden
+		lineageTag: 4973190b-59ea-5337-baa2-74c3ce5c642a
+		summarizeBy: none
+		sourceColumn: ClaimLineID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimID
+		dataType: string
+		isHidden
+		lineageTag: b331733e-38be-5487-859e-d45739ec5ed4
+		summarizeBy: none
+		sourceColumn: ClaimID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcedureKey
+		dataType: int64
+		isHidden
+		lineageTag: 444db892-4f46-537c-ab29-00610e354465
+		summarizeBy: none
+		sourceColumn: ProcedureKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiagnosisKey
+		dataType: int64
+		isHidden
+		lineageTag: e77330ab-3c6c-592b-ba9b-3b4d91e10e6d
+		summarizeBy: none
+		sourceColumn: DiagnosisKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		lineageTag: 4770454a-e576-5850-9551-8b4323f2ec89
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		lineageTag: d5728eea-822e-5a42-ab5a-e9ea7d1fb144
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		lineageTag: 1cd0abc0-98d6-5b6d-abf0-43b0895de1ee
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		lineageTag: d3ad6240-830c-5de2-8ffd-696b2a2b0757
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimStatusKey
+		dataType: int64
+		isHidden
+		lineageTag: 694167c1-095c-5501-bd81-76d3d2489325
+		summarizeBy: none
+		sourceColumn: ClaimStatusKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceDateKey
+		dataType: int64
+		isHidden
+		lineageTag: 20f8a747-cb4a-5dda-9ab5-f96f123e0c30
+		summarizeBy: none
+		sourceColumn: ServiceDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChargeAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: a73f30d2-14bd-5a52-9f60-bbce68e44289
+		summarizeBy: sum
+		sourceColumn: ChargeAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactClaimLine = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactClaimLine = Source{[Schema="analytics",Item="vw_FactClaimLine"]}[Data]
+				in
+				    analytics_vw_FactClaimLine
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

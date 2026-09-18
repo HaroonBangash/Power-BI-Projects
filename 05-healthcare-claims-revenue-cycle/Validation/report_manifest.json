@@ -1,0 +1,1310 @@
+[
+  {
+    "name": "78630bf06ae4048638e7",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "d8cebdae34d9a3ffbf04",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "a1e84492e6b79b017710",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "4b7f9d887ca3f418f311",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "5d87eac94d617ad3d280",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "9e967c397381a0ab10ff",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "7dabb6dc2d3284440e08",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "22bbd1bb72c63b23039a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "3e7bd1f02843ce039c22",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "8362e51e0edc9cd0e270",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "928564c60d7b274569a9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "3f494efdf87896b5d810",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b3e17c73bd7d09b8ae1b",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "11b764f7415f0af047b5",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Payer"
+  },
+  {
+    "name": "748fc3daa31c6749c2ad",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Facility type"
+  },
+  {
+    "name": "d1ce83a6113be987cf68",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Date basis"
+  },
+  {
+    "name": "ab068c4e5950836330a6",
+    "visualType": "card",
+    "title": "Allowed, all claims",
+    "demonstrates": "Headline figure: Allowed"
+  },
+  {
+    "name": "a6d832bd5c61801e906b",
+    "visualType": "card",
+    "title": "Cash collected",
+    "demonstrates": "Headline figure: Collected"
+  },
+  {
+    "name": "05d6d324cefb1915552f",
+    "visualType": "card",
+    "title": "Net collection, resolved claims",
+    "demonstrates": "Headline figure: Net Collection Rate %"
+  },
+  {
+    "name": "ad784fd28bdfaeda9d44",
+    "visualType": "card",
+    "title": "Open AR at 30 Nov 2026",
+    "demonstrates": "Headline figure: Open AR"
+  },
+  {
+    "name": "6b03086d15e0ce4a98df",
+    "visualType": "card",
+    "title": "Denial rate",
+    "demonstrates": "Headline figure: Denial Rate %"
+  },
+  {
+    "name": "250632b959b6c4bbb1b8",
+    "visualType": "card",
+    "title": "Days in AR",
+    "demonstrates": "Headline figure: Days in AR"
+  },
+  {
+    "name": "49213df85e9d75e876f3",
+    "visualType": "lineChart",
+    "title": "Billed, allowed and collected, by service month",
+    "demonstrates": "the whole funnel in one line chart: the gap between the top line and the bottom one is what the revenue cycle is for"
+  },
+  {
+    "name": "02bf3650d027e06817f2",
+    "visualType": "donutChart",
+    "title": "Where every allowed dollar went",
+    "demonstrates": "the four buckets the allowed amount splits into. They sum back to it exactly, which is the identity the whole model is built to protect"
+  },
+  {
+    "name": "dadf62538264fc6e9e39",
+    "visualType": "columnChart",
+    "title": "Claims by service month",
+    "demonstrates": "volume is flat: 2,067 to 2,383 a month across 44 months, so no month-on-month movement on this page should be read as a trend"
+  },
+  {
+    "name": "a306e20f7eeffc2b4294",
+    "visualType": "barChart",
+    "title": "Claims by adjudication status",
+    "demonstrates": "paid, pending, denied - and the pending share is identical in every month of the file"
+  },
+  {
+    "name": "56d8dc9c5b1b54bae7c7",
+    "visualType": "multiRowCard",
+    "title": "",
+    "demonstrates": "multiRowCard: the three rates that only mean anything next to each other"
+  },
+  {
+    "name": "906b2fa2cd92650b2060",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "7e7996e8980c054c96a1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "2b5d9e9e5ce339346601",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "d51d3c6b80b392b2e342",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "5223f4897c99043e8e6c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "531ddbda8c4dac49b827",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "e939f33b2a892740e6f2",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "a8cb3b95cd8562ef37c6",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "b05be6ae9e1c412d71ef",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "e1123a810f850db371f5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "08cff6ef8124df7e8cf9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "257fb05b7773189bf0f1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "3477a3d30cbac3b0717a",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "eac46ba7d09d3e725554",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "403a5afbe9a409a804ad",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Payer"
+  },
+  {
+    "name": "097d5727e04c048e6a0c",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Facility"
+  },
+  {
+    "name": "059505260007282c657c",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Financial year"
+  },
+  {
+    "name": "69bd5a21f3f5b96d30bd",
+    "visualType": "card",
+    "title": "Billed at chargemaster",
+    "demonstrates": "Headline figure: Billed"
+  },
+  {
+    "name": "1e40afaa351baedf7122",
+    "visualType": "card",
+    "title": "Contractual adjustment",
+    "demonstrates": "Headline figure: Contractual Adjustment"
+  },
+  {
+    "name": "a9edf77c32b75a628a6f",
+    "visualType": "card",
+    "title": "Allowed under contract",
+    "demonstrates": "Headline figure: Allowed"
+  },
+  {
+    "name": "f44b191d083c8c39d4dd",
+    "visualType": "card",
+    "title": "Collected",
+    "demonstrates": "Headline figure: Collected"
+  },
+  {
+    "name": "2a6765909ac869b9668d",
+    "visualType": "card",
+    "title": "Given away by contract",
+    "demonstrates": "Headline figure: Contractual Adjustment %"
+  },
+  {
+    "name": "3fb43715bd724924f1dc",
+    "visualType": "card",
+    "title": "Patient share of allowed",
+    "demonstrates": "Headline figure: Patient Responsibility %"
+  },
+  {
+    "name": "f88ed9cd74291f552c40",
+    "visualType": "funnel",
+    "title": "Billed to allowed to collected",
+    "demonstrates": "funnel: nobody ever pays the chargemaster price. 26.5% of billed is a discount agreed before the claim was sent, and it is not a loss"
+  },
+  {
+    "name": "fa36658b213a562d59b6",
+    "visualType": "hundredPercentStackedColumnChart",
+    "title": "What happened to each month's allowed amount",
+    "demonstrates": "the composition is stable month after month, which is itself the finding: the share that never resolves does not improve with age"
+  },
+  {
+    "name": "d2aacdede9bb3b4db2d2",
+    "visualType": "clusteredColumnChart",
+    "title": "Allowed and collected by payer",
+    "demonstrates": "six payers, near-identical shares. The allowed RATE is 73.4% to 73.6% for every one of them, so no payer is ranked by contract performance anywhere in this report"
+  },
+  {
+    "name": "797b263953ccbf960e71",
+    "visualType": "clusteredColumnChart",
+    "title": "Net collection rate by facility type",
+    "demonstrates": "flat across all four types, to within half a point"
+  },
+  {
+    "name": "66e5530a6649b4de3768",
+    "visualType": "gauge",
+    "title": "Net collection rate against a 95% benchmark",
+    "demonstrates": "gauge, scaled 0 to 100% with the benchmark as its target. Without an explicit maximum a gauge scales to twice its own value, which puts any number in the middle of the dial"
+  },
+  {
+    "name": "31f1ac434c325cce772e",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "b9f249470bc4694d3a03",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "4de4e93d77c73c2e10e7",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "87ac6fe9251d485731f3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "2822ae29f29ffb5b964a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "2b1a67107a9db0811e2b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "0bc6d299a7ba2567a4fb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "a43e63daa4a80a7cb7cd",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "5595e1657bbe4e91aaf7",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "fa33ef837e419c4c89e4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "d122a541cbfe1e219f87",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "31f15ca38ae1d2e3e40e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "b75a124acccdd4a08a04",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "6d59ff89dd203dd87569",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "856b38bdf734068de750",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Payer"
+  },
+  {
+    "name": "a24e599ed206fd818e70",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Facility type"
+  },
+  {
+    "name": "9bab721249ec907f8a3d",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Ageing bucket"
+  },
+  {
+    "name": "288192e48feaa44243b0",
+    "visualType": "card",
+    "title": "Open AR at 30 Nov 2026",
+    "demonstrates": "Headline figure: Open AR"
+  },
+  {
+    "name": "01c61e617d4b696c2223",
+    "visualType": "card",
+    "title": "Claims outstanding",
+    "demonstrates": "Headline figure: AR Claims"
+  },
+  {
+    "name": "d7b16cefc42a3b6dae0b",
+    "visualType": "card",
+    "title": "Days in AR",
+    "demonstrates": "Headline figure: Days in AR"
+  },
+  {
+    "name": "c5bce6ce2f1c9f94dcda",
+    "visualType": "card",
+    "title": "Weighted average age",
+    "demonstrates": "Headline figure: AR Weighted Age (Days)"
+  },
+  {
+    "name": "ad598434333cbf1871ad",
+    "visualType": "card",
+    "title": "Past any filing limit",
+    "demonstrates": "Headline figure: AR Past Filing %"
+  },
+  {
+    "name": "a7a8a557a675688920d0",
+    "visualType": "card",
+    "title": "Average per claim",
+    "demonstrates": "Headline figure: Average AR per Claim"
+  },
+  {
+    "name": "5e5bc2d117ce298eed87",
+    "visualType": "areaChart",
+    "title": "Open AR at each month end, since January 2023",
+    "demonstrates": "it never turns. A receivable that only ever climbs is what happens when a fixed share of claims is never answered - see the note below"
+  },
+  {
+    "name": "50f09f36de8d14dac815",
+    "visualType": "waterfallChart",
+    "title": "What moved the receivable",
+    "demonstrates": "waterfall: claims enter AR at allowed on submission and leave as cash, as patient responsibility, or as a denial. The four reconcile to the balance in every month"
+  },
+  {
+    "name": "37aae0c5f5a4bb4b6417",
+    "visualType": "columnChart",
+    "title": "The ageing ladder",
+    "demonstrates": "cool to hot, fresh to past saving - the only ordered colour scale in the report, because age is the only quantity here with an order. Columns, because six buckets scroll in a 180 px bar chart and the ones hidden below the fold were the large ones. The three freshest draw at zero rather than vanishing: nothing has been submitted for 84 days"
+  },
+  {
+    "name": "e76fefa84c6aa1d4485e",
+    "visualType": "pivotTable",
+    "title": "Receivable by payer and age",
+    "demonstrates": "matrix: the same shape in every payer, which says the ageing is a property of the file rather than of anybody's collections performance"
+  },
+  {
+    "name": "4375ec2ac54a77ed4c90",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "666a2ebb943bdeefbfb1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "f62222acf924da31025b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "b6732681ad5531985289",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "dab1654c2ad9a77be0a1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "91e42075a4965537989f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "c81b031e1328091990f9",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "0580c7729817e3cbab85",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "387305883b457fbb04c1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "5a120e6ecb75f499ff2b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "57d7d1ea4c967e2dc0aa",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "e42da6fdfcb782859a82",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "2069edf8bbe6f5531694",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "9847ee3a6bd3abef8e0c",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "b3eace77e8210d384c07",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Payer"
+  },
+  {
+    "name": "60f72aa1aba580bdc879",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Reason category"
+  },
+  {
+    "name": "e795e5d0899c1eb5b225",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Workflow state"
+  },
+  {
+    "name": "e16755a88c7f215f4949",
+    "visualType": "card",
+    "title": "Claims denied",
+    "demonstrates": "Headline figure: Denied Claims"
+  },
+  {
+    "name": "b3064c673a41e3959375",
+    "visualType": "card",
+    "title": "Denial rate",
+    "demonstrates": "Headline figure: Denial Rate %"
+  },
+  {
+    "name": "37425e736964dd2a5cdb",
+    "visualType": "card",
+    "title": "Denied, at allowed",
+    "demonstrates": "Headline figure: Denied Value"
+  },
+  {
+    "name": "bcaddd2e375f8935084a",
+    "visualType": "card",
+    "title": "First-pass acceptance",
+    "demonstrates": "Headline figure: First-Pass Acceptance %"
+  },
+  {
+    "name": "96b4aed92e588d342706",
+    "visualType": "card",
+    "title": "Preventable at registration",
+    "demonstrates": "Headline figure: Preventable at Registration %"
+  },
+  {
+    "name": "5fab246aca2a300397a1",
+    "visualType": "card",
+    "title": "Recovered after denial",
+    "demonstrates": "Headline figure: Denial Recovery Rate %"
+  },
+  {
+    "name": "a5a6d04764b310e2941b",
+    "visualType": "columnChart",
+    "title": "Denials by reason",
+    "demonstrates": "seven reasons, 1,079 to 1,175 each. A near-uniform mix is a WORKLOAD profile, not a root cause - there is no dominant failure to go and fix. Columns rather than bars because seven categories scroll in a 228 px bar chart and the seventh would be hidden"
+  },
+  {
+    "name": "9b6f397d929321ad9c3f",
+    "visualType": "treemap",
+    "title": "Denied value by category and reason",
+    "demonstrates": "treemap: grouped the way a denials team is organised - front-end, coding, clinical, process - so the categories name who would own the fix"
+  },
+  {
+    "name": "5f1dae207401b3e8ae9a",
+    "visualType": "columnChart",
+    "title": "Denial rate by payer",
+    "demonstrates": "the one real split in the data, and the bar colour says which: Self Pay in the accent, the five insurers in one muted tone because they do not differ from each other"
+  },
+  {
+    "name": "3954c269638ab2887c19",
+    "visualType": "pieChart",
+    "title": "The denials queue, by workflow state",
+    "demonstrates": "pie: Open, Appealed, Corrected, Written Off. These are WORKFLOW STATES, not outcomes - see the note"
+  },
+  {
+    "name": "55427fc06156ed75f5bd",
+    "visualType": "lineChart",
+    "title": "Denial rate by adjudication month",
+    "demonstrates": "flat at 7-8% for 44 months. There is no deterioration and no improvement to explain"
+  },
+  {
+    "name": "c3680da378e4de25aa9b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "747917c39bb12e6c327d",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "6d227de4a32529a87822",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "1bb4a6b2ed7e0b923bc4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "4903a74adde221b13bd5",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "1616012017e71bb59669",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "a81e59dbed94a32e7bcd",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "21fe1bc719264691b08f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "71324a562b54c0598257",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "c9ff4f3c4c38b9de62b2",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "ed35f516bbfc14190e4e",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "b0082f26cc63b8fc939f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "ad90332c5715d07ce928",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "2649553bd5225564fbc3",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "5371cdcfbca0527d0c2d",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Verdict"
+  },
+  {
+    "name": "35bb710e72a7ce00396d",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Chance band"
+  },
+  {
+    "name": "27d13c7bf628e3029c9f",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Specialty"
+  },
+  {
+    "name": "69603e60b6d125d05250",
+    "visualType": "card",
+    "title": "Strongest association (Cramer's V)",
+    "demonstrates": "Headline figure: Strongest Signal"
+  },
+  {
+    "name": "c09d24ae57779566c68b",
+    "visualType": "card",
+    "title": "Dimensions with any signal",
+    "demonstrates": "Headline figure: Dimensions with Signal"
+  },
+  {
+    "name": "226adfb797790bdd0290",
+    "visualType": "card",
+    "title": "Dimensions tested",
+    "demonstrates": "Headline figure: Dimensions Tested"
+  },
+  {
+    "name": "3cd3770d08075f98b356",
+    "visualType": "card",
+    "title": "Self Pay vs insured, points",
+    "demonstrates": "Headline figure: Self Pay Gap (pp)"
+  },
+  {
+    "name": "b4e69e946b49c3ebc580",
+    "visualType": "card",
+    "title": "Providers beyond 2 SE",
+    "demonstrates": "Headline figure: Providers Beyond 2 SE %"
+  },
+  {
+    "name": "6db4fe7c382ff580803c",
+    "visualType": "card",
+    "title": "Expected by chance",
+    "demonstrates": "Headline figure: Expected Beyond 2 SE %"
+  },
+  {
+    "name": "732b3d1a369bb6e024de",
+    "visualType": "columnChart",
+    "title": "How strongly each dimension predicts a denial",
+    "demonstrates": "Cramer's V from a chi-square test, computed in SQL on every refresh. Columns rather than bars because ten categories scroll in a 228 px bar chart - and the four that would hide behind the scrollbar are the ones that FAILED, which is the point of the page. Payer scores 0.081; the next is facility at 0.015. Anything under the stated 0.02 rule is drawn flat grey, so the page says 'nothing here' with its ink as well as its words"
+  },
+  {
+    "name": "cfeddb51794a5d7d76d8",
+    "visualType": "columnChart",
+    "title": "How 500 providers' denial rates are distributed",
+    "demonstrates": "a bell curve centred on the group rate: 6, 83, 189, 156, 56, 9, 1. That is what a binomial distribution looks like, and it is what a league table would have ranked"
+  },
+  {
+    "name": "fa8a47a14e452e51114e",
+    "visualType": "scatterChart",
+    "title": "Every provider: claim count against denial rate",
+    "demonstrates": "a funnel plot, and a flat one. Every provider carries about 200 claims, so every error bar is nearly the same width - which means the vertical spread you can see IS the spread chance produces at that sample size, not a range of performance"
+  },
+  {
+    "name": "32ab43e449320e6519b4",
+    "visualType": "pivotTable",
+    "title": "The test, for every dimension the brief named",
+    "demonstrates": "a matrix, not a table, because a table cannot drop its total row and an AVERAGE Cramer's V across ten dimensions is not a number that means anything. The spread alone is misleading too - a 30-value dimension always spreads further than a 3-value one - which is exactly why the chi-square sits beside it"
+  },
+  {
+    "name": "25e19454df9a88190d4f",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "856e3670472f97be76d3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "36ea6070ce18dd3e6d84",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "80b43975240db1a90edb",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "d9933cee092cfc776577",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "4a8724b6a3f2e18fe88c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "534e35a3e9e714a918de",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "b7037cbc11e5a6a1a496",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "6a35f18ca4c6bcdae6de",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "0ef4607478edb46a65a2",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "700d60a1c1340c020817",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "e363b6fd3670967e0e2c",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "47dd977c733c34d9a60b",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "cafa481c2c590d7c070d",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "f93ea27cf90654fed343",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Payer"
+  },
+  {
+    "name": "67007b2c7051af86e855",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Payment method"
+  },
+  {
+    "name": "02f35c63a45fd35b7f7a",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Facility type"
+  },
+  {
+    "name": "2594dc9bca8382842b9f",
+    "visualType": "card",
+    "title": "Submission to cash",
+    "demonstrates": "Headline figure: Days to Cash"
+  },
+  {
+    "name": "641e5c726ca984bfdf32",
+    "visualType": "card",
+    "title": "Service to submission",
+    "demonstrates": "Headline figure: Days to Submit"
+  },
+  {
+    "name": "799a09c36dee225c7105",
+    "visualType": "card",
+    "title": "Submission to decision",
+    "demonstrates": "Headline figure: Days to Adjudicate"
+  },
+  {
+    "name": "65ccc497720e8d06a6ec",
+    "visualType": "card",
+    "title": "Decision to cash",
+    "demonstrates": "Headline figure: Days Adjudication to Cash"
+  },
+  {
+    "name": "501b4d8299ca0cfa5550",
+    "visualType": "card",
+    "title": "Median to cash",
+    "demonstrates": "Headline figure: Median Days to Cash"
+  },
+  {
+    "name": "1612da871aafca15d571",
+    "visualType": "card",
+    "title": "Paid inside 45 days",
+    "demonstrates": "Headline figure: Paid within 45 Days %"
+  },
+  {
+    "name": "7169762030f5036c1223",
+    "visualType": "lineChart",
+    "title": "Every interval in the cycle, by service month",
+    "demonstrates": "three clocks on ONE axis, and that is the point: all three are measured on the claim, so all three are read on the service month. The payment-date version of days-to-cash ran off the end of this chart, because in the last two months cash was still arriving for care delivered earlier - two different months on one axis"
+  },
+  {
+    "name": "1722e7dfa52d4bd8a634",
+    "visualType": "lineClusteredColumnComboChart",
+    "title": "Volume paid against speed of payment",
+    "demonstrates": "combo chart: if the payer slowed down when volume rose, these two would move together. They do not"
+  },
+  {
+    "name": "f3f7b45f204eb0a7ec84",
+    "visualType": "clusteredColumnChart",
+    "title": "Days to cash by payer",
+    "demonstrates": "within two days of each other across all six - the payers behave identically here"
+  },
+  {
+    "name": "3b93aed87889ce1a9337",
+    "visualType": "barChart",
+    "title": "Days to cash by remittance method",
+    "demonstrates": "a cheque should be slower than an EFT. Here it is not, which is one more sign the payment method in this source carries no information"
+  },
+  {
+    "name": "3164703cfa58dbe7428b",
+    "visualType": "gauge",
+    "title": "Claims submitted within 3 days",
+    "demonstrates": "the provider's own discipline, isolated from anything a payer does"
+  },
+  {
+    "name": "17103ba6ea45b3690438",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "45da3a0b814e64930f69",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "fe7f1ab078e707f1021f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "57080e90f01bd1250988",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "25c69e18d887baeebcb3",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "a0fc976e3d1d737aba36",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "99a202534da43ae3e00a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "a113d542069359da07d1",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "340756c4117dcbd7ccba",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "9c398ca4c5765a4463b7",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "53293982072149d17952",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "72d1ec03b62dfc516c1a",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "49e804384985d1bade39",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "c446ef0e37eb31871d05",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "c4bb897c6baedf734780",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Service line"
+  },
+  {
+    "name": "d46e741b7273a695fba7",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by ICD-10 chapter"
+  },
+  {
+    "name": "0fcf70e9df08d15770c1",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Patient age"
+  },
+  {
+    "name": "4363df28c3510e10c863",
+    "visualType": "card",
+    "title": "Claims",
+    "demonstrates": "Headline figure: Claims"
+  },
+  {
+    "name": "509ea034b97d28caffba",
+    "visualType": "card",
+    "title": "Procedure lines",
+    "demonstrates": "Headline figure: Claim Lines"
+  },
+  {
+    "name": "da4a0d5edc43c37027b5",
+    "visualType": "card",
+    "title": "Patients treated",
+    "demonstrates": "Headline figure: Patients Treated"
+  },
+  {
+    "name": "3797e8cb318bc34dc3b7",
+    "visualType": "card",
+    "title": "Lines per claim",
+    "demonstrates": "Headline figure: Lines per Claim"
+  },
+  {
+    "name": "ed60edce1b37d7bb1b05",
+    "visualType": "card",
+    "title": "Providers billing",
+    "demonstrates": "Headline figure: Providers Billing"
+  },
+  {
+    "name": "855f5fef1300a29b1c0f",
+    "visualType": "card",
+    "title": "Claims per patient",
+    "demonstrates": "Headline figure: Claims per Patient"
+  },
+  {
+    "name": "b4fc93254861a10fb78a",
+    "visualType": "decompositionTreeVisual",
+    "title": "Where the claims sit - choose the path",
+    "demonstrates": "decomposition tree: five attributes in whatever order the reader wants to ask them in. It sits in the taller row because at 180 px the tree drew one level and nothing else"
+  },
+  {
+    "name": "fa115c0efe1e27746c48",
+    "visualType": "treemap",
+    "title": "Procedure volume by service line",
+    "demonstrates": "treemap: ten real CPT codes grouped into the five departments that would own them. VOLUME only - the charge is unrelated to the code, so no revenue ranking exists"
+  },
+  {
+    "name": "a7989d35fefb220bed31",
+    "visualType": "columnChart",
+    "title": "Lines by ICD-10 category - ten codes, 25,000 lines each",
+    "demonstrates": "columns on the CODE rather than bars on the name: ten long diagnosis names scroll in a bar chart, and the whole point of this chart is that all ten bars are the same height. A synthetic case mix, labelled as one"
+  },
+  {
+    "name": "f72887cfa3ebf84a7cee",
+    "visualType": "hundredPercentStackedColumnChart",
+    "title": "Chronic risk band within each age band",
+    "demonstrates": "the source's own risk stratification is independent of age, which in a real population it would not be. It is noted here and used nowhere as a driver"
+  },
+  {
+    "name": "5f298a7bcf9f55f9d9d3",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "04444756cc33638baa1b",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "The navigation bar"
+  },
+  {
+    "name": "affad8a7eb1d4f828578",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Report identity"
+  },
+  {
+    "name": "70515f2ee9251b742593",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Executive"
+  },
+  {
+    "name": "3b8d74245c8fadc82482",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Revenue Cycle"
+  },
+  {
+    "name": "3a039f18509c4ab92dd0",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Receivables"
+  },
+  {
+    "name": "f1f4368dc6c063eabed4",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Denials"
+  },
+  {
+    "name": "5d0a7634da8b638a995f",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to What Predicts"
+  },
+  {
+    "name": "05511eda4eab63fdbcf0",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Timeliness"
+  },
+  {
+    "name": "ed98fcee73d0a4d7be23",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Service Mix"
+  },
+  {
+    "name": "dbbe80eb643ce4608077",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Navigate to Data & Method"
+  },
+  {
+    "name": "46e4d06b20bd182d7b79",
+    "visualType": "actionButton",
+    "title": "",
+    "demonstrates": "Marks the current page"
+  },
+  {
+    "name": "3b270005ed08a7f72c16",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "88699dbe3938e67a2a9e",
+    "visualType": "card",
+    "title": "",
+    "demonstrates": "Headline figure: As-Of Label"
+  },
+  {
+    "name": "4820ea5529b8940412c4",
+    "visualType": "slicer",
+    "title": "",
+    "demonstrates": "Filter by Finding type"
+  },
+  {
+    "name": "314078b56e586d4130c0",
+    "visualType": "card",
+    "title": "Findings recomputed each refresh",
+    "demonstrates": "Headline figure: Findings Recorded"
+  },
+  {
+    "name": "1b24555878101239b364",
+    "visualType": "card",
+    "title": "Allowed identity gap",
+    "demonstrates": "Headline figure: Allowed Identity Gap"
+  },
+  {
+    "name": "6e7ae6d3641b2743ea1a",
+    "visualType": "card",
+    "title": "AR roll-forward gap",
+    "demonstrates": "Headline figure: AR Roll-Forward Check"
+  },
+  {
+    "name": "38b9fc982094c6eab4ae",
+    "visualType": "card",
+    "title": "Calendar days generated",
+    "demonstrates": "Headline figure: Calendar Days Added"
+  },
+  {
+    "name": "948ad0dcf229f21da7c6",
+    "visualType": "card",
+    "title": "Claims outside the supplied calendar",
+    "demonstrates": "Headline figure: Claims Outside Supplied Calendar"
+  },
+  {
+    "name": "aaedbf30b9176fd04388",
+    "visualType": "card",
+    "title": "Denial recovery rate",
+    "demonstrates": "Headline figure: Denial Recovery Rate %"
+  },
+  {
+    "name": "2f206e89c349d8061ed5",
+    "visualType": "pivotTable",
+    "title": "The audit findings, recomputed on every refresh",
+    "demonstrates": "a finding typed into a text box goes stale the moment the source changes; one computed from the source cannot. A MATRIX rather than a table, because a table cannot drop its total row - and this column holds counts, dollar amounts and percentages, so their sum was reading 128,912.5482. The value formats itself per row for the same reason"
+  },
+  {
+    "name": "644e99128474182a5361",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "9438c01abac72e493d43",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "70442f84051d50e301d6",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  },
+  {
+    "name": "8b4d4ae6162b0856e2c3",
+    "visualType": "textbox",
+    "title": "",
+    "demonstrates": ""
+  }
+]

@@ -1,0 +1,956 @@
+/// Measures only - no data. A single home for every measure keeps them out of the tables they happen to read, so a reader browsing FactClaim sees columns and a reader browsing measures sees measures.
+table _Measures
+	lineageTag: c7d88e7e-bbd9-5082-9a28-a1cd62f7df16
+
+	/// The last day anything happens in the file - the latest payment date - read from ModelConfig. Every point-in-time figure is stated on it and nothing in this model hard-codes it.
+	measure 'As-Of Date' =
+			VAR Raw =
+			    CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "AsOfDate", REMOVEFILTERS () )
+			RETURN
+			    DATEVALUE ( Raw )
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Model Context
+		lineageTag: 8f134426-de45-589a-be01-3f60fdd03ad1
+
+	/// The month end every AR figure is read at: the last month end in the current filter, capped at the as-of month, and BLANK when the whole selection is in the future.
+	measure 'Snapshot Month End' =
+			VAR AsOfEnd = EOMONTH ( [As-Of Date], 0 )
+			VAR LastInContext = MAX ( DimDate[MonthEnd] )
+			VAR FirstInContext = MIN ( DimDate[MonthEnd] )
+			RETURN
+			    IF ( FirstInContext <= AsOfEnd, MIN ( LastInContext, AsOfEnd ) )
+		formatString: yyyy-mm-dd
+		isHidden
+		displayFolder: 00 Model Context
+		lineageTag: 628cae5f-dab6-5798-acce-5633d90270fa
+
+	/// First service date in the file.
+	measure 'Data Start Date' =
+			VAR Raw =
+			    CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "DataStartDate", REMOVEFILTERS () )
+			RETURN
+			    DATEVALUE ( Raw )
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Model Context
+		lineageTag: 26cd94e7-8dff-5867-9718-5b8b008d64aa
+
+	/// The last SERVICE date. Claims go on being adjudicated and paid after this, which is why the cash tail runs two months further than the clinical activity.
+	measure 'Service Data End' =
+			VAR Raw =
+			    CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "ServiceDataEnd", REMOVEFILTERS () )
+			RETURN
+			    DATEVALUE ( Raw )
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Model Context
+		lineageTag: aee22da8-7983-565f-acc7-8674dc55d2bf
+
+	/// AUD. Every facility state is Australian and the payers are Medicare, Bupa, Medibank, HCF and NIB.
+	measure Currency = CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "Currency", REMOVEFILTERS () )
+		displayFolder: 00 Model Context
+		lineageTag: 26f55fc7-3d4f-59c1-a1f6-fce46a69fbd5
+
+	/// An ASSUMPTION, not data: the outer limit of a payer timely-filing window, used to mark receivables that could not be collected in practice. Held in ModelConfig so it is visible and changeable in one place.
+	measure 'Timely Filing Days' =
+			VAR Raw =
+			    CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "TimelyFilingDays", REMOVEFILTERS () )
+			RETURN
+			    VALUE ( Raw )
+		formatString: #,0
+		displayFolder: 00 Model Context
+		lineageTag: d9d0dfb2-c6cd-532b-912a-6c638d320905
+
+	/// Allowed. Open AR is carried at the contracted expectation, not at billed - billed AR would overstate the receivable by the whole contractual adjustment.
+	measure 'AR Carried At' = CALCULATE ( MAX ( ModelConfig[ConfigValue] ), ModelConfig[ConfigKey] = "ARCarriedAt", REMOVEFILTERS () )
+		displayFolder: 00 Model Context
+		lineageTag: a80acacb-1fff-5ab9-b667-8caeb42e8d63
+
+	/// The last day a claim was SUBMITTED - 7 September 2026, two months before the last payment. It matters because any rate expressed as days of business has to divide by a window in which business was actually being submitted; a window running to the end of the data would divide by seven days of submissions and report a receivable of twenty-four years.
+	measure 'Last Submission Date' =
+			VAR LastKey = CALCULATE ( MAX ( FactClaim[SubmittedDateKey] ), REMOVEFILTERS () )
+			RETURN
+			    CALCULATE ( MAX ( DimDate[Date] ), REMOVEFILTERS (), DimDate[DateKey] = LastKey )
+		formatString: yyyy-mm-dd
+		displayFolder: 00 Model Context
+		lineageTag: fea6046d-6501-52c4-9f9a-38a315e50b8b
+
+	/// The footer line every page carries: what date the figures stand on, in what currency.
+	measure 'As-Of Label' = "As at " & FORMAT ( [As-Of Date], "d mmm yyyy" ) & "  |  " & [Currency] & "  |  Synthetic data"
+		displayFolder: 00 Model Context
+		lineageTag: 862c8076-b5e1-5b6f-872a-1ed5c472057f
+
+	/// Claims in context. The claim header is the grain: one row, one adjudication decision.
+	measure Claims = COUNTROWS ( FactClaim )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: 0e991843-449e-5632-88bd-0e8465174e78
+
+	/// Procedure lines. About 2.5 per claim. Counted from the line table, which carries its own dimension keys rather than reaching through the header.
+	measure 'Claim Lines' = COUNTROWS ( FactClaimLine )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: 0aa4321f-414b-5721-8e59-945b43a1c3af
+
+	/// Average procedure lines per claim.
+	measure 'Lines per Claim' = DIVIDE ( [Claim Lines], [Claims] )
+		formatString: #,0.00
+		displayFolder: 01 Volume
+		lineageTag: 246ddf45-f399-5b32-88f0-e4bdde4eba5a
+
+	/// Distinct patients on the claims in context. Taken from the CLAIMS, never from the patient dimension: 1,034 of the 30,000 beneficiaries never appear on a claim, and counting the dimension would overstate the treated population by that much.
+	measure 'Patients Treated' = DISTINCTCOUNT ( FactClaim[BeneficiaryKey] )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: f7de12f6-9099-5196-acb0-73500c3c1ac4
+
+	/// Distinct providers who billed in context.
+	measure 'Providers Billing' = DISTINCTCOUNT ( FactClaim[ProviderKey] )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: cc3d1c8f-da82-5bd0-b353-5c6a32223771
+
+	/// Distinct facilities that billed in context.
+	measure 'Facilities Billing' = DISTINCTCOUNT ( FactClaim[FacilityKey] )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: 9e6499dd-1129-5f84-be71-6d606caa6dbd
+
+	/// Average claims per treated patient.
+	measure 'Claims per Patient' = DIVIDE ( [Claims], [Patients Treated] )
+		formatString: #,0.00
+		displayFolder: 01 Volume
+		lineageTag: a8fa13ef-8d0b-52b7-af78-c63200efe615
+
+	/// Average claims per billing provider. It matters for the denial analysis: at roughly 200 claims each, a provider's denial rate carries a standard error of about 1.9 points.
+	measure 'Claims per Provider' = DIVIDE ( [Claims], [Providers Billing] )
+		formatString: #,0.0
+		displayFolder: 01 Volume
+		lineageTag: 357686ef-a303-5f8d-95fc-f2119a05adbd
+
+	/// Claims that settled. Each has exactly one remittance.
+	measure 'Paid Claims' = CALCULATE ( COUNTROWS ( FactClaim ), FactClaim[IsPaid] = TRUE () )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: 804784e4-48ea-53a4-aa94-45d4a2d9e30f
+
+	/// Claims with no payment and no denial - the open receivable. Note that in this source a pending claim NEVER resolves: the pending share is the same in every month of the file.
+	measure 'Pending Claims' = CALCULATE ( COUNTROWS ( FactClaim ), FactClaim[IsPending] = TRUE () )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: d40c57b4-3e44-59b7-b446-05e82aad86bc
+
+	/// Claims adjudicated to zero. Each has exactly one denial row.
+	measure 'Denied Claims' = CALCULATE ( COUNTROWS ( FactClaim ), FactClaim[IsDenied] = TRUE () )
+		formatString: #,0
+		displayFolder: 01 Volume
+		lineageTag: 39ebd07e-0eff-5bce-9358-0028e62730fc
+
+	/// What was charged, at the chargemaster price. Nobody ever pays this - it is the top of the funnel and nothing else.
+	measure Billed = SUM ( FactClaim[BilledAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 06468070-d401-5594-a921-480ac7064236
+
+	/// What the payer agreed to under contract. THE spine of this model: every dollar here ends up collected, owed by a patient, denied, or still in AR, and those four sum back to it on every row.
+	measure Allowed = SUM ( FactClaim[AllowedAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 894dc0ac-5d6f-5479-b553-66acb31dd955
+
+	/// Cash received from the payer.
+	measure Collected = SUM ( FactClaim[PaidAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 0aa279da-c03d-561e-848b-f58f2d330b0f
+
+	/// Billed less allowed: the discount agreed in advance. It is not a loss and it is never presented as one.
+	measure 'Contractual Adjustment' = SUM ( FactClaim[ContractualAdjustment] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 59db2ff9-e769-52bf-9e94-a241ef1ef2ce
+
+	/// The allowed amount the payer did not settle - copay, coinsurance and deductible. In a real revenue cycle this begins a second, slower receivable; this source records no patient payment events, so it is treated as resolved on the payer's payment date and that assumption is stated on the page.
+	measure 'Patient Responsibility' = SUM ( FactClaim[PatientResponsibility] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: f0809858-bc3e-5d82-a301-ef7e2ba8c485
+
+	/// Allowed value on denied claims. Carried at allowed rather than billed, for the same reason AR is.
+	measure 'Denied Amount' = SUM ( FactClaim[DeniedAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 512d01d4-ec00-58da-97f2-72d975809f11
+
+	/// Allowed value sitting on pending claims, read from the claim header rather than the snapshot. Used for the four-bucket identity; the AR pages use the snapshot, which can also be aged.
+	measure 'Open AR (Claim Basis)' = SUM ( FactClaim[OpenARAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 2155ea94-e026-5363-b15b-1be260183712
+
+	/// Collected + patient responsibility + open AR + denied. It must equal Allowed exactly, and the difference is published next to it so the identity is visible rather than merely asserted.
+	measure 'Allowed Buckets Total' = [Collected] + [Patient Responsibility] + [Open AR (Claim Basis)] + [Denied Amount]
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 607b9584-5268-5bdf-bcfb-eff5d1668821
+
+	/// Allowed less the four buckets. Zero, always - on every row and therefore at every level of every aggregation. Shown on the method page as evidence, not as a metric.
+	measure 'Allowed Identity Gap' = [Allowed] - [Allowed Buckets Total]
+		formatString: \$#,0.00
+		displayFolder: 02 Money
+		lineageTag: d4a154a7-24ef-515d-80ff-995b5e876831
+
+	/// Mean charge per claim.
+	measure 'Average Billed per Claim' = DIVIDE ( [Billed], [Claims] )
+		formatString: \$#,0.00
+		displayFolder: 02 Money
+		lineageTag: c201cf74-0db0-55cd-953b-3d2eb6786f2c
+
+	/// Mean contracted value per claim.
+	measure 'Average Allowed per Claim' = DIVIDE ( [Allowed], [Claims] )
+		formatString: \$#,0.00
+		displayFolder: 02 Money
+		lineageTag: c2625322-6de7-5fdc-8e19-41d8d2ed48e7
+
+	/// Mean cash per claim that actually settled.
+	measure 'Average Collected per Paid Claim' =
+			VAR PaidCount = [Paid Claims]
+			RETURN
+			    DIVIDE ( [Collected], PaidCount )
+		formatString: \$#,0.00
+		displayFolder: 02 Money
+		lineageTag: 79e249fb-8daf-5284-9155-dbb9dcd05e24
+
+	/// Charges summed from the LINE table. It reconciles to Billed on every claim, which is why the line table can carry procedure and diagnosis mix without becoming a second source of truth. No measure ever adds this to a header amount.
+	measure 'Line Charges' = SUM ( FactClaimLine[ChargeAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 33ce1b68-a747-5706-a6dc-026de547bd5e
+
+	/// The same cash as Collected, but seen on the PAYMENT date rather than the service date. This is the measure a cash-flow question wants; Collected is the one a revenue question wants.
+	measure 'Cash Received' = SUM ( FactPayment[PaymentAmount] )
+		formatString: \$#,0
+		displayFolder: 02 Money
+		lineageTag: 76a5feb2-907c-5bf8-b77a-811255a4f383
+
+	/// Allowed as a share of billed. It runs 73.4% to 73.6% for every payer including Self Pay, so it is reported group-wide and payers are never ranked by it - there is nothing there to rank.
+	measure 'Allowed Rate %' = DIVIDE ( [Allowed], [Billed] )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: 217bf3fa-1934-59a9-a6f8-202463723b62
+
+	/// The share of billed given away by contract. The complement of the allowed rate.
+	measure 'Contractual Adjustment %' = DIVIDE ( [Contractual Adjustment], [Billed] )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: 03c81f1d-1913-5590-a817-69a2c200ef88
+
+	/// Cash as a share of BILLED. Always a low number and largely meaningless on its own, because most of the gap is a contractual adjustment agreed before the claim was sent. Published because the brief asks for it, next to the net rate that actually means something.
+	measure 'Gross Collection Rate %' = DIVIDE ( [Collected], [Billed] )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: dfd84df5-c306-59c3-86bb-57afa52a2082
+
+	/// Cash as a share of allowed on RESOLVED claims only. This is the figure a revenue-cycle team is measured on: they are not accountable for claims the payer has not answered yet, so pending claims are excluded from the denominator. The gap to 100% is denials plus patient responsibility.
+	measure 'Net Collection Rate %' =
+			VAR ResolvedAllowed =
+			    CALCULATE ( SUM ( FactClaim[AllowedAmount] ), FactClaim[IsPending] = FALSE () )
+			RETURN
+			    DIVIDE ( [Collected], ResolvedAllowed )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: 0b01ed9a-ea77-515f-8414-cf69fd20bdaf
+
+	/// Cash as a share of ALL allowed, pending included. Lower than the resolved figure and shown beside it, because this is what the organisation has actually banked against what it was promised - and in this source, where a pending claim never resolves, the difference between the two is the whole story.
+	measure 'Net Collection Rate (All Claims) %' = DIVIDE ( [Collected], [Allowed] )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: 0e067f8a-dda9-5802-adbc-86d257af08ac
+
+	/// The patient's share of the allowed amount on paid claims - copay, coinsurance and deductible.
+	measure 'Patient Responsibility %' =
+			VAR PaidAllowed =
+			    CALCULATE ( SUM ( FactClaim[AllowedAmount] ), FactClaim[IsPaid] = TRUE () )
+			RETURN
+			    DIVIDE ( [Patient Responsibility], PaidAllowed )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: fabbbeda-09fe-5575-b735-ccd68f686e68
+
+	/// Share of claims that settled.
+	measure 'Paid Claim Rate %' = DIVIDE ( [Paid Claims], [Claims] )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: eb79857b-187f-5fa7-9fde-1b628e33db81
+
+	/// Share of claims still unanswered. It is 20.6% to 25.0% in every submission month of the file, including the first - which is why the ageing that follows from it is arithmetic and not a collections story.
+	measure 'Pending Rate %' = DIVIDE ( [Pending Claims], [Claims] )
+		formatString: 0.0%
+		displayFolder: 03 Rates
+		lineageTag: 6fb7c252-d356-5ed8-9f61-5185a4e4b2a2
+
+	/// Denied claims as a share of claims. The headline acceptance figure, upside down.
+	measure 'Denial Rate %' = DIVIDE ( [Denied Claims], [Claims] )
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: b00716b0-4dba-5b14-9645-6722d41b6343
+
+	/// Denied ALLOWED value as a share of allowed. It tracks the count rate closely here, because claim size has no relationship to denial (r = -0.0001).
+	measure 'Denial Rate (Value) %' = DIVIDE ( [Denied Amount], [Allowed] )
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: e035cec7-c9ae-5440-9b74-62a669678857
+
+	/// Claims accepted on first submission. IMPORTANT: with no resubmission chain anywhere in this source - no original-claim link, no claim with two denials, no denied claim ever paid - this is exactly 1 minus the denial rate, not an independent measurement. It is published with that caveat on the page.
+	measure 'First-Pass Acceptance %' = DIVIDE ( CALCULATE ( COUNTROWS ( FactClaim ), FactClaim[IsFirstPassAccepted] = TRUE () ), [Claims] )
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: e0b13748-259c-54e7-9a02-9f59080749d1
+
+	/// A claim that needed no rework. In this source it is the SAME NUMBER as first-pass acceptance, for the same reason: nothing records a rework. Both are shown on one card so no one reads three measurements where there is one.
+	measure 'Clean Claim Rate %' = [First-Pass Acceptance %]
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: d04f7053-5a4c-5258-acf8-007cf5e751f2
+
+	/// Denial records in context, from the denial fact. Equal to Denied Claims - there is exactly one denial per denied claim - but sliceable by reason and status, which the claim header is not.
+	measure Denials = COUNTROWS ( FactDenial )
+		formatString: #,0
+		displayFolder: 04 Denials
+		lineageTag: d554a359-c49e-5b58-8433-c384e7235728
+
+	/// Allowed value on the denials in context. Read from the denial fact so it can be split by reason.
+	measure 'Denied Value' = SUM ( FactDenial[DeniedAllowed] )
+		formatString: \$#,0
+		displayFolder: 04 Denials
+		lineageTag: bb3c1247-e646-5545-9d38-d1d3b6f4c751
+
+	/// The same denials at chargemaster price. Always the larger, more alarming number; shown once next to the allowed figure to make the point that the allowed one is the real exposure.
+	measure 'Denied Value at Billed' = SUM ( FactDenial[DeniedBilled] )
+		formatString: \$#,0
+		displayFolder: 04 Denials
+		lineageTag: 1fa70698-fe94-5341-a3bf-58d272231d61
+
+	/// A reason's share of all denials in context. The mix is close to uniform across payers and facilities, so this is a WORKLOAD profile - what the denials team has to work - and never a root cause.
+	measure 'Denial Share of Reason %' = DIVIDE ( [Denials], CALCULATE ( [Denials], REMOVEFILTERS ( DimDenialReason ) ) )
+		formatString: 0.0%
+		displayFolder: 04 Denials
+		lineageTag: 4d072d1f-086c-57dd-9e21-e16e2c0ceb03
+
+	/// The share of denials whose reason is a front-end failure - eligibility, prior authorisation or missing information. These are the ones a registration desk can stop before the claim is ever sent.
+	measure 'Preventable at Registration %' =
+			VAR FrontEnd =
+			    CALCULATE ( [Denials], DimDenialReason[ReasonCategory] = "Front-end" )
+			RETURN
+			    DIVIDE ( FrontEnd, CALCULATE ( [Denials], REMOVEFILTERS ( DimDenialReason ) ) )
+		formatString: 0.0%
+		displayFolder: 04 Denials
+		lineageTag: 2f0a78c4-4d18-560d-969a-d7dd4bc8527d
+
+	/// The denial rate on self-funded patients: 2.95%, and the only genuinely different number in the data.
+	measure 'Self Pay Denial Rate %' = CALCULATE ( [Denial Rate %], DimPayer[IsSelfPay] = TRUE (), REMOVEFILTERS ( DimPayer ) )
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: b09feb21-cf3b-5bd1-b5ac-96f51dc99eed
+
+	/// The denial rate across the five insurers: 8.79%. Among themselves they sit within 0.66 points of one another, which at these volumes is noise.
+	measure 'Insured Denial Rate %' = CALCULATE ( [Denial Rate %], DimPayer[IsSelfPay] = FALSE (), REMOVEFILTERS ( DimPayer ) )
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: 0d721f1e-8905-56ce-9b39-8e53440e5e20
+
+	/// Insured denial rate less self-pay denial rate, in percentage points. The largest effect anywhere in this dataset, and the only one the report treats as a finding.
+	measure 'Self Pay Gap (pp)' = ( [Insured Denial Rate %] - [Self Pay Denial Rate %] ) * 100
+		formatString: +0.0;-0.0;0.0
+		displayFolder: 04 Denials
+		lineageTag: 512a66ac-30d9-5947-b4be-161a911230e0
+
+	/// Denials in the terminal workflow state. The source records no write-off AMOUNT, so the value of these is read as their allowed amount and labelled as such.
+	measure 'Denials Written Off' = CALCULATE ( [Denials], DimDenialStatus[IsTerminal] = TRUE () )
+		formatString: #,0
+		displayFolder: 04 Denials
+		lineageTag: cd8c0779-bd9b-5532-b6c6-cb793f7542d3
+
+	/// The share of denials sitting in a non-terminal workflow state. This is queue depth, NOT a recovery prospect: no denied claim in this file was ever paid, including every one marked Corrected or Appealed.
+	measure 'Denials Still Open %' =
+			VAR TerminalCount = CALCULATE ( [Denials], DimDenialStatus[IsTerminal] = TRUE () )
+			VAR AllDenials = CALCULATE ( [Denials], REMOVEFILTERS ( DimDenialStatus ) )
+			RETURN
+			    DIVIDE ( AllDenials - COALESCE ( TerminalCount, 0 ), AllDenials )
+		formatString: 0.0%
+		displayFolder: 04 Denials
+		lineageTag: b670ed42-0dfb-5bfa-b857-5475a9c6a3c6
+
+	/// Cash recovered on denied claims as a share of denied value. It is ZERO by construction in this source - not small, zero - and it is published precisely so the page can say that appeal yield is unmeasurable here rather than leaving a reader to assume it was overlooked.
+	measure 'Denial Recovery Rate %' =
+			VAR RecoveredCash =
+			    CALCULATE ( SUM ( FactClaim[PaidAmount] ), FactClaim[IsDenied] = TRUE () )
+			RETURN
+			    DIVIDE ( COALESCE ( RecoveredCash, 0 ), [Denied Amount] )
+		formatString: 0.00%
+		displayFolder: 04 Denials
+		lineageTag: 3944fddf-52dd-5f92-a3a0-cdef4e69a314
+
+	/// The receivable at the snapshot month end: what was submitted and not yet resolved, at allowed. A STOCK - read at one month end, never summed across months, and BLANK when the whole selection is beyond the data.
+	measure 'Open AR' =
+			VAR SnapEnd = [Snapshot Month End]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapEnd ),
+			        CALCULATE (
+			            SUM ( FactARSnapshot[ARAmount] ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[Date] = SnapEnd
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: f3375130-3c27-50e4-8bb6-a9d9b91cbe3a
+
+	/// Claims sitting in AR at the snapshot month end.
+	measure 'AR Claims' =
+			VAR SnapEnd = [Snapshot Month End]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapEnd ),
+			        CALCULATE (
+			            COUNTROWS ( FactARSnapshot ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[Date] = SnapEnd
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: 12afa49d-4b77-579e-93a0-d31d7fd4e77b
+
+	/// Mean receivable per open claim.
+	measure 'Average AR per Claim' = DIVIDE ( [Open AR], [AR Claims] )
+		formatString: \$#,0.00
+		displayFolder: 05 Accounts Receivable
+		lineageTag: e443f94f-052d-500e-92ef-63b1a8413e84
+
+	/// The average age of the receivable WEIGHTED BY DOLLARS, not by claim. A big old claim should move this number more than a small fresh one, and an unweighted average lets a pile of small recent claims hide a large stale one.
+	measure 'AR Weighted Age (Days)' =
+			VAR SnapEnd = [Snapshot Month End]
+			VAR SnapRows =
+			    CALCULATETABLE (
+			        FactARSnapshot,
+			        REMOVEFILTERS ( DimDate ),
+			        DimDate[Date] = SnapEnd
+			    )
+			VAR WeightedDays = SUMX ( SnapRows, FactARSnapshot[ARAmount] * FactARSnapshot[AgeDays] )
+			VAR TotalAmount = SUMX ( SnapRows, FactARSnapshot[ARAmount] )
+			RETURN
+			    IF ( NOT ISBLANK ( SnapEnd ), DIVIDE ( WeightedDays, TotalAmount ) )
+		formatString: #,0.0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: e04f75ea-c368-5fe6-a858-aadf870b535e
+
+	/// The middle claim's age at the snapshot month end. Published next to the weighted age because a gap between the two would mean the oldest receivables are also the largest. Here they agree to within a week, which says claim size and claim age are unrelated - consistent with everything else measured about this source.
+	measure 'AR Median Age (Days)' =
+			VAR SnapEnd = [Snapshot Month End]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapEnd ),
+			        CALCULATE (
+			            MEDIANX ( FactARSnapshot, FactARSnapshot[AgeDays] ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[Date] = SnapEnd
+			        )
+			    )
+		formatString: #,0.0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: cc4e56f5-a565-515a-9b5c-77a52f16756f
+
+	/// Receivable older than the timely-filing window. In a real revenue cycle this is not a receivable at all - it is a write-off that has not been recognised yet.
+	measure 'AR Past Filing Limit' = CALCULATE ( [Open AR], DimARBucket[IsPastFiling] = TRUE () )
+		formatString: \$#,0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: 7284fc90-5c47-5ff9-9423-7372f45d6ade
+
+	/// The share of the receivable beyond any payer's filing window. It is 77% here, which is the clearest single sign that 'Pending' in this source is a permanent label rather than a claim in flight.
+	measure 'AR Past Filing %' =
+			VAR PastFiling = CALCULATE ( [Open AR], DimARBucket[IsPastFiling] = TRUE () )
+			RETURN
+			    DIVIDE ( COALESCE ( PastFiling, 0 ), CALCULATE ( [Open AR], REMOVEFILTERS ( DimARBucket ) ) )
+		formatString: 0.0%
+		displayFolder: 05 Accounts Receivable
+		lineageTag: ff706593-c12d-592e-b685-767e44b5f18a
+
+	/// The receivable, plus zero, so that an EMPTY ageing bucket still draws. The two freshest buckets are empty at the as-of month end - nothing has been submitted for 84 days - and a blank bar silently vanishing from the ladder would hide precisely the thing worth seeing.
+	measure 'Open AR (All Buckets)' =
+			VAR Amount = [Open AR]
+			RETURN
+			    IF ( NOT ISBLANK ( [Snapshot Month End] ), COALESCE ( Amount, 0 ) )
+		formatString: \$#,0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: 9076f0c7-4e94-53de-9d05-6721d45c0dfe
+
+	/// An ageing bucket's share of the whole receivable.
+	measure 'AR Bucket Share %' = DIVIDE ( [Open AR], CALCULATE ( [Open AR], REMOVEFILTERS ( DimARBucket ) ) )
+		formatString: 0.0%
+		displayFolder: 05 Accounts Receivable
+		lineageTag: 5fa9389f-c24c-5c62-b395-8be584690c46
+
+	/// The receivable expressed as days of submitted business - the revenue cycle's DSO. Open AR divided by the average daily allowed value SUBMITTED over the preceding 91 days, because a receivable is created on submission and that is the relationship this measure switches on explicitly. THE WINDOW IS CAPPED AT THE LAST SUBMISSION DATE. Claims stop being submitted on 7 September 2026 but cash goes on arriving until 3 November, so a window running to the end of the data would divide a full receivable by seven days of business and report a DSO of about 8,700 days. Capping it divides by a quarter in which claims were actually being sent.
+	measure 'Days in AR' =
+			VAR SnapEnd = [Snapshot Month End]
+			VAR WindowEnd = MIN ( SnapEnd, [Last Submission Date] )
+			VAR Recent =
+			    CALCULATE (
+			        SUM ( FactClaim[AllowedAmount] ),
+			        REMOVEFILTERS ( DimDate ),
+			        DATESINPERIOD ( DimDate[Date], WindowEnd, -91, DAY ),
+			        USERELATIONSHIP ( FactClaim[SubmittedDateKey], DimDate[DateKey] )
+			    )
+			RETURN
+			    IF ( NOT ISBLANK ( SnapEnd ), DIVIDE ( [Open AR], DIVIDE ( Recent, 91 ) ) )
+		formatString: #,0.0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: c2e581f0-2fa9-5a93-929a-c78283d89f5a
+
+	/// The receivable at the END of the previous month - the opening balance for the period in context. The other half of the roll-forward.
+	measure 'AR Opening' =
+			VAR SnapEnd = [Snapshot Month End]
+			VAR PriorEnd = EOMONTH ( SnapEnd, -1 )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapEnd ),
+			        CALCULATE (
+			            SUM ( FactARSnapshot[ARAmount] ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[Date] = PriorEnd
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 05 Accounts Receivable
+		lineageTag: df6f2f7e-94b6-5e49-a804-a88d7d2882e7
+
+	/// Signed movement in the receivable: positive on submission, negative as cash, patient responsibility or denial. A FLOW, so unlike Open AR it sums across months correctly.
+	measure 'AR Movement' = SUM ( FactARMovement[Amount] )
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: 4257e083-679b-5f10-822a-5d06b1586065
+
+	/// The same figure plus zero, so a waterfall draws every component including any that happens to be empty. A blank component silently vanishes from a waterfall, which defeats the point of showing the bridge.
+	measure 'AR Movement (All Components)' = SUM ( FactARMovement[Amount] ) + 0
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: a825cd84-6ca9-5c8c-951d-4fb10423f063
+
+	/// Allowed value entering the receivable as claims are submitted.
+	measure 'AR In (Submitted)' = CALCULATE ( [AR Movement], DimARMovementType[MovementType] = "Submitted" )
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: 759b3009-00f4-545b-bedc-9cf5d808e36b
+
+	/// Allowed value leaving as payer cash. Shown positive on the page; negative here so the bridge adds up.
+	measure 'AR Out (Collected)' = CALCULATE ( [AR Movement], DimARMovementType[MovementType] = "Collected" )
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: f4875cfa-6f5c-5fee-a26c-b26166b3d93c
+
+	/// Allowed value leaving as patient responsibility. It leaves the payer receivable on the payment date - a stated assumption, because this source records no patient payment events.
+	measure 'AR Out (Patient)' = CALCULATE ( [AR Movement], DimARMovementType[MovementType] = "Patient responsibility" )
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: 9b9f2311-0ed2-559d-9439-e5205e851744
+
+	/// Allowed value leaving as a denial.
+	measure 'AR Out (Denied)' = CALCULATE ( [AR Movement], DimARMovementType[MovementType] = "Denied" )
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: 23d483c0-233f-5ca5-8ca6-71859146bbd6
+
+	/// Net movement during the SNAPSHOT MONTH specifically, whatever period the visual is showing. The plain movement measure follows the visual's own date filter, which is right for a flow but wrong for checking a balance: with no date filter it spans four years while the opening balance is one month back. This one is anchored to the same month the balances are.
+	measure 'AR Movement in Snapshot Month' =
+			VAR SnapEnd = [Snapshot Month End]
+			VAR SnapStart = DATE ( YEAR ( SnapEnd ), MONTH ( SnapEnd ), 1 )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( SnapEnd ),
+			        CALCULATE (
+			            SUM ( FactARMovement[Amount] ),
+			            REMOVEFILTERS ( DimDate ),
+			            DimDate[Date] >= SnapStart && DimDate[Date] <= SnapEnd
+			        )
+			    )
+		formatString: \$#,0
+		displayFolder: 06 AR Movement
+		lineageTag: a502bb7f-9d64-5887-8309-c332b2cbab38
+
+	/// Closing AR less opening AR less the month's net movement. Zero in all 47 months AND at every grain, because all three terms are anchored to the same month - which is what makes the snapshot and the ledger evidence for each other rather than two numbers that happen to sit on the same page.
+	measure 'AR Roll-Forward Check' =
+			VAR SnapEnd = [Snapshot Month End]
+			VAR OpeningAR = COALESCE ( [AR Opening], 0 )
+			VAR NetMove = COALESCE ( [AR Movement in Snapshot Month], 0 )
+			RETURN
+			    IF ( NOT ISBLANK ( SnapEnd ), [Open AR] - OpeningAR - NetMove )
+		formatString: \$#,0.00
+		displayFolder: 06 AR Movement
+		lineageTag: 020788ce-b469-59ec-ba2e-51f71b9b7c55
+
+	/// Allowed value leaving the receivable in the period as a share of what entered it. Above 100% means the backlog shrank; below, it grew.
+	measure 'Resolution Rate %' =
+			VAR CameIn = [AR In (Submitted)]
+			VAR WentOut =
+			    - ( COALESCE ( [AR Out (Collected)], 0 ) + COALESCE ( [AR Out (Patient)], 0 )
+			        + COALESCE ( [AR Out (Denied)], 0 ) )
+			RETURN
+			    DIVIDE ( WentOut, CameIn )
+		formatString: 0.0%
+		displayFolder: 06 AR Movement
+		lineageTag: 777c5977-db16-5a05-a0ef-9db6708d981b
+
+	/// Service to submission, in days. This is the PROVIDER'S own lag - the one part of the clock a billing office controls outright.
+	measure 'Days to Submit' = AVERAGE ( FactClaim[DaysToSubmit] )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: 0b1be407-45ea-53c7-a04a-d6c2f11841a9
+
+	/// Submission to the payer's decision, in days.
+	measure 'Days to Adjudicate' = AVERAGE ( FactClaim[DaysToProcess] )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: 4531807a-25d1-5d0d-8719-e81c4be6e809
+
+	/// Submission to cash or denial, in days. Pending claims are excluded - they have no resolution date, and including them as zero would flatter the figure enormously.
+	measure 'Days to Resolve' = AVERAGE ( FactClaim[DaysToResolve] )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: bfb53531-ab61-5021-b3ef-3882d9234df6
+
+	/// Submission to payment, measured on the payment fact. The end-to-end number a revenue-cycle team quotes.
+	measure 'Days to Cash' = AVERAGE ( FactPayment[DaysToPay] )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: 61090904-9272-5c83-8159-8e072948f406
+
+	/// How long the payer takes to release money after deciding to. A median of five days here, which is fast and consistent.
+	measure 'Days Adjudication to Cash' =
+			VAR PaidRows = CALCULATETABLE ( FactClaim, FactClaim[IsPaid] = TRUE () )
+			RETURN
+			    AVERAGEX ( PaidRows, FactClaim[DaysToResolve] - FactClaim[DaysToProcess] )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: 29a8c93d-c30d-5782-b636-6d0795f5a4e5
+
+	/// Submission to cash, measured on the CLAIM rather than on the payment. Identical to [Days to Cash] at the grand total - both average the same 69,111 lags - but it hangs off the claim's own date relationship, so it can share a time axis with the other two intervals.  WHY THIS EXISTS: [Days to Cash] reads FactPayment, whose active date is the PAYMENT date, while days to submit and days to adjudicate read FactClaim, whose active date is the SERVICE date. Plotted together they put service months and payment months on one axis, and the line ran off the end of the chart in the two months when cash was still arriving for care delivered earlier.
+	measure 'Days to Cash (Claim Basis)' = CALCULATE ( AVERAGE ( FactClaim[DaysToResolve] ), FactClaim[IsPaid] = TRUE () )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: c155698f-69f6-5ed2-bae6-9946dcb97006
+
+	/// The middle claim's submission-to-cash time. Published beside the mean because a mean hides a tail and a median does not.
+	measure 'Median Days to Cash' = MEDIANX ( FactPayment, FactPayment[DaysToPay] )
+		formatString: #,0.0
+		displayFolder: 07 Timeliness
+		lineageTag: 677c993d-cc44-5c77-a515-892f9313871d
+
+	/// Share of claims sent within three days of service. The provider's own discipline, isolated from anything a payer does.
+	measure 'Submitted within 3 Days %' =
+			VAR Quick = CALCULATE ( [Claims], FactClaim[DaysToSubmit] <= 3 )
+			RETURN
+			    DIVIDE ( COALESCE ( Quick, 0 ), [Claims] )
+		formatString: 0.0%
+		displayFolder: 07 Timeliness
+		lineageTag: dd94a242-a2a9-5553-bec4-522790bf8bde
+
+	/// Share of claims the payer answered inside 30 days.
+	measure 'Adjudicated within 30 Days %' =
+			VAR Quick = CALCULATE ( [Claims], FactClaim[DaysToProcess] <= 30 )
+			RETURN
+			    DIVIDE ( COALESCE ( Quick, 0 ), [Claims] )
+		formatString: 0.0%
+		displayFolder: 07 Timeliness
+		lineageTag: ad832819-76f6-58a8-aa15-e4bde6e2f093
+
+	/// Share of PAID claims where cash arrived inside 45 days of submission. Measured on paid claims only, and labelled that way: a pending claim has not failed this test, it simply has not taken it.
+	measure 'Paid within 45 Days %' =
+			VAR Quick = CALCULATE ( COUNTROWS ( FactPayment ), FactPayment[DaysToPay] <= 45 )
+			RETURN
+			    DIVIDE ( COALESCE ( Quick, 0 ), COUNTROWS ( FactPayment ) )
+		formatString: 0.0%
+		displayFolder: 07 Timeliness
+		lineageTag: 050e8822-680a-54d1-af81-46c32cf88a9c
+
+	/// The slowest claim to settle, in days.
+	measure 'Longest Days to Cash' = MAX ( FactPayment[DaysToPay] )
+		formatString: #,0
+		displayFolder: 07 Timeliness
+		lineageTag: 5a2e088d-3497-5a68-a1dc-4186d368136a
+
+	/// Cramer's V between a dimension and the denied flag, computed in SQL on every refresh. Comparable across dimensions with different numbers of values, which a raw chi-square is not.
+	measure 'Signal Strength' = AVERAGE ( DenialSignal[CramersV] )
+		formatString: 0.0000
+		displayFolder: 08 Method & Evidence
+		lineageTag: 9048d232-d2ad-555b-a57d-e7cb14608211
+
+	/// The largest association with denial anywhere in the data: payer, at 0.081. The next is facility at 0.015.
+	measure 'Strongest Signal' = CALCULATE ( MAX ( DenialSignal[CramersV] ), REMOVEFILTERS ( DenialSignal ) )
+		formatString: 0.0000
+		displayFolder: 08 Method & Evidence
+		lineageTag: b9232bab-fad1-5a04-93ea-9ca42e682f77
+
+	/// Which dimension that is. Computed rather than typed, so it cannot disagree with the chart beside it.
+	measure 'Strongest Signal Dimension' =
+			VAR Best = CALCULATE ( MAX ( DenialSignal[CramersV] ), REMOVEFILTERS ( DenialSignal ) )
+			RETURN
+			    CALCULATE (
+			        MAX ( DenialSignal[Dimension] ),
+			        REMOVEFILTERS ( DenialSignal ),
+			        DenialSignal[CramersV] = Best
+			    )
+		displayFolder: 08 Method & Evidence
+		lineageTag: 1e215582-a297-52fc-97fa-2f77d6c2af56
+
+	/// How many candidate dimensions were put through the test. All of them, not just the ones that worked.
+	measure 'Dimensions Tested' = CALCULATE ( COUNTROWS ( DenialSignal ), REMOVEFILTERS ( DenialSignal ) )
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: dadb1382-5970-5e75-b7af-f4f03d094c73
+
+	/// How many passed the stated rule of Cramer's V at or above 0.02. One.
+	measure 'Dimensions with Signal' =
+			CALCULATE (
+			    COUNTROWS ( DenialSignal ),
+			    REMOVEFILTERS ( DenialSignal ),
+			    DenialSignal[SignalVerdict] = "Signal"
+			)
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: 05cdace6-ec1e-5411-bde3-208c212f7190
+
+	/// Percentage points between the highest and lowest denial rate inside a dimension. Useful, and on its own misleading - a dimension with 30 values will always spread further than one with three, which is exactly why the chi-square sits next to it.
+	measure 'Denial Rate Spread (pp)' = AVERAGE ( DenialSignal[SpreadPP] )
+		formatString: #,0.00
+		displayFolder: 08 Method & Evidence
+		lineageTag: cccb5bc6-eb83-51f1-9f68-0b9ce21a85fb
+
+	/// Providers in the chance table.
+	measure 'Providers Measured' = COUNTROWS ( ProviderChance )
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: 6d8365a0-06fa-5531-9e2d-dbfb45a50768
+
+	/// Providers whose denial rate is more than two standard errors from the group rate - the ones a league table would name.
+	measure 'Providers Beyond 2 SE' = CALCULATE ( COUNTROWS ( ProviderChance ), ProviderChance[ChanceBand] <> "Within chance" )
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: 624d032e-0636-5775-83f5-82ec2ae17fcb
+
+	/// Their share of all providers: 4.6%. A normal distribution puts 4.55% beyond two standard deviations, so the number of apparent outliers is exactly what chance produces.
+	measure 'Providers Beyond 2 SE %' =
+			VAR Outliers =
+			    CALCULATE ( COUNTROWS ( ProviderChance ), ProviderChance[ChanceBand] <> "Within chance" )
+			RETURN
+			    DIVIDE ( COALESCE ( Outliers, 0 ), COUNTROWS ( ProviderChance ) )
+		formatString: 0.0%
+		displayFolder: 08 Method & Evidence
+		lineageTag: c84a559e-b9e8-5136-ab9d-5b1ae8c14392
+
+	/// 4.55%: the share of a normal distribution beyond two standard deviations. The baseline the observed share is compared against, stated as a constant because it is one.
+	measure 'Expected Beyond 2 SE %' = 0.0455
+		formatString: 0.0%
+		displayFolder: 08 Method & Evidence
+		lineageTag: f6081e29-b419-5f45-b41f-8194c1add23a
+
+	/// The most extreme provider, in standard errors. About 3.3 - which is roughly the maximum 500 draws from a normal distribution produce, so even the worst-looking provider is unremarkable.
+	measure 'Largest Provider Z-Score' = MAXX ( ProviderChance, ABS ( ProviderChance[ZScore] ) )
+		formatString: #,0.00
+		displayFolder: 08 Method & Evidence
+		lineageTag: a5c80150-df90-5b18-87a7-8e77e56606bc
+
+	/// A provider's own denial rate, from the chance table.
+	measure 'Provider Denial Rate' = AVERAGE ( ProviderChance[DenialRate] )
+		formatString: 0.00%
+		displayFolder: 08 Method & Evidence
+		lineageTag: 4b6db4d2-76ae-5fda-a747-7c8e5b73ab5b
+
+	/// The binomial standard error at that provider's claim count. The width of the band the rate is allowed to wander in before it means anything.
+	measure 'Provider Standard Error' = AVERAGE ( ProviderChance[StandardError] )
+		formatString: 0.0000
+		displayFolder: 08 Method & Evidence
+		lineageTag: c50dae7a-b74b-5eb3-a98b-fa4df2909a88
+
+	/// The denial rate across all claims, as the chance table computed it. The line every provider is compared against.
+	measure 'Group Denial Rate' = AVERAGE ( ProviderChance[GroupRate] )
+		formatString: 0.00%
+		displayFolder: 08 Method & Evidence
+		lineageTag: f42c5b5e-6472-52af-bb6d-ab02825c36c4
+
+	/// A constant 100%, so a gauge showing a rate is scaled 0 to 1 instead of to twice its own value - which is what Power BI does when no maximum is given, and which makes 83% look like the middle of the dial.
+	measure 'Rate Scale Max' = 1
+		formatString: 0.0%
+		isHidden
+		displayFolder: 08 Method & Evidence
+		lineageTag: 5fb6c6df-7ea9-5912-8257-30bf0316926e
+
+	/// 95%. A BENCHMARK, not data: the net collection rate a healthy revenue cycle is normally held to. It is here so the gauge has something to be measured against, and it is labelled as an outside reference.
+	measure 'Net Collection Benchmark' = 0.95
+		formatString: 0.0%
+		displayFolder: 08 Method & Evidence
+		lineageTag: 02e2a5ed-341b-563e-a234-cd24456dacd7
+
+	/// The verdict for the dimension in context, as a text MEASURE. A matrix will render this where a text COLUMN may not, and a matrix is what lets the verdict table lose its total row - an average of Cramer's V across ten dimensions is not a number that means anything.
+	measure 'Signal Verdict' = SELECTEDVALUE ( DenialSignal[SignalVerdict] )
+		displayFolder: 08 Method & Evidence
+		lineageTag: 91d33ff0-51ca-503f-9a15-19d7eb17b81f
+
+	/// A Phase 1 finding, formatted in the units it belongs in - a count, a dollar amount or a percentage - because one column holds all three and a single format string would be wrong for two of them.
+	measure 'Data Quality Value' =
+			VAR Amount = SUM ( DataQualityMetric[MetricValue] )
+			VAR Fmt = SELECTEDVALUE ( DataQualityMetric[ValueFormat] )
+			RETURN
+			    IF ( NOT ISBLANK ( Amount ), FORMAT ( Amount, Fmt ) )
+		displayFolder: 08 Method & Evidence
+		lineageTag: d5ddba74-0d97-51df-b8dc-c5ef93056762
+
+	/// How many audit findings are recomputed from the source on every refresh rather than typed into a text box.
+	measure 'Findings Recorded' = COUNTROWS ( DataQualityMetric )
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: f257eeba-ac39-5b96-b531-7c1e1740c0a8
+
+	/// Days this build had to add because the supplied calendar stopped at the last service date.
+	measure 'Calendar Days Added' =
+			CALCULATE (
+			    COUNTROWS ( DimDate ),
+			    REMOVEFILTERS ( DimDate ),
+			    DimDate[InSuppliedCalendar] = FALSE ()
+			)
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: bbe722da-2332-574a-b4c8-3cb585a671b1
+
+	/// Claims whose ADJUDICATION date falls past the end of the supplied calendar. Every one of them would have joined to a blank date and disappeared from any measure sliced by adjudication month.
+	measure 'Claims Outside Supplied Calendar' =
+			CALCULATE (
+			    COUNTROWS ( FactClaim ),
+			    REMOVEFILTERS ( DimDate ),
+			    DimDate[InSuppliedCalendar] = FALSE (),
+			    USERELATIONSHIP ( FactClaim[ProcessedDateKey], DimDate[DateKey] )
+			)
+		formatString: #,0
+		displayFolder: 08 Method & Evidence
+		lineageTag: 213aebf8-65aa-5de1-a98d-24956c093f46
+
+	/// Colour for the ageing chart: a cool-to-hot ramp from fresh to past saving. This is the one place in the report where colour carries an ORDER, because age is the one thing here that genuinely has one.
+	measure 'AR Bucket Colour' =
+			VAR Bucket = SELECTEDVALUE ( DimARBucket[ARBucket] )
+			RETURN
+			    SWITCH (
+			        Bucket,
+			        "0-30", "#37C9A8",
+			        "31-60", "#4FB3C4",
+			        "61-90", "#6AA9E0",
+			        "91-180", "#F2B441",
+			        "181-365", "#E8944B",
+			        "365+", "#E8657A",
+			        "#5B767C"
+			    )
+		displayFolder: 09 Formatting
+		lineageTag: d74765ae-292f-5efb-97ed-68fb1468a985
+
+	/// Colour for the AR bridge: money entering the receivable, money leaving as cash, and money leaving as anything else. Not a traffic light - the patient's share is neither good nor bad, it is simply somebody else's to pay.
+	measure 'Movement Colour' =
+			VAR MoveType = SELECTEDVALUE ( DimARMovementType[MovementType] )
+			RETURN
+			    SWITCH (
+			        MoveType,
+			        "Submitted", "#37C9A8",
+			        "Collected", "#37C9A8",
+			        "Patient responsibility", "#F2B441",
+			        "Denied", "#E8657A",
+			        "#5B767C"
+			    )
+		displayFolder: 09 Formatting
+		lineageTag: 9830828e-7790-538e-8f84-796fee3a469d
+
+	/// Colour for the signal chart: a dimension that passed the stated test is drawn in the accent, and one that did not is drawn flat grey. The page should say 'there is nothing here' with its ink as well as its words.
+	measure 'Signal Colour' =
+			VAR Verdict = SELECTEDVALUE ( DenialSignal[SignalVerdict] )
+			RETURN
+			    IF ( Verdict = "Signal", "#37C9A8", "#5B767C" )
+		displayFolder: 09 Formatting
+		lineageTag: a268489a-9d8e-5cb0-83fb-2deb9dcebb35
+
+	/// Colour for the provider distribution: everything inside two standard errors is one muted tone, because the point of the chart is that almost all of it is inside.
+	measure 'Chance Band Colour' =
+			VAR Band = SELECTEDVALUE ( ProviderChance[ChanceBand] )
+			RETURN
+			    SWITCH (
+			        Band,
+			        "Within chance", "#5B767C",
+			        "Above chance", "#E8657A",
+			        "Below chance", "#6AA9E0",
+			        "#5B767C"
+			    )
+		displayFolder: 09 Formatting
+		lineageTag: 85af43f9-82cb-54ff-bcde-10f84413817e
+
+	/// Self Pay is drawn in the accent and the five insurers in one muted tone, because the finding is the split between them and not the differences among the five.
+	measure 'Payer Colour' =
+			VAR SelfPay = SELECTEDVALUE ( DimPayer[IsSelfPay] )
+			RETURN
+			    IF ( SelfPay = TRUE (), "#37C9A8", "#5B767C" )
+		displayFolder: 09 Formatting
+		lineageTag: 4aa000a3-fee2-5e5a-b3e5-4ef0abeb7f36
+
+	/// The one-line summary of the receivable, computed so it can never disagree with the chart beside it.
+	measure 'AR Headline' =
+			VAR Amount = [Open AR]
+			VAR PastFilingShare = [AR Past Filing %]
+			RETURN
+			    IF (
+			        NOT ISBLANK ( Amount ),
+			        FORMAT ( Amount, "$#,0" ) & " outstanding, "
+			            & FORMAT ( PastFilingShare, "0%" ) & " of it past any filing limit"
+			    )
+		displayFolder: 10 Narrative
+		lineageTag: db0aba3c-e1f4-5d05-80df-b41baf6c9bb5
+
+	/// The denial rate with the one comparison that means anything attached to it.
+	measure 'Denial Headline' =
+			FORMAT ( [Denial Rate %], "0.0%" ) & " denied  |  Self Pay "
+			    & FORMAT ( [Self Pay Denial Rate %], "0.0%" ) & " vs insured "
+			    & FORMAT ( [Insured Denial Rate %], "0.0%" )
+		displayFolder: 10 Narrative
+		lineageTag: 5d47580d-ef5a-5b69-94c4-66b3db1cc2b6
+
+	/// Net collection rate on resolved claims, with the all-claims figure beside it so neither can be quoted alone.
+	measure 'Collection Headline' =
+			VAR Resolved = FORMAT ( [Net Collection Rate %], "0.0%" )
+			VAR AllClaims = FORMAT ( [Net Collection Rate (All Claims) %], "0.0%" )
+			RETURN
+			    Resolved & " of resolved allowed collected  |  " & AllClaims & " of all allowed"
+		displayFolder: 10 Narrative
+		lineageTag: 1391dfc7-26ab-5270-9900-5b05aa013b2b
+
+	/// What the signal test found, stated from the data rather than typed.
+	measure 'Method Headline' =
+			[Dimensions with Signal] & " of " & [Dimensions Tested]
+			    & " dimensions carry any signal at all - the strongest is "
+			    & [Strongest Signal Dimension] & " at V = " & FORMAT ( [Strongest Signal], "0.000" )
+		displayFolder: 10 Narrative
+		lineageTag: 1cba9c57-230b-54ef-8e4c-0c6b6da4d407
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: ac6e94af-dcf5-59f3-94d7-d34f9c7cfe19
+		summarizeBy: none
+		sourceColumn: Placeholder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table(type table [Placeholder = text], {})
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

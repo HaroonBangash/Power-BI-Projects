@@ -1,0 +1,63 @@
+/// Six payers: Medicare, four private insurers and Self Pay. PayerType and IsSelfPay exist because the Self Pay split is the ONLY real denial signal in this data - Self Pay denies at 2.95% against 8.79% for the insurers, while the five insurers sit within 0.66 points of one another.
+table DimPayer
+	lineageTag: d4475799-573a-52f9-9437-319860fccd0e
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: a8adbdf4-b13f-50d3-9efe-85bd57462864
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerID
+		dataType: string
+		isHidden
+		lineageTag: 6154d637-029b-5900-8df3-582b0ed3cf35
+		summarizeBy: none
+		sourceColumn: PayerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerName
+		dataType: string
+		lineageTag: 487a18c7-8e35-5bda-b0b1-3a5b9a965664
+		summarizeBy: none
+		sourceColumn: PayerName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Government, private health insurer, or self-funded patient.
+	column PayerType
+		dataType: string
+		lineageTag: 9b761c14-4bae-5a4a-8496-8811eb919165
+		summarizeBy: none
+		sourceColumn: PayerType
+
+		annotation SummarizationSetBy = Automatic
+
+	/// TRUE for the one payer whose denial rate is genuinely different.
+	column IsSelfPay
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5a14a200-6575-501a-802a-1e186a918746
+		summarizeBy: none
+		sourceColumn: IsSelfPay
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPayer = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimPayer = Source{[Schema="analytics",Item="vw_DimPayer"]}[Data]
+				in
+				    analytics_vw_DimPayer
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

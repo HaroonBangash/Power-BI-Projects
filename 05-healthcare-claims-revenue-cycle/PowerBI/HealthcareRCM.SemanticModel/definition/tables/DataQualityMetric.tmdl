@@ -1,0 +1,73 @@
+/// DISCONNECTED. The Phase 1 findings as data, recomputed on every refresh. A finding written into a text box goes stale the moment the source changes; one computed from the source cannot.
+table DataQualityMetric
+	lineageTag: 928d2081-d3c1-5d25-80f6-2d9710d43aba
+
+	column MetricOrder
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: caf10ff3-a994-5ce3-b654-991ca47ada42
+		summarizeBy: none
+		sourceColumn: MetricOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 37cac06b-15b8-5d06-a786-075827177140
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Metric
+		dataType: string
+		lineageTag: 021a440f-0fac-5173-8824-5185aa981b94
+		summarizeBy: none
+		sourceColumn: Metric
+		sortByColumn: MetricOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricValue
+		dataType: double
+		formatString: #,0
+		lineageTag: 87580c95-9c15-53da-b703-f376508db5c3
+		summarizeBy: sum
+		sourceColumn: MetricValue
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The format string this metric should be shown in.
+	column ValueFormat
+		dataType: string
+		isHidden
+		lineageTag: 862efbee-97d8-5b77-9b00-81ff7c4894a0
+		summarizeBy: none
+		sourceColumn: ValueFormat
+
+		annotation SummarizationSetBy = Automatic
+
+	/// What the number means, and what follows from it.
+	column Interpretation
+		dataType: string
+		lineageTag: 4b310b4c-a0e3-58ab-855f-0a868279e0e2
+		summarizeBy: none
+		sourceColumn: Interpretation
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DataQualityMetric = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DataQualityMetric = Source{[Schema="analytics",Item="vw_DataQualityMetric"]}[Data]
+				in
+				    analytics_vw_DataQualityMetric
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

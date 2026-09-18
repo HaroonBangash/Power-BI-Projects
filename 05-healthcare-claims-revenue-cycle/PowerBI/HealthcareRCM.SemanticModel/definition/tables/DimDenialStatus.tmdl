@@ -1,0 +1,64 @@
+/// Open, Appealed, Corrected or Written Off. These are WORKFLOW STATES, not outcomes: no denied claim in this file was ever paid, including every one marked Corrected or Appealed. Nothing in the model reads any of them as a recovery.
+table DimDenialStatus
+	lineageTag: 21f407c1-bd5f-5c82-93b8-273a4eeaf5d3
+
+	column DenialStatusKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 7767a5b3-e379-5b09-a07c-80b0b505bc4f
+		summarizeBy: none
+		sourceColumn: DenialStatusKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DenialStatus
+		dataType: string
+		lineageTag: 9f32cfe6-ffab-585b-a2f6-d572087cde67
+		summarizeBy: none
+		sourceColumn: DenialStatus
+		sortByColumn: StatusOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column StatusOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c24fcf2e-00b1-5559-b337-6dcf6c9b3709
+		summarizeBy: none
+		sourceColumn: StatusOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	/// TRUE for Written Off - the only status that admits the money is gone.
+	column IsTerminal
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 82f39db1-a606-5f2e-bb2e-6f1e5fbfda25
+		summarizeBy: none
+		sourceColumn: IsTerminal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Definition
+		dataType: string
+		lineageTag: 36d96c7f-b752-5dde-83cc-fbf4c409e421
+		summarizeBy: none
+		sourceColumn: Definition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDenialStatus = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimDenialStatus = Source{[Schema="analytics",Item="vw_DimDenialStatus"]}[Data]
+				in
+				    analytics_vw_DimDenialStatus
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,53 @@
+/// Dynamic security from the user's email. A facility manager sees one facility; a provider sees one provider; Revenue Cycle and the Executive are mapped to ALL. Because every provider bills only at their own facility, provider and facility are one hierarchy and both dimensions are filtered - filtering only the facility would leave 500 provider names in a slicer with no data behind them. An unmapped user sees nothing, which is the secure default.
+role 'Facility Access'
+	modelPermission: read
+
+	tablePermission DimFacility =
+			VAR UserFacilities =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[FacilityID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    "ALL" IN UserFacilities || DimFacility[FacilityID] IN UserFacilities
+
+	tablePermission DimProvider =
+			VAR UserFacilities =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[FacilityID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			VAR UserProviders =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[ProviderID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			RETURN
+			    ( "ALL" IN UserFacilities || DimProvider[FacilityID] IN UserFacilities )
+			        && ( "ALL" IN UserProviders || DimProvider[ProviderID] IN UserProviders )
+
+	tablePermission ProviderChance =
+			VAR UserFacilities =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[FacilityID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			VAR UserProviders =
+			    CALCULATETABLE (
+			        VALUES ( SecurityUserAccess[ProviderID] ),
+			        SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+			    )
+			VAR ScopedFacilities =
+			    CALCULATETABLE (
+			        VALUES ( DimProvider[FacilityName] ),
+			        REMOVEFILTERS ( ),
+			        DimProvider[FacilityID] IN UserFacilities
+			    )
+			RETURN
+			    ( "ALL" IN UserFacilities || ProviderChance[FacilityName] IN ScopedFacilities )
+			        && ( "ALL" IN UserProviders || ProviderChance[ProviderID] IN UserProviders )
+
+	tablePermission SecurityUserAccess = SecurityUserAccess[UserEmail] = USERPRINCIPALNAME ()
+
+	annotation PBI_Id = f270d4ea8a8d572aa4718be4438d4b44
+

@@ -1,0 +1,111 @@
+/// A STOCK: one row per claim per month end that the claim was still outstanding - 670,151 rows across 47 month ends. This is what makes an ageing possible at all, because a receivable's age is a property of a date, not of the claim. Carried at the allowed amount and aged from the submission date, which is the clock a payer is held to.
+table FactARSnapshot
+	lineageTag: 4cb3bd0e-bb84-5609-9d4f-dfabdac5faee
+
+	column ARSnapshotKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: f699308a-3a35-5341-a4f4-7d8be7c01cce
+		summarizeBy: none
+		sourceColumn: ARSnapshotKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Always a month end.
+	column SnapshotDateKey
+		dataType: int64
+		isHidden
+		lineageTag: ccbfb67c-51e5-54eb-8482-92201e6519db
+		summarizeBy: none
+		sourceColumn: SnapshotDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimID
+		dataType: string
+		isHidden
+		lineageTag: 81e33561-d6ae-5f0d-9726-d1f23a5dae50
+		summarizeBy: none
+		sourceColumn: ClaimID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		lineageTag: 1e8d87fd-0d10-5744-9e0b-635074835d4a
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		lineageTag: 2ab066b2-7292-54bf-9c59-3bf08814d074
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		lineageTag: 45732ae2-9b6f-55ae-a7d7-17385f6f7132
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		lineageTag: 1f91255f-c4bb-5185-8a87-9ad8b0a4dbf8
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARBucketKey
+		dataType: int64
+		isHidden
+		lineageTag: 52ed8144-895c-5c89-8187-b9f74a424dc5
+		summarizeBy: none
+		sourceColumn: ARBucketKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeDays
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c14e2252-b13a-5439-8a37-94cbc013d37c
+		summarizeBy: sum
+		sourceColumn: AgeDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 79a98f49-96c3-58a8-809f-98ee70f1a705
+		summarizeBy: sum
+		sourceColumn: ARAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactARSnapshot = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactARSnapshot = Source{[Schema="analytics",Item="vw_FactARSnapshot"]}[Data]
+				in
+				    analytics_vw_FactARSnapshot
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

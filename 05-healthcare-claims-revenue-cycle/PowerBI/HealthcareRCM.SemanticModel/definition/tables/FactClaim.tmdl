@@ -1,0 +1,302 @@
+/// One row per claim, 100,000 of them. The four money columns are the point of the model: every dollar the payer allowed sits in exactly one of PaidAmount, PatientResponsibility, OpenARAmount or DeniedAmount, so allowed = the sum of the four on EVERY row and therefore at every level of every aggregation. FOUR relationships reach the calendar - service, submission, adjudication and resolution - of which service is active and the rest are switched on by the Date Basis calculation group.
+table FactClaim
+	lineageTag: f2353946-e1b5-5330-a0ef-a6ab3180664f
+
+	column ClaimKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 8a3e56c6-416a-5632-a53e-eac7db4858d5
+		summarizeBy: none
+		sourceColumn: ClaimKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Degenerate key. Carried on every fact for drill-through, because the facts are deliberately not related to one another.
+	column ClaimID
+		dataType: string
+		lineageTag: 7a8211ea-7c3e-5513-8a3a-f3ecd8aa7016
+		summarizeBy: none
+		sourceColumn: ClaimID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		lineageTag: a32b0f29-6254-57c1-bbe9-33dc5c3b11ae
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		lineageTag: bcb310c7-9e80-50fc-94e5-a62e38bf9cac
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		lineageTag: 02c1bebe-eacf-546e-bf8d-9b8f81957b51
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		lineageTag: bf8428d9-9208-5c35-8923-cfec5dfd4696
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimStatusKey
+		dataType: int64
+		isHidden
+		lineageTag: e9ea5f0b-77c1-503b-9bc2-7d1fb933b691
+		summarizeBy: none
+		sourceColumn: ClaimStatusKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARBucketKey
+		dataType: int64
+		isHidden
+		lineageTag: e0d3026c-74d6-5a10-a8b5-71ef72100997
+		summarizeBy: none
+		sourceColumn: ARBucketKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Active date relationship: when care was delivered.
+	column ServiceDateKey
+		dataType: int64
+		isHidden
+		lineageTag: 0943dce0-dd38-5e4d-bf17-61b26a0abec8
+		summarizeBy: none
+		sourceColumn: ServiceDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Inactive. The payer's clock starts here.
+	column SubmittedDateKey
+		dataType: int64
+		isHidden
+		lineageTag: bab99dc5-37dc-5b62-908c-0917aec036c7
+		summarizeBy: none
+		sourceColumn: SubmittedDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Inactive. When the payer adjudicated.
+	column ProcessedDateKey
+		dataType: int64
+		isHidden
+		lineageTag: 76fb2d1d-a6e7-5987-928d-610617f5403d
+		summarizeBy: none
+		sourceColumn: ProcessedDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Inactive. Cash or denial date; blank while pending.
+	column ResolvedDateKey
+		dataType: int64
+		isHidden
+		lineageTag: e600b827-a4af-51c1-b60c-59bdaa53d4c9
+		summarizeBy: none
+		sourceColumn: ResolvedDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column BilledAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 3e1aa97f-6753-52aa-8b1b-b33a3e119738
+		summarizeBy: sum
+		sourceColumn: BilledAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllowedAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 60e097af-8c95-5e89-959c-3987196d78f0
+		summarizeBy: sum
+		sourceColumn: AllowedAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaidAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: e2662c1e-2785-5189-8800-b29116cf45fd
+		summarizeBy: sum
+		sourceColumn: PaidAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ContractualAdjustment
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 27ac8f77-7863-5a9f-9493-b33a11b846c2
+		summarizeBy: sum
+		sourceColumn: ContractualAdjustment
+
+		annotation SummarizationSetBy = Automatic
+
+	column PatientResponsibility
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 529a760f-cc37-5977-9330-2a51c1d52884
+		summarizeBy: sum
+		sourceColumn: PatientResponsibility
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpenARAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 96a62d4c-858f-5355-b8fd-cee4db2ba252
+		summarizeBy: sum
+		sourceColumn: OpenARAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeniedAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: c70b1f95-b1d5-5a5c-8282-3a1a3e944261
+		summarizeBy: sum
+		sourceColumn: DeniedAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToSubmit
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 18df9100-6311-51cc-99d7-b2ba25213c90
+		summarizeBy: sum
+		sourceColumn: DaysToSubmit
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToProcess
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 44c63539-e7fd-52c2-a5c7-393aae20b286
+		summarizeBy: sum
+		sourceColumn: DaysToProcess
+
+		annotation SummarizationSetBy = Automatic
+
+	column DaysToResolve
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6a800c51-e0b3-5909-864b-5fd89dd94f37
+		summarizeBy: sum
+		sourceColumn: DaysToResolve
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Pending claims only, measured at the as-of date.
+	column DaysOutstanding
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2bdc52a1-c5dd-5b08-a9c6-805c10b8f190
+		summarizeBy: sum
+		sourceColumn: DaysOutstanding
+
+		annotation SummarizationSetBy = Automatic
+
+	column PatientAgeAtService
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 93e7b55b-16e8-58a5-8e5b-2fca2ed69368
+		summarizeBy: sum
+		sourceColumn: PatientAgeAtService
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineCount
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ce7ed9e4-3483-5388-acb0-8d05f56ee8b3
+		summarizeBy: sum
+		sourceColumn: LineCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPaid
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9ab0424a-9116-5903-9a6c-7f8603213a7e
+		summarizeBy: none
+		sourceColumn: IsPaid
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPending
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bcd421c2-dad6-5ece-9d7b-64e4a68e9822
+		summarizeBy: none
+		sourceColumn: IsPending
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsDenied
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4b3ca00f-eb65-5937-8c8b-b6d2f8da137a
+		summarizeBy: none
+		sourceColumn: IsDenied
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Not denied. With no resubmission chain in the source this is the denial rate written the other way up, and the report says so rather than implying a second measurement.
+	column IsFirstPassAccepted
+		dataType: boolean
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: be3b9291-fc86-58bb-9c9d-73f92bbe7441
+		summarizeBy: none
+		sourceColumn: IsFirstPassAccepted
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactClaim = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactClaim = Source{[Schema="analytics",Item="vw_FactClaim"]}[Data]
+				in
+				    analytics_vw_FactClaim
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

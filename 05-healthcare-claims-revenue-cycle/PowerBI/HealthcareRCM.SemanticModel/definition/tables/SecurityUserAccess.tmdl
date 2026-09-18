@@ -1,0 +1,59 @@
+/// The RLS mapping table, hidden. 82 grants across four roles. 'ALL' is kept as a literal so the role expression tests for it with one comparison rather than scanning 30 facility rows per user.
+table SecurityUserAccess
+	isHidden
+	lineageTag: d7e2bfe4-a5f4-576a-b72e-1ee904559fc2
+
+	column UserEmail
+		dataType: string
+		isKey
+		lineageTag: dc8ade9b-7749-5361-930a-fb880f7557f9
+		summarizeBy: none
+		sourceColumn: UserEmail
+
+		annotation SummarizationSetBy = Automatic
+
+	column Role
+		dataType: string
+		lineageTag: a7bdf183-30b0-5855-a2fb-59589639b439
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityID
+		dataType: string
+		lineageTag: 99d2563b-c7d3-5e98-a235-173df604b403
+		summarizeBy: none
+		sourceColumn: FacilityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderID
+		dataType: string
+		lineageTag: 06a206e1-3e9b-55d1-ba32-b66b78ea5a40
+		summarizeBy: none
+		sourceColumn: ProviderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScopeLabel
+		dataType: string
+		lineageTag: 1b25683d-c880-5bfc-aa02-7121bc2f4136
+		summarizeBy: none
+		sourceColumn: ScopeLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SecurityUserAccess = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_SecurityUserAccess = Source{[Schema="analytics",Item="vw_SecurityUserAccess"]}[Data]
+				in
+				    analytics_vw_SecurityUserAccess
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,64 @@
+/// The four ways a receivable moves: in on submission, out as cash, out as patient responsibility, out as a denial. Direction is +1 or -1 so a waterfall reads correctly without a sign convention in DAX.
+table DimARMovementType
+	lineageTag: da46ce5f-ef6c-5265-9b88-6cd7ab32c1f5
+
+	column ARMovementTypeKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 4ab8b241-f6f3-5b33-a583-8c07d83adaef
+		summarizeBy: none
+		sourceColumn: ARMovementTypeKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MovementType
+		dataType: string
+		lineageTag: 6de0cb27-f912-539d-828f-563d66b742cf
+		summarizeBy: none
+		sourceColumn: MovementType
+		sortByColumn: MovementOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MovementOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8abcbcca-92c6-5471-b340-649fadb136a1
+		summarizeBy: none
+		sourceColumn: MovementOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column Direction
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0f4a2ef5-8b9a-52b3-bfb4-174e1cae0c5e
+		summarizeBy: none
+		sourceColumn: Direction
+
+		annotation SummarizationSetBy = Automatic
+
+	column Definition
+		dataType: string
+		lineageTag: 8b42ba3b-5bb3-50c5-a669-7c1e9f8e8ae4
+		summarizeBy: none
+		sourceColumn: Definition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimARMovementType = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimARMovementType = Source{[Schema="analytics",Item="vw_DimARMovementType"]}[Data]
+				in
+				    analytics_vw_DimARMovementType
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

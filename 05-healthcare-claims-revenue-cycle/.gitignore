@@ -1,0 +1,30 @@
+# --- Raw source data ---
+# Data/raw IS tracked: the extracts are synthetic and committing them is what makes
+# the SQL build reproducible from a clone. See .gitattributes - they are stored
+# byte-for-byte because BULK INSERT reads them with ROWTERMINATOR = 0x0d0a.
+Data/Scaled/
+
+# --- Credentials: never commit ---
+.env
+*.env
+config.local.*
+**/credentials.json
+**/*.secret
+
+# --- Local machine configuration: paths differ per machine ---
+config.local.json
+
+# --- Power BI per-machine state ---
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/editorSettings.json
+**/.pbi/unappliedChanges.json
+*.pbix
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+
+# --- Scratch ---
+*.tmp

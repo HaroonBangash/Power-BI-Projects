@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "70442f84051d50e301d6",
+  "position": {
+    "x": 646,
+    "y": 480,
+    "z": 1,
+    "height": 180,
+    "width": 618,
+    "tabOrder": 23
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Traps in this source, and what was done",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#F2B441",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The calendar stopped short. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The supplied dim_date ends at the last SERVICE date, leaving 4,807 adjudication, payment and denial dates outside it - which would have joined to a blank date and vanished from any measure sliced by those months, while the totals still looked right. The build generates its own calendar.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "'Pending' is permanent. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "23.1% of claims in every month of the file, median age 737 days. The ageing is built in full and labelled for what it is.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Days in AR nearly read 8,700. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Claims stop being submitted two months before the last payment, so the 91-day denominator window is capped at the last submission date.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The dataset is SYNTHETIC. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A portfolio dataset for a fictional Australian provider group - never real patient data.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

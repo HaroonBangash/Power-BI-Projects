@@ -1,0 +1,115 @@
+/// One row per beneficiary. 1,034 of the 30,000 never appear on a claim, so every patient count in the model is taken from the claims and never from this table. Age is stated AT THE AS-OF DATE and labelled that way; age at the time of treatment is carried on the claim instead.
+table DimPatient
+	lineageTag: 5140cf49-e512-52b9-987d-b6ed951729e5
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 36bda87f-c85a-50a6-9bcf-d6a08ddb797b
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The patient identifier as it arrives. Synthetic.
+	column BeneficiaryID
+		dataType: string
+		lineageTag: 98876d6c-08ec-5a6d-98b4-328388c7d7d6
+		summarizeBy: none
+		sourceColumn: BeneficiaryID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateOfBirth
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 4b0b95b6-45b2-5fc9-8a99-275063c31faf
+		summarizeBy: none
+		sourceColumn: DateOfBirth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Age in whole years at the as-of date, 2026-11-03.
+	column AgeAtAsOf
+		dataType: int64
+		formatString: 0
+		lineageTag: ba020e60-c636-5f6d-8c66-36e78449b9f0
+		summarizeBy: none
+		sourceColumn: AgeAtAsOf
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeBandKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 423b6b1b-dbe1-5018-97ba-6692d7514885
+		summarizeBy: none
+		sourceColumn: AgeBandKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AgeBand
+		dataType: string
+		lineageTag: 5b3d0afc-aba5-55a0-94ae-d61796bfd849
+		summarizeBy: none
+		sourceColumn: AgeBand
+		sortByColumn: AgeBandKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: b469fb8d-7ae1-5f8a-9f34-b423985ab8bd
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The patient's state of residence.
+	column State
+		dataType: string
+		lineageTag: 779fedb6-941c-502e-b914-c00baccce794
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The source's own risk stratification. It does not separate denial rates (7.73% to 7.90%).
+	column ChronicRiskBand
+		dataType: string
+		lineageTag: c88ac1dc-a057-51a7-9f3e-d8251462ad31
+		summarizeBy: none
+		sourceColumn: ChronicRiskBand
+		sortByColumn: RiskBandOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column RiskBandOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a8016ec5-1349-5e8c-99bd-d522958677f2
+		summarizeBy: none
+		sourceColumn: RiskBandOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPatient = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimBeneficiary = Source{[Schema="analytics",Item="vw_DimBeneficiary"]}[Data]
+				in
+				    analytics_vw_DimBeneficiary
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

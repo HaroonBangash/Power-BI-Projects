@@ -1,0 +1,107 @@
+/// One row per billing provider. Every provider belongs to exactly one facility and 100% of claims are billed at the provider's own facility, so the facility attributes are carried here too: provider and facility are ONE hierarchy, which is what lets row-level security filter this table directly.
+table DimProvider
+	lineageTag: 3400b8bc-37b8-5214-8b5b-6aaef6b66fc7
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 30265384-2cdf-5d3b-b70c-0d75cc2f724a
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderID
+		dataType: string
+		isHidden
+		lineageTag: d0c76c49-f9a4-520c-8258-013a962217a7
+		summarizeBy: none
+		sourceColumn: ProviderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderName
+		dataType: string
+		lineageTag: 5cf5ccc5-b6a3-5900-aea4-03a2772a097d
+		summarizeBy: none
+		sourceColumn: ProviderName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Specialty
+		dataType: string
+		lineageTag: 6ccc7ff6-f5d2-5a29-970d-23597f178d74
+		summarizeBy: none
+		sourceColumn: Specialty
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Read by the security role.
+	column FacilityID
+		dataType: string
+		isHidden
+		lineageTag: 26ccf511-a931-57fa-bda9-70c57419a7fc
+		summarizeBy: none
+		sourceColumn: FacilityID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The provider's own facility.
+	column FacilityName
+		dataType: string
+		lineageTag: d00ecc5a-cbb4-553c-8443-ee88f948c6e5
+		summarizeBy: none
+		sourceColumn: FacilityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityType
+		dataType: string
+		lineageTag: 402d6abe-7dac-52d5-93f9-2fbd6fbd84c9
+		summarizeBy: none
+		sourceColumn: FacilityType
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: d34343a4-f1d7-53df-b3b4-8edd554073c2
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Facility to provider'
+		lineageTag: 15d3d248-f450-5a23-b8d5-ca6a92d17250
+
+		level State
+			lineageTag: 052c102f-c66b-5b4e-b09f-7dbc4d3c8897
+			column: State
+
+		level FacilityName
+			lineageTag: 8a72e3eb-9250-544b-bae8-36b6b3454832
+			column: FacilityName
+
+		level Specialty
+			lineageTag: 93ed8be1-3cd1-569c-a221-8eade4bca298
+			column: Specialty
+
+		level ProviderName
+			lineageTag: b92f23c1-a219-5e68-adb3-319e5a219a9d
+			column: ProviderName
+
+	partition DimProvider = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimProvider = Source{[Schema="analytics",Item="vw_DimProvider"]}[Data]
+				in
+				    analytics_vw_DimProvider
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

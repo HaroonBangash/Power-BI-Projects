@@ -1,0 +1,67 @@
+/// The standard ageing ladder. 365+ is its own bucket because that is the outer edge of a payer timely-filing window: past it a claim is not a receivable, it is a write-off waiting to be recognised.
+table DimARBucket
+	lineageTag: ac2e955a-e6d3-59a0-a674-ae704dcf7eb0
+
+	column ARBucketKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 953287e2-3405-54d6-afcb-7e852df1d953
+		summarizeBy: none
+		sourceColumn: ARBucketKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Days outstanding since submission.
+	column ARBucket
+		dataType: string
+		lineageTag: ed7ce1b5-b52b-5ecd-854c-cd62b5cd2c8b
+		summarizeBy: none
+		sourceColumn: ARBucket
+		sortByColumn: ARBucketKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinDays
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 825bec72-442c-579f-8961-4fd47f4bc0e8
+		summarizeBy: none
+		sourceColumn: MinDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column MaxDays
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c0bf1df4-7506-5efd-8a65-7d72abfdbe55
+		summarizeBy: none
+		sourceColumn: MaxDays
+
+		annotation SummarizationSetBy = Automatic
+
+	/// TRUE for 365+: beyond any payer's filing window.
+	column IsPastFiling
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b7761a15-3292-5b1c-881e-ea013892d275
+		summarizeBy: none
+		sourceColumn: IsPastFiling
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimARBucket = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimARBucket = Source{[Schema="analytics",Item="vw_DimARBucket"]}[Data]
+				in
+				    analytics_vw_DimARBucket
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

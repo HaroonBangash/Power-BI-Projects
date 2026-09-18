@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "25e19454df9a88190d4f",
+  "position": {
+    "x": 16,
+    "y": 668,
+    "z": 1,
+    "height": 44,
+    "width": 1248,
+    "tabOrder": 26
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Why there is no denial-risk model here.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Patient age, claim size, line count and days-to-submit all correlate with denial at |r| < 0.01. A model on them would fit noise, then hold up claims that were never at risk. 23 of 500 providers sit beyond two standard errors - 4.6%, against the 4.55% chance predicts - and the worst is z = 3.3, about the maximum 500 draws give. The only real effect is Self Pay, 2.95% against 8.79%.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

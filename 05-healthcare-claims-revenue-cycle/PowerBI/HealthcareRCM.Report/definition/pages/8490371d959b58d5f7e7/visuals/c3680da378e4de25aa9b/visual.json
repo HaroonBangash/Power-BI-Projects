@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "c3680da378e4de25aa9b",
+  "position": {
+    "x": 16,
+    "y": 668,
+    "z": 1,
+    "height": 44,
+    "width": 1248,
+    "tabOrder": 27
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "No denial in this file ever recovers.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "0 of 7,824 denied claims were subsequently paid - including all 1,913 marked CORRECTED and 1,946 marked APPEALED - and the denial date equals the adjudication date on every one, so there is no appeal timeline either. Appeal yield and overturn rate cannot be computed here. The recovery card reads 0.00% by construction, and it is on the page so this is stated rather than quietly omitted.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "4375ec2ac54a77ed4c90",
+  "position": {
+    "x": 16,
+    "y": 668,
+    "z": 1,
+    "height": 44,
+    "width": 1248,
+    "tabOrder": 26
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "This ageing is arithmetic, not a collections story.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "23.1% of claims are Pending, and that share is 20.6-25.0% in EVERY submission month - a 2023 claim is as likely to be pending as last month's. 77% of the receivable is over a year old, past any filing limit. In a real revenue cycle those would have been written off; here they are a status assigned and never revisited. AR is carried at ALLOWED, not billed.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

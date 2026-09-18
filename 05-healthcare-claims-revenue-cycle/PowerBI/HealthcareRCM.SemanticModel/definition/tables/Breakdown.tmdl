@@ -1,0 +1,56 @@
+/// A field parameter: pick the attribute every 'by' chart on the page should group by. One slicer, ten questions, and no duplicated visuals sitting on top of one another.
+table Breakdown
+	lineageTag: c7990cd4-fb4b-51df-aa9e-8c45d1d6aff0
+
+	column Breakdown
+		dataType: string
+		lineageTag: bb03f7bb-559a-5acf-b667-f64f85096dee
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Breakdown Order'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Breakdown Fields'
+		dataType: string
+		isHidden
+		lineageTag: 9660eac8-3db7-55ea-a124-77be8b1067e6
+		summarizeBy: none
+		sourceColumn: [Value2]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Breakdown Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 67f8a834-6349-5775-bc60-6ed112d5c3e1
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Breakdown = calculated
+		mode: import
+		source =
+				{
+				    ("Payer", NAMEOF('DimPayer'[PayerName]), 0),
+				    ("Payer type", NAMEOF('DimPayer'[PayerType]), 1),
+				    ("Facility", NAMEOF('DimFacility'[FacilityName]), 2),
+				    ("Facility type", NAMEOF('DimFacility'[FacilityType]), 3),
+				    ("Specialty", NAMEOF('DimProvider'[Specialty]), 4),
+				    ("State", NAMEOF('DimFacility'[State]), 5),
+				    ("Denial reason", NAMEOF('DimDenialReason'[DenialReason]), 6),
+				    ("Reason category", NAMEOF('DimDenialReason'[ReasonCategory]), 7),
+				    ("Patient age band", NAMEOF('DimPatient'[AgeBand]), 8),
+				    ("Chronic risk band", NAMEOF('DimPatient'[ChronicRiskBand]), 9)
+				}
+
+	annotation PBI_Id = 4d6a85e1be94546d920dc61b3f9fc385
+

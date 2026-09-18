@@ -1,0 +1,213 @@
+{
+  "allowed_rate_by_payer": {
+    "Bupa": 73.43,
+    "HCF": 73.56,
+    "Medibank": 73.42,
+    "Medicare": 73.55,
+    "NIB": 73.54,
+    "Self Pay": 73.63
+  },
+  "allowed_rate_max": 0.9199975553110866,
+  "allowed_rate_mean": 0.7352161967682321,
+  "allowed_rate_min": 0.5499999999999999,
+  "allowed_total": 72713182.33,
+  "amount_violations": {
+    "allowed_gt_billed": 0,
+    "negative_amounts": 0,
+    "paid_gt_allowed": 0
+  },
+  "ar_open_at_allowed": 16830999.939999998,
+  "asof_date": "2026-11-03",
+  "beneficiaries_unused": 1034,
+  "billed_total": 98876590.78999999,
+  "claim_nulls": {},
+  "claims_at_provider_home_facility": 1.0,
+  "claims_rows": 100000,
+  "claims_with_multiple_denials": 0,
+  "claims_with_multiple_payments": 0,
+  "claims_without_lines": 0,
+  "contractual_adjustment": 26163408.459999993,
+  "dates_outside_dim_date": {
+    "DenialDate": 199,
+    "PaymentDate": 1905,
+    "ProcessedDate": 2443,
+    "ServiceDate": 0,
+    "SubmittedDate": 260
+  },
+  "days_process_to_pay_max": 9,
+  "days_process_to_pay_mean": 4.500267685317822,
+  "days_process_to_pay_median": 5.0,
+  "days_to_pay_max": 63,
+  "days_to_pay_mean": 33.49081911707253,
+  "days_to_pay_median": 33.0,
+  "days_to_process_max": 54,
+  "days_to_process_mean": 28.98929,
+  "days_to_process_median": 29.0,
+  "days_to_submit_max": 7,
+  "days_to_submit_mean": 3.51053,
+  "days_to_submit_median": 4.0,
+  "denial_correlations": {
+    "billed_amount": -0.00011219337526925817,
+    "days_to_submit": -0.003129338689414548,
+    "line_count": -0.00031872882186183835,
+    "patient_age": -0.0018587245980555454
+  },
+  "denial_lag_days_max": 0,
+  "denial_lag_days_min": 0,
+  "denial_rate": 0.07824,
+  "denial_rows": 7824,
+  "denial_signal": {
+    "BeneficiaryState": {
+      "max_pct": 8.136642194041624,
+      "min_pct": 7.6066462408673114,
+      "spread_pp": 0.5299959531743128,
+      "values": 6
+    },
+    "ChronicRiskBand": {
+      "max_pct": 7.899882675009777,
+      "min_pct": 7.727693640409834,
+      "spread_pp": 0.17218903459994273,
+      "values": 3
+    },
+    "DiagnosisCode": {
+      "max_pct": 8.238556444158663,
+      "min_pct": 7.47178776479905,
+      "spread_pp": 0.7667686793596127,
+      "values": 10
+    },
+    "FacilityName": {
+      "max_pct": 8.477096966091612,
+      "min_pct": 7.071069633883704,
+      "spread_pp": 1.4060273322079069,
+      "values": 30
+    },
+    "FacilityState": {
+      "max_pct": 7.977967306325515,
+      "min_pct": 7.660529402764318,
+      "spread_pp": 0.3174379035611963,
+      "values": 5
+    },
+    "FacilityType": {
+      "max_pct": 7.90304187551383,
+      "min_pct": 7.7596266044340725,
+      "spread_pp": 0.14341527107975816,
+      "values": 4
+    },
+    "Gender": {
+      "max_pct": 7.879890809827115,
+      "min_pct": 7.723274191143581,
+      "spread_pp": 0.15661661868353466,
+      "values": 3
+    },
+    "PayerName": {
+      "max_pct": 9.07782707758724,
+      "min_pct": 2.9525419635309746,
+      "spread_pp": 6.125285114056266,
+      "values": 6
+    },
+    "ProcedureCode": {
+      "max_pct": 8.034283883370714,
+      "min_pct": 7.67517696651555,
+      "spread_pp": 0.3591069168551647,
+      "values": 10
+    },
+    "Specialty": {
+      "max_pct": 8.055165144061842,
+      "min_pct": 7.513782073096033,
+      "spread_pp": 0.5413830709658091,
+      "values": 8
+    }
+  },
+  "denial_status_counts": {
+    "Appealed": 1946,
+    "Corrected": 1913,
+    "Open": 2008,
+    "Written Off": 1957
+  },
+  "denied_at_allowed": 5698778.02,
+  "denied_claims_with_any_payment": 0,
+  "diagnosis_code_count": 10,
+  "dim_date_internal_gaps": 0,
+  "dim_date_max": "2026-08-31",
+  "dim_date_min": "2022-01-01",
+  "duplicate_claim_denials": 1117,
+  "duplicate_keys": {
+    "beneficiaries": 0,
+    "claims": 0,
+    "denials": 0,
+    "lines": 0,
+    "payments": 0
+  },
+  "facilities_used": 30,
+  "financial_years": [
+    "FY22",
+    "FY23",
+    "FY24",
+    "FY25",
+    "FY26",
+    "FY27"
+  ],
+  "gross_collection_rate": 0.46942090022681304,
+  "has_resubmission_link": false,
+  "identity_residual": 0.0,
+  "insured_denial_rate": 0.08790958556053596,
+  "insurer_spread_pp": 0.657843809988341,
+  "line_header_exact_matches": 75835,
+  "line_header_max_variance": 0.020000000000436557,
+  "line_rows": 249905,
+  "lines_per_claim_max": 4,
+  "lines_per_claim_mean": 2.49905,
+  "max_payments_per_claim": 1,
+  "monthly_volume_cv": 0.03351200326436332,
+  "monthly_volume_max": 2383,
+  "monthly_volume_min": 2067,
+  "net_collection_rate": 0.6383263223077257,
+  "orphans": {
+    "claims_without_beneficiary": 0,
+    "claims_without_facility": 0,
+    "claims_without_payer": 0,
+    "claims_without_provider": 0,
+    "denials_without_claim": 0,
+    "lines_without_claim": 0,
+    "payments_without_claim": 0
+  },
+  "paid_of_allowed_mean": 0.9247751765713865,
+  "paid_of_allowed_min": 0.8499995974656436,
+  "paid_total": 46414738.260000005,
+  "patient_resp_share_of_allowed": 0.07509785669807877,
+  "patient_responsibility": 3768666.1099999994,
+  "payment_rows": 69111,
+  "pending_age_max_days": 1402,
+  "pending_age_median_days": 737,
+  "pending_over_365": 17808,
+  "pending_over_365_share": 0.7720789074355083,
+  "pending_share_first_month": 24.07766990291262,
+  "pending_share_last_month": 22.330923011484476,
+  "pending_share_max_month": 24.9890590809628,
+  "pending_share_min_month": 20.63423110338836,
+  "pending_share_overall": 0.23065,
+  "procedure_charge_mean_max": 397.45503054745836,
+  "procedure_charge_mean_min": 391.7602554906307,
+  "procedure_code_count": 10,
+  "provider_count_tested": 500,
+  "provider_expected_sd_pp": 1.8989273603800645,
+  "provider_facility_is_one_to_one": true,
+  "provider_observed_sd_pp": 1.9480035020184778,
+  "providers_used": 500,
+  "rls_invalid_facility_refs": 0,
+  "rls_invalid_provider_refs": 0,
+  "rls_roles": {
+    "Executive": 1,
+    "Facility Manager": 30,
+    "Provider": 50,
+    "Revenue Cycle": 1
+  },
+  "rls_users": 82,
+  "self_pay_denial_rate": 0.029525419635309746,
+  "status_counts": {
+    "Denied": 7824,
+    "Paid": 69111,
+    "Pending": 23065
+  },
+  "true_duplicate_claim_groups": 0
+}

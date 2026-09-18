@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "5f298a7bcf9f55f9d9d3",
+  "position": {
+    "x": 16,
+    "y": 668,
+    "z": 1,
+    "height": 44,
+    "width": 1248,
+    "tabOrder": 26
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Volume and mix only.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every one of the ten procedure codes averages between $391.76 and $397.46 per line, across codes that in practice run from a venipuncture to an MRI of the brain with contrast. The charge is drawn independently of the code, so case-mix analysis, cost per procedure and service-line profitability are not available from this source and no page attempts them.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

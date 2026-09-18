@@ -1,0 +1,111 @@
+/// A FLOW: one row per event that moved the receivable, 246,040 of them, signed so a waterfall reads without a sign convention in DAX. With the snapshot it closes an identity in every month - AR(m) = AR(m-1) + submitted - collected - patient responsibility - denied. A snapshot alone can drift unnoticed; a ledger alone cannot be aged.
+table FactARMovement
+	lineageTag: 67000750-7e9f-5183-afe9-6b495a3b29e5
+
+	column ARMovementKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 9de46040-bddd-5b7c-941b-6a718ec5f13f
+		summarizeBy: none
+		sourceColumn: ARMovementKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClaimID
+		dataType: string
+		isHidden
+		lineageTag: b7fd7ac3-c573-58fa-ba6b-87d0642a5f73
+		summarizeBy: none
+		sourceColumn: ClaimID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ARMovementTypeKey
+		dataType: int64
+		isHidden
+		lineageTag: c56b9cd8-7fc1-5192-978d-e8ffb14c6c17
+		summarizeBy: none
+		sourceColumn: ARMovementTypeKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MovementDateKey
+		dataType: int64
+		isHidden
+		lineageTag: 16a0446d-0f60-50bf-9350-9e553ca37ab3
+		summarizeBy: none
+		sourceColumn: MovementDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column BeneficiaryKey
+		dataType: int64
+		isHidden
+		lineageTag: ff040cd1-6416-5d7e-9555-c33c2f44e822
+		summarizeBy: none
+		sourceColumn: BeneficiaryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		lineageTag: 13e5ca4e-0910-5dc9-a3dd-accaffb4ea52
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		lineageTag: bd5026a3-daa7-55c8-a729-aea0aac135db
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PayerKey
+		dataType: int64
+		isHidden
+		lineageTag: 36bd5eb6-7c33-55ef-94a9-bbed9a7f93b7
+		summarizeBy: none
+		sourceColumn: PayerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Signed: positive into AR, negative out.
+	column Amount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 1e0481d0-25d7-5ac3-a248-cc3165044de8
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AbsAmount
+		dataType: double
+		isHidden
+		formatString: \$#,0.00
+		lineageTag: 7bb58a30-8a7f-5011-baa4-d7fdd995a747
+		summarizeBy: sum
+		sourceColumn: AbsAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactARMovement = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_FactARMovement = Source{[Schema="analytics",Item="vw_FactARMovement"]}[Data]
+				in
+				    analytics_vw_FactARMovement
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

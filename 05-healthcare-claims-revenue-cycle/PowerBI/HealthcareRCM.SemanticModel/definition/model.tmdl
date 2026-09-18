@@ -1,0 +1,48 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["SqlServer","SqlDatabase","DimDate","DimPatient","DimProvider","DimFacility","DimPayer","DimClaimStatus","DimDenialReason","DimDenialStatus","DimProcedure","DimDiagnosis","DimPaymentMethod","DimARBucket","DimARMovementType","FactClaim","FactClaimLine","FactPayment","FactDenial","FactARSnapshot","FactARMovement","DenialSignal","ProviderChance","DataQualityMetric","SecurityUserAccess","ModelConfig","_Measures","Date Basis","Time Comparison","Breakdown"]
+
+ref table DimDate
+ref table DimPatient
+ref table DimProvider
+ref table DimFacility
+ref table DimPayer
+ref table DimClaimStatus
+ref table DimDenialReason
+ref table DimDenialStatus
+ref table DimProcedure
+ref table DimDiagnosis
+ref table DimPaymentMethod
+ref table DimARBucket
+ref table DimARMovementType
+ref table FactClaim
+ref table FactClaimLine
+ref table FactPayment
+ref table FactDenial
+ref table FactARSnapshot
+ref table FactARMovement
+ref table DenialSignal
+ref table ProviderChance
+ref table DataQualityMetric
+ref table SecurityUserAccess
+ref table ModelConfig
+ref table _Measures
+ref table 'Date Basis'
+ref table 'Time Comparison'
+ref table Breakdown
+
+ref role 'Facility Access'
+
+ref cultureInfo en-US
+

@@ -1,0 +1,83 @@
+UserEmail,Role,FacilityID,ProviderID
+revenuecycle@health.demo,Revenue Cycle,ALL,ALL
+executive@health.demo,Executive,ALL,ALL
+f001manager@health.demo,Facility Manager,F001,ALL
+f002manager@health.demo,Facility Manager,F002,ALL
+f003manager@health.demo,Facility Manager,F003,ALL
+f004manager@health.demo,Facility Manager,F004,ALL
+f005manager@health.demo,Facility Manager,F005,ALL
+f006manager@health.demo,Facility Manager,F006,ALL
+f007manager@health.demo,Facility Manager,F007,ALL
+f008manager@health.demo,Facility Manager,F008,ALL
+f009manager@health.demo,Facility Manager,F009,ALL
+f010manager@health.demo,Facility Manager,F010,ALL
+f011manager@health.demo,Facility Manager,F011,ALL
+f012manager@health.demo,Facility Manager,F012,ALL
+f013manager@health.demo,Facility Manager,F013,ALL
+f014manager@health.demo,Facility Manager,F014,ALL
+f015manager@health.demo,Facility Manager,F015,ALL
+f016manager@health.demo,Facility Manager,F016,ALL
+f017manager@health.demo,Facility Manager,F017,ALL
+f018manager@health.demo,Facility Manager,F018,ALL
+f019manager@health.demo,Facility Manager,F019,ALL
+f020manager@health.demo,Facility Manager,F020,ALL
+f021manager@health.demo,Facility Manager,F021,ALL
+f022manager@health.demo,Facility Manager,F022,ALL
+f023manager@health.demo,Facility Manager,F023,ALL
+f024manager@health.demo,Facility Manager,F024,ALL
+f025manager@health.demo,Facility Manager,F025,ALL
+f026manager@health.demo,Facility Manager,F026,ALL
+f027manager@health.demo,Facility Manager,F027,ALL
+f028manager@health.demo,Facility Manager,F028,ALL
+f029manager@health.demo,Facility Manager,F029,ALL
+f030manager@health.demo,Facility Manager,F030,ALL
+pr00001@health.demo,Provider,F010,PR00001
+pr00002@health.demo,Provider,F013,PR00002
+pr00003@health.demo,Provider,F026,PR00003
+pr00004@health.demo,Provider,F029,PR00004
+pr00005@health.demo,Provider,F013,PR00005
+pr00006@health.demo,Provider,F008,PR00006
+pr00007@health.demo,Provider,F019,PR00007
+pr00008@health.demo,Provider,F012,PR00008
+pr00009@health.demo,Provider,F013,PR00009
+pr00010@health.demo,Provider,F016,PR00010
+pr00011@health.demo,Provider,F023,PR00011
+pr00012@health.demo,Provider,F026,PR00012
+pr00013@health.demo,Provider,F022,PR00013
+pr00014@health.demo,Provider,F030,PR00014
+pr00015@health.demo,Provider,F005,PR00015
+pr00016@health.demo,Provider,F006,PR00016
+pr00017@health.demo,Provider,F020,PR00017
+pr00018@health.demo,Provider,F016,PR00018
+pr00019@health.demo,Provider,F021,PR00019
+pr00020@health.demo,Provider,F011,PR00020
+pr00021@health.demo,Provider,F025,PR00021
+pr00022@health.demo,Provider,F010,PR00022
+pr00023@health.demo,Provider,F015,PR00023
+pr00024@health.demo,Provider,F004,PR00024
+pr00025@health.demo,Provider,F015,PR00025
+pr00026@health.demo,Provider,F003,PR00026
+pr00027@health.demo,Provider,F018,PR00027
+pr00028@health.demo,Provider,F022,PR00028
+pr00029@health.demo,Provider,F019,PR00029
+pr00030@health.demo,Provider,F006,PR00030
+pr00031@health.demo,Provider,F029,PR00031
+pr00032@health.demo,Provider,F026,PR00032
+pr00033@health.demo,Provider,F023,PR00033
+pr00034@health.demo,Provider,F015,PR00034
+pr00035@health.demo,Provider,F001,PR00035
+pr00036@health.demo,Provider,F030,PR00036
+pr00037@health.demo,Provider,F002,PR00037
+pr00038@health.demo,Provider,F014,PR00038
+pr00039@health.demo,Provider,F011,PR00039
+pr00040@health.demo,Provider,F015,PR00040
+pr00041@health.demo,Provider,F029,PR00041
+pr00042@health.demo,Provider,F009,PR00042
+pr00043@health.demo,Provider,F019,PR00043
+pr00044@health.demo,Provider,F029,PR00044
+pr00045@health.demo,Provider,F014,PR00045
+pr00046@health.demo,Provider,F009,PR00046
+pr00047@health.demo,Provider,F007,PR00047
+pr00048@health.demo,Provider,F024,PR00048
+pr00049@health.demo,Provider,F016,PR00049
+pr00050@health.demo,Provider,F017,PR00050

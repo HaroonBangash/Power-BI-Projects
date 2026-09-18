@@ -1,0 +1,73 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "17103ba6ea45b3690438",
+  "position": {
+    "x": 16,
+    "y": 668,
+    "z": 1,
+    "height": 44,
+    "width": 1248,
+    "tabOrder": 27
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "This is the part of the cycle that works.  ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "A median of 33 days from submission to cash, 29 of them waiting on the payer's decision and 5 on the money moving afterwards. No claim is submitted before it is performed, adjudicated before it is submitted, or paid before it is adjudicated. Days to cash is measured on PAID claims: a pending claim has not failed this test, it simply has not taken it.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#8FA9AD"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

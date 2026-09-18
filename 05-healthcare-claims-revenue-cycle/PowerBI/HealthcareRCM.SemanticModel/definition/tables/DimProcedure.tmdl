@@ -1,0 +1,70 @@
+/// Ten CPT codes with their published meanings and the usual departmental grouping. The charge in this source is drawn INDEPENDENTLY of the code - every code averages between $391.76 and $397.46 - so this dimension carries volume and mix faithfully and revenue not at all. No measure ranks a procedure by money.
+table DimProcedure
+	lineageTag: c0ed778f-71be-588a-a27c-3419e1b42fbd
+
+	column ProcedureKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 343146ff-15f5-5c8e-8d0d-bea7ada42336
+		summarizeBy: none
+		sourceColumn: ProcedureKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcedureCode
+		dataType: string
+		lineageTag: 6cb6e083-031e-588c-8d9a-75237f681266
+		summarizeBy: none
+		sourceColumn: ProcedureCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcedureName
+		dataType: string
+		lineageTag: 5251a5e5-4365-56d8-a9a6-5c4c542cb61d
+		summarizeBy: none
+		sourceColumn: ProcedureName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Code and name together, for a chart axis.
+	column ProcedureLabel
+		dataType: string
+		lineageTag: 854dc55d-49e6-5d35-9823-b45a76e2c67a
+		summarizeBy: none
+		sourceColumn: ProcedureLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Imaging, Pathology, Office visits, Cardiac or Procedural.
+	column ServiceLine
+		dataType: string
+		lineageTag: 69af4f4c-d098-57a7-8224-ce2aca6bb8a4
+		summarizeBy: none
+		sourceColumn: ServiceLine
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Where this procedure is normally performed.
+	column SettingHint
+		dataType: string
+		lineageTag: ad9a9149-a726-5f5f-b5ca-cbe0df0f9f7a
+		summarizeBy: none
+		sourceColumn: SettingHint
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProcedure = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimProcedure = Source{[Schema="analytics",Item="vw_DimProcedure"]}[Data]
+				in
+				    analytics_vw_DimProcedure
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

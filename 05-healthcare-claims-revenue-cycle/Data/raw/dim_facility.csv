@@ -1,0 +1,31 @@
+FacilityID,FacilityName,FacilityType,State
+F001,Facility 001,Hospital,NSW
+F002,Facility 002,Imaging Centre,WA
+F003,Facility 003,Day Surgery,WA
+F004,Facility 004,Day Surgery,NSW
+F005,Facility 005,Imaging Centre,VIC
+F006,Facility 006,Imaging Centre,NSW
+F007,Facility 007,Day Surgery,NSW
+F008,Facility 008,Day Surgery,VIC
+F009,Facility 009,Day Surgery,QLD
+F010,Facility 010,Clinic,NSW
+F011,Facility 011,Hospital,QLD
+F012,Facility 012,Imaging Centre,VIC
+F013,Facility 013,Clinic,SA
+F014,Facility 014,Imaging Centre,VIC
+F015,Facility 015,Imaging Centre,SA
+F016,Facility 016,Hospital,QLD
+F017,Facility 017,Imaging Centre,VIC
+F018,Facility 018,Hospital,WA
+F019,Facility 019,Day Surgery,SA
+F020,Facility 020,Day Surgery,QLD
+F021,Facility 021,Day Surgery,QLD
+F022,Facility 022,Imaging Centre,SA
+F023,Facility 023,Imaging Centre,NSW
+F024,Facility 024,Imaging Centre,VIC
+F025,Facility 025,Hospital,QLD
+F026,Facility 026,Day Surgery,QLD
+F027,Facility 027,Imaging Centre,WA
+F028,Facility 028,Hospital,WA
+F029,Facility 029,Day Surgery,WA
+F030,Facility 030,Day Surgery,NSW

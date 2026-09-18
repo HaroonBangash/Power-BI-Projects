@@ -1,0 +1,180 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "9438c01abac72e493d43",
+  "position": {
+    "x": 16,
+    "y": 480,
+    "z": 1,
+    "height": 180,
+    "width": 618,
+    "tabOrder": 22
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What this data will not support",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E8657A",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No denial-risk model. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every candidate feature sits inside |r| < 0.01. It would fit noise.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No appeal yield or recovery rate. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "0 of 7,824 denied claims were ever paid, whatever their workflow state says.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No provider league table. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "23 of 500 providers sit beyond 2 SE; chance predicts 22.75.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No payer contract ranking. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every payer allows 73.4-73.6% of billed, including Self Pay, where no contract exists.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No procedure revenue or case mix. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The charge is drawn independently of the CPT code.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No growth narrative. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Volume varies 3.3% month to month across 44 months.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

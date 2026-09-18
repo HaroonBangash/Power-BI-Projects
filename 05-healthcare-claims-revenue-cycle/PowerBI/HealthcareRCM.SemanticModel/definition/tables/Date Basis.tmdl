@@ -1,0 +1,52 @@
+/// Which clock the calendar is measuring. A claim has four dates - when the care happened, when the claim was submitted, when the payer adjudicated it, and when it resolved into cash or a denial - and they answer different questions. Service date is the active relationship; the other three are switched on here with USERELATIONSHIP, so one fact table answers all four questions instead of four copies of it. Lower precedence than Time Comparison, so a comparison is applied to whichever basis is selected rather than the other way round.
+table 'Date Basis'
+	lineageTag: bb6a9cd0-c0c9-56eb-80d8-ba36d9d14e2b
+
+	calculationGroup
+		precedence: 10
+
+		/// When the care was delivered. The default, and the right basis for clinical volume.
+		calculationItem 'Service date' = SELECTEDMEASURE ()
+
+		/// When the claim reached the payer. The right basis for anything about the receivable, because this is when the payer's clock starts.
+		calculationItem 'Submission date' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    USERELATIONSHIP ( FactClaim[SubmittedDateKey], DimDate[DateKey] ),
+				    USERELATIONSHIP ( FactPayment[SubmittedDateKey], DimDate[DateKey] ),
+				    USERELATIONSHIP ( FactDenial[SubmittedDateKey], DimDate[DateKey] )
+				)
+
+		/// When the payer decided. The right basis for denial workload, because that is the day the work lands on somebody's desk.
+		calculationItem 'Adjudication date' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    USERELATIONSHIP ( FactClaim[ProcessedDateKey], DimDate[DateKey] )
+				)
+
+		/// When the claim turned into cash or a denial. The right basis for a cash question. Pending claims have no resolution date and correctly fall out.
+		calculationItem 'Resolution date' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    USERELATIONSHIP ( FactClaim[ResolvedDateKey], DimDate[DateKey] )
+				)
+
+	column Basis
+		dataType: string
+		lineageTag: e2a5c59c-b9e0-5933-8ecd-3a6309c7ab37
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7880bf4b-75df-5442-9d46-04373f317b30
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "HealthcareRCM"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1f1f7b80-1149-58d1-a0d8-d307f7e4cda2"
+  }
+}

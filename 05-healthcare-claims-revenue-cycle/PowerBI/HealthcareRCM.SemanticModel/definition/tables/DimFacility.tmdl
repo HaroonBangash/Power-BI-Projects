@@ -1,0 +1,77 @@
+/// One row per facility. Thirty of them, four types.
+table DimFacility
+	lineageTag: 30a33e0a-d190-5388-8319-e93265ed183a
+
+	column FacilityKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 7845d0bb-549a-5ca2-97a8-42afeaa0e602
+		summarizeBy: none
+		sourceColumn: FacilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Read by the security role.
+	column FacilityID
+		dataType: string
+		isHidden
+		lineageTag: 54f5c44f-fcae-5f41-8551-fde280ca4b6b
+		summarizeBy: none
+		sourceColumn: FacilityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityName
+		dataType: string
+		lineageTag: 5c42a63d-abff-54bb-b667-4544eeca6cc4
+		summarizeBy: none
+		sourceColumn: FacilityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityType
+		dataType: string
+		lineageTag: 4fc28234-5d59-5377-a770-f20d7c28d8c6
+		summarizeBy: none
+		sourceColumn: FacilityType
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 18131e6a-b7c9-58b4-8c38-01f306a56dc3
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'State to facility'
+		lineageTag: f17d8d10-a843-510c-bc40-5453d6e71abb
+
+		level State
+			lineageTag: c7f401fd-4793-5bd5-9b24-55c792a7369c
+			column: State
+
+		level FacilityType
+			lineageTag: f00debd9-a949-50fd-9b2f-7b011b474798
+			column: FacilityType
+
+		level FacilityName
+			lineageTag: 38aceb6d-6691-549e-ac82-fc5f5d6149c5
+			column: FacilityName
+
+	partition DimFacility = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimFacility = Source{[Schema="analytics",Item="vw_DimFacility"]}[Data]
+				in
+				    analytics_vw_DimFacility
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,55 @@
+/// EFT, card or cheque. Evenly split and unrelated to anything else measured here.
+table DimPaymentMethod
+	lineageTag: 705c62c2-15fa-5313-92a7-d3e24c29fc01
+
+	column PaymentMethodKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 517abde6-0f35-5579-9dac-4dd7b62fdf9a
+		summarizeBy: none
+		sourceColumn: PaymentMethodKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PaymentMethod
+		dataType: string
+		lineageTag: 09bbb9f9-515f-5611-bfb0-7e67edb9da5a
+		summarizeBy: none
+		sourceColumn: PaymentMethod
+		sortByColumn: MethodOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MethodOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4aff726d-838b-5381-930d-a4b7bb737205
+		summarizeBy: none
+		sourceColumn: MethodOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsElectronic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f70f014e-aa18-5d98-b2d8-6811bbaac01c
+		summarizeBy: none
+		sourceColumn: IsElectronic
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPaymentMethod = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DimPaymentMethod = Source{[Schema="analytics",Item="vw_DimPaymentMethod"]}[Data]
+				in
+				    analytics_vw_DimPaymentMethod
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

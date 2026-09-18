@@ -1,0 +1,102 @@
+/// DISCONNECTED on purpose. For each of the ten candidate dimensions, a chi-square test of independence against the denied flag, computed in SQL on every refresh. Cramer's V is used rather than the raw chi-square because it is comparable across dimensions with different value counts. Payer scores 0.0813; the next highest is facility at 0.0145. It is disconnected because it is a statement ABOUT the claims, not a slice of them - filtering it by payer would be meaningless.
+table DenialSignal
+	lineageTag: fa92ad1f-8692-578f-89eb-0fca2511447b
+
+	column Dimension
+		dataType: string
+		isKey
+		lineageTag: 4ff5d8b0-e18b-57a3-80ff-5a52e7dc73a9
+		summarizeBy: none
+		sourceColumn: Dimension
+
+		annotation SummarizationSetBy = Automatic
+
+	column DistinctValues
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7eaf4ed4-84fb-5c28-a8f1-c867c113d615
+		summarizeBy: none
+		sourceColumn: DistinctValues
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Denial rate in the dimension's lowest value, in percent.
+	column LowestRatePct
+		dataType: double
+		formatString: #,0.0
+		lineageTag: cea6b546-3a0d-5b0b-a4e6-9325cedec1ee
+		summarizeBy: sum
+		sourceColumn: LowestRatePct
+
+		annotation SummarizationSetBy = Automatic
+
+	column HighestRatePct
+		dataType: double
+		formatString: #,0.0
+		lineageTag: c3093184-9d2c-594e-b7d9-fe0ad398f466
+		summarizeBy: sum
+		sourceColumn: HighestRatePct
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Percentage points between highest and lowest.
+	column SpreadPP
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 3c9ad9f9-808e-51db-a709-47e9f08bd596
+		summarizeBy: sum
+		sourceColumn: SpreadPP
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChiSquare
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 70d241fb-f6ad-5b7e-b655-91239c63b2a3
+		summarizeBy: sum
+		sourceColumn: ChiSquare
+
+		annotation SummarizationSetBy = Automatic
+
+	column DegreesOfFreedom
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d93ae7c5-8732-55d6-85d1-02b0699c1fac
+		summarizeBy: none
+		sourceColumn: DegreesOfFreedom
+
+		annotation SummarizationSetBy = Automatic
+
+	/// 0 to 1. The stated rule is that below 0.02 there is no usable signal, applied to every dimension including the one that passes.
+	column CramersV
+		dataType: double
+		formatString: 0.0000
+		lineageTag: 038b4e85-0896-573f-b271-a49336772139
+		summarizeBy: sum
+		sourceColumn: CramersV
+
+		annotation SummarizationSetBy = Automatic
+
+	column SignalVerdict
+		dataType: string
+		lineageTag: cce4c11f-d143-5d36-9fe2-edd6a54c7007
+		summarizeBy: none
+		sourceColumn: SignalVerdict
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DenialSignal = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_DenialSignalStrength = Source{[Schema="analytics",Item="vw_DenialSignalStrength"]}[Data]
+				in
+				    analytics_vw_DenialSignalStrength
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

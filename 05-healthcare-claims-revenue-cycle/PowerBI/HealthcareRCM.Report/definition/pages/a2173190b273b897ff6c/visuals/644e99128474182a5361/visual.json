@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "644e99128474182a5361",
+  "position": {
+    "x": 794,
+    "y": 244,
+    "z": 1,
+    "height": 228,
+    "width": 470,
+    "tabOrder": 21
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What this report assumes",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#37C9A8",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "As-of date. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "3 Nov 2026, the last payment in the file. Nothing is projected past it.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "AR is carried at ALLOWED. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Billed would overstate the receivable by the 26.5% contractual adjustment.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Patient responsibility leaves AR on the payer's payment date. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "The source records no patient payment events. In reality this would begin a second, slower AR.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Timely filing = 365 days. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Used to mark receivables that could not be collected in practice. An assumption, not a fact in the data.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Currency is AUD. ",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2",
+                      "fontWeight": "bold"
+                    }
+                  },
+                  {
+                    "value": "Every facility state is Australian and the payers are Medicare, Bupa, Medibank, HCF and NIB.",
+                    "textStyle": {
+                      "fontSize": "9pt",
+                      "color": "#E6F1F2"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

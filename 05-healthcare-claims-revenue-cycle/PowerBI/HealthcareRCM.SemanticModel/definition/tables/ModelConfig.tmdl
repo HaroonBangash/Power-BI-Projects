@@ -1,0 +1,43 @@
+/// Every stated assumption, hidden, read by measures rather than typed into them. The as-of date, the currency, the timely-filing window and the basis AR is carried at all live here, so an assumption can be found and changed in one place - and printed on the page it is standing on.
+table ModelConfig
+	isHidden
+	lineageTag: 69d3ebce-2318-5094-96dd-5493969c69ca
+
+	column ConfigKey
+		dataType: string
+		isKey
+		lineageTag: fa20a373-3c36-5cca-ad1d-704b4a007c4f
+		summarizeBy: none
+		sourceColumn: ConfigKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConfigValue
+		dataType: string
+		lineageTag: 44d86f97-f8f1-54f2-9416-c24095b044bc
+		summarizeBy: none
+		sourceColumn: ConfigValue
+
+		annotation SummarizationSetBy = Automatic
+
+	column Notes
+		dataType: string
+		lineageTag: c2ca6c95-40a1-578e-863f-953fd59c65ff
+		summarizeBy: none
+		sourceColumn: Notes
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ModelConfig = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_ModelConfig = Source{[Schema="analytics",Item="vw_ModelConfig"]}[Data]
+				in
+				    analytics_vw_ModelConfig
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,145 @@
+/// DISCONNECTED on purpose. Every provider's denial rate next to the binomial standard error for that provider's own claim count. A 500-row league table running 3% to 14% is the first thing anyone asks for and is entirely noise: 23 providers sit beyond two standard errors, which is 4.6% against the 4.55% a normal distribution predicts, and the most extreme is z = 3.3, about the maximum 500 draws produce. Disconnected because the group rate it compares against is computed over all claims; filtering it would silently change the baseline.
+table ProviderChance
+	lineageTag: 583a8253-745c-5c0f-b7af-9a3219b90289
+
+	column ProviderKey
+		dataType: int64
+		isHidden
+		isKey
+		lineageTag: 644f8b5b-b2a6-5e78-9be9-3a233cf3b46b
+		summarizeBy: none
+		sourceColumn: ProviderKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderID
+		dataType: string
+		isHidden
+		lineageTag: f743c1cb-14b6-5dbe-a456-a96adb188ca7
+		summarizeBy: none
+		sourceColumn: ProviderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProviderName
+		dataType: string
+		lineageTag: ef6e1d28-8eb6-503e-97df-5bfa689f5f3b
+		summarizeBy: none
+		sourceColumn: ProviderName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Specialty
+		dataType: string
+		lineageTag: 697195c5-975e-5959-8462-c440bdca4dfc
+		summarizeBy: none
+		sourceColumn: Specialty
+
+		annotation SummarizationSetBy = Automatic
+
+	column FacilityName
+		dataType: string
+		lineageTag: 02889df0-8ae6-51c4-b3b9-f6aa0168d82a
+		summarizeBy: none
+		sourceColumn: FacilityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Claims
+		dataType: int64
+		formatString: #,0
+		lineageTag: 484210d1-0c73-5e47-aa7a-2abaf5b6fd3d
+		summarizeBy: sum
+		sourceColumn: Claims
+
+		annotation SummarizationSetBy = Automatic
+
+	column Denials
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3b9069fc-0e32-572e-b93d-cddceba9ba82
+		summarizeBy: sum
+		sourceColumn: Denials
+
+		annotation SummarizationSetBy = Automatic
+
+	column DenialRate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 1679357b-60d3-5e1a-a49a-443e8438b430
+		summarizeBy: average
+		sourceColumn: DenialRate
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The denial rate across all claims.
+	column GroupRate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: e1de138d-fc00-5600-8b04-a1c104193635
+		summarizeBy: average
+		sourceColumn: GroupRate
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Binomial standard error at this provider's claim count.
+	column StandardError
+		dataType: double
+		formatString: 0.0000
+		lineageTag: 667bb7e7-0388-5c42-9be7-202fad2e8ff1
+		summarizeBy: average
+		sourceColumn: StandardError
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Standard errors from the group rate. Beyond 2 is what 4.55% of providers do by chance.
+	column ZScore
+		dataType: double
+		formatString: #,0.0
+		lineageTag: 52a6031a-98e3-5fdd-8c23-b96aae165f05
+		summarizeBy: average
+		sourceColumn: ZScore
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChanceBand
+		dataType: string
+		lineageTag: dde22b02-cc42-547d-9a91-004f942abfb3
+		summarizeBy: none
+		sourceColumn: ChanceBand
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Two-point bands, so 500 providers draw as a distribution.
+	column RateBand
+		dataType: string
+		lineageTag: 8c686b1a-fdee-5bb0-bfb1-34a38c8fbddb
+		summarizeBy: none
+		sourceColumn: RateBand
+		sortByColumn: RateBandSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column RateBandSort
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2552138c-4859-534b-8889-a281e430c9f4
+		summarizeBy: none
+		sourceColumn: RateBandSort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProviderChance = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database(SqlServer, SqlDatabase),
+				    analytics_vw_ProviderDenialChance = Source{[Schema="analytics",Item="vw_ProviderDenialChance"]}[Data]
+				in
+				    analytics_vw_ProviderDenialChance
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

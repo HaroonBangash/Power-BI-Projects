@@ -1,0 +1,12 @@
+/// SQL Server instance hosting HealthcareRCMBI. The only place the server is named.
+expression SqlServer = "localhost\SQLEXPRESS" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 183d13ab-1856-5193-a1d1-298c37e2c024
+
+	annotation PBI_ResultType = Text
+
+/// Database holding the analytics views.
+expression SqlDatabase = "HealthcareRCMBI" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 14582168-0656-5323-a7b9-f7f74dbd490e
+
+	annotation PBI_ResultType = Text
+
