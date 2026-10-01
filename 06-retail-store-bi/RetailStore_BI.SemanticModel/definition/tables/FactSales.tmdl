@@ -1,0 +1,173 @@
+/// Sales fact. Grain: one row per retail sales transaction line (1,000 rows). Invoice ID is a degenerate dimension and is not unique in the source.
+table FactSales
+	lineageTag: f330e4ed-f790-4d2c-9fd0-dee9bffa67a7
+
+	/// Surrogate primary key = source row number
+	column SalesKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5e74c361-288a-4a85-b451-3da89eaf38e3
+		summarizeBy: none
+		sourceColumn: SalesKey
+
+	/// Degenerate dimension. 575 distinct values across 1,000 rows (IDs are reused across unrelated transactions).
+	column 'Invoice ID'
+		dataType: string
+		lineageTag: ea99595f-dd87-44cd-8348-4015192971d7
+		summarizeBy: none
+		sourceColumn: Invoice ID
+
+	column DateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 66b04bf4-3559-427e-adbd-85d4490ae673
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	column HourKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c153d890-8f91-4184-9ca7-1798bc13a0d7
+		summarizeBy: none
+		sourceColumn: HourKey
+
+	column BranchKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1be42f7c-7c7e-44ac-b774-9eaa9ab919a6
+		summarizeBy: none
+		sourceColumn: BranchKey
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8da41026-1afd-4ebf-ad3e-c2de837795d6
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 06f5af70-d644-49d5-8d0e-2b85371156bb
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+	column PaymentKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a563e102-84ed-4493-a81d-fbdc9d3f6c7e
+		summarizeBy: none
+		sourceColumn: PaymentKey
+
+	column ClusterKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f302ad58-d5a7-47f5-9ebd-d308dc395ab8
+		summarizeBy: none
+		sourceColumn: ClusterKey
+
+	column 'Purchase Time'
+		dataType: dateTime
+		formatString: hh:nn
+		lineageTag: 013bffe9-367a-452d-8193-20a3addcda45
+		summarizeBy: none
+		sourceColumn: Purchase Time
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column 'Unit Price'
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ed1b98bb-20c8-46c7-998c-157c2728c678
+		summarizeBy: none
+		sourceColumn: Unit Price
+
+	column Quantity
+		dataType: int64
+		isHidden
+		formatString: #,0
+		lineageTag: e3112288-1e1f-46b4-8e39-36e0c0574d1f
+		summarizeBy: none
+		sourceColumn: Quantity
+
+	/// 5% tax on (unit price x quantity)
+	column 'Tax Amount'
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ca6cceab-58d4-4434-b373-3ddbde6f02a9
+		summarizeBy: none
+		sourceColumn: Tax Amount
+
+	/// Transaction total including tax (source column "Total")
+	column 'Sales Amount'
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 429c4e22-849e-49ec-96e6-808d633ffab5
+		summarizeBy: none
+		sourceColumn: Sales Amount
+
+	column 'COGS Amount'
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: f416e36d-fdb4-4448-b1ba-ca9d305a7d7d
+		summarizeBy: none
+		sourceColumn: COGS Amount
+
+	/// Source "gross income" (equal to the tax amount in every row)
+	column 'Gross Income Amount'
+		dataType: decimal
+		isHidden
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a674fbe5-a37c-4481-b710-e37aaa387eff
+		summarizeBy: none
+		sourceColumn: Gross Income Amount
+
+	/// Customer satisfaction rating, 1-10 scale (observed 4.0-10.0)
+	column Rating
+		dataType: double
+		isHidden
+		formatString: 0.0
+		lineageTag: 76a1dc98-5511-487d-9446-ddf3ce61c058
+		summarizeBy: none
+		sourceColumn: Rating
+
+	partition FactSales = m
+		mode: import
+		source =
+				let
+				    Source = Stg_RetailSales,
+				    // Resolve surrogate keys from the conformed dimensions
+				    MergedBranch = Table.NestedJoin(Source, {"Branch"}, DimBranch, {"Branch"}, "DimBranch", JoinKind.LeftOuter),
+				    ExpandedBranch = Table.ExpandTableColumn(MergedBranch, "DimBranch", {"BranchKey"}),
+				    MergedProduct = Table.NestedJoin(ExpandedBranch, {"ProductLine"}, DimProduct, {"Product Line"}, "DimProduct", JoinKind.LeftOuter),
+				    ExpandedProduct = Table.ExpandTableColumn(MergedProduct, "DimProduct", {"ProductKey"}),
+				    MergedCustomer = Table.NestedJoin(ExpandedProduct, {"CustomerType", "Gender"}, DimCustomer, {"Customer Type", "Gender"}, "DimCustomer", JoinKind.LeftOuter),
+				    ExpandedCustomer = Table.ExpandTableColumn(MergedCustomer, "DimCustomer", {"CustomerKey"}),
+				    MergedPayment = Table.NestedJoin(ExpandedCustomer, {"PaymentMethod"}, DimPayment, {"Payment Method"}, "DimPayment", JoinKind.LeftOuter),
+				    ExpandedPayment = Table.ExpandTableColumn(MergedPayment, "DimPayment", {"PaymentKey"}),
+				    // Attach the K-Means segment; the Invoice ID must match as an integrity check on the SalesKey join
+				    MergedCluster = Table.NestedJoin(ExpandedPayment, {"SalesKey", "InvoiceID"}, Src_ClusterAssignments, {"SalesKey", "InvoiceID"}, "Cluster", JoinKind.LeftOuter),
+				    ExpandedCluster = Table.ExpandTableColumn(MergedCluster, "Cluster", {"ClusterID"}, {"ClusterKey"}),
+				    SelectedColumns = Table.SelectColumns(ExpandedCluster, {"SalesKey", "InvoiceID", "DateKey", "HourKey", "BranchKey", "ProductKey", "CustomerKey", "PaymentKey", "ClusterKey",
+				        "Time", "UnitPrice", "Quantity", "Tax", "TotalSales", "COGS", "GrossIncome", "Rating"}),
+				    Renamed = Table.RenameColumns(SelectedColumns, {{"InvoiceID", "Invoice ID"}, {"Time", "Purchase Time"}, {"UnitPrice", "Unit Price"}, {"Tax", "Tax Amount"},
+				        {"TotalSales", "Sales Amount"}, {"COGS", "COGS Amount"}, {"GrossIncome", "Gross Income Amount"}}),
+				    Typed = Table.TransformColumnTypes(Renamed, {{"BranchKey", Int64.Type}, {"ProductKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"PaymentKey", Int64.Type}, {"ClusterKey", Int64.Type}}),
+				    Sorted = Table.Sort(Typed, {{"SalesKey", Order.Ascending}})
+				in
+				    Sorted
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,167 @@
+/// Conformed calendar dimension (one row per day, full months covering the sales period). Marked as the model date table.
+table DimDate
+	lineageTag: 983e6e9c-dffe-4cf4-999b-968938b35725
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: d mmm yyyy
+		lineageTag: 45542962-5d32-4973-8129-d5c272b55336
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	/// Surrogate key yyyymmdd
+	column DateKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: db0ef98d-2410-4b1d-b8f5-089cffc09239
+		summarizeBy: none
+		sourceColumn: DateKey
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 3217a79d-47f1-496e-aa3b-cd25739b3fb6
+		summarizeBy: none
+		sourceColumn: Year
+
+	column Quarter
+		dataType: string
+		lineageTag: f9092226-1d6b-4f06-964b-63beb115098f
+		summarizeBy: none
+		sourceColumn: Quarter
+		sortByColumn: 'Quarter Number'
+
+	column 'Quarter Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 68c92fe2-2496-4c62-9d45-0261b67d45bf
+		summarizeBy: none
+		sourceColumn: Quarter Number
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 11e2c914-d5cb-4433-9ea8-01e82397408a
+		summarizeBy: none
+		sourceColumn: Month Number
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 77b7c324-eea8-4b37-92e4-cfcf17452d5c
+		summarizeBy: none
+		sourceColumn: Month Name
+		sortByColumn: 'Month Number'
+
+	column 'Month Short'
+		dataType: string
+		lineageTag: 8c4d24f4-6fa7-4443-a4d9-fc5c8f75230c
+		summarizeBy: none
+		sourceColumn: Month Short
+		sortByColumn: 'Month Number'
+
+	/// Sort key yyyymm
+	column Year-Month
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c153872a-cea9-432d-b6f9-26fa1eb9558b
+		summarizeBy: none
+		sourceColumn: Year-Month
+
+	/// Month label e.g. Jan 2022
+	column Month
+		dataType: string
+		lineageTag: 9d64930d-d308-4448-9ffd-2b0166018c1d
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: Year-Month
+
+	column 'Month Start'
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 98f87bc0-2020-4a1c-adfc-b52c186251a4
+		summarizeBy: none
+		sourceColumn: Month Start
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 36886d8f-d6af-4938-82c8-53b8f26bb5cb
+		summarizeBy: none
+		sourceColumn: Day
+
+	/// Monday = 1 ... Sunday = 7
+	column 'Day of Week Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3d01ab5d-7110-485c-af8b-33915f65768a
+		summarizeBy: none
+		sourceColumn: Day of Week Number
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: d6af423f-45c2-42fd-ba84-64c1d9af8894
+		summarizeBy: none
+		sourceColumn: Day Name
+		sortByColumn: 'Day of Week Number'
+
+	column 'Day Short'
+		dataType: string
+		lineageTag: 1c9fc5d7-0c18-4501-9ed2-b44749edb4b5
+		summarizeBy: none
+		sourceColumn: Day Short
+		sortByColumn: 'Day of Week Number'
+
+	column 'Weekday or Weekend'
+		dataType: string
+		lineageTag: d703ad15-0f2d-4d20-a097-2b3e26ae77d7
+		summarizeBy: none
+		sourceColumn: Weekday or Weekend
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 65474900-6db4-406b-b189-519d2b0099f1
+		summarizeBy: none
+		sourceColumn: Week of Year
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    SalesDates = Stg_RetailSales[Date],
+				    StartDate = Date.StartOfMonth(List.Min(SalesDates)),
+				    EndDate = Date.EndOfMonth(List.Max(SalesDates)),
+				    DateList = List.Dates(StartDate, Duration.Days(EndDate - StartDate) + 1, #duration(1, 0, 0, 0)),
+				    Calendar = Table.FromList(DateList, Splitter.SplitByNothing(), type table [Date = date]),
+				    AddedDateKey = Table.AddColumn(Calendar, "DateKey", each Date.Year([Date]) * 10000 + Date.Month([Date]) * 100 + Date.Day([Date]), Int64.Type),
+				    AddedYear = Table.AddColumn(AddedDateKey, "Year", each Date.Year([Date]), Int64.Type),
+				    AddedQuarter = Table.AddColumn(AddedYear, "Quarter", each "Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+				    AddedQuarterNo = Table.AddColumn(AddedQuarter, "Quarter Number", each Date.QuarterOfYear([Date]), Int64.Type),
+				    AddedMonthNo = Table.AddColumn(AddedQuarterNo, "Month Number", each Date.Month([Date]), Int64.Type),
+				    AddedMonthName = Table.AddColumn(AddedMonthNo, "Month Name", each Date.ToText([Date], [Format = "MMMM", Culture = "en-US"]), type text),
+				    AddedMonthShort = Table.AddColumn(AddedMonthName, "Month Short", each Date.ToText([Date], [Format = "MMM", Culture = "en-US"]), type text),
+				    AddedYearMonth = Table.AddColumn(AddedMonthShort, "Year-Month", each Date.Year([Date]) * 100 + Date.Month([Date]), Int64.Type),
+				    AddedMonth = Table.AddColumn(AddedYearMonth, "Month", each Date.ToText([Date], [Format = "MMM yyyy", Culture = "en-US"]), type text),
+				    AddedMonthStart = Table.AddColumn(AddedMonth, "Month Start", each Date.StartOfMonth([Date]), type date),
+				    AddedDay = Table.AddColumn(AddedMonthStart, "Day", each Date.Day([Date]), Int64.Type),
+				    AddedDowNo = Table.AddColumn(AddedDay, "Day of Week Number", each Date.DayOfWeek([Date], Day.Monday) + 1, Int64.Type),
+				    AddedDayName = Table.AddColumn(AddedDowNo, "Day Name", each Date.ToText([Date], [Format = "dddd", Culture = "en-US"]), type text),
+				    AddedDayShort = Table.AddColumn(AddedDayName, "Day Short", each Date.ToText([Date], [Format = "ddd", Culture = "en-US"]), type text),
+				    AddedWeekend = Table.AddColumn(AddedDayShort, "Weekday or Weekend", each if Date.DayOfWeek([Date], Day.Monday) >= 5 then "Weekend" else "Weekday", type text),
+				    AddedWeek = Table.AddColumn(AddedWeekend, "Week of Year", each Date.WeekOfYear([Date], Day.Monday), Int64.Type)
+				in
+				    AddedWeek
+
+	annotation PBI_ResultType = Table
+

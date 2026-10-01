@@ -1,0 +1,28 @@
+relationship FactSales_DimDate
+	fromColumn: FactSales.DateKey
+	toColumn: DimDate.DateKey
+
+relationship FactSales_DimTime
+	fromColumn: FactSales.HourKey
+	toColumn: DimTime.HourKey
+
+relationship FactSales_DimBranch
+	fromColumn: FactSales.BranchKey
+	toColumn: DimBranch.BranchKey
+
+relationship FactSales_DimProduct
+	fromColumn: FactSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship FactSales_DimCustomer
+	fromColumn: FactSales.CustomerKey
+	toColumn: DimCustomer.CustomerKey
+
+relationship FactSales_DimPayment
+	fromColumn: FactSales.PaymentKey
+	toColumn: DimPayment.PaymentKey
+
+relationship FactSales_DimCluster
+	fromColumn: FactSales.ClusterKey
+	toColumn: DimCluster.ClusterKey
+

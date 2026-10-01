@@ -1,0 +1,44 @@
+/// Store branch dimension (Branch -> City is 1:1 in the source).
+table DimBranch
+	lineageTag: 1db430ea-c83c-4579-907d-3c73053a558a
+
+	column BranchKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 0ec8d25a-7936-45e6-a8f4-fd1433b298d6
+		summarizeBy: none
+		sourceColumn: BranchKey
+
+	column Branch
+		dataType: string
+		lineageTag: 774c6e80-a37e-43a6-b1f9-d8c181d9506a
+		summarizeBy: none
+		sourceColumn: Branch
+
+	column City
+		dataType: string
+		lineageTag: 5dd6878f-9428-40fc-92f9-0f0e0ffdb789
+		summarizeBy: none
+		sourceColumn: City
+
+	column 'Branch Label'
+		dataType: string
+		lineageTag: b69890bb-d1b9-41bc-8f00-c532231dde5e
+		summarizeBy: none
+		sourceColumn: Branch Label
+		sortByColumn: BranchKey
+
+	partition DimBranch = m
+		mode: import
+		source =
+				let
+				    Source = Table.Distinct(Table.SelectColumns(Stg_RetailSales, {"Branch", "City"})),
+				    Sorted = Table.Sort(Source, {{"Branch", Order.Ascending}}),
+				    AddedKey = Table.AddIndexColumn(Sorted, "BranchKey", 1, 1, Int64.Type),
+				    AddedLabel = Table.AddColumn(AddedKey, "Branch Label", each [Branch] & " · " & [City], type text)
+				in
+				    AddedLabel
+
+	annotation PBI_ResultType = Table
+

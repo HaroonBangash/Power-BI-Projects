@@ -1,0 +1,45 @@
+/// Customer segment dimension. The source has no customer identifier, so this is a segment (junk) dimension: Customer Type x Gender.
+table DimCustomer
+	lineageTag: e50b642d-85b3-439f-8648-a9acd9d0da8d
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1cd1a5b8-8af7-48c9-a40e-07551a419fff
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+	column 'Customer Type'
+		dataType: string
+		lineageTag: b169b699-69dc-4e75-a43d-8fd576462137
+		summarizeBy: none
+		sourceColumn: Customer Type
+
+	column Gender
+		dataType: string
+		lineageTag: 8c4a4505-e8ad-4414-93e4-38098f6758fd
+		summarizeBy: none
+		sourceColumn: Gender
+
+	column 'Customer Segment'
+		dataType: string
+		lineageTag: fa3e58a7-e061-47b0-98f3-f60e406591a3
+		summarizeBy: none
+		sourceColumn: Customer Segment
+		sortByColumn: CustomerKey
+
+	partition DimCustomer = m
+		mode: import
+		source =
+				let
+				    Source = Table.Distinct(Table.SelectColumns(Stg_RetailSales, {"CustomerType", "Gender"})),
+				    Sorted = Table.Sort(Source, {{"CustomerType", Order.Ascending}, {"Gender", Order.Ascending}}),
+				    AddedKey = Table.AddIndexColumn(Sorted, "CustomerKey", 1, 1, Int64.Type),
+				    AddedSegment = Table.AddColumn(AddedKey, "Customer Segment", each [CustomerType] & " · " & [Gender], type text),
+				    Renamed = Table.RenameColumns(AddedSegment, {{"CustomerType", "Customer Type"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

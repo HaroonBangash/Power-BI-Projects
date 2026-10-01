@@ -1,0 +1,31 @@
+/// Product line dimension (six general merchandise categories).
+table DimProduct
+	lineageTag: 2f85ba8e-2709-40fe-90b8-3da646756005
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 35833736-bdd7-4780-b4e2-f19c0555a2d1
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+	column 'Product Line'
+		dataType: string
+		lineageTag: c2239983-3470-4f6c-9758-bacd1c916f3b
+		summarizeBy: none
+		sourceColumn: Product Line
+
+	partition DimProduct = m
+		mode: import
+		source =
+				let
+				    Source = Table.Distinct(Table.SelectColumns(Stg_RetailSales, {"ProductLine"})),
+				    Sorted = Table.Sort(Source, {{"ProductLine", Order.Ascending}}),
+				    AddedKey = Table.AddIndexColumn(Sorted, "ProductKey", 1, 1, Int64.Type),
+				    Renamed = Table.RenameColumns(AddedKey, {{"ProductLine", "Product Line"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

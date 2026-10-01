@@ -1,0 +1,424 @@
+Area,Metric,Dimension,Value
+Core KPI,Total Sales,,325721.749
+Core KPI,Total Gross Income,,15517.119
+Core KPI,Total COGS,,310204.63
+Core KPI,Total Tax,,15517.119
+Core KPI,Total Quantity Sold,,5510.0
+Core KPI,Total Transactions,,1000.0
+Core KPI,Distinct Invoice IDs,,575.0
+Core KPI,Average Transaction Value,,325.7217
+Core KPI,Average Unit Price,,56.1721
+Core KPI,Average Rating,,6.9727
+Core KPI,Gross Margin %,,0.0476
+Core KPI,Quantity per Transaction,,5.51
+Core KPI,Gross Income per Transaction,,15.5171
+Core KPI,Member Sales,,165615.944
+Core KPI,Normal Customer Sales,,160105.805
+Core KPI,Member Sales %,,0.5085
+Core KPI,Female Customer Sales %,,0.5198
+Core KPI,Male Customer Sales %,,0.4802
+Core KPI,High Rating % (>=8),,0.329
+Core KPI,Trading Days,,89.0
+Branch,Sales,Z,111484.2065
+Branch,GrossIncome,Z,5310.9515
+Branch,Quantity,Z,1831.0
+Branch,Transactions,Z,328.0
+Branch,AvgRating,Z,7.0729
+Branch,ATV,Z,339.8909
+Branch,SalesShare,Z,0.3423
+Branch,GM%,Z,0.0476
+Branch,Sales,X,107129.8705
+Branch,GrossIncome,X,5103.6355
+Branch,Quantity,X,1859.0
+Branch,Transactions,X,340.0
+Branch,AvgRating,X,7.0271
+Branch,ATV,X,315.0879
+Branch,SalesShare,X,0.3289
+Branch,GM%,X,0.0476
+Branch,Sales,Y,107107.672
+Branch,GrossIncome,Y,5102.532
+Branch,Quantity,Y,1820.0
+Branch,Transactions,Y,332.0
+Branch,AvgRating,Y,6.8181
+Branch,ATV,Y,322.6135
+Branch,SalesShare,Y,0.3288
+Branch,GM%,Y,0.0476
+City,Sales,Ballarat,111484.2065
+City,GrossIncome,Ballarat,5310.9515
+City,Quantity,Ballarat,1831.0
+City,Transactions,Ballarat,328.0
+City,AvgRating,Ballarat,7.0729
+City,ATV,Ballarat,339.8909
+City,SalesShare,Ballarat,0.3423
+City,GM%,Ballarat,0.0476
+City,Sales,Geelong,107129.8705
+City,GrossIncome,Geelong,5103.6355
+City,Quantity,Geelong,1859.0
+City,Transactions,Geelong,340.0
+City,AvgRating,Geelong,7.0271
+City,ATV,Geelong,315.0879
+City,SalesShare,Geelong,0.3289
+City,GM%,Geelong,0.0476
+City,Sales,Melbourne,107107.672
+City,GrossIncome,Melbourne,5102.532
+City,Quantity,Melbourne,1820.0
+City,Transactions,Melbourne,332.0
+City,AvgRating,Melbourne,6.8181
+City,ATV,Melbourne,322.6135
+City,SalesShare,Melbourne,0.3288
+City,GM%,Melbourne,0.0476
+Product Line,Sales,Food and beverages,56620.844
+Product Line,GrossIncome,Food and beverages,2697.364
+Product Line,Quantity,Food and beverages,952.0
+Product Line,Transactions,Food and beverages,174.0
+Product Line,AvgRating,Food and beverages,7.1132
+Product Line,ATV,Food and beverages,325.4071
+Product Line,SalesShare,Food and beverages,0.1738
+Product Line,GM%,Food and beverages,0.0476
+Product Line,Sales,Sports and travel,55582.8265
+Product Line,GrossIncome,Sports and travel,2647.8965
+Product Line,Quantity,Sports and travel,920.0
+Product Line,Transactions,Sports and travel,166.0
+Product Line,AvgRating,Sports and travel,6.9163
+Product Line,ATV,Sports and travel,334.8363
+Product Line,SalesShare,Sports and travel,0.1706
+Product Line,GM%,Sports and travel,0.0476
+Product Line,Sales,Electronic accessories,54823.0315
+Product Line,GrossIncome,Electronic accessories,2611.7765
+Product Line,Quantity,Electronic accessories,971.0
+Product Line,Transactions,Electronic accessories,170.0
+Product Line,AvgRating,Electronic accessories,6.9247
+Product Line,ATV,Electronic accessories,322.4884
+Product Line,SalesShare,Electronic accessories,0.1683
+Product Line,GM%,Electronic accessories,0.0476
+Product Line,Sales,Fashion accessories,54756.895
+Product Line,GrossIncome,Fashion accessories,2608.545
+Product Line,Quantity,Fashion accessories,902.0
+Product Line,Transactions,Fashion accessories,178.0
+Product Line,AvgRating,Fashion accessories,7.0292
+Product Line,ATV,Fashion accessories,307.623
+Product Line,SalesShare,Fashion accessories,0.1681
+Product Line,GM%,Fashion accessories,0.0476
+Product Line,Sales,Home and lifestyle,54317.413
+Product Line,GrossIncome,Home and lifestyle,2587.628
+Product Line,Quantity,Home and lifestyle,911.0
+Product Line,Transactions,Home and lifestyle,160.0
+Product Line,AvgRating,Home and lifestyle,6.8375
+Product Line,ATV,Home and lifestyle,339.4838
+Product Line,SalesShare,Home and lifestyle,0.1668
+Product Line,GM%,Home and lifestyle,0.0476
+Product Line,Sales,Health and beauty,49620.739
+Product Line,GrossIncome,Health and beauty,2363.909
+Product Line,Quantity,Health and beauty,854.0
+Product Line,Transactions,Health and beauty,152.0
+Product Line,AvgRating,Health and beauty,7.0033
+Product Line,ATV,Health and beauty,326.4522
+Product Line,SalesShare,Health and beauty,0.1523
+Product Line,GM%,Health and beauty,0.0476
+Customer Type,Sales,Member,165615.944
+Customer Type,GrossIncome,Member,7889.789
+Customer Type,Quantity,Member,2785.0
+Customer Type,Transactions,Member,501.0
+Customer Type,AvgRating,Member,6.9403
+Customer Type,ATV,Member,330.5707
+Customer Type,SalesShare,Member,0.5085
+Customer Type,GM%,Member,0.0476
+Customer Type,Sales,Normal,160105.805
+Customer Type,GrossIncome,Normal,7627.33
+Customer Type,Quantity,Normal,2725.0
+Customer Type,Transactions,Normal,499.0
+Customer Type,AvgRating,Normal,7.0052
+Customer Type,ATV,Normal,320.8533
+Customer Type,SalesShare,Normal,0.4915
+Customer Type,GM%,Normal,0.0476
+Gender,Sales,Female,169317.425
+Gender,GrossIncome,Female,8066.15
+Gender,Quantity,Female,2869.0
+Gender,Transactions,Female,501.0
+Gender,AvgRating,Female,6.9645
+Gender,ATV,Female,337.9589
+Gender,SalesShare,Female,0.5198
+Gender,GM%,Female,0.0476
+Gender,Sales,Male,156404.324
+Gender,GrossIncome,Male,7450.969
+Gender,Quantity,Male,2641.0
+Gender,Transactions,Male,499.0
+Gender,AvgRating,Male,6.981
+Gender,ATV,Male,313.4355
+Gender,SalesShare,Male,0.4802
+Gender,GM%,Male,0.0476
+Payment,Sales,Cash,113154.57
+Payment,GrossIncome,Cash,5390.57
+Payment,Quantity,Cash,1896.0
+Payment,Transactions,Cash,344.0
+Payment,AvgRating,Cash,6.9701
+Payment,ATV,Cash,328.9377
+Payment,SalesShare,Cash,0.3474
+Payment,GM%,Cash,0.0476
+Payment,Sales,Ewallet,110939.107
+Payment,GrossIncome,Ewallet,5285.067
+Payment,Quantity,Ewallet,1892.0
+Payment,Transactions,Ewallet,345.0
+Payment,AvgRating,Ewallet,6.9478
+Payment,ATV,Ewallet,321.5626
+Payment,SalesShare,Ewallet,0.3406
+Payment,GM%,Ewallet,0.0476
+Payment,Sales,Credit card,101628.072
+Payment,GrossIncome,Credit card,4841.482
+Payment,Quantity,Credit card,1722.0
+Payment,Transactions,Credit card,311.0
+Payment,AvgRating,Credit card,7.0032
+Payment,ATV,Credit card,326.7784
+Payment,SalesShare,Credit card,0.312
+Payment,GM%,Credit card,0.0476
+Time of Day,Sales,Afternoon (12:00-16:59),149288.8405
+Time of Day,GrossIncome,Afternoon (12:00-16:59),7112.0055
+Time of Day,Quantity,Afternoon (12:00-16:59),2531.0
+Time of Day,Transactions,Afternoon (12:00-16:59),454.0
+Time of Day,AvgRating,Afternoon (12:00-16:59),7.0022
+Time of Day,ATV,Afternoon (12:00-16:59),328.83
+Time of Day,SalesShare,Afternoon (12:00-16:59),0.4583
+Time of Day,GM%,Afternoon (12:00-16:59),0.0476
+Time of Day,Sales,Evening (17:00-20:59),114115.098
+Time of Day,GrossIncome,Evening (17:00-20:59),5436.363
+Time of Day,Quantity,Evening (17:00-20:59),1941.0
+Time of Day,Transactions,Evening (17:00-20:59),355.0
+Time of Day,AvgRating,Evening (17:00-20:59),6.9414
+Time of Day,ATV,Evening (17:00-20:59),321.451
+Time of Day,SalesShare,Evening (17:00-20:59),0.3503
+Time of Day,GM%,Evening (17:00-20:59),0.0476
+Time of Day,Sales,Morning (10:00-11:59),62317.8105
+Time of Day,GrossIncome,Morning (10:00-11:59),2968.7505
+Time of Day,Quantity,Morning (10:00-11:59),1038.0
+Time of Day,Transactions,Morning (10:00-11:59),191.0
+Time of Day,AvgRating,Morning (10:00-11:59),6.9607
+Time of Day,ATV,Morning (10:00-11:59),326.2713
+Time of Day,SalesShare,Morning (10:00-11:59),0.1913
+Time of Day,GM%,Morning (10:00-11:59),0.0476
+Hour,Sales,19,40024.013
+Hour,GrossIncome,19,1906.678
+Hour,Quantity,19,649.0
+Hour,Transactions,19,113.0
+Hour,AvgRating,19,6.7168
+Hour,ATV,19,354.1948
+Hour,SalesShare,19,0.1229
+Hour,GM%,19,0.0476
+Hour,Sales,13,35015.727
+Hour,GrossIncome,13,1668.112
+Hour,Quantity,13,585.0
+Hour,Transactions,13,103.0
+Hour,AvgRating,13,7.0301
+Hour,ATV,13,339.9585
+Hour,SalesShare,13,0.1075
+Hour,GM%,13,0.0476
+Hour,Sales,10,31683.981
+Hour,GrossIncome,10,1509.386
+Hour,Quantity,10,525.0
+Hour,Transactions,10,101.0
+Hour,AvgRating,10,7.098
+Hour,ATV,10,313.7028
+Hour,SalesShare,10,0.0973
+Hour,GM%,10,0.0476
+Hour,Sales,15,31444.5085
+Hour,GrossIncome,15,1497.9885
+Hour,Quantity,15,530.0
+Hour,Transactions,15,102.0
+Hour,AvgRating,15,6.8765
+Hour,ATV,15,308.2795
+Hour,SalesShare,15,0.0965
+Hour,GM%,15,0.0476
+Hour,Sales,14,31075.899
+Hour,GrossIncome,14,1480.394
+Hour,Quantity,14,495.0
+Hour,Transactions,14,83.0
+Hour,AvgRating,14,6.9349
+Hour,ATV,14,374.4084
+Hour,SalesShare,14,0.0954
+Hour,GM%,14,0.0476
+Hour,Sales,11,30633.8295
+Hour,GrossIncome,11,1459.3645
+Hour,Quantity,11,513.0
+Hour,Transactions,11,90.0
+Hour,AvgRating,11,6.8067
+Hour,ATV,11,340.3759
+Hour,SalesShare,11,0.094
+Hour,GM%,11,0.0476
+Hour,Sales,12,26316.3825
+Hour,GrossIncome,12,1253.7575
+Hour,Quantity,12,501.0
+Hour,Transactions,12,89.0
+Hour,AvgRating,12,7.3
+Hour,ATV,12,295.6897
+Hour,SalesShare,12,0.0808
+Hour,GM%,12,0.0476
+Hour,Sales,18,26267.84
+Hour,GrossIncome,18,1251.415
+Hour,Quantity,18,475.0
+Hour,Transactions,18,93.0
+Hour,AvgRating,18,7.1871
+Hour,ATV,18,282.4499
+Hour,SalesShare,18,0.0806
+Hour,GM%,18,0.0476
+Hour,Sales,16,25436.3235
+Hour,GrossIncome,16,1211.7535
+Hour,Quantity,16,420.0
+Hour,Transactions,16,77.0
+Hour,AvgRating,16,6.8597
+Hour,ATV,16,330.3419
+Hour,SalesShare,16,0.0781
+Hour,GM%,16,0.0476
+Hour,Sales,17,24652.718
+Hour,GrossIncome,17,1174.433
+Hour,Quantity,17,415.0
+Hour,Transactions,17,74.0
+Hour,AvgRating,17,6.9392
+Hour,ATV,17,333.1448
+Hour,SalesShare,17,0.0757
+Hour,GM%,17,0.0476
+Hour,Sales,20,23170.527
+Hour,GrossIncome,20,1103.837
+Hour,Quantity,20,402.0
+Hour,Transactions,20,75.0
+Hour,AvgRating,20,6.9773
+Hour,ATV,20,308.9404
+Hour,SalesShare,20,0.0711
+Hour,GM%,20,0.0476
+Day of Week,Sales,Wednesday,56580.3095
+Day of Week,GrossIncome,Wednesday,2695.3945
+Day of Week,Quantity,Wednesday,919.0
+Day of Week,Transactions,Wednesday,164.0
+Day of Week,AvgRating,Wednesday,6.9018
+Day of Week,ATV,Wednesday,345.0019
+Day of Week,SalesShare,Wednesday,0.1737
+Day of Week,GM%,Wednesday,0.0476
+Day of Week,Sales,Saturday,51913.2455
+Day of Week,GrossIncome,Saturday,2473.0855
+Day of Week,Quantity,Saturday,862.0
+Day of Week,Transactions,Saturday,158.0
+Day of Week,AvgRating,Saturday,7.0032
+Day of Week,ATV,Saturday,328.5648
+Day of Week,SalesShare,Saturday,0.1594
+Day of Week,GM%,Saturday,0.0476
+Day of Week,Sales,Monday,45726.748
+Day of Week,GrossIncome,Monday,2178.363
+Day of Week,Quantity,Monday,755.0
+Day of Week,Transactions,Monday,138.0
+Day of Week,AvgRating,Monday,6.8899
+Day of Week,ATV,Monday,331.3532
+Day of Week,SalesShare,Monday,0.1404
+Day of Week,GM%,Monday,0.0476
+Day of Week,Sales,Thursday,44846.8925
+Day of Week,GrossIncome,Thursday,2136.4925
+Day of Week,Quantity,Thursday,778.0
+Day of Week,Transactions,Thursday,133.0
+Day of Week,AvgRating,Thursday,7.0113
+Day of Week,ATV,Thursday,337.1947
+Day of Week,SalesShare,Thursday,0.1377
+Day of Week,GM%,Thursday,0.0476
+Day of Week,Sales,Tuesday,44305.3405
+Day of Week,GrossIncome,Tuesday,2110.6805
+Day of Week,Quantity,Tuesday,758.0
+Day of Week,Transactions,Tuesday,139.0
+Day of Week,AvgRating,Tuesday,7.0763
+Day of Week,ATV,Tuesday,318.7435
+Day of Week,SalesShare,Tuesday,0.136
+Day of Week,GM%,Tuesday,0.0476
+Day of Week,Sales,Sunday,44131.135
+Day of Week,GrossIncome,Sunday,2102.435
+Day of Week,Quantity,Sunday,800.0
+Day of Week,Transactions,Sunday,143.0
+Day of Week,AvgRating,Sunday,6.8056
+Day of Week,ATV,Sunday,308.6093
+Day of Week,SalesShare,Sunday,0.1355
+Day of Week,GM%,Sunday,0.0476
+Day of Week,Sales,Friday,38218.078
+Day of Week,GrossIncome,Friday,1820.668
+Day of Week,Quantity,Friday,638.0
+Day of Week,Transactions,Friday,125.0
+Day of Week,AvgRating,Friday,7.1536
+Day of Week,ATV,Friday,305.7446
+Day of Week,SalesShare,Friday,0.1173
+Day of Week,GM%,Friday,0.0476
+Cluster,Sales,At-Risk High-Value Shoppers,122431.3825
+Cluster,GrossIncome,At-Risk High-Value Shoppers,5832.1825
+Cluster,Quantity,At-Risk High-Value Shoppers,1778.0
+Cluster,Transactions,At-Risk High-Value Shoppers,213.0
+Cluster,AvgRating,At-Risk High-Value Shoppers,5.3991
+Cluster,ATV,At-Risk High-Value Shoppers,574.7952
+Cluster,SalesShare,At-Risk High-Value Shoppers,0.3759
+Cluster,GM%,At-Risk High-Value Shoppers,0.0476
+Cluster,Sales,Satisfied High-Value Shoppers,117101.275
+Cluster,GrossIncome,Satisfied High-Value Shoppers,5578.575
+Cluster,Quantity,Satisfied High-Value Shoppers,1952.0
+Cluster,Transactions,Satisfied High-Value Shoppers,246.0
+Cluster,AvgRating,Satisfied High-Value Shoppers,8.3972
+Cluster,ATV,Satisfied High-Value Shoppers,476.0214
+Cluster,SalesShare,Satisfied High-Value Shoppers,0.3595
+Cluster,GM%,Satisfied High-Value Shoppers,0.0476
+Cluster,Sales,Dissatisfied Low-Spend Shoppers,47465.0555
+Cluster,GrossIncome,Dissatisfied Low-Spend Shoppers,2261.4205
+Cluster,Quantity,Dissatisfied Low-Spend Shoppers,991.0
+Cluster,Transactions,Dissatisfied Low-Spend Shoppers,295.0
+Cluster,AvgRating,Dissatisfied Low-Spend Shoppers,5.622
+Cluster,ATV,Dissatisfied Low-Spend Shoppers,160.8985
+Cluster,SalesShare,Dissatisfied Low-Spend Shoppers,0.1457
+Cluster,GM%,Dissatisfied Low-Spend Shoppers,0.0476
+Cluster,Sales,Satisfied Low-Spend Shoppers,38724.036
+Cluster,GrossIncome,Satisfied Low-Spend Shoppers,1844.941
+Cluster,Quantity,Satisfied Low-Spend Shoppers,789.0
+Cluster,Transactions,Satisfied Low-Spend Shoppers,246.0
+Cluster,AvgRating,Satisfied Low-Spend Shoppers,8.5305
+Cluster,ATV,Satisfied Low-Spend Shoppers,157.4148
+Cluster,SalesShare,Satisfied Low-Spend Shoppers,0.1189
+Cluster,GM%,Satisfied Low-Spend Shoppers,0.0476
+Month,Sales,2022-01,117274.368
+Month,Transactions,2022-01,352.0
+Month,Days,2022-01,31.0
+Month,PrevMonthSales,2022-01,
+Month,MoM %,2022-01,
+Month,AvgDailySales,2022-01,3783.0441
+Month,Cumulative,2022-01,117274.368
+Month,Sales,2022-02,98046.374
+Month,Transactions,2022-02,303.0
+Month,Days,2022-02,28.0
+Month,PrevMonthSales,2022-02,117274.368
+Month,MoM %,2022-02,-0.164
+Month,AvgDailySales,2022-02,3501.6562
+Month,Cumulative,2022-02,215320.742
+Month,Sales,2022-03,110401.007
+Month,Transactions,2022-03,345.0
+Month,Days,2022-03,30.0
+Month,PrevMonthSales,2022-03,98046.374
+Month,MoM %,2022-03,0.126
+Month,AvgDailySales,2022-03,3680.0336
+Month,Cumulative,2022-03,325721.749
+Branch x Product,Sales,X | Electronic accessories,18478.11
+Branch x Product,Sales,X | Fashion accessories,16464.01
+Branch x Product,Sales,X | Food and beverages,17319.6
+Branch x Product,Sales,X | Health and beauty,12726.25
+Branch x Product,Sales,X | Home and lifestyle,22602.7
+Branch x Product,Sales,X | Sports and travel,19539.2
+Branch x Product,Sales,Y | Electronic accessories,17209.44
+Branch x Product,Sales,Y | Fashion accessories,16561.82
+Branch x Product,Sales,Y | Food and beverages,15349.89
+Branch x Product,Sales,Y | Health and beauty,20140.66
+Branch x Product,Sales,Y | Home and lifestyle,17696.66
+Branch x Product,Sales,Y | Sports and travel,20149.2
+Branch x Product,Sales,Z | Electronic accessories,19135.47
+Branch x Product,Sales,Z | Fashion accessories,21731.07
+Branch x Product,Sales,Z | Food and beverages,23951.36
+Branch x Product,Sales,Z | Health and beauty,16753.83
+Branch x Product,Sales,Z | Home and lifestyle,14018.05
+Branch x Product,Sales,Z | Sports and travel,15894.43
+CustomerType x Product,Sales,Member | Electronic accessories,24713.0
+CustomerType x Product,Sales,Member | Fashion accessories,26543.46
+CustomerType x Product,Sales,Member | Food and beverages,31610.62
+CustomerType x Product,Sales,Member | Health and beauty,26045.04
+CustomerType x Product,Sales,Member | Home and lifestyle,28223.03
+CustomerType x Product,Sales,Member | Sports and travel,28480.8
+CustomerType x Product,Sales,Normal | Electronic accessories,30110.04
+CustomerType x Product,Sales,Normal | Fashion accessories,28213.43
+CustomerType x Product,Sales,Normal | Food and beverages,25010.22
+CustomerType x Product,Sales,Normal | Health and beauty,23575.7
+CustomerType x Product,Sales,Normal | Home and lifestyle,26094.39
+CustomerType x Product,Sales,Normal | Sports and travel,27102.03

@@ -1,0 +1,74 @@
+/// Time-of-day dimension at hour grain (24 rows). Trading hours are 10:00-21:00.
+table DimTime
+	lineageTag: 8a83ee2c-8d5e-402b-bf91-26006c627ca8
+
+	column HourKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ae016f0c-8f83-48b2-90bd-3f3ff2f50027
+		summarizeBy: none
+		sourceColumn: HourKey
+
+	/// Hour bucket label, e.g. 13:00
+	column Hour
+		dataType: string
+		lineageTag: b73e8a33-adb0-45b1-9455-d12aacbaaf42
+		summarizeBy: none
+		sourceColumn: Hour
+		sortByColumn: HourKey
+
+	column 'Hour 12h'
+		dataType: string
+		lineageTag: 24a7c5d3-92c3-4d15-8474-80c075891247
+		summarizeBy: none
+		sourceColumn: Hour 12h
+		sortByColumn: HourKey
+
+	/// Morning 10:00-11:59, Afternoon 12:00-16:59, Evening 17:00-20:59 (store trading hours)
+	column 'Time of Day'
+		dataType: string
+		lineageTag: c3dd5ee3-d824-4f1e-baed-e3d81c102410
+		summarizeBy: none
+		sourceColumn: Time of Day
+		sortByColumn: 'Time of Day Sort'
+
+	column 'Time of Day Sort'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a9725f53-ade0-4f77-90e5-f95cfddaf801
+		summarizeBy: none
+		sourceColumn: Time of Day Sort
+
+	column 'Time of Day Range'
+		dataType: string
+		lineageTag: 88b54d5f-aea9-4ce4-a034-96ec410701fb
+		summarizeBy: none
+		sourceColumn: Time of Day Range
+		sortByColumn: 'Time of Day Sort'
+
+	partition DimTime = m
+		mode: import
+		source =
+				let
+				    Hours = Table.FromList(List.Numbers(0, 24), Splitter.SplitByNothing(), type table [HourKey = Int64.Type]),
+				    AddedHour = Table.AddColumn(Hours, "Hour", each Text.PadStart(Text.From([HourKey]), 2, "0") & ":00", type text),
+				    AddedHour12 = Table.AddColumn(AddedHour, "Hour 12h", each Text.From(if Number.Mod([HourKey], 12) = 0 then 12 else Number.Mod([HourKey], 12)) & (if [HourKey] < 12 then " AM" else " PM"), type text),
+				    AddedBand = Table.AddColumn(AddedHour12, "Time of Day", each
+				        if [HourKey] >= 10 and [HourKey] < 12 then "Morning"
+				        else if [HourKey] >= 12 and [HourKey] < 17 then "Afternoon"
+				        else if [HourKey] >= 17 and [HourKey] < 21 then "Evening"
+				        else "Outside trading hours", type text),
+				    AddedBandSort = Table.AddColumn(AddedBand, "Time of Day Sort", each
+				        if [Time of Day] = "Morning" then 1 else if [Time of Day] = "Afternoon" then 2 else if [Time of Day] = "Evening" then 3 else 4, Int64.Type),
+				    AddedBandRange = Table.AddColumn(AddedBandSort, "Time of Day Range", each
+				        if [Time of Day] = "Morning" then "Morning (10:00-11:59)"
+				        else if [Time of Day] = "Afternoon" then "Afternoon (12:00-16:59)"
+				        else if [Time of Day] = "Evening" then "Evening (17:00-20:59)"
+				        else "Outside trading hours", type text)
+				in
+				    AddedBandRange
+
+	annotation PBI_ResultType = Table
+

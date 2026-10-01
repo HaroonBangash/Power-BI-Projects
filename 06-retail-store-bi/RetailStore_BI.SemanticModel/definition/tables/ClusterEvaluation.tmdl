@@ -1,0 +1,54 @@
+/// K-Means model selection diagnostics for k = 1..10 (elbow / silhouette). Disconnected table used only on the Predictive page.
+table ClusterEvaluation
+	lineageTag: d0defc07-dff4-46d6-b043-1425258423dc
+
+	/// Number of clusters
+	column K
+		dataType: int64
+		formatString: 0
+		lineageTag: f2859552-1d84-4a20-a238-f43ae090c30e
+		summarizeBy: none
+		sourceColumn: K
+
+	column Inertia
+		dataType: double
+		formatString: #,0
+		lineageTag: 741245bc-e424-48ea-9019-bf3769977a43
+		summarizeBy: sum
+		sourceColumn: Inertia
+
+	column Silhouette
+		dataType: double
+		formatString: 0.000
+		lineageTag: 288b55a9-35e1-41f4-87a0-26a38f2ae374
+		summarizeBy: sum
+		sourceColumn: Silhouette
+
+	column Davies-Bouldin
+		dataType: double
+		formatString: 0.000
+		lineageTag: c6e426ae-8ad3-4a82-bc33-3ac4af6b53bc
+		summarizeBy: sum
+		sourceColumn: Davies-Bouldin
+
+	column 'Is Selected K'
+		dataType: boolean
+		lineageTag: 71624671-4f07-4453-be0a-e7e332254f8d
+		summarizeBy: none
+		sourceColumn: Is Selected K
+
+	partition ClusterEvaluation = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(ProjectFolder & "outputs\cluster_evaluation.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    ReplacedBlanks = Table.ReplaceValue(PromotedHeaders, "", null, Replacer.ReplaceValue, {"Silhouette", "DaviesBouldin"}),
+				    Typed = Table.TransformColumnTypes(ReplacedBlanks, {{"K", Int64.Type}, {"Inertia", type number}, {"Silhouette", type number},
+				        {"DaviesBouldin", type number}, {"Selected", type logical}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"DaviesBouldin", "Davies-Bouldin"}, {"Selected", "Is Selected K"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

@@ -238,6 +238,45 @@ page shows the distribution against its own chance baseline instead of ranking n
 
 ---
 
+## Retail Store Sales & Customer Segmentation — BI case study with a K-Means model
+
+[![Executive Sales Overview](06-retail-store-bi/outputs/screenshots/page1_executive_overview.png)](06-retail-store-bi/)
+
+Three branches, six product lines, 1,000 transactions over one quarter. A full BI case
+study for retail store directors: architecture, a star-schema data mart, Power Query ETL,
+four dashboard pages, and a K-Means segmentation model whose output becomes a dimension
+in the report.
+
+The audit came first. 413 dates had day and month swapped. Invoice IDs are reused
+across unrelated transactions, so the grain is a surrogate key and not the invoice.
+Gross income turned out to be the 5% tax under another name, and the report says so
+rather than ranking categories on a margin that is the same everywhere. The model then
+found the commercially awkward fact: the highest-spending transactions, **37.6% of
+revenue**, carry the **lowest satisfaction (5.4/10)**.
+
+| | |
+|---|---|
+| **Stack** | Excel → Power Query → semantic model (TMDL) → report (PBIR); Python (pandas, scikit-learn) |
+| **Model** | Fact + 7 dimensions, 91 measures, 7 single-direction relationships, marked date table |
+| **Report** | 4 pages, 155 visuals, six slicers synced across pages, DAX-driven titles and insights |
+| **Verified** | Headline figures identical to an independent Python recalculation; 0 orphan keys; K-Means stable across 10 seeds (ARI 1.000) |
+
+**→ [Read the project](06-retail-store-bi/)**
+
+<details>
+<summary>The other three pages</summary>
+
+| | |
+|---|---|
+| Product & Branch | Customer Behaviour |
+| ![](06-retail-store-bi/outputs/screenshots/page2_product_branch.png) | ![](06-retail-store-bi/outputs/screenshots/page3_customer_behaviour.png) |
+| Predictive Segments | |
+| ![](06-retail-store-bi/outputs/screenshots/page4_predictive_segments.png) | |
+
+</details>
+
+---
+
 ## Earlier reports
 
 Eight reports built before the projects above - Adventure Works, telecom churn for a

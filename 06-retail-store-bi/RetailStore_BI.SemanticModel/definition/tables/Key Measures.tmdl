@@ -1,0 +1,650 @@
+/// Home table for all explicit DAX measures (no data rows).
+table 'Key Measures'
+	lineageTag: 2118d5dd-1a9e-4793-aa80-f4de5c67b103
+
+	/// Sum of transaction totals including 5% tax (source column Total).
+	measure 'Total Sales' = SUM ( FactSales[Sales Amount] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 Core KPIs
+		lineageTag: 77e808c1-7be5-4089-b2ba-a720dceb49f0
+
+	/// Sum of gross income as supplied in the source.
+	measure 'Total Gross Income' = SUM ( FactSales[Gross Income Amount] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 Core KPIs
+		lineageTag: f7c43f8d-df3c-4c44-a736-7a2be17c0b24
+
+	/// Sum of cost of goods sold.
+	measure 'Total COGS' = SUM ( FactSales[COGS Amount] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 Core KPIs
+		lineageTag: 688541c7-a063-4037-9b82-f4ab33dee266
+
+	/// Sum of the 5% tax collected.
+	measure 'Total Tax' = SUM ( FactSales[Tax Amount] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 01 Core KPIs
+		lineageTag: fc0c47de-a6aa-4d07-8fca-f1a1e7629832
+
+	/// Units sold.
+	measure 'Total Quantity Sold' = SUM ( FactSales[Quantity] )
+		formatString: #,0
+		displayFolder: 01 Core KPIs
+		lineageTag: b3b98baf-8e03-4cbb-92b3-4f95b5adf661
+
+	/// Count of sales transactions (fact rows). Used instead of a distinct count of Invoice ID because Invoice IDs repeat across unrelated transactions.
+	measure 'Total Transactions' = COUNTROWS ( FactSales )
+		formatString: #,0
+		displayFolder: 01 Core KPIs
+		lineageTag: f2d58fd5-b983-40bd-98e3-ff421c024cab
+
+	/// Data-quality evidence only: distinct Invoice ID values (575 vs 1,000 transactions).
+	measure 'Distinct Invoice IDs' = DISTINCTCOUNT ( FactSales[Invoice ID] )
+		formatString: #,0
+		displayFolder: 01 Core KPIs
+		lineageTag: a9efe16a-470e-44a3-8e29-5884f5b5216d
+
+	/// Sales per transaction (average basket value).
+	measure 'Average Transaction Value' = DIVIDE ( [Total Sales], [Total Transactions] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 0038e45e-c23e-41e7-a8ad-4d6b4d3e1d4c
+
+	/// Simple mean of unit price across transactions.
+	measure 'Average Unit Price' = AVERAGE ( FactSales[Unit Price] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 970df67f-4ec6-48d6-9182-a79d8cb0b900
+
+	/// Mean customer satisfaction rating (1-10).
+	measure 'Average Rating' = AVERAGE ( FactSales[Rating] )
+		formatString: 0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 5bbd78e7-36ae-4bee-b3b1-4bb852257f1c
+
+	/// Gross income / sales. Recomputed from the facts; the source 'gross margin percentage' column is a constant (4.7619%) and is not used.
+	measure 'Gross Margin %' = DIVIDE ( [Total Gross Income], [Total Sales] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: 01 Core KPIs
+		lineageTag: 0e63350b-fc7c-48aa-a058-1a1341a23eae
+
+	/// Average units per transaction.
+	measure 'Quantity per Transaction' = DIVIDE ( [Total Quantity Sold], [Total Transactions] )
+		formatString: 0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 455d6cc1-2980-44a5-b9fb-1b0cec23d36e
+
+	/// Average gross income per transaction.
+	measure 'Gross Income per Transaction' = DIVIDE ( [Total Gross Income], [Total Transactions] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 01 Core KPIs
+		lineageTag: 0bc10b23-fb27-4f97-a48e-66b5d0c7b941
+
+	/// Share of sales across all branches (other filters respected).
+	measure 'Branch Sales Share %' = DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], REMOVEFILTERS ( DimBranch ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Mix & Share
+		lineageTag: c9bb63ac-5d28-439d-b565-49dc511a9321
+
+	/// Share of sales across all product lines (other filters respected).
+	measure 'Product Line Sales Share %' = DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], REMOVEFILTERS ( DimProduct ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Mix & Share
+		lineageTag: d7a2c186-f0a8-40c6-9466-00c9866ee984
+
+	/// Share of the sales currently visible in the visual/page selection.
+	measure 'Sales Share of Selection %' = DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], ALLSELECTED () ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Mix & Share
+		lineageTag: 728184bb-c46f-488e-a9b3-603cbaa12c78
+
+	/// Share of the transactions currently visible in the visual/page selection.
+	measure 'Transaction Share of Selection %' = DIVIDE ( [Total Transactions], CALCULATE ( [Total Transactions], ALLSELECTED () ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Mix & Share
+		lineageTag: 631b53b3-7692-4bed-ade9-c965d9bf6a2d
+
+	/// Rank of a branch by sales (1 = highest).
+	measure 'Branch Sales Rank' =
+			IF (
+			    HASONEVALUE ( DimBranch[BranchKey] ),
+			    RANKX ( ALL ( DimBranch ), [Total Sales], , DESC, DENSE )
+			)
+		formatString: 0
+		displayFolder: 02 Mix & Share
+		lineageTag: e296a42a-8741-486b-946f-b794162d8a6c
+
+	/// Rank of a product line by sales (1 = highest).
+	measure 'Product Line Sales Rank' =
+			IF (
+			    HASONEVALUE ( DimProduct[ProductKey] ),
+			    RANKX ( ALL ( DimProduct ), [Total Sales], , DESC, DENSE )
+			)
+		formatString: 0
+		displayFolder: 02 Mix & Share
+		lineageTag: 841bbdf3-f0f6-4f05-9047-60294cd1b5e5
+
+	/// Rank of a product line by gross income (1 = highest).
+	measure 'Product Line Gross Income Rank' =
+			IF (
+			    HASONEVALUE ( DimProduct[ProductKey] ),
+			    RANKX ( ALL ( DimProduct ), [Total Gross Income], , DESC, DENSE )
+			)
+		formatString: 0
+		displayFolder: 02 Mix & Share
+		lineageTag: 9576adba-72ac-4f33-9a8f-9c2996f81f6a
+
+	/// How far a product line's sales sit above/below the average product line.
+	measure 'Sales vs Product Line Average %' =
+			VAR AvgLine = AVERAGEX ( ALL ( DimProduct ), [Total Sales] )
+			RETURN
+			    IF ( HASONEVALUE ( DimProduct[ProductKey] ), DIVIDE ( [Total Sales] - AvgLine, AvgLine ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 02 Mix & Share
+		lineageTag: 69b5382a-217f-41e0-995e-7329255dacb4
+
+	/// Sales from loyalty-card members.
+	measure 'Member Sales' = CALCULATE ( [Total Sales], DimCustomer[Customer Type] = "Member" )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: 5af227eb-b7c0-45e2-be4b-ca58d7448487
+
+	/// Sales from customers without a member card.
+	measure 'Normal Customer Sales' = CALCULATE ( [Total Sales], DimCustomer[Customer Type] = "Normal" )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: 58a0211a-5120-41f2-b359-0348c96f701d
+
+	/// Members' share of sales.
+	measure 'Member Sales %' = DIVIDE ( [Member Sales], CALCULATE ( [Total Sales], REMOVEFILTERS ( DimCustomer[Customer Type] ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: 6583c95c-ced1-4853-b408-f48b47cbabcb
+
+	/// Female customers' share of sales.
+	measure 'Female Customer Sales %' =
+			DIVIDE (
+			    CALCULATE ( [Total Sales], DimCustomer[Gender] = "Female" ),
+			    CALCULATE ( [Total Sales], REMOVEFILTERS ( DimCustomer[Gender] ) )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: fa3cf63e-f447-4838-8adb-17d5d42fcb54
+
+	/// Male customers' share of sales.
+	measure 'Male Customer Sales %' =
+			DIVIDE (
+			    CALCULATE ( [Total Sales], DimCustomer[Gender] = "Male" ),
+			    CALCULATE ( [Total Sales], REMOVEFILTERS ( DimCustomer[Gender] ) )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: cf612c12-ebff-4258-8cbf-bc9aa811a146
+
+	/// Average transaction value for members.
+	measure 'Member ATV' = CALCULATE ( [Average Transaction Value], DimCustomer[Customer Type] = "Member" )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: 46d554be-a665-41c4-b745-1f67170993ec
+
+	/// Average transaction value for normal customers.
+	measure 'Normal ATV' = CALCULATE ( [Average Transaction Value], DimCustomer[Customer Type] = "Normal" )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: 26eb6a36-78c6-4ed4-bb3f-2af9ef06c7f0
+
+	/// How much more (or less) members spend per transaction than normal customers.
+	measure 'Member ATV Premium %' = DIVIDE ( [Member ATV] - [Normal ATV], [Normal ATV] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: a23711f1-97db-43de-8fcb-ac4020c5b2ef
+
+	/// Share of transactions rated 8 or higher.
+	measure 'High Rating % (8+)' = DIVIDE ( CALCULATE ( [Total Transactions], FactSales[Rating] >= 8 ), [Total Transactions] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: e95eb524-4849-44b5-80ba-1a94a5245fe8
+
+	/// Share of transactions rated below 6.
+	measure 'Low Rating % (below 6)' = DIVIDE ( CALCULATE ( [Total Transactions], FactSales[Rating] < 6 ), [Total Transactions] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: a1d95e49-e27a-4a53-9236-7fbacebb6ad5
+
+	/// Share of sales paid by credit card or e-wallet.
+	measure 'Cashless Sales %' =
+			DIVIDE (
+			    CALCULATE ( [Total Sales], DimPayment[Payment Channel] = "Cashless" ),
+			    CALCULATE ( [Total Sales], REMOVEFILTERS ( DimPayment ) )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: d012716d-95e9-4da7-ad14-821241532bca
+
+	/// Transactions per trading day for an hour slot (normalises for the number of trading days).
+	measure 'Average Transactions per Hour Slot' = DIVIDE ( [Total Transactions], [Trading Days] )
+		formatString: 0.0
+		displayFolder: 03 Customer & Behaviour
+		lineageTag: 0fde9ec0-021c-4f23-ae48-132f490890be
+
+	/// Number of days with at least one sale.
+	measure 'Trading Days' = DISTINCTCOUNT ( FactSales[DateKey] )
+		formatString: 0
+		displayFolder: 04 Time Intelligence
+		lineageTag: d7c781b7-4931-43f8-8f81-1c7b447aabb2
+
+	/// Sales per trading day. Fairer month comparison because Jan has 31, Feb 28 and Mar 30 trading days in the data.
+	measure 'Average Daily Sales' = DIVIDE ( [Total Sales], [Trading Days] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 04 Time Intelligence
+		lineageTag: b576a8fc-3381-4c02-8e17-de565460f46f
+
+	/// Sales in the previous calendar month.
+	measure 'Previous Month Sales' = CALCULATE ( [Total Sales], PREVIOUSMONTH ( DimDate[Date] ) )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 04 Time Intelligence
+		lineageTag: fad6c9c3-0cea-4c17-b3ed-cc5be189e77e
+
+	/// Month-over-month change in sales (blank for the first month).
+	measure 'MoM Sales Change' =
+			VAR PrevSales = [Previous Month Sales]
+			VAR CurSales = [Total Sales]
+			RETURN
+			    IF ( NOT ISBLANK ( PrevSales ) && NOT ISBLANK ( CurSales ), CurSales - PrevSales )
+		formatString: +\$#,0;-\$#,0;\$0
+		displayFolder: 04 Time Intelligence
+		lineageTag: ea964d26-7489-4d01-93ac-dce22f07fa0b
+
+	/// Month-over-month % change in sales.
+	measure 'MoM Sales %' = DIVIDE ( [MoM Sales Change], [Previous Month Sales] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Time Intelligence
+		lineageTag: 83dcea64-0c29-44e3-a08b-088e2a0416e9
+
+	/// Month-over-month % change in sales per trading day (removes the month-length effect).
+	measure 'MoM Average Daily Sales %' =
+			VAR PrevDaily = CALCULATE ( [Average Daily Sales], PREVIOUSMONTH ( DimDate[Date] ) )
+			RETURN
+			    IF ( NOT ISBLANK ( PrevDaily ), DIVIDE ( [Average Daily Sales] - PrevDaily, PrevDaily ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Time Intelligence
+		lineageTag: 95024571-da45-4cf9-8361-4bc99f43145d
+
+	/// Running total of sales from the start of the year (the data covers one quarter), stopped at the last sales date.
+	measure 'Cumulative Sales' =
+			VAR LastSaleDate = CALCULATE ( MAX ( DimDate[Date] ), REMOVEFILTERS ( DimDate ), FactSales )
+			RETURN
+			    IF ( MIN ( DimDate[Date] ) <= LastSaleDate, CALCULATE ( [Total Sales], DATESYTD ( DimDate[Date] ) ) )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 04 Time Intelligence
+		lineageTag: 21e6035d-ea24-46bd-9c27-ec3f4153e182
+
+	/// Average daily sales over the trailing 7 days (days without sales are ignored).
+	measure 'Sales 7-Day Moving Average' =
+			VAR CurrentDate = MAX ( DimDate[Date] )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( [Total Sales] ),
+			        AVERAGEX ( DATESINPERIOD ( DimDate[Date], CurrentDate, -7, DAY ), [Total Sales] )
+			    )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: 04 Time Intelligence
+		lineageTag: 3b767682-5bc7-4018-8c81-8ae07e1a29a4
+
+	/// Sales change of the latest month in the current selection vs the month before.
+	measure 'Latest Month Sales MoM %' =
+			VAR LastSaleDate = CALCULATE ( MAX ( DimDate[Date] ), FactSales )
+			VAR CurStart = DATE ( YEAR ( LastSaleDate ), MONTH ( LastSaleDate ), 1 )
+			VAR PrevStart = EDATE ( CurStart, -1 )
+			VAR CurSales = CALCULATE ( [Total Sales], DATESBETWEEN ( DimDate[Date], CurStart, EOMONTH ( CurStart, 0 ) ) )
+			VAR PrevSales = CALCULATE ( [Total Sales], DATESBETWEEN ( DimDate[Date], PrevStart, EOMONTH ( PrevStart, 0 ) ) )
+			RETURN
+			    IF ( NOT ISBLANK ( PrevSales ) && NOT ISBLANK ( CurSales ), DIVIDE ( CurSales - PrevSales, PrevSales ) )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 04 Time Intelligence
+		lineageTag: 382e37c3-1656-4ad8-9661-4be37d400b0a
+
+	/// Share of sales generated by a K-Means segment.
+	measure 'Cluster Sales Share %' = DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], REMOVEFILTERS ( DimCluster ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 676affbb-7c51-43fa-854b-9368ce8362b5
+
+	/// Share of transactions in a K-Means segment.
+	measure 'Cluster Transaction Share %' = DIVIDE ( [Total Transactions], CALCULATE ( [Total Transactions], REMOVEFILTERS ( DimCluster ) ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 7dcbd33b-7220-445e-a34c-836e7f6aebbe
+
+	/// Number of clusters chosen for the final model.
+	measure 'Selected K' = CALCULATE ( MAX ( ClusterEvaluation[K] ), ClusterEvaluation[Is Selected K] = TRUE () )
+		formatString: 0
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 3f4a6d41-9f24-4d05-b6ec-b07ca5cfa852
+
+	/// Silhouette score of the selected model (-1 to 1; higher = better separated).
+	measure 'Model Silhouette Score' = CALCULATE ( MAX ( ClusterEvaluation[Silhouette] ), ClusterEvaluation[Is Selected K] = TRUE () )
+		formatString: 0.000
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 85149e9d-feb9-46f8-bc72-438f658949a4
+
+	/// Minimum Adjusted Rand Index between the final model and 10 re-runs with different random seeds (1 = identical clusters).
+	measure 'Model Stability ARI' = CALCULATE ( MAX ( DimCluster[Model Stability ARI] ), REMOVEFILTERS ( DimCluster ) )
+		formatString: 0.000
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 2c4a6d47-6275-4cd8-86a2-dbeca808ebbc
+
+	/// Within-cluster sum of squares for each k (elbow method).
+	measure 'Elbow Inertia' = SUM ( ClusterEvaluation[Inertia] )
+		formatString: #,0
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: c0d8606d-7dbc-400a-af4d-7a9373d78a5b
+
+	/// Silhouette score for each k.
+	measure 'Silhouette Score by K' = SUM ( ClusterEvaluation[Silhouette] )
+		formatString: 0.000
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 6bb87e46-762c-4f77-9ae7-3fdb0a4dd0a3
+
+	/// Number of K-Means segments present in the model.
+	measure 'Segments Modelled' = CALCULATE ( DISTINCTCOUNT ( DimCluster[ClusterKey] ), REMOVEFILTERS ( DimCluster ) )
+		formatString: 0
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 013049e8-e22c-4355-ae89-cad5032bc66a
+
+	/// Segment with the highest sales in the current selection.
+	measure 'Top Segment by Sales' = CONCATENATEX ( TOPN ( 1, VALUES ( DimCluster[Cluster Label] ), [Total Sales], DESC ), DimCluster[Cluster Label], ", " )
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: b9f8e251-52b0-4b95-84a0-1c6e32b2c591
+
+	/// Sales share and rating of the top segment.
+	measure 'Top Segment Detail' =
+			VAR TopSeg = TOPN ( 1, VALUES ( DimCluster[ClusterKey] ), [Total Sales], DESC )
+			VAR SegSales = CALCULATE ( [Total Sales], TopSeg )
+			VAR SegTx = CALCULATE ( [Total Transactions], TopSeg )
+			RETURN
+			    FORMAT ( DIVIDE ( SegSales, [Total Sales] ), "0.0%" ) & " of sales from " & FORMAT ( DIVIDE ( SegTx, [Total Transactions] ), "0%" )
+			        & " of transactions · avg rating " & FORMAT ( CALCULATE ( [Average Rating], TopSeg ), "0.0" )
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: c7c2d621-1e2b-43d0-89f7-945fa94167b5
+
+	/// Share of sales from segments with above-average spend but below-average satisfaction (positive spend centroid, negative rating centroid).
+	measure 'High-Value Low-Rating Sales %' =
+			DIVIDE (
+			    CALCULATE ( [Total Sales], DimCluster[Centroid Z Total] > 0, DimCluster[Centroid Z Rating] < 0 ),
+			    CALCULATE ( [Total Sales], REMOVEFILTERS ( DimCluster ) )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Predictive (K-Means)
+		lineageTag: 41af0ca5-9879-4432-a80e-64c447155118
+
+	/// Date range of the sales in the current selection.
+	measure 'Report Period' =
+			VAR PeriodStart = CALCULATE ( MIN ( DimDate[Date] ), FactSales )
+			VAR PeriodEnd = CALCULATE ( MAX ( DimDate[Date] ), FactSales )
+			RETURN
+			    IF (
+			        ISBLANK ( PeriodStart ),
+			        "No sales in selection",
+			        FORMAT ( PeriodStart, "d mmm yyyy" ) & " – " & FORMAT ( PeriodEnd, "d mmm yyyy" ) & "  ·  " & FORMAT ( [Trading Days], "0" ) & " trading days  ·  " & FORMAT ( [Total Transactions], "#,0" ) & " transactions"
+			    )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: f6d7b15f-0edd-41ca-b04e-6698b1301622
+
+	/// Plain-language description of the active slicer selection.
+	measure 'Selection Label' =
+			VAR Parts = {
+			    IF ( ISFILTERED ( DimBranch ), "Branch " & CONCATENATEX ( VALUES ( DimBranch[Branch] ), DimBranch[Branch], "/" ) ),
+			    IF ( ISFILTERED ( DimProduct ), CONCATENATEX ( VALUES ( DimProduct[Product Line] ), DimProduct[Product Line], ", " ) ),
+			    IF ( ISFILTERED ( DimCustomer[Customer Type] ), CONCATENATEX ( VALUES ( DimCustomer[Customer Type] ), DimCustomer[Customer Type], "/" ) ),
+			    IF ( ISFILTERED ( DimCustomer[Gender] ), CONCATENATEX ( VALUES ( DimCustomer[Gender] ), DimCustomer[Gender], "/" ) ),
+			    IF ( ISFILTERED ( DimPayment ), CONCATENATEX ( VALUES ( DimPayment[Payment Method] ), DimPayment[Payment Method], "/" ) ),
+			    IF ( ISFILTERED ( DimDate ), CONCATENATEX ( SUMMARIZE ( DimDate, DimDate[Month], DimDate[Month Start] ), DimDate[Month], "/", DimDate[Month Start], ASC ) )
+			}
+			VAR Txt = CONCATENATEX ( FILTER ( Parts, NOT ISBLANK ( [Value] ) ), [Value], "  ·  " )
+			RETURN
+			    IF ( Txt = "", "Showing all branches, products, customers and months", "Filtered: " & Txt )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 86b4dc42-ff59-4f67-bf98-215415d1a371
+
+	/// Branch with the highest sales in the current selection.
+	measure 'Top Branch by Sales' = CONCATENATEX ( TOPN ( 1, VALUES ( DimBranch[Branch Label] ), [Total Sales], DESC ), DimBranch[Branch Label], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 9a8b00fa-1ddb-459b-8a5a-ab276fde5f93
+
+	/// Sales and share of the top branch.
+	measure 'Top Branch Detail' =
+			VAR TopB = TOPN ( 1, VALUES ( DimBranch[BranchKey] ), [Total Sales], DESC )
+			VAR S = CALCULATE ( [Total Sales], TopB )
+			RETURN
+			    FORMAT ( S, "$#,0" ) & " · " & FORMAT ( DIVIDE ( S, [Total Sales] ), "0.0%" ) & " of sales"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 748149f0-aacb-472b-9a77-92f39eccacdc
+
+	/// Branch with the highest gross income.
+	measure 'Top Branch by Gross Income' = CONCATENATEX ( TOPN ( 1, VALUES ( DimBranch[Branch Label] ), [Total Gross Income], DESC ), DimBranch[Branch Label], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: f913fe07-d923-4cd4-86c7-3adb29717feb
+
+	/// Product line with the highest sales.
+	measure 'Top Product Line by Sales' = CONCATENATEX ( TOPN ( 1, VALUES ( DimProduct[Product Line] ), [Total Sales], DESC ), DimProduct[Product Line], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 62b006d1-5505-4fbb-ab81-35265a705fa7
+
+	/// Sales and share of the top product line.
+	measure 'Top Product Line Detail' =
+			VAR TopP = TOPN ( 1, VALUES ( DimProduct[ProductKey] ), [Total Sales], DESC )
+			VAR S = CALCULATE ( [Total Sales], TopP )
+			RETURN
+			    FORMAT ( S, "$#,0" ) & " · " & FORMAT ( DIVIDE ( S, [Total Sales] ), "0.0%" ) & " of sales"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: fd6b7330-7223-4b29-ae0a-075f279f6e5c
+
+	/// Product line with the highest gross income.
+	measure 'Top Product Line by Gross Income' = CONCATENATEX ( TOPN ( 1, VALUES ( DimProduct[Product Line] ), [Total Gross Income], DESC ), DimProduct[Product Line], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 4f5ea515-40c5-4b73-b8ae-9986baa7a5ba
+
+	/// Gross income and margin of the top product line by gross income.
+	measure 'Top Product Line by Gross Income Detail' =
+			VAR TopP = TOPN ( 1, VALUES ( DimProduct[ProductKey] ), [Total Gross Income], DESC )
+			RETURN
+			    FORMAT ( CALCULATE ( [Total Gross Income], TopP ), "$#,0" ) & " gross income · margin " & FORMAT ( CALCULATE ( [Gross Margin %], TopP ), "0.00%" )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 9964b414-2f14-429a-8cef-1fb6aeee8094
+
+	/// Product line with the most units sold.
+	measure 'Top Product Line by Quantity' = CONCATENATEX ( TOPN ( 1, VALUES ( DimProduct[Product Line] ), [Total Quantity Sold], DESC ), DimProduct[Product Line], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: ef4e039d-c3cc-4ebe-95ff-eea16d96e33e
+
+	/// Units of the top product line by quantity.
+	measure 'Top Product Line by Quantity Detail' =
+			VAR TopP = TOPN ( 1, VALUES ( DimProduct[ProductKey] ), [Total Quantity Sold], DESC )
+			RETURN
+			    FORMAT ( CALCULATE ( [Total Quantity Sold], TopP ), "#,0" ) & " units · " & FORMAT ( CALCULATE ( [Total Transactions], TopP ), "#,0" ) & " transactions"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 9b227487-59cd-4718-8b04-355e4bbcfc2d
+
+	/// Product line with the lowest sales.
+	measure 'Lowest Product Line by Sales' = CONCATENATEX ( TOPN ( 1, VALUES ( DimProduct[Product Line] ), [Total Sales], ASC ), DimProduct[Product Line], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: ae045d9e-61ca-46a2-86ad-c75b1839ee5a
+
+	/// Gap between the lowest and highest product line.
+	measure 'Lowest Product Line Detail' =
+			VAR LowP = TOPN ( 1, VALUES ( DimProduct[ProductKey] ), [Total Sales], ASC )
+			VAR TopP = TOPN ( 1, VALUES ( DimProduct[ProductKey] ), [Total Sales], DESC )
+			VAR LowS = CALCULATE ( [Total Sales], LowP )
+			VAR TopS = CALCULATE ( [Total Sales], TopP )
+			RETURN
+			    FORMAT ( LowS, "$#,0" ) & " · " & FORMAT ( DIVIDE ( TopS - LowS, TopS ), "0.0%" ) & " below the leader"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 7de5a156-9479-42ee-8084-96c87229f0b0
+
+	/// Lowest-selling product line with its gap to the leader.
+	measure 'Insight Weakest Product Line' = [Lowest Product Line by Sales] & " · " & [Lowest Product Line Detail]
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 0486a6a7-33cb-4125-b918-f7b929a8ade5
+
+	/// Strongest Branch x Product Line cell by sales.
+	measure 'Top Branch-Product Combination' =
+			VAR Combos = SUMMARIZE ( FactSales, DimBranch[Branch], DimProduct[Product Line] )
+			VAR TopC = TOPN ( 1, Combos, [Total Sales], DESC )
+			RETURN
+			    CONCATENATEX ( TopC, "Branch " & DimBranch[Branch] & " · " & DimProduct[Product Line] & " (" & FORMAT ( [Total Sales], "$#,0" ) & ")", ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 04fea92e-010d-4a8e-9584-15faac504de2
+
+	/// Payment method with the most transactions.
+	measure 'Most Used Payment Method' = CONCATENATEX ( TOPN ( 1, VALUES ( DimPayment[Payment Method] ), [Total Transactions], DESC ), DimPayment[Payment Method], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 673e5116-52f6-4db1-b618-f4a6fbc07618
+
+	/// Share of transactions for the most used payment method.
+	measure 'Most Used Payment Detail' =
+			VAR TopPay = TOPN ( 1, VALUES ( DimPayment[PaymentKey] ), [Total Transactions], DESC )
+			RETURN
+			    FORMAT ( DIVIDE ( CALCULATE ( [Total Transactions], TopPay ), [Total Transactions] ), "0.0%" ) & " of transactions · cashless " & FORMAT ( [Cashless Sales %], "0.0%" ) & " of sales"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 7f196ee0-d0a7-40e9-b594-aad913a95a2e
+
+	/// Hour slot with the most transactions.
+	measure 'Peak Hour' = CONCATENATEX ( TOPN ( 1, VALUES ( DimTime[Hour] ), [Total Transactions], DESC ), DimTime[Hour], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 8507b28b-8b67-4780-9812-42de47691346
+
+	/// Transactions and sales in the peak hour.
+	measure 'Peak Hour Detail' =
+			VAR TopH = TOPN ( 1, VALUES ( DimTime[HourKey] ), [Total Transactions], DESC )
+			RETURN
+			    FORMAT ( CALCULATE ( [Total Transactions], TopH ), "#,0" ) & " transactions · " & FORMAT ( CALCULATE ( [Total Sales], TopH ), "$#,0" ) & " sales"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 955922fc-9791-432a-8e62-d4474d110d14
+
+	/// Weekday with the highest sales.
+	measure 'Busiest Day of Week' = CONCATENATEX ( TOPN ( 1, VALUES ( DimDate[Day Name] ), [Total Sales], DESC ), DimDate[Day Name], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: a5cd9d94-f07e-4729-93fa-b0be7c87906f
+
+	/// Branch with the highest average rating.
+	measure 'Highest Rated Branch' = CONCATENATEX ( TOPN ( 1, VALUES ( DimBranch[Branch Label] ), [Average Rating], DESC ), DimBranch[Branch Label], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: d4ea4c27-035c-49a8-b4de-4fe270e45858
+
+	/// Rating of the highest and lowest rated branch.
+	measure 'Highest Rated Branch Detail' =
+			VAR TopB = TOPN ( 1, VALUES ( DimBranch[BranchKey] ), [Average Rating], DESC )
+			VAR LowB = TOPN ( 1, VALUES ( DimBranch[BranchKey] ), [Average Rating], ASC )
+			RETURN
+			    "Avg " & FORMAT ( CALCULATE ( [Average Rating], TopB ), "0.00" ) & " vs lowest " & CALCULATE ( SELECTEDVALUE ( DimBranch[Branch Label] ), LowB ) & " " & FORMAT ( CALCULATE ( [Average Rating], LowB ), "0.00" )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 6ab91022-929d-496e-895e-a7ab69654450
+
+	/// Product line with the highest average rating.
+	measure 'Highest Rated Product Line' = CONCATENATEX ( TOPN ( 1, VALUES ( DimProduct[Product Line] ), [Average Rating], DESC ), DimProduct[Product Line], ", " )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 902a5ca9-c233-4c20-91e9-32d1b722a098
+
+	/// Members' vs normal customers' average transaction value.
+	measure 'Member vs Normal Spend' = "Members " & FORMAT ( [Member ATV], "$#,0" ) & " vs Normal " & FORMAT ( [Normal ATV], "$#,0" ) & " per transaction (" & FORMAT ( [Member ATV Premium %], "+0.0%;-0.0%" ) & ")"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: c4fbe6c3-5f32-43c3-b3b0-ba7ca05d4a78
+
+	/// KPI card subtitle: latest month vs the month before.
+	measure 'KPI Sales Subtitle' =
+			VAR Chg = [Latest Month Sales MoM %]
+			VAR LastSaleDate = CALCULATE ( MAX ( DimDate[Date] ), FactSales )
+			RETURN
+			    IF (
+			        ISBLANK ( Chg ),
+			        "Total for selected period",
+			        IF ( Chg >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( Chg ), "0.0%" ) & "  " & FORMAT ( LastSaleDate, "mmm" ) & " vs " & FORMAT ( EDATE ( LastSaleDate, -1 ), "mmm" )
+			    )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 3a1c9cc7-7fb2-4577-a9f8-3d53a83ca004
+
+	/// KPI card subtitle for gross income.
+	measure 'KPI Gross Income Subtitle' = "Gross margin " & FORMAT ( [Gross Margin %], "0.00%" )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: e5344681-0fea-4b96-9b23-f81ad8b7891b
+
+	/// KPI card subtitle for transactions.
+	measure 'KPI Transactions Subtitle' = FORMAT ( DIVIDE ( [Total Transactions], [Trading Days] ), "0.0" ) & " per trading day"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: d9aae738-ed61-4591-819f-6126e6f92649
+
+	/// KPI card subtitle for quantity.
+	measure 'KPI Quantity Subtitle' = FORMAT ( [Quantity per Transaction], "0.0" ) & " units / transaction"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: a6fb10bd-692a-45ee-97cf-e5672dc837d8
+
+	/// KPI card subtitle for average transaction value.
+	measure 'KPI ATV Subtitle' = "Avg unit price " & FORMAT ( [Average Unit Price], "$#,0.00" )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 716dd4ee-c4bb-432b-9851-a11ebd2a0089
+
+	/// KPI card subtitle for rating.
+	measure 'KPI Rating Subtitle' = FORMAT ( [High Rating % (8+)], "0%" ) & " of visits rated 8+"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 68417078-3737-41ff-a7e4-16c108f869bb
+
+	/// KPI card subtitle: member vs normal basket value.
+	measure 'KPI Member Subtitle' = "Member basket " & FORMAT ( [Member ATV Premium %], "+0.0%;-0.0%" ) & " vs normal"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 3682deb1-571c-4299-b614-9755e7e96a56
+
+	/// KPI card subtitle: share of transactions for the most used payment method.
+	measure 'KPI Payment Subtitle' =
+			VAR TopPay = TOPN ( 1, VALUES ( DimPayment[PaymentKey] ), [Total Transactions], DESC )
+			RETURN
+			    FORMAT ( DIVIDE ( CALCULATE ( [Total Transactions], TopPay ), [Total Transactions] ), "0.0%" ) & " of transactions"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 999fa1a4-1297-4814-8214-962d110fed87
+
+	/// Dynamic title.
+	measure 'Title Gross Income Product' = "Gross Income  ·  " & FORMAT ( [Gross Margin %], "0.00%" ) & " margin"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 10a062ab-d64b-4a62-b626-a23b23f82deb
+
+	/// Dynamic title.
+	measure 'Title Branch Sales' = "Sales by Branch  ·  " & [Top Branch by Sales] & " leads"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: cdb0f4be-beb6-4eb2-9002-b93191471470
+
+	/// Dynamic title.
+	measure 'Title Product Sales' = "Sales by Product Line  ·  " & [Top Product Line by Sales] & " leads"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: d5b376f1-96c5-4bdd-8dd4-58509ade859d
+
+	/// Dynamic title.
+	measure 'Title Monthly Sales' =
+			VAR Chg = [Latest Month Sales MoM %]
+			RETURN
+			    "Monthly Sales" & IF ( NOT ISBLANK ( Chg ), "  ·  " & FORMAT ( Chg, "+0.0%;-0.0%" ) & " MoM" )
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 60e69733-51d4-412c-a6de-9e7713bb3a18
+
+	/// Dynamic title.
+	measure 'Title Hourly' = "Transactions by Hour  ·  peak at " & [Peak Hour]
+		displayFolder: 06 Narrative & Titles
+		lineageTag: 78bc3126-e0af-4513-a2f6-951cd0cfd5f3
+
+	/// Dynamic title.
+	measure 'Title Daily Trend' = "Daily Sales Trend  ·  " & [Busiest Day of Week] & " strongest"
+		displayFolder: 06 Narrative & Titles
+		lineageTag: fe9d75fa-139e-4092-82d3-c001a91ecd9b
+
+	column Value
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c2de8d18-7a02-48e1-9bdb-802ac0f74958
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+	partition 'Key Measures' = calculated
+		mode: import
+		source = ROW ( "Value", 0 )
+

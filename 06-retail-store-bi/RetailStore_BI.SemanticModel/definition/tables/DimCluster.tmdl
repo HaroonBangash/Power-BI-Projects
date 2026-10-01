@@ -1,0 +1,115 @@
+/// K-Means transaction segment dimension (scripts/02_customer_segmentation.py -> outputs/cluster_profiles.csv).
+table DimCluster
+	lineageTag: a7cc4b2c-7dff-4cce-aaf9-1ce984601f9c
+
+	column ClusterKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f94067e9-5d66-467e-ae93-20c244758a31
+		summarizeBy: none
+		sourceColumn: ClusterKey
+
+	column 'Cluster Code'
+		dataType: string
+		lineageTag: 3b9a432d-84c0-49af-aaff-2cabcaa3ec3b
+		summarizeBy: none
+		sourceColumn: Cluster Code
+		sortByColumn: ClusterKey
+
+	column 'Cluster Name'
+		dataType: string
+		lineageTag: 01ac8c50-b6d5-4866-8719-19be708f610e
+		summarizeBy: none
+		sourceColumn: Cluster Name
+		sortByColumn: ClusterKey
+
+	column 'Cluster Label'
+		dataType: string
+		lineageTag: 762b134a-26a0-479a-9b2c-cc74d0fff684
+		summarizeBy: none
+		sourceColumn: Cluster Label
+		sortByColumn: ClusterKey
+
+	/// Model-time profile of the cluster
+	column Profile
+		dataType: string
+		lineageTag: 3c024463-6135-420b-b62f-f44d7b11ee0f
+		summarizeBy: none
+		sourceColumn: Profile
+
+	column 'Recommended Action'
+		dataType: string
+		lineageTag: ca1660ec-8af7-4543-a021-2298e06aa7f9
+		summarizeBy: none
+		sourceColumn: Recommended Action
+
+	column 'Spend Range'
+		dataType: string
+		lineageTag: 6414ebb3-b5aa-4f3d-912b-2eb3a89d9270
+		summarizeBy: none
+		sourceColumn: Spend Range
+
+	column 'Rating Range'
+		dataType: string
+		lineageTag: ad5e361f-c4f8-4599-9684-33212e9e7525
+		summarizeBy: none
+		sourceColumn: Rating Range
+
+	column 'Centroid Z Total'
+		dataType: double
+		formatString: 0.00
+		lineageTag: 04c99f58-f22d-462a-9b3a-36df4e26bac2
+		summarizeBy: none
+		sourceColumn: Centroid Z Total
+
+	column 'Centroid Z Quantity'
+		dataType: double
+		formatString: 0.00
+		lineageTag: 5c2ace50-f402-4c33-85aa-f329f8640f57
+		summarizeBy: none
+		sourceColumn: Centroid Z Quantity
+
+	column 'Centroid Z Rating'
+		dataType: double
+		formatString: 0.00
+		lineageTag: 5d946e7d-c02e-40fa-a9af-f410173e8de2
+		summarizeBy: none
+		sourceColumn: Centroid Z Rating
+
+	column 'Model Silhouette'
+		dataType: double
+		isHidden
+		formatString: 0.000
+		lineageTag: 2303d565-4e06-486f-978a-f292fc69fa31
+		summarizeBy: none
+		sourceColumn: Model Silhouette
+
+	column 'Model Stability ARI'
+		dataType: double
+		isHidden
+		formatString: 0.000
+		lineageTag: 32a5b03f-f754-46fa-8063-15717ac38b44
+		summarizeBy: none
+		sourceColumn: Model Stability ARI
+
+	partition DimCluster = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(ProjectFolder & "outputs\cluster_profiles.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Selected = Table.SelectColumns(PromotedHeaders, {"ClusterID", "ClusterCode", "ClusterName", "Profile", "RecommendedAction", "SpendRange", "RatingRange",
+				        "CentroidZ_Total", "CentroidZ_Quantity", "CentroidZ_Rating", "ModelSilhouette", "ModelStabilityARI"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"ClusterID", Int64.Type}, {"CentroidZ_Total", type number}, {"CentroidZ_Quantity", type number},
+				        {"CentroidZ_Rating", type number}, {"ModelSilhouette", type number}, {"ModelStabilityARI", type number}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"ClusterID", "ClusterKey"}, {"ClusterCode", "Cluster Code"}, {"ClusterName", "Cluster Name"},
+				        {"RecommendedAction", "Recommended Action"}, {"SpendRange", "Spend Range"}, {"RatingRange", "Rating Range"},
+				        {"CentroidZ_Total", "Centroid Z Total"}, {"CentroidZ_Quantity", "Centroid Z Quantity"}, {"CentroidZ_Rating", "Centroid Z Rating"},
+				        {"ModelSilhouette", "Model Silhouette"}, {"ModelStabilityARI", "Model Stability ARI"}}),
+				    AddedLabel = Table.AddColumn(Renamed, "Cluster Label", each [Cluster Code] & " · " & [Cluster Name], type text)
+				in
+				    AddedLabel
+
+	annotation PBI_ResultType = Table
+

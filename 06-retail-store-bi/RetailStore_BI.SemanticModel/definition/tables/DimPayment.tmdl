@@ -1,0 +1,39 @@
+/// Payment method dimension.
+table DimPayment
+	lineageTag: d751ab59-5976-4aee-a3dd-bfa357edf155
+
+	column PaymentKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a7fbde03-967e-4323-807b-ec62adf5079a
+		summarizeBy: none
+		sourceColumn: PaymentKey
+
+	column 'Payment Method'
+		dataType: string
+		lineageTag: c09ba603-a033-4309-b200-ad22f4fdac39
+		summarizeBy: none
+		sourceColumn: Payment Method
+
+	/// Cash vs Cashless (credit card, e-wallet)
+	column 'Payment Channel'
+		dataType: string
+		lineageTag: 7e09ea81-e46b-43a3-89dd-6f2f122da705
+		summarizeBy: none
+		sourceColumn: Payment Channel
+
+	partition DimPayment = m
+		mode: import
+		source =
+				let
+				    Source = Table.Distinct(Table.SelectColumns(Stg_RetailSales, {"PaymentMethod"})),
+				    Sorted = Table.Sort(Source, {{"PaymentMethod", Order.Ascending}}),
+				    AddedKey = Table.AddIndexColumn(Sorted, "PaymentKey", 1, 1, Int64.Type),
+				    AddedChannel = Table.AddColumn(AddedKey, "Payment Channel", each if [PaymentMethod] = "Cash" then "Cash" else "Cashless", type text),
+				    Renamed = Table.RenameColumns(AddedChannel, {{"PaymentMethod", "Payment Method"}})
+				in
+				    Renamed
+
+	annotation PBI_ResultType = Table
+

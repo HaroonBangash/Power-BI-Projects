@@ -1,0 +1,18 @@
+column,python_types,nulls,distinct
+Invoice ID,str:1000,0,575
+Branch,str:1000,0,3
+City,str:1000,0,3
+Customer type,str:1000,0,2
+Gender,str:1000,0,2
+Product line,str:1000,0,6
+Unit price,float:985; int:15,0,943
+Quantity,int:1000,0,10
+Tax 5%,float:997; int:3,0,987
+Total,float:999; int:1,0,993
+Date,str:587; datetime:413,0,89
+Time,time:1000,0,506
+Payment,str:1000,0,3
+cogs,float:999; int:1,0,992
+gross margin percentage,float:1000,0,1
+gross income,float:997; int:3,0,987
+Rating,float:881; int:119,0,61

@@ -1,0 +1,87 @@
+/// Folder that contains the source workbook and the /outputs folder (K-Means results). Change this if the project is moved.
+expression ProjectFolder = "D:\Power Bi Projects\Client Project\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 5090519c-c2f4-4b4b-9a70-f344c00b1335
+
+	annotation PBI_ResultType = Text
+
+/// ETL layer 1 (Raw): RetailStore Dataset sheet exactly as supplied, headers promoted, no typing. Not loaded to the model.
+expression Raw_RetailSales =
+		let
+		    Source = Excel.Workbook(File.Contents(ProjectFolder & "ICT701 Assignment1_RetailStore_Dataset (1).xlsx"), null, true),
+		    // The source sheet name carries a trailing space ("RetailStore Dataset "), so match on the trimmed name
+		    SheetRow = Table.SelectRows(Source, each [Kind] = "Sheet" and Text.Trim([Item]) = "RetailStore Dataset"){0},
+		    SheetData = SheetRow[Data],
+		    PromotedHeaders = Table.PromoteHeaders(SheetData, [PromoteAllScalars = true])
+		in
+		    PromotedHeaders
+	lineageTag: 9ffe3f31-e7a6-4f67-bbe0-9baa151a967e
+
+	annotation PBI_ResultType = Table
+
+/// ETL layer 2 (Staging): cleaned, standardised and typed transactions. Single source for every dimension and the fact table. Not loaded to the model.
+expression Stg_RetailSales =
+		let
+		    Source = Raw_RetailSales,
+		    // 1. Standardise column names
+		    TrimmedHeaders = Table.TransformColumnNames(Source, Text.Trim),
+		    RenamedColumns = Table.RenameColumns(TrimmedHeaders, {
+		        {"Invoice ID", "InvoiceID"}, {"Customer type", "CustomerType"}, {"Product line", "ProductLine"},
+		        {"Unit price", "UnitPrice"}, {"Tax 5%", "Tax"}, {"Total", "TotalSales"}, {"Payment", "PaymentMethod"},
+		        {"cogs", "COGS"}, {"gross margin percentage", "GrossMarginPctSource"}, {"gross income", "GrossIncome"}}),
+		    // 2. Remove fully blank rows (none in the supplied file; kept as a defensive rule)
+		    RemovedBlankRows = Table.SelectRows(RenamedColumns, each [InvoiceID] <> null and Text.Trim(Text.From([InvoiceID])) <> ""),
+		    // 3. Surrogate key in source row order (Invoice ID is NOT unique: 575 distinct IDs across 1,000 legitimate rows)
+		    AddedSalesKey = Table.AddIndexColumn(RemovedBlankRows, "SalesKey", 1, 1, Int64.Type),
+		    // 4. Remove genuine duplicates only (identical on every source column). Repeated Invoice IDs are preserved.
+		    RemovedExactDuplicates = Table.Distinct(AddedSalesKey, Table.ColumnNames(RemovedBlankRows)),
+		    // 5. Standardise categorical text (trim + consistent casing)
+		    SentenceCase = (t as text) as text => let s = Text.Trim(t) in Text.Upper(Text.Start(s, 1)) & Text.Lower(Text.Middle(s, 1)),
+		    CleanedText = Table.TransformColumns(RemovedExactDuplicates, {
+		        {"InvoiceID", each Text.Upper(Text.Trim(Text.From(_))), type text},
+		        {"Branch", each Text.Upper(Text.Trim(Text.From(_))), type text},
+		        {"City", each Text.Proper(Text.Trim(Text.From(_))), type text},
+		        {"CustomerType", each SentenceCase(Text.From(_)), type text},
+		        {"Gender", each SentenceCase(Text.From(_)), type text},
+		        {"ProductLine", each SentenceCase(Text.From(_)), type text},
+		        {"PaymentMethod", each SentenceCase(Text.From(_)), type text}}),
+		    // 6. Repair the Date column. 413 cells are true Excel dates whose day and month were swapped at entry
+		    //    (e.g. stored 2022-05-01 = 5 Jan 2022); 587 cells are US-format text (M/d/yyyy).
+		    FixDate = (v as any) as nullable date =>
+		        if v = null then null
+		        else if Value.Is(v, type datetime) or Value.Is(v, type date) or Value.Is(v, type number) then
+		            let d = Date.From(v) in #date(Date.Year(d), Date.Day(d), Date.Month(d))
+		        else Date.FromText(Text.Trim(Text.From(v)), [Format = "M/d/yyyy", Culture = "en-US"]),
+		    FixedDate = Table.TransformColumns(CleanedText, {{"Date", FixDate, type date}}),
+		    // 7. Convert Time to a true time value whatever form Excel returns it in
+		    FixTime = (v as any) as nullable time =>
+		        if v = null then null
+		        else if Value.Is(v, type time) then v
+		        else if Value.Is(v, type datetime) then DateTime.Time(v)
+		        else if Value.Is(v, type number) then Time.From(v)
+		        else Time.FromText(Text.Trim(Text.From(v)), [Culture = "en-US"]),
+		    FixedTime = Table.TransformColumns(FixedDate, {{"Time", FixTime, type time}}),
+		    // 8. Assign data types (money held as fixed decimal; source values have at most 4 decimals)
+		    Typed = Table.TransformColumnTypes(FixedTime, {
+		        {"UnitPrice", Currency.Type}, {"Quantity", Int64.Type}, {"Tax", Currency.Type}, {"TotalSales", Currency.Type},
+		        {"COGS", Currency.Type}, {"GrossMarginPctSource", type number}, {"GrossIncome", Currency.Type}, {"Rating", type number}}),
+		    // 9. Derived attributes and conformed keys
+		    AddedDateKey = Table.AddColumn(Typed, "DateKey", each Date.Year([Date]) * 10000 + Date.Month([Date]) * 100 + Date.Day([Date]), Int64.Type),
+		    AddedHourKey = Table.AddColumn(AddedDateKey, "HourKey", each Time.Hour([Time]), Int64.Type)
+		in
+		    AddedHourKey
+	lineageTag: c1524a6e-3e23-46fe-baf3-8520ef612277
+
+	annotation PBI_ResultType = Table
+
+/// K-Means cluster assignment per transaction, produced by scripts/02_customer_segmentation.py. Not loaded to the model.
+expression Src_ClusterAssignments =
+		let
+		    Source = Csv.Document(File.Contents(ProjectFolder & "outputs\model_results.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+		    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+		    Typed = Table.TransformColumnTypes(PromotedHeaders, {{"SalesKey", Int64.Type}, {"InvoiceID", type text}, {"ClusterID", Int64.Type}})
+		in
+		    Typed
+	lineageTag: c757fe94-52e1-4349-8ef8-3bc84e1fea52
+
+	annotation PBI_ResultType = Table
+

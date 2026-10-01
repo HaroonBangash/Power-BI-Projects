@@ -1,0 +1,14 @@
+# --- Power BI per-machine state ---
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/editorSettings.json
+**/.pbi/unappliedChanges.json
+*.pbix
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+
+# --- Scratch ---
+*.tmp
